@@ -1,0 +1,38 @@
+allprojects {
+    apply plugin: 'maven'
+    apply plugin: 'java'
+
+    group = 'fr.islandswars'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    configurations {
+        provided
+        compile.extendsFrom provided
+    }
+
+    dependencies {
+        provided ('org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT')
+        testCompile('org.junit.jupiter:junit-jupiter-api:5.0.1')
+    }
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['src/main/java']
+            }
+        }
+        test {
+            java {
+                srcDirs = ['src/test/java']
+            }
+        }
+    }
+}

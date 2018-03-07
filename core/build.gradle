@@ -1,0 +1,18 @@
+project.version = '0.2.9'
+def projectName = 'islands-core'
+
+dependencies {
+    compile project(":api")
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': rootProject.name, 'Implementation-Version': version, 'Main-Class': 'fr.islandswars.core.IslandsCore'
+    }
+}
+
+task fatJar(type: Jar) {
+    archiveName = projectName + '.jar'
+    from { (configurations.runtime - configurations.provided).collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
