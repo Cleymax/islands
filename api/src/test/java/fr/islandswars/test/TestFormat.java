@@ -1,7 +1,7 @@
 package fr.islandswars.test;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.function.Supplier;
 
@@ -28,19 +28,19 @@ import java.util.function.Supplier;
  * @author xharos, {@literal <xharos@islandswars.fr>}
  * Created the 26/12/2017 at 17:49
  */
-class TestFormat {
+public class TestFormat {
 
 	@Test
-	void testDecimalFormat() {
-		Assertions.assertEquals("hub-1", String.format("hub-%d", 1));
+	public void testDecimalFormat() {
+		Assert.assertEquals("hub-1", String.format("hub-%d", 1));
 	}
 
 	@Test
-	void someTest() {
+	public void someTest() {
 		Supplier<Object[]> defaultParameters = () -> new Object[]{"test"};
-		Assertions.assertEquals("test", String.format("test", defaultParameters.get()));
+		Assert.assertEquals("test", String.format("test", defaultParameters.get()));
 
 		defaultParameters = () -> new Object[0];
-		Assertions.assertEquals("test", String.format("test", defaultParameters.get()));
+		Assert.assertEquals("test", String.format("test", defaultParameters.get()));
 	}
 }

@@ -15,7 +15,7 @@ allprojects {
 
     dependencies {
         provided ('org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT')
-        testCompile('org.junit.jupiter:junit-jupiter-api:5.0.1')
+        testCompile 'junit:junit:4.4'
     }
 
     repositories {
