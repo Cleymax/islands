@@ -14,7 +14,14 @@ cache:
 # Only re-download spigot if we don't have spigot in the repo
 before_install:
   - if [ ! -d "$HOME/.m2/repository/org/spigotmc" ]; then ./installSpigot.sh 1.12.2 ; else echo "Not compiling Spigot because it is already in our maven" ; fi
+  - wget https://dl.bintray.com/jfrog/jfrog-cli-go/1.14.0/jfrog-cli-linux-amd64/jfrog
+  - chmod +x jfrog
+  - mvn clean install
 
 # Gradlew clean and build a fatJar
 install:
   - ./gradlew core:clean core:fatjar --stacktrace
+  - ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
+  - ./jfrog rt u "core/build/libs/*.jar" islandswars --build-name=travisci-generic-artifactory --build-number=$TRAVIS_BUILD_NUMBER --flat=false
+  - ./jfrog rt bce travisci-generic-artifactory $TRAVIS_BUILD_NUMBER
+  - ./jfrog rt bp travisci-generic-artifactory $TRAVIS_BUILD_NUMBER
