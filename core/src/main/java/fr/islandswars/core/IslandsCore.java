@@ -6,6 +6,8 @@ import fr.islandswars.api.i18n.I18nLoader;
 import fr.islandswars.api.i18n.Translatable;
 import fr.islandswars.api.infra.ServiceManager;
 import fr.islandswars.api.log.InfraLogger;
+import fr.islandswars.api.log.internal.ServerLog;
+import fr.islandswars.api.log.internal.Status;
 import fr.islandswars.api.module.Module;
 import fr.islandswars.api.net.ProtocolManager;
 import fr.islandswars.api.permission.PermissibleManager;
@@ -13,15 +15,12 @@ import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
 import fr.islandswars.api.task.UpdaterManager;
-import net.minecraft.server.v1_12_R1.PacketPlayOutBoss;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.event.Listener;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import org.bukkit.event.Listener;
 
 /**
  * File <b>IslandsCore</b> located on fr.islandswars.core
@@ -116,17 +115,17 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public void onLoad() {
-
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Loading server...").setStatus(Status.LOAD).log();
 	}
 
 	@Override
 	public void onDisable() {
-
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Disabling server...").setStatus(Status.DISABLE).log();
 	}
 
 	@Override
 	public void onEnable() {
-
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, String.format("Enable server in %s ms.", null)).setStatus(Status.ENABLE).log();
 	}
 
 	@Override

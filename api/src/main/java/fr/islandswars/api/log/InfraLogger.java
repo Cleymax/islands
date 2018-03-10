@@ -1,5 +1,8 @@
 package fr.islandswars.api.log;
 
+import fr.islandswars.api.log.internal.DefaultLog;
+import java.util.logging.Level;
+
 /**
  * File <b>InfraLogger</b> located on fr.islandswars.api.log
  * InfraLogger is a part of Islands Wars - Api.
@@ -24,24 +27,45 @@ package fr.islandswars.api.log;
  * Created the 05/01/2018 at 14:35
  * @since 0.2.7
  * <p>
- * Output debug (if env PROD=false) and other logs in file for storage usage ;)
+ * Output json log to graylog through GELF UDP docker protocol
  */
 public interface InfraLogger {
 
 	/**
-	 * Send this message to bukkit's {@link java.util.logging.Logger} only if
-	 * PROD environments variables is set to false with a DEBUG level set to 850
+	 * Instanciate and retrieve a custom log, or else throw Exception if reflection failed
 	 *
-	 * @param message an object to log (call {@link Object#toString()} by default)
+	 * @param clazz   a custom class to instanciate
+	 * @param level   a log level
+	 * @param message a log message
+	 * @param <T>     log type
+	 * @return a custom {@link Log} implementation
+	 * @see fr.islandswars.api.utils.NMSReflectionUtil#getConstructorAccessor(String, Class[])
 	 */
-	void debug(Object message);
+	<T extends Log> T createCustomLog(Class<T> clazz, Level level, String message);
 
 	/**
-	 * Send this message to bukkit's {@link java.util.logging.Logger} only if
-	 * PROD environments variables is set to false
+	 * Create a default log with a custom message
 	 *
-	 * @param message an object to log (call {@link Object#toString()} by default)
+	 * @param message a message to log
+	 * @return a new loggable object
 	 */
-	void info(Object message);
+	Log createDefaultLog(String message);
+
+	/**
+	 * Helper method to create and directly log a simple log
+	 *
+	 * @param level a log level
+	 * @param msg   a log message
+	 */
+	default void createDefaultLog(Level level, String msg) {
+		new DefaultLog(level.toString(), msg).log();
+	}
+
+	/**
+	 * Send this message to default docker sysout
+	 *
+	 * @param object an object to log, it will be serialize to json and sent to graylog through GELF
+	 */
+	void log(Log object);
 
 }
