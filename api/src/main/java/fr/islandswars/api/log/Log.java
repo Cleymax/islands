@@ -31,9 +31,9 @@ import fr.islandswars.api.IslandsApi;
  */
 public abstract class Log {
 
-	private final String level;
+	protected final String level;
 	@SerializedName("message")
-	private final String msg;
+	protected final String msg;
 
 	protected Log(String level, String msg) {
 		this.level = level;

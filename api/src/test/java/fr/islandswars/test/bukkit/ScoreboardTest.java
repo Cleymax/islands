@@ -1,4 +1,4 @@
-package fr.islandswars.test;
+package fr.islandswars.test.bukkit;
 
 import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.bossbar.Bar;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * File <b>ScoreboardTest</b> located on fr.islandswars.test
+ * File <b>ScoreboardTest</b> located on fr.islandswars.test.bukkit
  * ScoreboardTest is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.

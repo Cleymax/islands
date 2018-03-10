@@ -1012,7 +1012,7 @@ public class NMSReflectionUtil {
 			super(arg0, arg1);
 		}
 
-		private ReflectionException(Throwable arg0) {
+		public ReflectionException(Throwable arg0) {
 			super(arg0);
 		}
 	}

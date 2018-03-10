@@ -1,6 +1,7 @@
 package fr.islandswars.api.log;
 
 import fr.islandswars.api.log.internal.DefaultLog;
+import fr.islandswars.api.utils.NMSReflectionUtil;
 import java.util.logging.Level;
 
 /**
@@ -41,15 +42,20 @@ public interface InfraLogger {
 	 * @return a custom {@link Log} implementation
 	 * @see fr.islandswars.api.utils.NMSReflectionUtil#getConstructorAccessor(String, Class[])
 	 */
-	<T extends Log> T createCustomLog(Class<T> clazz, Level level, String message);
+	default <T extends Log> T createCustomLog(Class<T> clazz, Level level, String message) {
+		T customLog = NMSReflectionUtil.getConstructorAccessor(clazz, Level.class, String.class).newInstance(level, message);
+		return customLog;
+	}
 
 	/**
-	 * Create a default log with a custom message
+	 * Create a default log with INFO level and a custom message
 	 *
 	 * @param message a message to log
-	 * @return a new loggable object
+	 * @see #createDefaultLog(Level, String)
 	 */
-	Log createDefaultLog(String message);
+	default void createDefaultLog(String message) {
+		createDefaultLog(Level.INFO, message);
+	}
 
 	/**
 	 * Helper method to create and directly log a simple log
@@ -58,7 +64,7 @@ public interface InfraLogger {
 	 * @param msg   a log message
 	 */
 	default void createDefaultLog(Level level, String msg) {
-		new DefaultLog(level.toString(), msg).log();
+		new DefaultLog(level, msg).log();
 	}
 
 	/**

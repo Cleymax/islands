@@ -1,11 +1,11 @@
-package fr.islandswars.test;
+package fr.islandswars.test.bukkit;
 
 import fr.islandswars.api.task.TaskType;
 import fr.islandswars.api.task.TimeType;
 import fr.islandswars.api.task.Updater;
 
 /**
- * File <b>TestTask</b> located on fr.islandswars.test
+ * File <b>TestTask</b> located on fr.islandswars.test.bukkit
  * TestTask is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
