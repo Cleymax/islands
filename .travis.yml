@@ -16,7 +16,6 @@ before_install:
   - if [ ! -d "$HOME/.m2/repository/org/spigotmc" ]; then ./installSpigot.sh 1.12.2 ; else echo "Not compiling Spigot because it is already in our maven" ; fi
   - wget https://dl.bintray.com/jfrog/jfrog-cli-go/1.14.0/jfrog-cli-linux-amd64/jfrog
   - chmod +x jfrog
-  - mvn clean install
 
 # Gradlew clean and build a fatJar
 install:
