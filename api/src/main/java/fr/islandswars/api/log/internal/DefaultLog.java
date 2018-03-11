@@ -33,7 +33,7 @@ import java.util.logging.Level;
 public class DefaultLog extends Log {
 
 	public DefaultLog(Level level, String msg) {
-		super(level.toString(), msg);
+		super(level, msg);
 	}
 
 	@Override

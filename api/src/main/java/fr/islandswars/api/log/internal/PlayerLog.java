@@ -4,6 +4,7 @@ import fr.islandswars.api.log.Log;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.utils.Preconditions;
 import java.util.UUID;
+import java.util.logging.Level;
 import org.bukkit.entity.Player;
 
 /**
@@ -36,7 +37,7 @@ public class PlayerLog extends Log {
 
 	protected PlayerAction action;
 
-	public PlayerLog(String level, String msg) {
+	public PlayerLog(Level level, String msg) {
 		super(level, msg);
 	}
 

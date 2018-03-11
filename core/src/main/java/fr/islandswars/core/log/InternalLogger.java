@@ -1,12 +1,17 @@
-package fr.islandswars.api.log;
+package fr.islandswars.core.log;
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.islandswars.api.IslandsApi;
-import java.util.logging.Level;
+import fr.islandswars.api.log.InfraLogger;
+import fr.islandswars.api.log.Log;
+import java.util.Enumeration;
+import java.util.logging.*;
+import org.apache.logging.log4j.LogManager;
 
 /**
- * File <b>Log</b> located on fr.islandswars.api.log
- * Log is a part of Islands Wars - Api.
+ * File <b>InternalLogger</b> located on fr.islandswars.core.log
+ * InternalLogger is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,33 +30,25 @@ import java.util.logging.Level;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 10/03/2018 at 16:15
+ * Created the 10/03/2018 at 17:12
  * @since 0.2.9
- * <p>
- * Represent a loggable object with the two minimum information
  */
-public abstract class Log {
+public class InternalLogger implements InfraLogger {
 
-	protected final String level;
-	@SerializedName("message")
-	protected final String msg;
+	private final Gson gson;
 
-	protected Log(Level level, String msg) {
-		this.level = level.toString();
-		this.msg = msg;
+	public InternalLogger() {
+		this.gson = new GsonBuilder().create();
+		resetMinecraftLogger();
 	}
 
-	/**
-	 * perform {@link fr.islandswars.api.utils.Preconditions#checkNotNull(Object)} on custom log
-	 */
-	public abstract void checkValue();
+	@Override
+	public void log(Log object) {
+		IslandsApi.getInstance().getLogger().log(Level.INFO, gson.toJson(object));
+		System.out.println(gson.toJson(object));
+	}
 
-	/**
-	 * @see InfraLogger#log(Log)
-	 */
-	public void log() {
-		checkValue();
-
-		IslandsApi.getInstance().getInfraLogger().log(this);
+	private void resetMinecraftLogger() {
+		LogManager.shutdown();
 	}
 }

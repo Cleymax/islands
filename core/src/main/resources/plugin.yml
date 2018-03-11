@@ -1,4 +1,4 @@
 main: fr.islandswars.core.IslandsCore
-name: Islands - Core
+name: islands-core
 version: 0.2.9
 authors: [Vinetos, Xharos]

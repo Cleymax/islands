@@ -2,6 +2,7 @@ package fr.islandswars.api.log.internal;
 
 import fr.islandswars.api.log.Log;
 import fr.islandswars.api.utils.Preconditions;
+import java.util.logging.Level;
 
 /**
  * File <b>ServerLog</b> located on fr.islandswars.api.log.internal
@@ -33,9 +34,8 @@ public class ServerLog extends Log {
 
 	private String status;
 
-	public ServerLog(String level, String msg, String status) {
+	public ServerLog(Level level, String msg) {
 		super(level, msg);
-		this.status = status;
 	}
 
 	@Override
