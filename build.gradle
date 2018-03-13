@@ -23,20 +23,6 @@ allprojects {
         mavenLocal()
     }
 
-    buildscript {
-        repositories {
-            jcenter()
-        }
-        dependencies {
-            classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.0'
-        }
-    }
-
-    // Artifactory publish for all sub projects
-    allprojects {
-        apply plugin: 'com.jfrog.artifactory'
-    }
-
     sourceSets {
         main {
             java {
@@ -49,53 +35,4 @@ allprojects {
             }
         }
     }
-
-    apply plugin: 'maven-publish'
-
-    artifactory {
-        def branch = "$System.env.TRAVIS_BRANCH"
-        println 'Build on branch : ' + branch
-        if (branch != 'master')
-            version += '-' + branch
-
-        publish {
-            contextUrl = 'http://repo.islandswars.fr:8081/artifactory'
-            repository {
-                repoKey = 'islandswars'
-                username = System.env.ARTIFACTORY_USER
-                password = System.env.ARTIFACTORY_PASSWORD
-            }
-            defaults {
-                publications('mavenJava')
-            }
-        }
-
-    }
-    
-    task sourceJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
-
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.java
-
-                artifact sourceJar
-
-                artifact javadocJar
-
-                if (project.tasks.findByName('fatJar')) {
-                    artifact fatJar
-                }
-            }
-        }
-    }
-
 }
