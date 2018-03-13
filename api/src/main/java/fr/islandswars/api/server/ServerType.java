@@ -28,7 +28,7 @@ package fr.islandswars.api.server;
  */
 public enum ServerType {
 
-	HUB(64, "hub-%d");
+	HUB(64, "hub");
 
 	private final int    maxPlayer;
 	private final String name;

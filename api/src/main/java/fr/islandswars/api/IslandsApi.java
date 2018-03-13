@@ -12,12 +12,11 @@ import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
 import fr.islandswars.api.task.UpdaterManager;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * File <b>IslandsApi</b> located on fr.islandswars.api
@@ -49,9 +48,14 @@ import java.util.function.Predicate;
 public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 
 	private static IslandsApi instance;
+	private final  ServerType type;
+	private final  int        serverId;
 
 	protected IslandsApi() {
-		if (instance == null) instance = this;
+		if (instance == null)
+			instance = this;
+		this.type = ServerType.valueOf(System.getenv("SERVER_TYPE"));
+		this.serverId = Integer.valueOf(System.getenv("SERVER_ID"));
 	}
 
 	/**
@@ -62,13 +66,6 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	}
 
 	/**
-	 * Interface to easily listen and write for in/outcoming packet
-	 *
-	 * @return a protocol manager for this minecraft server version
-	 */
-	public abstract ProtocolManager getProtocolManager();
-
-	/**
 	 * Interface to easily create complex boss bar pattern
 	 *
 	 * @return an abstract nms layer to easily deal with boss bar packet
@@ -76,11 +73,11 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	public abstract BarManager getBarManager();
 
 	/**
-	 * Interface to format key to a valid String, according to user preferences
+	 * An enum representing the server, and some static properties
 	 *
-	 * @return a way to format message according to a given language
+	 * @return the running server type
 	 */
-	public abstract Translatable getTranslatable();
+	public abstract ServerType getCurrentServerType();
 
 	/**
 	 * Interface to register and instanciates translation
@@ -90,25 +87,9 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	public abstract I18nLoader getI18nLoader();
 
 	/**
-	 * Interface to manager all scoreboard components easily
-	 *
-	 * @return an abstract nms layer to easily deal with scoreboard's packets
+	 * @return an abstract logger to output custom log
 	 */
-	public abstract ScoreboardManager getScoreboardManager();
-
-	/**
-	 * Interface to register and schedule task from method annotations
-	 *
-	 * @return an interface to register and run task
-	 */
-	public abstract UpdaterManager getUpdaterManager();
-
-	/**
-	 * Interface to deal with restricted access to a service
-	 *
-	 * @return an interface to interact with redis / rabbitmq
-	 */
-	public abstract ServiceManager getServiceManager();
+	public abstract InfraLogger getInfraLogger();
 
 	/**
 	 * See if player's ranks match conditions
@@ -116,11 +97,6 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	 * @return a way to check {@link IslandsPlayer#getAllRanks()}
 	 */
 	public abstract PermissibleManager getPermissionManager();
-
-	/**
-	 * @return an abstract logger to output custom log
-	 */
-	public abstract InfraLogger getInfraLogger();
 
 	/**
 	 * Retrieve an IslandsPlayer
@@ -146,11 +122,53 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	public abstract List<IslandsPlayer> getPlayers(Predicate<IslandsPlayer> predicate);
 
 	/**
-	 * An enum representing the server, and some static properties
+	 * Interface to easily listen and write for in/outcoming packet
 	 *
-	 * @return the running server type
+	 * @return a protocol manager for this minecraft server version
 	 */
-	public abstract ServerType getCurrentServerType();
+	public abstract ProtocolManager getProtocolManager();
+
+	/**
+	 * Interface to manager all scoreboard components easily
+	 *
+	 * @return an abstract nms layer to easily deal with scoreboard's packets
+	 */
+	public abstract ScoreboardManager getScoreboardManager();
+
+	/**
+	 * @return this server infra identifier
+	 */
+	public String getServerIdentifier() {
+		return type.getTypeName() + "-" + serverId;
+	}
+
+	/**
+	 * Interface to deal with restricted access to a service
+	 *
+	 * @return an interface to interact with redis / rabbitmq
+	 */
+	public abstract ServiceManager getServiceManager();
+
+	/**
+	 * Interface to format key to a valid String, according to user preferences
+	 *
+	 * @return a way to format message according to a given language
+	 */
+	public abstract Translatable getTranslatable();
+
+	/**
+	 * @return this server type
+	 */
+	public ServerType getType() {
+		return type;
+	}
+
+	/**
+	 * Interface to register and schedule task from method annotations
+	 *
+	 * @return an interface to register and run task
+	 */
+	public abstract UpdaterManager getUpdaterManager();
 
 	@Override
 	public abstract void onLoad();

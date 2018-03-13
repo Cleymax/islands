@@ -32,7 +32,7 @@ import java.util.logging.Level;
  */
 public class ServerLog extends Log {
 
-	private String status;
+	private Server server;
 
 	public ServerLog(Level level, String msg) {
 		super(level, msg);
@@ -40,11 +40,11 @@ public class ServerLog extends Log {
 
 	@Override
 	public void checkValue() {
-		Preconditions.checkNotNull(status);
+		Preconditions.checkNotNull(server);
 	}
 
-	public ServerLog setStatus(Status status) {
-		this.status = status.toString();
+	public ServerLog setServer(Server server) {
+		this.server = server;
 		return this;
 	}
 }

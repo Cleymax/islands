@@ -6,6 +6,7 @@ import fr.islandswars.api.i18n.I18nLoader;
 import fr.islandswars.api.i18n.Translatable;
 import fr.islandswars.api.infra.ServiceManager;
 import fr.islandswars.api.log.InfraLogger;
+import fr.islandswars.api.log.internal.Server;
 import fr.islandswars.api.log.internal.ServerLog;
 import fr.islandswars.api.log.internal.Status;
 import fr.islandswars.api.module.Module;
@@ -56,17 +57,12 @@ public class IslandsCore extends IslandsApi {
 	}
 
 	@Override
-	public ProtocolManager getProtocolManager() {
-		return null;
-	}
-
-	@Override
 	public BarManager getBarManager() {
 		return null;
 	}
 
 	@Override
-	public Translatable getTranslatable() {
+	public ServerType getCurrentServerType() {
 		return null;
 	}
 
@@ -76,28 +72,13 @@ public class IslandsCore extends IslandsApi {
 	}
 
 	@Override
-	public ScoreboardManager getScoreboardManager() {
-		return null;
-	}
-
-	@Override
-	public UpdaterManager getUpdaterManager() {
-		return null;
-	}
-
-	@Override
-	public ServiceManager getServiceManager() {
-		return null;
+	public InfraLogger getInfraLogger() {
+		return logger;
 	}
 
 	@Override
 	public PermissibleManager getPermissionManager() {
 		return null;
-	}
-
-	@Override
-	public InfraLogger getInfraLogger() {
-		return logger;
 	}
 
 	@Override
@@ -116,23 +97,43 @@ public class IslandsCore extends IslandsApi {
 	}
 
 	@Override
-	public ServerType getCurrentServerType() {
+	public ProtocolManager getProtocolManager() {
+		return null;
+	}
+
+	@Override
+	public ScoreboardManager getScoreboardManager() {
+		return null;
+	}
+
+	@Override
+	public ServiceManager getServiceManager() {
+		return null;
+	}
+
+	@Override
+	public Translatable getTranslatable() {
+		return null;
+	}
+
+	@Override
+	public UpdaterManager getUpdaterManager() {
 		return null;
 	}
 
 	@Override
 	public void onLoad() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Loading server...").setStatus(Status.LOAD).log();
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Loading server...").setServer(new Server(Status.LOAD, getCurrentServerType())).log();
 	}
 
 	@Override
 	public void onDisable() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Disabling server...").setStatus(Status.DISABLE).log();
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Disabling server...").setServer(new Server(Status.DISABLE, getCurrentServerType())).log();
 	}
 
 	@Override
 	public void onEnable() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Enable server in %s ms.").setStatus(Status.ENABLE).log();
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Enable server in %s ms.").setServer(new Server(Status.ENABLE, getCurrentServerType())).log();
 	}
 
 	@Override

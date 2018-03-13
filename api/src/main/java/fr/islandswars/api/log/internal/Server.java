@@ -1,11 +1,11 @@
 package fr.islandswars.api.log.internal;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.logging.Level;
+import fr.islandswars.api.server.ServerType;
 
 /**
- * File <b>ErrorLog</b> located on fr.islandswars.api.log.internal
- * ErrorLog is a part of Islands Wars - Api.
+ * File <b>Server</b> located on fr.islandswars.api.log.internal
+ * Server is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -24,20 +24,17 @@ import java.util.logging.Level;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 13/03/2018 at 13:46
+ * Created the 13/03/2018 at 16:28
  * @since 0.2.9
  */
-public class ErrorLog extends DefaultLog {
+public class Server {
 
-	@SerializedName("stack-trace")
-	private StackTraceElement[] stackTrace;
+	@SerializedName("server-type")
+	private String serverType;
+	private String status;
 
-	public ErrorLog(Level level, String msg) {
-		super(level, msg);
-	}
-
-	public ErrorLog supplyStacktrace(Throwable throwable) {
-		this.stackTrace = throwable.getStackTrace();
-		return this;
+	public Server(Status status, ServerType type) {
+		this.status = status.toString();
+		this.serverType = type.getTypeName();
 	}
 }
