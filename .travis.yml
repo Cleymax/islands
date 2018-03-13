@@ -11,16 +11,19 @@ cache:
   directories:
     - $HOME/.m2
 
-# Allow build only on specific branches
-branches:
-  only:
-  - master
-  - develop
-
 # Only re-download spigot if we don't have spigot in the repo
 before_install:
   - if [ ! -d "$HOME/.m2/repository/org/spigotmc" ]; then ./installSpigot.sh 1.12.2 ; else echo "Not compiling Spigot because it is already in our maven" ; fi
 
 # Gradlew clean and build a fatJar
 install:
-  - ./gradlew core:clean core:fatjar core:test core:artifactoryPublish --stacktrace
+  - ./gradlew core:clean core:fatjar core:test --stacktrace
+
+# Deploy to the artifactory
+deploy:
+  provider: script
+  script: ./gradlew core:artifactoryPublish --stacktrace
+  on:
+    branch:
+      - master
+      - develop
