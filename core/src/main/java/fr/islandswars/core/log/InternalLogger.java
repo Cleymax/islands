@@ -5,9 +5,7 @@ import com.google.gson.GsonBuilder;
 import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.log.InfraLogger;
 import fr.islandswars.api.log.Log;
-import java.util.Enumeration;
-import java.util.logging.*;
-import org.apache.logging.log4j.LogManager;
+import java.util.logging.Level;
 
 /**
  * File <b>InternalLogger</b> located on fr.islandswars.core.log
@@ -39,16 +37,11 @@ public class InternalLogger implements InfraLogger {
 
 	public InternalLogger() {
 		this.gson = new GsonBuilder().create();
-		resetMinecraftLogger();
 	}
 
 	@Override
 	public void log(Log object) {
-		IslandsApi.getInstance().getLogger().log(Level.INFO, gson.toJson(object));
 		System.out.println(gson.toJson(object));
 	}
 
-	private void resetMinecraftLogger() {
-		LogManager.shutdown();
-	}
 }
