@@ -17,8 +17,4 @@ before_install:
 
 # Gradlew clean and build a fatJar
 install:
-  - ./gradlew core:clean core:fatjar core:artifactoryPublish --stacktrace
-  - ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_PASSWORD
-  - ./jfrog rt u "core/build/libs/*.jar" islandswars --build-name=travisci-generic-artifactory --build-number=$TRAVIS_BUILD_NUMBER --flat=false
-  - ./jfrog rt bce travisci-generic-artifactory $TRAVIS_BUILD_NUMBER
-  - ./jfrog rt bp travisci-generic-artifactory $TRAVIS_BUILD_NUMBER
+  - ./gradlew core:clean core:fatjar core:test core:artifactoryPublish --stacktrace
