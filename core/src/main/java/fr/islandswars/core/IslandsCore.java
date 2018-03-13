@@ -16,9 +16,6 @@ import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
 import fr.islandswars.api.task.UpdaterManager;
 import fr.islandswars.core.log.InternalLogger;
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,7 +52,6 @@ public class IslandsCore extends IslandsApi {
 	private final InternalLogger logger;
 
 	public IslandsCore() {
-		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
 		this.logger = new InternalLogger();
 	}
 
