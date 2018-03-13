@@ -15,6 +15,7 @@ import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
 import fr.islandswars.api.task.UpdaterManager;
+import fr.islandswars.core.log.InternalLogger;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,6 +48,12 @@ import org.bukkit.event.Listener;
  * @since 0.0.1
  */
 public class IslandsCore extends IslandsApi {
+
+	private final InternalLogger logger;
+
+	public IslandsCore() {
+		this.logger = new InternalLogger();
+	}
 
 	@Override
 	public ProtocolManager getProtocolManager() {
@@ -90,7 +97,7 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public InfraLogger getInfraLogger() {
-		return null;
+		return logger;
 	}
 
 	@Override
@@ -125,7 +132,7 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public void onEnable() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, String.format("Enable server in %s ms.", null)).setStatus(Status.ENABLE).log();
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Enable server in %s ms.").setStatus(Status.ENABLE).log();
 	}
 
 	@Override

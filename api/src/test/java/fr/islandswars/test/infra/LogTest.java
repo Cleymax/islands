@@ -45,7 +45,6 @@ public class LogTest {
 
 		@Override
 		public void log(Log object) {
-
 		}
 	};
 
@@ -68,7 +67,7 @@ public class LogTest {
 
 	public final class ErrorLog extends Log {
 
-		public ErrorLog(String level, String msg, String error) {
+		public ErrorLog(Level level, String msg, String error) {
 			super(level, msg);
 		}
 

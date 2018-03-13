@@ -1,12 +1,8 @@
-package fr.islandswars.api.log.internal;
-
-import fr.islandswars.api.log.Log;
-import fr.islandswars.api.utils.Preconditions;
-import java.util.logging.Level;
+package fr.islandswars.test;
 
 /**
- * File <b>ServerLog</b> located on fr.islandswars.api.log.internal
- * ServerLog is a part of Islands Wars - Api.
+ * File <b>GlobalTest</b> located on fr.islandswars.test
+ * GlobalTest is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,26 +21,8 @@ import java.util.logging.Level;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 10/03/2018 at 16:33
- * @since 0.2.9
- * <p>
- * Represent a server status log
+ * Created the 13/03/2018 at 13:14
  */
-public class ServerLog extends Log {
+public class GlobalTest {
 
-	private String status;
-
-	public ServerLog(Level level, String msg) {
-		super(level, msg);
-	}
-
-	@Override
-	public void checkValue() {
-		Preconditions.checkNotNull(status);
-	}
-
-	public ServerLog setStatus(Status status) {
-		this.status = status.toString();
-		return this;
-	}
 }

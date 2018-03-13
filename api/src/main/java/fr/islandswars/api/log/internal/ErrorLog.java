@@ -1,12 +1,11 @@
-package fr.islandswars.api.log;
+package fr.islandswars.api.log.internal;
 
 import com.google.gson.annotations.SerializedName;
-import fr.islandswars.api.IslandsApi;
 import java.util.logging.Level;
 
 /**
- * File <b>Log</b> located on fr.islandswars.api.log
- * Log is a part of Islands Wars - Api.
+ * File <b>ErrorLog</b> located on fr.islandswars.api.log.internal
+ * ErrorLog is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,33 +24,20 @@ import java.util.logging.Level;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 10/03/2018 at 16:15
+ * Created the 13/03/2018 at 13:46
  * @since 0.2.9
- * <p>
- * Represent a loggable object with the two minimum information
  */
-public abstract class Log {
+public class ErrorLog extends DefaultLog {
 
-	protected final String level;
-	@SerializedName("message")
-	protected final String msg;
+	@SerializedName("stacktrace")
+	private StackTraceElement[] stackTrace;
 
-	protected Log(Level level, String msg) {
-		this.level = level.toString();
-		this.msg = msg;
+	public ErrorLog(Level level, String msg) {
+		super(level, msg);
 	}
 
-	/**
-	 * perform {@link fr.islandswars.api.utils.Preconditions#checkNotNull(Object)} on custom log
-	 */
-	public abstract void checkValue();
-
-	/**
-	 * @see InfraLogger#log(Log)
-	 */
-	public void log() {
-		checkValue();
-
-		IslandsApi.getInstance().getInfraLogger().log(this);
+	public ErrorLog supplyStacktrace(Throwable throwable) {
+		this.stackTrace = throwable.getStackTrace();
+		return this;
 	}
 }

@@ -1,12 +1,18 @@
-package fr.islandswars.api.log.internal;
+package fr.islandswars.core.log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import fr.islandswars.api.log.InfraLogger;
 import fr.islandswars.api.log.Log;
-import fr.islandswars.api.utils.Preconditions;
+import fr.islandswars.api.log.internal.ErrorLog;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.logging.Level;
 
 /**
- * File <b>ServerLog</b> located on fr.islandswars.api.log.internal
- * ServerLog is a part of Islands Wars - Api.
+ * File <b>InternalLogger</b> located on fr.islandswars.core.log
+ * InternalLogger is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,26 +31,24 @@ import java.util.logging.Level;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 10/03/2018 at 16:33
+ * Created the 10/03/2018 at 17:12
  * @since 0.2.9
- * <p>
- * Represent a server status log
  */
-public class ServerLog extends Log {
+public class InternalLogger implements InfraLogger {
 
-	private String status;
+	private final Gson gson;
 
-	public ServerLog(Level level, String msg) {
-		super(level, msg);
+	public InternalLogger() {
+		this.gson = new GsonBuilder().create();
+		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+			createCustomLog(ErrorLog.class, Level.SEVERE, throwable.getMessage()).supplyStacktrace(throwable).log();
+		});
 	}
 
 	@Override
-	public void checkValue() {
-		Preconditions.checkNotNull(status);
+	public void log(Log object) {
+		System.out.println(gson.toJson(object));
 	}
 
-	public ServerLog setStatus(Status status) {
-		this.status = status.toString();
-		return this;
-	}
 }

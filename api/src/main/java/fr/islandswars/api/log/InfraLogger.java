@@ -43,8 +43,7 @@ public interface InfraLogger {
 	 * @see fr.islandswars.api.utils.NMSReflectionUtil#getConstructorAccessor(String, Class[])
 	 */
 	default <T extends Log> T createCustomLog(Class<T> clazz, Level level, String message) {
-		T customLog = NMSReflectionUtil.getConstructorAccessor(clazz, Level.class, String.class).newInstance(level, message);
-		return customLog;
+		return NMSReflectionUtil.getConstructorAccessor(clazz, Level.class, String.class).newInstance(level, message);
 	}
 
 	/**
