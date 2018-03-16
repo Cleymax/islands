@@ -1,5 +1,4 @@
 allprojects {
-    apply plugin: 'maven'
     apply plugin: 'java'
 
     group = 'fr.islandswars'
