@@ -34,6 +34,6 @@ public interface CommandManager {
 	 * @param commandClass a class that use {@link fr.islandswars.api.cmd.lang.Command} interface at least
 	 * @throws Exception if this class misses some annotations, or if some arguments are already registered
 	 */
-	void registerCommand(Class commandClass) throws Exception;
+	void registerCommand(Class<?> commandClass) throws Exception;
 
 }

@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  * Created the 26/12/2017 at 21:58
  * @since 0.2.3
  * <p>
- * An array of bar to display in the given order
+ * An array of bossbar to display in the given order
  */
 public interface BarSequence {
 
@@ -39,14 +39,14 @@ public interface BarSequence {
 	void shutdownSequence();
 
 	/**
-	 * Get (if exist) the currently displayed bar
+	 * Get (if exist) the currently displayed bossbar
 	 *
-	 * @return the current displayed bar
+	 * @return the current displayed bossbar
 	 */
 	Bar getCurrentBar();
 
 	/**
-	 * @return this bar viewers
+	 * @return this bossbar viewers
 	 */
 	Stream<IslandsPlayer> getViewers();
 

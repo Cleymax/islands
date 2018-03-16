@@ -1,0 +1,79 @@
+package fr.islandswars.core.bukkit.command;
+
+import fr.islandswars.api.IslandsApi;
+import fr.islandswars.api.cmd.CommandManager;
+import fr.islandswars.api.cmd.lang.Command;
+import fr.islandswars.api.utils.NMSReflectionUtil;
+import fr.islandswars.core.bukkit.command.wrapper.CommandWrapper;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.SimplePluginManager;
+
+/**
+ * File <b>BukkitCommandInjector</b> located on fr.islandswars.core.bukkit.command
+ * BukkitCommandInjector is a part of Islands Wars - Api.
+ * <p>
+ * Copyright (c) 2017 - 2018 Islands Wars.
+ * <p>
+ * Islands Wars - Api is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
+ * <p>
+ *
+ * @author SkyBeastMC
+ * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
+ * Created the 16/03/2018 at 23:50
+ * @since 0.2.9
+ */
+public class BukkitCommandInjector implements CommandManager {
+
+	private static final NMSReflectionUtil.ConstructorAccessor<PluginCommand> PLUGIN_COMMAND_CONSTRUCTOR;
+	private static final Map<PluginCommand, CommandWrapper>                   BUKKIT_COMMANDS;
+	private static final CommandMap                                           COMMAND_MAP;
+
+	static {
+		COMMAND_MAP = (CommandMap) NMSReflectionUtil.getFieldAccessor(SimplePluginManager.class, "commandMap").get(Bukkit.getPluginManager());
+		PLUGIN_COMMAND_CONSTRUCTOR = NMSReflectionUtil.getConstructorAccessor(PluginCommand.class, String.class, Plugin.class);
+		BUKKIT_COMMANDS = new HashMap<>();
+	}
+
+	@Override
+	public void registerCommand(Class<?> commandClass) throws Exception {
+		Command command = commandClass.getAnnotation(Command.class);
+
+		if (command != null) {
+			String         label = getlabel(command, commandClass);
+			CommandWrapper wrapper  = new CommandWrapper(label, command.aliases());
+			register(wrapper);
+		}
+	}
+
+	private String getlabel(Command command, Class<?> commandClass) {
+		if (command.label().isEmpty())
+			return commandClass.getSimpleName().toLowerCase();
+		else return command.label().toLowerCase();
+	}
+
+	private void register(CommandWrapper wrapper) {
+		PluginCommand command = PLUGIN_COMMAND_CONSTRUCTOR.newInstance(wrapper.getLabel(), IslandsApi.getInstance());
+		command.setAliases(Arrays.asList(wrapper.getAliases()));
+		//command.setExecutor(null);
+		//command.setTabCompleter(null);
+		COMMAND_MAP.register(IslandsApi.getInstance().getDescription().getName(), command);
+		BUKKIT_COMMANDS.put(command, wrapper);
+	}
+}

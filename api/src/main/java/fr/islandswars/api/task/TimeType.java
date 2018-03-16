@@ -24,7 +24,7 @@ package fr.islandswars.api.task;
  * Created the 02/01/2018 at 17:21
  * @since 0.2.4
  * <p>
- * Represent a predefined time, use {@link Updater#delta()} for custom value
+ * Represent a predefined time, use {@link Updater#delta()} for custom label
  */
 public enum TimeType {
 

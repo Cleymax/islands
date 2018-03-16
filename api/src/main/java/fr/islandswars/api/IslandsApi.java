@@ -66,9 +66,9 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	}
 
 	/**
-	 * Interface to easily create complex boss bar pattern
+	 * Interface to easily create complex boss bossbar pattern
 	 *
-	 * @return an abstract nms layer to easily deal with boss bar packet
+	 * @return an abstract nms layer to easily deal with boss bossbar packet
 	 */
 	public abstract BarManager getBarManager();
 

@@ -82,9 +82,9 @@ public interface IslandsPlayer extends Disposable<CraftPlayer> {
 	List<IslandsRank> getAllRanks();
 
 	/**
-	 * Display the given bar to this player
+	 * Display the given bossbar to this player
 	 *
-	 * @param bar a bar to display
+	 * @param bar a bossbar to display
 	 */
 	void displayBar(Bar bar);
 
@@ -96,24 +96,24 @@ public interface IslandsPlayer extends Disposable<CraftPlayer> {
 	void displaySequence(BarSequence sequence);
 
 	/**
-	 * Display the given bar to this player, with i18n parameters
+	 * Display the given bossbar to this player, with i18n parameters
 	 *
-	 * @param bar            a bar to display
+	 * @param bar            a bossbar to display
 	 * @param i18nParameters some translation parameters
 	 */
 	void displaybar(Bar bar, Supplier<Object[]> i18nParameters);
 
 	/**
-	 * hide this bar to the player
+	 * hide this bossbar to the player
 	 *
-	 * @param bar a bar to remove this player
+	 * @param bar a bossbar to remove this player
 	 */
 	void hideBar(Bar bar);
 
 	/**
-	 * hide this bar to the player
+	 * hide this bossbar to the player
 	 *
-	 * @param sequence a bar to remove this player
+	 * @param sequence a bossbar to remove this player
 	 */
 	void hideSequence(BarSequence sequence);
 
@@ -129,7 +129,7 @@ public interface IslandsPlayer extends Disposable<CraftPlayer> {
 
 	/**
 	 * Basic method to send one translated line to a player.
-	 * It will use default value when using title or subtitle
+	 * It will use default label when using title or subtitle
 	 *
 	 * @param type       where to display the message
 	 * @param key        an internal key
@@ -143,7 +143,7 @@ public interface IslandsPlayer extends Disposable<CraftPlayer> {
 	void sendToHub();
 
 	/**
-	 * A more concise method to deal with title | subtitle, can deal with null value
+	 * A more concise method to deal with title | subtitle, can deal with null label
 	 *
 	 * @param title              a title key
 	 * @param titleParameters    some translations parameters if needed

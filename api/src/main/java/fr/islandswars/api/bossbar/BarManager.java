@@ -31,7 +31,7 @@ import java.util.function.Supplier;
  * Created the 26/12/2017 at 19:58
  * @since 0.2.3
  * <p>
- * Create easily bar and sequence
+ * Create easily bossbar and sequence
  */
 public abstract class BarManager extends Module {
 
@@ -40,34 +40,34 @@ public abstract class BarManager extends Module {
 	}
 
 	/**
-	 * Create a boss bar with the supplied parameters
+	 * Create a boss bossbar with the supplied parameters
 	 *
-	 * @param title bar's title (or translation key if used)
-	 * @param color bar's color
-	 * @param style bar's style
-	 * @param flags bar's flags
-	 * @return a bukkit wrapped boss bar
+	 * @param title bossbar's title (or translation key if used)
+	 * @param color bossbar's color
+	 * @param style bossbar's style
+	 * @param flags bossbar's flags
+	 * @return a bukkit wrapped boss bossbar
 	 */
 	public abstract Bar createBar(String title, BossBattle.BarColor color, BossBattle.BarStyle style, BarFlag... flags);
 
 	/**
-	 * Create a boss bar with the supplied parameters and title parameters
+	 * Create a boss bossbar with the supplied parameters and title parameters
 	 *
 	 * @param title      title translation key
-	 * @param color      bar's color
-	 * @param style      bar's style
+	 * @param color      bossbar's color
+	 * @param style      bossbar's style
 	 * @param parameters some translation parameters
-	 * @param flags      bar's flags
-	 * @return a bukkit wrapped boss bar
+	 * @param flags      bossbar's flags
+	 * @return a bukkit wrapped boss bossbar
 	 */
 	public abstract Bar createBar(String title, BossBattle.BarColor color, BossBattle.BarStyle style, Supplier<Object[]> parameters, BarFlag... flags);
 
 	/**
-	 * Create a bar sequence to display multiples bars in a specific order
+	 * Create a bossbar sequence to display multiples bars in a specific order
 	 *
-	 * @param properties bar properties, it will be set to each bar, except if
+	 * @param properties bossbar properties, it will be set to each bossbar, except if
 	 *                   supplied bars already have some properties set
-	 * @param bars       minimum 1 bar to init sequence
+	 * @param bars       minimum 1 bossbar to init sequence
 	 * @return an util class to manage this sequence
 	 */
 	public abstract BarSequence createSequence(BarProperties properties, Bar... bars);

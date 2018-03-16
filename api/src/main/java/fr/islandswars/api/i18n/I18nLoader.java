@@ -28,7 +28,7 @@ import javax.annotation.concurrent.ThreadSafe;
  * Created the 09/12/2017 at 15:39
  * @since 0.1.1
  * <p>
- * Load key:value to the associated {@link Locale}
+ * Load key:label to the associated {@link Locale}
  */
 @ThreadSafe
 public interface I18nLoader {
@@ -42,11 +42,11 @@ public interface I18nLoader {
 	void registerCustomProperties(Plugin plugin);
 
 	/**
-	 * Dynamically register a key:value inside the locale property map if not exist
+	 * Dynamically register a key:label inside the locale property map if not exist
 	 *
 	 * @param locale the language to fulfill with
 	 * @param key    a unique key
-	 * @param value  a value following the {@link String#format(String, Object...)} conventions
+	 * @param value  a label following the {@link String#format(String, Object...)} conventions
 	 */
 	void registerDynamicProperty(Locale locale, String key, String value);
 

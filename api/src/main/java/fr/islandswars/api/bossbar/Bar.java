@@ -30,14 +30,14 @@ import java.util.stream.Stream;
  * Created the 26/12/2017 at 19:36
  * @since 0.2.3
  * <p>
- * Wrapped a bukkit boss bar to deal with i18n
+ * Wrapped a bukkit boss bossbar to deal with i18n
  */
 public interface Bar extends I18nParameters<IslandsPlayer> {
 
 	/**
-	 * Add some properties such as timer, etc to this bar
+	 * Add some properties such as timer, etc to this bossbar
 	 *
-	 * @param properties bar's properties to deal with
+	 * @param properties bossbar's properties to deal with
 	 * @param erase      update properties, even if it's already set
 	 */
 	void provideProperties(BarProperties properties, boolean erase);
@@ -50,14 +50,14 @@ public interface Bar extends I18nParameters<IslandsPlayer> {
 	void setGlobalParameter(Supplier<Object[]> parameters);
 
 	/**
-	 * Hide or display the current boss bar
+	 * Hide or display the current boss bossbar
 	 *
-	 * @param active hide or display bar
+	 * @param active hide or display bossbar
 	 */
 	void setActive(boolean active);
 
 	/**
-	 * Update this bar progress, must be inside 0 to 1 range
+	 * Update this bossbar progress, must be inside 0 to 1 range
 	 *
 	 * @param progress a new progress
 	 */
@@ -85,7 +85,7 @@ public interface Bar extends I18nParameters<IslandsPlayer> {
 	void setCreateFog(boolean createFog);
 
 	/**
-	 * @return this bar viewers
+	 * @return this bossbar viewers
 	 */
 	Stream<IslandsPlayer> getViewers();
 

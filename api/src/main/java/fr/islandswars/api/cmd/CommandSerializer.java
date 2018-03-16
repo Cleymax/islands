@@ -50,9 +50,9 @@ public interface CommandSerializer<T> {
 	T serialize(String arg) throws ReflectiveOperationException;
 
 	/**
-	 * Get the value type of the serializer.
+	 * Get the label type of the serializer.
 	 *
-	 * @return the value type of the serializer
+	 * @return the label type of the serializer
 	 */
 	String valueType();
 }

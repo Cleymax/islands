@@ -36,8 +36,8 @@ public class BossBarTest {
 	private Bar welcome;
 
 	public BossBarTest() {
-		//hub.bar.welcome = "Welcome %s on Islands - Wars"
-		this.welcome = IslandsApi.getInstance().getBarManager().createBar("hub.bar.welcome", BossBattle.BarColor.BLUE, BossBattle.BarStyle.NOTCHED_6);
+		//hub.bossbar.welcome = "Welcome %s on Islands - Wars"
+		this.welcome = IslandsApi.getInstance().getBarManager().createBar("hub.bossbar.welcome", BossBattle.BarColor.BLUE, BossBattle.BarStyle.NOTCHED_6);
 		welcome.provideProperties(BarProperties.builder(-1, -1).withMagicColor(true), true);
 	}
 

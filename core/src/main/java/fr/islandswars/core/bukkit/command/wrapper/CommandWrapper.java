@@ -1,13 +1,8 @@
-package fr.islandswars.api.cmd.lang;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package fr.islandswars.core.bukkit.command.wrapper;
 
 /**
- * File <b>Command</b> located on fr.islandswars.api.cmd.lang
- * Command is a part of Islands Wars - Api.
+ * File <b>CommandWrapper</b> located on fr.islandswars.core.bukkit.command.wrapper
+ * CommandWrapper is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,26 +20,25 @@ import java.lang.annotation.Target;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
- * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 16/03/2018 at 23:01
+ * Created the 17/03/2018 at 00:08
  * @since 0.2.9
- * <p>
- * TODO Accept command description
- * A slicy modified command
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Command {
+public class CommandWrapper {
 
-	/**
-	 * @return this specific command aliases
-	 * @throws IllegalArgumentException if one of the given alias is already registered
-	 */
-	String[] aliases() default {};
+	private final String   label;
+	private final String[] aliases;
 
-	/**
-	 * @return the main command label
-	 */
-	String label();
+	public CommandWrapper(String name, String[] aliases) {
+		this.label = name;
+		this.aliases = aliases;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public String[] getAliases() {
+		return aliases;
+	}
 }

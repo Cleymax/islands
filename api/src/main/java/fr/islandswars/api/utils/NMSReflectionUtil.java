@@ -211,11 +211,11 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Set a field value in the given instance
+	 * Set a field label in the given instance
 	 *
-	 * @param field a field to set value
+	 * @param field a field to set label
 	 * @param inst  class instance to set from
-	 * @param value a value to set
+	 * @param value a label to set
 	 */
 	private static void fieldSet(Field field, Object inst, Object value) {
 		try {
@@ -574,12 +574,12 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get the value of a field in a non-static way.
+	 * Get the label of a field in a non-static way.
 	 *
 	 * @param instance the instance
 	 * @param field    the name of the field
-	 * @param <T>      field value
-	 * @return the value of the field
+	 * @param <T>      field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
 	public static <T> T getValue(@Nonnull Object instance, @Nonnull String field) {
@@ -587,12 +587,12 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get the value of a field by its packet. Return the first found.
+	 * Get the label of a field by its packet. Return the first found.
 	 *
 	 * @param instance the instance
 	 * @param type     the packet of the field
-	 * @param <T>      field value
-	 * @return the value of the field
+	 * @param <T>      field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
 	public static <T> T getFirstValueOfType(@Nonnull Object instance, @Nonnull Class<?> type) {
@@ -600,12 +600,12 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get the value of a field by its packet. Return the first found. This method resolves the class.
+	 * Get the label of a field by its packet. Return the first found. This method resolves the class.
 	 *
 	 * @param instance the instance
 	 * @param type     a string representing the packet of the field
-	 * @param <T>      field value
-	 * @return the value of the field
+	 * @param <T>      field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
 	public static <T> T getFirstValueOfType(@Nonnull Object instance, @Nonnull String type) {
@@ -613,13 +613,13 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get the value of the xth field with packet <code>packet</code>.
+	 * Get the label of the xth field with packet <code>packet</code>.
 	 *
 	 * @param instance the instance
 	 * @param type     a string representing the packet of the field
 	 * @param count    x
-	 * @param <T>      field value
-	 * @return the value of the field
+	 * @param <T>      field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
 	public static <T> T getCountValueOfType(@Nonnull Object instance, @Nonnull Class<?> type, int count) {
@@ -627,13 +627,13 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get the value of the xth field with packet <code>packet</code>. This method resolves the class.
+	 * Get the label of the xth field with packet <code>packet</code>. This method resolves the class.
 	 *
 	 * @param instance the instance
 	 * @param type     a string representing the packet of the field
 	 * @param count    x
-	 * @param <T>      field value
-	 * @return the value of the field
+	 * @param <T>      field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
 	public static <T> T getCountValueOfType(@Nonnull Object instance, @Nonnull String type, int count) {
@@ -641,11 +641,11 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Set the value of a field in a non-static way.
+	 * Set the label of a field in a non-static way.
 	 *
 	 * @param instance the instance
 	 * @param field    the name of the field
-	 * @param value    the value to set
+	 * @param value    the label to set
 	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
 	public static void setField(@Nonnull Object instance, @Nonnull String field, @Nonnull Object value) {
@@ -653,11 +653,11 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get the value of a field by its packet. Return the first found.
+	 * Get the label of a field by its packet. Return the first found.
 	 *
 	 * @param instance the instance
 	 * @param type     the packet of the field
-	 * @param value    the value to set
+	 * @param value    the label to set
 	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
 	public static void setFirstValueOfType(@Nonnull Object instance, @Nonnull Class<?> type, @Nonnull Object value) {
@@ -665,11 +665,11 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get the value of a field by its packet. Return the first found. This method resolves the class.
+	 * Get the label of a field by its packet. Return the first found. This method resolves the class.
 	 *
 	 * @param instance the instance
 	 * @param type     a string representing the packet of the field
-	 * @param value    the value to set
+	 * @param value    the label to set
 	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
 	public static void setFirstValueOfType(@Nonnull Object instance, @Nonnull String type, @Nonnull Object value) {
@@ -677,12 +677,12 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get the value of a field in a static way.
+	 * Get the label of a field in a static way.
 	 *
 	 * @param clazz the class where the field is
 	 * @param field the name of the field
-	 * @param <T>   field value
-	 * @return the value of the field
+	 * @param <T>   field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
 	public static <T> T getStaticValue(@Nonnull Class<?> clazz, @Nonnull String field) {
@@ -690,12 +690,12 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get the value of a field in a static way. This method resolves the class.
+	 * Get the label of a field in a static way. This method resolves the class.
 	 *
 	 * @param clazz a string representing the clazz
 	 * @param field the name of the field
-	 * @param <T>   field value
-	 * @return the value of the field
+	 * @param <T>   field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
 	public static <T> T getStaticValue(@Nonnull String clazz, @Nonnull String field) {
@@ -703,11 +703,11 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Set the value of a field in a static way.
+	 * Set the label of a field in a static way.
 	 *
 	 * @param clazz the class where the field is
 	 * @param field the name of the field
-	 * @param value the value to set
+	 * @param value the label to set
 	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
 	public static void setStaticField(@Nonnull Class<?> clazz, @Nonnull String field, @Nonnull Object value) {
@@ -715,11 +715,11 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Set the value of a field in a static way. This method resolves the class.
+	 * Set the label of a field in a static way. This method resolves the class.
 	 *
 	 * @param clazz a string representing the clazz
 	 * @param field the name of the field
-	 * @param value the value to set
+	 * @param value the label to set
 	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
 	public static void setStaticField(@Nonnull String clazz, @Nonnull String field, @Nonnull Object value) {
@@ -811,10 +811,10 @@ public class NMSReflectionUtil {
 	public interface FieldAccessor<T> extends Supplier<Field> {
 
 		/**
-		 * Get the value of the field.
+		 * Get the label of the field.
 		 *
 		 * @param instance the instance -- null for static access
-		 * @return the current value
+		 * @return the current label
 		 */
 		@SuppressWarnings("unchecked")
 		default T get(Object instance) {
@@ -826,10 +826,10 @@ public class NMSReflectionUtil {
 		}
 
 		/**
-		 * Set the value of the field.
+		 * Set the label of the field.
 		 *
 		 * @param instance the instance -- null for static access
-		 * @param value    the new value
+		 * @param value    the new label
 		 */
 		default void set(Object instance, T value) {
 			try {
