@@ -1,7 +1,8 @@
 project.version = '0.2.9'
+def projectName = 'islands-core'
 
 dependencies {
-    runtime project(":api")
+    compile project(":api")
 }
 
 buildscript {
