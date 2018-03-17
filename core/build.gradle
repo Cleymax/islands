@@ -69,9 +69,7 @@ publishing {
 
             artifact javadocJar
 
-            if (project.tasks.findByName('fatJar')) {
-                artifact fatJar
-            }
+            artifact fatJar
         }
     }
 }
