@@ -63,13 +63,11 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            from components.java
-
-            artifact sourceJar
+            artifact fatJar
 
             artifact javadocJar
 
-            artifact fatJar
+            artifact sourceJar
         }
     }
 }
