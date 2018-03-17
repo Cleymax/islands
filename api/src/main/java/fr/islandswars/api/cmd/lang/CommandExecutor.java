@@ -1,11 +1,13 @@
-package fr.islandswars.core.bukkit.command.wrapper;
+package fr.islandswars.api.cmd.lang;
 
-import fr.islandswars.api.player.IslandsPlayer;
-import org.bukkit.command.CommandSender;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * File <b>CommandWrapper</b> located on fr.islandswars.core.bukkit.command.wrapper
- * CommandWrapper is a part of Islands Wars - Api.
+ * File <b>CommandExecutor</b> located on fr.islandswars.api.cmd.lang
+ * CommandExecutor is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -23,27 +25,13 @@ import org.bukkit.command.CommandSender;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
+ * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 17/03/2018 at 00:08
+ * Created the 17/03/2018 at 18:02
  * @since 0.2.9
  */
-public abstract class CommandWrapper {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface CommandExecutor {
 
-	private final String[] aliases;
-	private       String   label;
-
-	public CommandWrapper(String label, String[] aliases) {
-		this.aliases = aliases;
-		this.label = label;
-	}
-
-	public abstract boolean dispatch(CommandSender player, String[] cmd, int count) throws ReflectiveOperationException;
-
-	public String[] getAliases() {
-		return aliases;
-	}
-
-	public String getLabel() {
-		return label;
-	}
 }

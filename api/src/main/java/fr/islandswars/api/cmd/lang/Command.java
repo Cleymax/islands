@@ -46,5 +46,5 @@ public @interface Command {
 	/**
 	 * @return the main command label
 	 */
-	String label();
+	String label() default "";
 }

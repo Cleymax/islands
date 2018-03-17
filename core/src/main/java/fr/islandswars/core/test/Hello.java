@@ -1,11 +1,14 @@
-package fr.islandswars.core.bukkit.command.wrapper;
+package fr.islandswars.core.test;
 
+import fr.islandswars.api.cmd.lang.Command;
+import fr.islandswars.api.cmd.lang.CommandExecutor;
+import fr.islandswars.api.cmd.lang.Compound;
 import fr.islandswars.api.player.IslandsPlayer;
 import org.bukkit.command.CommandSender;
 
 /**
- * File <b>CommandWrapper</b> located on fr.islandswars.core.bukkit.command.wrapper
- * CommandWrapper is a part of Islands Wars - Api.
+ * File <b>Hello</b> located on fr.islandswars.core.test
+ * Hello is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -24,26 +27,21 @@ import org.bukkit.command.CommandSender;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 17/03/2018 at 00:08
+ * Created the 17/03/2018 at 17:22
  * @since 0.2.9
  */
-public abstract class CommandWrapper {
+@Command(aliases = "h")
+public class Hello {
 
-	private final String[] aliases;
-	private       String   label;
-
-	public CommandWrapper(String label, String[] aliases) {
-		this.aliases = aliases;
-		this.label = label;
+	//Call if args.length == 0
+	@CommandExecutor
+	public static void simple(CommandSender sender) {
+		sender.sendMessage("Type /hello");
 	}
 
-	public abstract boolean dispatch(CommandSender player, String[] cmd, int count) throws ReflectiveOperationException;
-
-	public String[] getAliases() {
-		return aliases;
+	@Compound()
+	public static void world(CommandSender sender) {
+		sender.sendMessage("Type /hello world");
 	}
 
-	public String getLabel() {
-		return label;
-	}
 }

@@ -1,11 +1,8 @@
-package fr.islandswars.core.bukkit.command.wrapper;
-
-import fr.islandswars.api.player.IslandsPlayer;
-import org.bukkit.command.CommandSender;
+package fr.islandswars.core.bukkit.command;
 
 /**
- * File <b>CommandWrapper</b> located on fr.islandswars.core.bukkit.command.wrapper
- * CommandWrapper is a part of Islands Wars - Api.
+ * File <b>CommandDispatchException</b> located on fr.islandswars.core.bukkit.command
+ * CommandDispatchException is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -23,27 +20,25 @@ import org.bukkit.command.CommandSender;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
+ * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 17/03/2018 at 00:08
+ * Created the 17/03/2018 at 17:04
  * @since 0.2.9
  */
-public abstract class CommandWrapper {
+final class CommandDispatchException extends RuntimeException {
 
-	private final String[] aliases;
-	private       String   label;
-
-	public CommandWrapper(String label, String[] aliases) {
-		this.aliases = aliases;
-		this.label = label;
+	CommandDispatchException() {
 	}
 
-	public abstract boolean dispatch(CommandSender player, String[] cmd, int count) throws ReflectiveOperationException;
-
-	public String[] getAliases() {
-		return aliases;
+	CommandDispatchException(String var1) {
+		super(var1);
 	}
 
-	public String getLabel() {
-		return label;
+	CommandDispatchException(String var1, Throwable var2) {
+		super(var1, var2);
+	}
+
+	CommandDispatchException(Throwable var1) {
+		super(var1);
 	}
 }

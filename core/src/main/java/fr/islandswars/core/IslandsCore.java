@@ -2,6 +2,7 @@ package fr.islandswars.core;
 
 import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.bossbar.BarManager;
+import fr.islandswars.api.cmd.CommandManager;
 import fr.islandswars.api.i18n.I18nLoader;
 import fr.islandswars.api.i18n.Translatable;
 import fr.islandswars.api.infra.ServiceManager;
@@ -16,7 +17,9 @@ import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
 import fr.islandswars.api.task.UpdaterManager;
+import fr.islandswars.core.bukkit.command.BukkitCommandInjector;
 import fr.islandswars.core.log.InternalLogger;
+import fr.islandswars.core.test.Hello;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,15 +53,22 @@ import org.bukkit.event.Listener;
  */
 public class IslandsCore extends IslandsApi {
 
-	private final InternalLogger logger;
+	private final InternalLogger        logger;
+	private final BukkitCommandInjector commandmanager;
 
 	public IslandsCore() {
 		this.logger = new InternalLogger();
+		this.commandmanager = new BukkitCommandInjector();
 	}
 
 	@Override
 	public BarManager getBarManager() {
 		return null;
+	}
+
+	@Override
+	public CommandManager getCommandManager() {
+		return commandmanager;
 	}
 
 	@Override
@@ -123,17 +133,22 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public void onLoad() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Loading server...").setServer(new Server(Status.LOAD, getCurrentServerType())).log();
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Loading server...").setServer(new Server(Status.LOAD, ServerType.HUB)).log();
 	}
 
 	@Override
 	public void onDisable() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Disabling server...").setServer(new Server(Status.DISABLE, getCurrentServerType())).log();
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Disabling server...").setServer(new Server(Status.DISABLE, ServerType.HUB)).log();
 	}
 
 	@Override
 	public void onEnable() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Enable server in %s ms.").setServer(new Server(Status.ENABLE, getCurrentServerType())).log();
+		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Enable server in %s ms.").setServer(new Server(Status.ENABLE, ServerType.HUB)).log();
+		try {
+			getCommandManager().registerCommand(Hello.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

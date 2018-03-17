@@ -1,11 +1,12 @@
 package fr.islandswars.core.bukkit.command.wrapper;
 
-import fr.islandswars.api.player.IslandsPlayer;
+import fr.islandswars.api.cmd.lang.Compound;
+import java.lang.reflect.Method;
 import org.bukkit.command.CommandSender;
 
 /**
- * File <b>CommandWrapper</b> located on fr.islandswars.core.bukkit.command.wrapper
- * CommandWrapper is a part of Islands Wars - Api.
+ * File <b>MethodCommandWrapper</b> located on fr.islandswars.core.bukkit.command.wrapper
+ * MethodCommandWrapper is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -23,27 +24,23 @@ import org.bukkit.command.CommandSender;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
+ * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 17/03/2018 at 00:08
+ * Created the 17/03/2018 at 18:23
  * @since 0.2.9
  */
-public abstract class CommandWrapper {
+public class MethodCommandWrapper extends CommandWrapper {
 
-	private final String[] aliases;
-	private       String   label;
+	private final Method method;
 
-	public CommandWrapper(String label, String[] aliases) {
-		this.aliases = aliases;
-		this.label = label;
+	MethodCommandWrapper(Method method, Compound compound) {
+		super(compound.label().isEmpty() ? method.getName().toLowerCase() : compound.label(), compound.aliases());
+		this.method = method;
 	}
 
-	public abstract boolean dispatch(CommandSender player, String[] cmd, int count) throws ReflectiveOperationException;
-
-	public String[] getAliases() {
-		return aliases;
-	}
-
-	public String getLabel() {
-		return label;
+	@Override
+	public boolean dispatch(CommandSender player, String[] cmd, int count) throws ReflectiveOperationException {
+		method.invoke(null, player);
+		return false;
 	}
 }

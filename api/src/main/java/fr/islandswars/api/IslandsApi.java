@@ -1,6 +1,7 @@
 package fr.islandswars.api;
 
 import fr.islandswars.api.bossbar.BarManager;
+import fr.islandswars.api.cmd.CommandManager;
 import fr.islandswars.api.i18n.I18nLoader;
 import fr.islandswars.api.i18n.Translatable;
 import fr.islandswars.api.infra.ServiceManager;
@@ -48,14 +49,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 
 	private static IslandsApi instance;
-	private final  ServerType type;
-	private final  int        serverId;
+	private final ServerType type     = null;
+	private final int        serverId = 0;
 
 	protected IslandsApi() {
 		if (instance == null)
 			instance = this;
-		this.type = ServerType.valueOf(System.getenv("SERVER_TYPE"));
-		this.serverId = Integer.valueOf(System.getenv("SERVER_ID"));
+		//TODO this.type = ServerType.valueOf(System.getenv("SERVER_TYPE"));
+		//this.serverId = Integer.valueOf(System.getenv("SERVER_ID"));
 	}
 
 	/**
@@ -71,6 +72,13 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	 * @return an abstract nms layer to easily deal with boss bossbar packet
 	 */
 	public abstract BarManager getBarManager();
+
+	/**
+	 * Method invocation based command pattern
+	 *
+	 * @return a manager to register custom command compound
+	 */
+	public abstract CommandManager getCommandManager();
 
 	/**
 	 * An enum representing the server, and some static properties
