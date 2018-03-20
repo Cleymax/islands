@@ -64,6 +64,7 @@ public class FullCommandWrapper extends CommandWrapper {
 
 	}
 
+	//TODO recode
 	private void addCompound(MethodCommandWrapper wrapper) {
 		if (compounds.keySet().stream().anyMatch(label -> label.equals(wrapper.getLabel())))
 			throw new CommandException("Try to register method that uses already registered label!");

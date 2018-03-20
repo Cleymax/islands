@@ -3,7 +3,6 @@ package fr.islandswars.core.test;
 import fr.islandswars.api.cmd.lang.Command;
 import fr.islandswars.api.cmd.lang.CommandExecutor;
 import fr.islandswars.api.cmd.lang.Compound;
-import fr.islandswars.api.player.IslandsPlayer;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -42,6 +41,11 @@ public class Hello {
 	@Compound()
 	public static void world(CommandSender sender) {
 		sender.sendMessage("Type /hello world");
+	}
+
+	@Compound
+	public static void bye(CommandSender sender, Integer value) {
+		sender.sendMessage("Set value to -> " + value);
 	}
 
 }
