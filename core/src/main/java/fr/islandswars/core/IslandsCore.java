@@ -18,6 +18,7 @@ import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
 import fr.islandswars.api.task.UpdaterManager;
 import fr.islandswars.core.bukkit.command.BukkitCommandInjector;
+import fr.islandswars.core.bukkit.task.TaskManager;
 import fr.islandswars.core.internal.command.PingCommand;
 import fr.islandswars.core.internal.i18n.LocaleTranslatable;
 import fr.islandswars.core.internal.listener.PlayerListener;
@@ -59,16 +60,18 @@ import org.bukkit.entity.Player;
  */
 public class IslandsCore extends IslandsApi {
 
-	private final InternalLogger                      logger;
 	private final BukkitCommandInjector               commandmanager;
+	private final UpdaterManager                      updaterManager;
 	private final LocaleTranslatable                  translatable;
 	private final CopyOnWriteArrayList<IslandsPlayer> players;
+	private final InternalLogger                      logger;
 
 	public IslandsCore() {
 		this.logger = new InternalLogger();
 		this.commandmanager = new BukkitCommandInjector();
 		this.translatable = new LocaleTranslatable();
 		this.players = new CopyOnWriteArrayList<>();
+		this.updaterManager = new TaskManager();
 	}
 
 	public void addPlayer(Player p) {
@@ -142,7 +145,7 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public UpdaterManager getUpdaterManager() {
-		return null;
+		return updaterManager;
 	}
 
 	@Override

@@ -44,10 +44,10 @@ public class BossBarTest {
 	@EventHandler
 	public void onSendMessage(AsyncPlayerChatEvent event) {
 		if (event.getMessage() != null && event.getMessage().contains("welcome")) {
-			IslandsPlayer player = IslandsApi.getInstance().getPlayer(event.getPlayer().getUniqueId());
+			IslandsPlayer player = IslandsApi.getInstance().getPlayer(event.getPlayer().getUniqueId()).get();
 			player.displaybar(welcome, () -> new Object[]{player.getCraftPlayer().getName()});
 		} else if (event.getMessage() != null && event.getMessage().contains("bye")) {
-			IslandsPlayer player = IslandsApi.getInstance().getPlayer(event.getPlayer().getUniqueId());
+			IslandsPlayer player = IslandsApi.getInstance().getPlayer(event.getPlayer().getUniqueId()).get();
 			player.hideBar(welcome);
 		}
 	}
