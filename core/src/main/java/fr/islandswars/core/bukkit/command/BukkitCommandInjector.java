@@ -4,8 +4,8 @@ import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.cmd.CommandManager;
 import fr.islandswars.api.cmd.lang.Command;
 import fr.islandswars.api.utils.NMSReflectionUtil;
-import fr.islandswars.core.bukkit.command.wrapper.FullCommandWrapper;
 import fr.islandswars.core.bukkit.command.wrapper.CommandWrapper;
+import fr.islandswars.core.bukkit.command.wrapper.LabelDispatcher;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ import org.bukkit.plugin.SimplePluginManager;
 public class BukkitCommandInjector implements CommandManager {
 
 	private static final NMSReflectionUtil.ConstructorAccessor<PluginCommand> PLUGIN_COMMAND_CONSTRUCTOR;
-	private static final Map<PluginCommand, CommandWrapper>                   BUKKIT_COMMANDS;
+	private static final Map<PluginCommand, LabelDispatcher>                  BUKKIT_COMMANDS;
 	private static final CommandExecutor                                      COMMAND_EXECUTOR;
 	private static final CommandMap                                           COMMAND_MAP;
 
@@ -61,12 +61,13 @@ public class BukkitCommandInjector implements CommandManager {
 		if (!(command instanceof PluginCommand))
 			throw new IllegalArgumentException("Cannot find command " + command);
 
-		CommandWrapper wrapper = BUKKIT_COMMANDS.get(command);
+		LabelDispatcher wrapper = BUKKIT_COMMANDS.get(command);
 
 		if (wrapper == null)
 			throw new IllegalArgumentException("Cannot find command " + command);
 		try {
-			return wrapper.dispatch(sender, args,0);
+			wrapper.dispatch(sender, args, 0);
+			return true;
 		} catch (InvocationTargetException e) {
 			throw new CommandDispatchException("Error while dispatching command " + command, e.getCause());
 		} catch (ReflectiveOperationException e) {
@@ -79,8 +80,8 @@ public class BukkitCommandInjector implements CommandManager {
 		Command command = commandClass.getAnnotation(Command.class);
 
 		if (command != null) {
-			String         label   = getlabel(command, commandClass);
-			CommandWrapper wrapper = new FullCommandWrapper(commandClass, command);
+			String          label   = getlabel(command, commandClass);
+			LabelDispatcher wrapper = new CommandWrapper(commandClass, command);
 			register(wrapper);
 		}
 	}
@@ -91,7 +92,7 @@ public class BukkitCommandInjector implements CommandManager {
 		else return command.label().toLowerCase();
 	}
 
-	private void register(CommandWrapper wrapper) {
+	private void register(LabelDispatcher wrapper) {
 		PluginCommand command = PLUGIN_COMMAND_CONSTRUCTOR.newInstance(wrapper.getLabel(), IslandsApi.getInstance());
 		command.setAliases(Arrays.asList(wrapper.getAliases()));
 		command.setExecutor(COMMAND_EXECUTOR);
@@ -99,6 +100,5 @@ public class BukkitCommandInjector implements CommandManager {
 		COMMAND_MAP.register(IslandsApi.getInstance().getDescription().getName(), command);
 		BUKKIT_COMMANDS.put(command, wrapper);
 	}
-
 
 }

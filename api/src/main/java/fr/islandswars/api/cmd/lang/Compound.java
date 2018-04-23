@@ -53,4 +53,6 @@ public @interface Compound {
 	 * @return this inner compound label
 	 */
 	String label() default "";
+
+	String description() default "";
 }

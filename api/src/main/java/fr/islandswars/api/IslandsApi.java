@@ -5,7 +5,11 @@ import fr.islandswars.api.cmd.CommandManager;
 import fr.islandswars.api.i18n.I18nLoader;
 import fr.islandswars.api.i18n.Translatable;
 import fr.islandswars.api.infra.ServiceManager;
+import fr.islandswars.api.lang.bukkit.ErrorHandlerCommandExecutor;
+import fr.islandswars.api.lang.bukkit.ErrorHandlerRegisteredListener;
+import fr.islandswars.api.lang.bukkit.ErrorHandlerRunnable;
 import fr.islandswars.api.log.InfraLogger;
+import fr.islandswars.api.log.internal.ErrorLog;
 import fr.islandswars.api.module.ModuleManager;
 import fr.islandswars.api.net.ProtocolManager;
 import fr.islandswars.api.permission.PermissibleManager;
@@ -13,11 +17,23 @@ import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
 import fr.islandswars.api.task.UpdaterManager;
+import fr.islandswars.api.utils.ErrorHandler;
+import fr.islandswars.api.utils.Preconditions;
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 /**
  * File <b>IslandsApi</b> located on fr.islandswars.api
@@ -48,13 +64,16 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 
-	private static IslandsApi instance;
+	private static IslandsApi   instance;
+	private final  ErrorHandler handler;
 	private final ServerType type     = null;
 	private final int        serverId = 0;
 
 	protected IslandsApi() {
 		if (instance == null)
 			instance = this;
+		handler = (t) -> getInfraLogger().createCustomLog(ErrorLog.class, Level.SEVERE, (t.getMessage() == null || t.getMessage().isEmpty()) ? "Error thrown" : t.getMessage()).supplyStacktrace(t).log();
+
 		//TODO this.type = ServerType.valueOf(System.getenv("SERVER_TYPE"));
 		//this.serverId = Integer.valueOf(System.getenv("SERVER_ID"));
 	}
@@ -110,9 +129,9 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	 * Retrieve an IslandsPlayer
 	 *
 	 * @param playerId this playerId
-	 * @return the player if online, or else null
+	 * @return a wrapped player if online, or else null
 	 */
-	public abstract IslandsPlayer getPlayer(UUID playerId);
+	public abstract Optional<IslandsPlayer> getPlayer(UUID playerId);
 
 	/**
 	 * Retrieve all IslandsPlayer
@@ -187,12 +206,35 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	@Override
 	public abstract void onEnable();
 
-	/**
-	 * Register a listener during the loading of the plugin.
-	 * When the plugin will be enabled, all classes will be registered.
-	 *
-	 * @param listeners Listeners which have to be register when plugin is enabled.
-	 */
-	public abstract void registerListener(Listener... listeners);
+	public void registerEvent(Listener listener) {
+		Preconditions.checkNotNull(listener);
+
+		getPluginLoader().createRegisteredListeners(listener, this).forEach((e, l) -> getHandlerList(e).registerAll(l.stream().map(r -> new ErrorHandlerRegisteredListener(r, handler)).collect(Collectors.toList())));
+	}
+
+	public BukkitTask runTask(Runnable task) {
+		return Bukkit.getScheduler().runTask(this, new ErrorHandlerRunnable(task, handler));
+	}
+
+	public BukkitTask runTaskAsynchronously(Runnable task) {
+		return Bukkit.getScheduler().runTaskAsynchronously(this, new ErrorHandlerRunnable(task, handler));
+	}
+
+	public void setExecutor(PluginCommand command, CommandExecutor executor) {
+		command.setExecutor(new ErrorHandlerCommandExecutor(executor, handler));
+	}
+
+	private HandlerList getHandlerList(Class<? extends Event> event) {
+		while (event.getSuperclass() != null && Event.class.isAssignableFrom(event.getSuperclass())) {
+			try {
+				Method method = event.getDeclaredMethod("getHandlerList");
+				method.setAccessible(true);
+				return (HandlerList) method.invoke(null);
+			} catch (ReflectiveOperationException e) {
+				event = event.getSuperclass().asSubclass(Event.class);
+			}
+		}
+		throw new IllegalStateException("No HandlerList for " + event.getName());
+	}
 
 }

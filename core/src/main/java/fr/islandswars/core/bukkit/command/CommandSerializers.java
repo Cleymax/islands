@@ -76,11 +76,6 @@ public class CommandSerializers {
 			CommandSerializers::getPlayer, "Player", () -> sort(getAllPlayers())
 	);
 
-	@SuppressWarnings("deprecation")
-	static final CommandSerializer<OfflinePlayer> OFFLINE_PLAYER = new CommandSerializerImpl<>(
-			Bukkit::getOfflinePlayer, "Offline Player", () -> sort(getAllPlayers())
-	);
-
 	static final CommandSerializer<CommandSender> COMMAND_SENDER = new CommandSerializerImpl<>(
 			str -> "@CONSOLE".equalsIgnoreCase(str) ? Bukkit.getConsoleSender() : getPlayer(str), "Command Sender", () -> sort(append(getAllPlayers(), "@CONSOLE"))
 	);
@@ -109,7 +104,6 @@ public class CommandSerializers {
 
 		// Others
 		INSTANCES.put(Player.class, PLAYER);
-		INSTANCES.put(OfflinePlayer.class, OFFLINE_PLAYER);
 		INSTANCES.put(CommandSender.class, COMMAND_SENDER);
 	}
 

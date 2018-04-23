@@ -1,13 +1,8 @@
-package fr.islandswars.api.cmd.lang;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package fr.islandswars.api.lang;
 
 /**
- * File <b>CommandExecutor</b> located on fr.islandswars.api.cmd.lang
- * CommandExecutor is a part of Islands Wars - Api.
+ * File <b>IslandsApiError</b> located on fr.islandswars.api.lang
+ * IslandsApiError is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,15 +20,10 @@ import java.lang.annotation.Target;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
- * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 17/03/2018 at 18:02
+ * Created the 10/04/2018 at 16:45
  * @since 0.2.9
- * <p>
- * Hold the simpliest command that we can use
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface CommandExecutor {
+public class IslandsApiError extends RuntimeException{
 
 }

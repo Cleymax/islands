@@ -5,7 +5,7 @@ import fr.islandswars.api.log.Log;
 import fr.islandswars.api.log.internal.Action;
 import fr.islandswars.api.log.internal.DefaultLog;
 import fr.islandswars.api.log.internal.PlayerLog;
-import fr.islandswars.core.log.InternalLogger;
+import fr.islandswars.core.internal.log.InternalLogger;
 import java.util.UUID;
 import java.util.logging.Level;
 import org.junit.Assert;

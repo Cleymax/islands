@@ -1,13 +1,12 @@
-package fr.islandswars.api.cmd.lang;
+package fr.islandswars.core.internal.command;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import fr.islandswars.api.cmd.lang.Command;
+import fr.islandswars.api.cmd.lang.CommandExecutor;
+import org.bukkit.command.CommandSender;
 
 /**
- * File <b>CommandExecutor</b> located on fr.islandswars.api.cmd.lang
- * CommandExecutor is a part of Islands Wars - Api.
+ * File <b>PingCommand</b> located on fr.islandswars.core.internal.command
+ * PingCommand is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,15 +24,16 @@ import java.lang.annotation.Target;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
- * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 17/03/2018 at 18:02
+ * Created the 10/04/2018 at 17:07
  * @since 0.2.9
- * <p>
- * Hold the simpliest command that we can use
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface CommandExecutor {
+@Command(description = "core.command.ping.description", aliases = "p", label = "ping")
+public class PingCommand {
+
+	@CommandExecutor
+	public static void handle(CommandSender sender) {
+		sender.sendMessage("pong");
+	}
 
 }

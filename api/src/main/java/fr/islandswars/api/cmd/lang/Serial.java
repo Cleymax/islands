@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * Created the 16/03/2018 at 23:19
  * @since 0.2.9
  * <p>
- * Supply a custom serializer to an argument {@link Arg}
+ * Supply a custom serializer to an argument
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)

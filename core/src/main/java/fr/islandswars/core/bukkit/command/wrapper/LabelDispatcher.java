@@ -1,13 +1,10 @@
-package fr.islandswars.api.cmd.lang;
+package fr.islandswars.core.bukkit.command.wrapper;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.bukkit.command.CommandSender;
 
 /**
- * File <b>Arg</b> located on fr.islandswars.api.cmd.lang
- * Arg is a part of Islands Wars - Api.
+ * File <b>LabelDispatcher</b> located on fr.islandswars.core.bukkit.command.wrapper
+ * LabelDispatcher is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,24 +22,32 @@ import java.lang.annotation.Target;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
- * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 16/03/2018 at 23:10
+ * Created the 17/03/2018 at 00:08
  * @since 0.2.9
- * <p>
- * Method annotations that hold a parameter
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface Arg {
+public abstract class LabelDispatcher {
 
-	/**
-	 * @return the type of the argument
-	 */
-	String type() default "";
+	private final String[] aliases;
+	private       String   label;
+	String help, description;
 
-	/**
-	 * @return the name of the argument
-	 */
-	String value();
+	LabelDispatcher(String label, String[] aliases) {
+		this.aliases = aliases;
+		this.label = label;
+	}
+
+	public abstract void dispatch(CommandSender player, String[] args, int count) throws ReflectiveOperationException;
+
+	public String[] getAliases() {
+		return aliases;
+	}
+
+	public String getHelp() {
+		return help;
+	}
+
+	public String getLabel() {
+		return label;
+	}
 }

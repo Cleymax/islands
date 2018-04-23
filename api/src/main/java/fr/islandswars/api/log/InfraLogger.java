@@ -1,6 +1,7 @@
 package fr.islandswars.api.log;
 
 import fr.islandswars.api.log.internal.DefaultLog;
+import fr.islandswars.api.log.internal.ErrorLog;
 import fr.islandswars.api.utils.NMSReflectionUtil;
 import java.util.logging.Level;
 
@@ -72,5 +73,24 @@ public interface InfraLogger {
 	 * @param object an object to log, it will be serialize to json and sent to graylog through GELF
 	 */
 	void log(Log object);
+
+	/**
+	 * Log and format an error
+	 *
+	 * @param e an error to log
+	 */
+	default void logError(Exception e) {
+		logError(e, e.getMessage());
+	}
+
+	/**
+	 * Log an error with a custom message
+	 *
+	 * @param e       an error to log
+	 * @param message a specific message
+	 */
+	default void logError(Exception e, String message) {
+		createCustomLog(ErrorLog.class, Level.WARNING, message).supplyStacktrace(e).log();
+	}
 
 }

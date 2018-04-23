@@ -18,14 +18,20 @@ import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
 import fr.islandswars.api.task.UpdaterManager;
 import fr.islandswars.core.bukkit.command.BukkitCommandInjector;
-import fr.islandswars.core.log.InternalLogger;
-import fr.islandswars.core.test.Hello;
+import fr.islandswars.core.internal.command.PingCommand;
+import fr.islandswars.core.internal.i18n.LocaleTranslatable;
+import fr.islandswars.core.internal.listener.PlayerListener;
+import fr.islandswars.core.internal.log.InternalLogger;
+import fr.islandswars.core.player.InternalPlayer;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.logging.Level;
-import org.bukkit.event.Listener;
+import java.util.stream.Collectors;
+import org.bukkit.entity.Player;
 
 /**
  * File <b>IslandsCore</b> located on fr.islandswars.core
@@ -53,12 +59,20 @@ import org.bukkit.event.Listener;
  */
 public class IslandsCore extends IslandsApi {
 
-	private final InternalLogger        logger;
-	private final BukkitCommandInjector commandmanager;
+	private final InternalLogger                      logger;
+	private final BukkitCommandInjector               commandmanager;
+	private final LocaleTranslatable                  translatable;
+	private final CopyOnWriteArrayList<IslandsPlayer> players;
 
 	public IslandsCore() {
 		this.logger = new InternalLogger();
 		this.commandmanager = new BukkitCommandInjector();
+		this.translatable = new LocaleTranslatable();
+		this.players = new CopyOnWriteArrayList<>();
+	}
+
+	public void addPlayer(Player p) {
+		players.add(new InternalPlayer(p));
 	}
 
 	@Override
@@ -78,7 +92,7 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public I18nLoader getI18nLoader() {
-		return null;
+		return translatable.getLoader();
 	}
 
 	@Override
@@ -92,18 +106,18 @@ public class IslandsCore extends IslandsApi {
 	}
 
 	@Override
-	public IslandsPlayer getPlayer(UUID playerId) {
-		return null;
+	public Optional<IslandsPlayer> getPlayer(UUID playerId) {
+		return players.stream().filter(p -> p.getCraftPlayer().getUniqueId().equals(playerId)).findFirst();
 	}
 
 	@Override
 	public List<? extends IslandsPlayer> getPlayers() {
-		return null;
+		return Collections.unmodifiableList(players);
 	}
 
 	@Override
 	public List<IslandsPlayer> getPlayers(Predicate<IslandsPlayer> predicate) {
-		return null;
+		return Collections.unmodifiableList(players.stream().filter(predicate).collect(Collectors.toList()));
 	}
 
 	@Override
@@ -123,7 +137,7 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public Translatable getTranslatable() {
-		return null;
+		return translatable;
 	}
 
 	@Override
@@ -134,6 +148,7 @@ public class IslandsCore extends IslandsApi {
 	@Override
 	public void onLoad() {
 		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Loading server...").setServer(new Server(Status.LOAD, ServerType.HUB)).log();
+		translatable.getLoader().registerCustomProperties(this);
 	}
 
 	@Override
@@ -145,15 +160,12 @@ public class IslandsCore extends IslandsApi {
 	public void onEnable() {
 		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Enable server in %s ms.").setServer(new Server(Status.ENABLE, ServerType.HUB)).log();
 		try {
-			getCommandManager().registerCommand(Hello.class);
+			getCommandManager().registerCommand(PingCommand.class);
+
+			new PlayerListener(this);
 		} catch (Exception e) {
-			e.printStackTrace();
+			getInfraLogger().logError(e);
 		}
-	}
-
-	@Override
-	public void registerListener(Listener... listeners) {
-
 	}
 
 	@Override
@@ -169,5 +181,10 @@ public class IslandsCore extends IslandsApi {
 	@Override
 	public <T extends Module> Optional<T> getModule(Class<T> module) {
 		return Optional.empty();
+	}
+
+	public void removePlayer(Player p) {
+		IslandsPlayer player = getPlayer(p.getUniqueId()).orElseThrow(() -> new NullPointerException("Given player is null"));
+		players.remove(player);
 	}
 }

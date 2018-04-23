@@ -30,7 +30,6 @@ import java.lang.annotation.Target;
  * Created the 16/03/2018 at 23:01
  * @since 0.2.9
  * <p>
- * TODO Accept command description
  * A slicy modified command
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -42,6 +41,11 @@ public @interface Command {
 	 * @throws IllegalArgumentException if one of the given alias is already registered
 	 */
 	String[] aliases() default {};
+
+	/**
+	 * @return this command description shown in help message
+	 */
+	String description() default "";
 
 	/**
 	 * @return the main command label

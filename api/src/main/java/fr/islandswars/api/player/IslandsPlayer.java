@@ -6,16 +6,14 @@ import fr.islandswars.api.i18n.Locale;
 import fr.islandswars.api.net.packet.play.server.TitlePacket;
 import fr.islandswars.api.player.rank.IslandsRank;
 import fr.islandswars.api.scoreboard.Scoreboard;
-import fr.islandswars.api.utils.Disposable;
 import fr.islandswars.api.utils.Preconditions;
-import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
-import org.bukkit.Particle;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
+import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
+import org.bukkit.Particle;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 
 /**
  * File <b>IslandsPlayer</b> located on fr.islandswars.api.player
@@ -44,42 +42,7 @@ import java.util.function.Supplier;
  * <p>
  * Represent a database player, with all vars fulfill from redis storage
  */
-public interface IslandsPlayer extends Disposable<CraftPlayer> {
-
-	/**
-	 * @return the player unique id
-	 */
-	UUID getPlayerID();
-
-	/**
-	 * @return the current player language
-	 */
-	Locale getPlayerLocale();
-
-	/**
-	 * @return the associated player implementation
-	 */
-	CraftPlayer getCraftPlayer();
-
-	/**
-	 * @return the bars that are actually displayed to this player
-	 */
-	List<Bar> getDisplayedBars();
-
-	/**
-	 * @return the personnal player storage to deal with i18n
-	 */
-	PlayerStorage getPlayerStorage();
-
-	/**
-	 * @return the rank with the highest level
-	 */
-	IslandsRank getDisplayedRank();
-
-	/**
-	 * @return all player ranks
-	 */
-	List<IslandsRank> getAllRanks();
+public interface IslandsPlayer {
 
 	/**
 	 * Display the given bossbar to this player
@@ -102,64 +65,6 @@ public interface IslandsPlayer extends Disposable<CraftPlayer> {
 	 * @param i18nParameters some translation parameters
 	 */
 	void displaybar(Bar bar, Supplier<Object[]> i18nParameters);
-
-	/**
-	 * hide this bossbar to the player
-	 *
-	 * @param bar a bossbar to remove this player
-	 */
-	void hideBar(Bar bar);
-
-	/**
-	 * hide this bossbar to the player
-	 *
-	 * @param sequence a bossbar to remove this player
-	 */
-	void hideSequence(BarSequence sequence);
-
-	/**
-	 * Will attempt to hide the scoreboard (if exist)
-	 */
-	void hideCurrentScoreboard();
-
-	/**
-	 * @return current wrapped scoreboard if exist
-	 */
-	Optional<Scoreboard> getCurrentScoreboard();
-
-	/**
-	 * Basic method to send one translated line to a player.
-	 * It will use default label when using title or subtitle
-	 *
-	 * @param type       where to display the message
-	 * @param key        an internal key
-	 * @param parameters some translation parameters if needed
-	 */
-	void sendTranslatedMessage(ChatType type, String key, Object... parameters);
-
-	/**
-	 * Send the current player to an available hub (except if the player is already on a hub)
-	 */
-	void sendToHub();
-
-	/**
-	 * A more concise method to deal with title | subtitle, can deal with null label
-	 *
-	 * @param title              a title key
-	 * @param titleParameters    some translations parameters if needed
-	 * @param subtitle           a subtitle key
-	 * @param subtitleParameters some translations parameters if needed
-	 */
-	default void sendTranslatedTitle(String title, Object[] titleParameters, String subtitle, Object... subtitleParameters) {
-		if (title != null) {
-			String translatedTitle = getPlayerLocale().format(title, titleParameters);
-			new TitlePacket(translatedTitle, PacketPlayOutTitle.EnumTitleAction.TITLE, 20, 60, 20).sendToPlayer(getCraftPlayer());
-		}
-		if (subtitle != null) {
-			String translatedSubTitle = getPlayerLocale().format(subtitle, titleParameters);
-			new TitlePacket(translatedSubTitle, PacketPlayOutTitle.EnumTitleAction.SUBTITLE, 20, 60, 20).sendToPlayer(getCraftPlayer());
-		}
-	}
 
 	/**
 	 * Display a particle to this player
@@ -197,9 +102,102 @@ public interface IslandsPlayer extends Disposable<CraftPlayer> {
 	}
 
 	/**
+	 * @return all player ranks
+	 */
+	List<IslandsRank> getAllRanks();
+
+	/**
+	 * @return the associated player implementation
+	 */
+	CraftPlayer getCraftPlayer();
+
+	/**
+	 * @return current wrapped scoreboard if exist
+	 */
+	Optional<Scoreboard> getCurrentScoreboard();
+
+	/**
+	 * @return the bars that are actually displayed to this player
+	 */
+	List<Bar> getDisplayedBars();
+
+	/**
+	 * @return the rank with the highest level
+	 */
+	IslandsRank getDisplayedRank();
+
+	/**
+	 * @return the player unique id
+	 */
+	UUID getPlayerID();
+
+	/**
+	 * @return the current player language
+	 */
+	Locale getPlayerLocale();
+
+	/**
+	 * @return the personnal player storage to deal with i18n
+	 */
+	PlayerStorage getPlayerStorage();
+
+	/**
 	 * @return if this player is viewing a scoreboard
 	 */
 	default boolean hasScoreboardDisplayed() {
 		return getCurrentScoreboard().isPresent();
+	}
+
+	/**
+	 * hide this bossbar to the player
+	 *
+	 * @param bar a bossbar to remove this player
+	 */
+	void hideBar(Bar bar);
+
+	/**
+	 * Will attempt to hide the scoreboard (if exist)
+	 */
+	void hideCurrentScoreboard();
+
+	/**
+	 * hide this bossbar to the player
+	 *
+	 * @param sequence a bossbar to remove this player
+	 */
+	void hideSequence(BarSequence sequence);
+
+	/**
+	 * Send the current player to an available hub (except if the player is already on a hub)
+	 */
+	void sendToHub();
+
+	/**
+	 * Basic method to send one translated line to a player.
+	 * It will use default label when using title or subtitle
+	 *
+	 * @param type       where to display the message
+	 * @param key        an internal key
+	 * @param parameters some translation parameters if needed
+	 */
+	void sendTranslatedMessage(ChatType type, String key, Object... parameters);
+
+	/**
+	 * A more concise method to deal with title | subtitle, can deal with null label
+	 *
+	 * @param title              a title key
+	 * @param titleParameters    some translations parameters if needed
+	 * @param subtitle           a subtitle key
+	 * @param subtitleParameters some translations parameters if needed
+	 */
+	default void sendTranslatedTitle(String title, Object[] titleParameters, String subtitle, Object... subtitleParameters) {
+		if (title != null) {
+			String translatedTitle = getPlayerLocale().format(title, titleParameters);
+			new TitlePacket(translatedTitle, PacketPlayOutTitle.EnumTitleAction.TITLE, 20, 60, 20).sendToPlayer(getCraftPlayer());
+		}
+		if (subtitle != null) {
+			String translatedSubTitle = getPlayerLocale().format(subtitle, titleParameters);
+			new TitlePacket(translatedSubTitle, PacketPlayOutTitle.EnumTitleAction.SUBTITLE, 20, 60, 20).sendToPlayer(getCraftPlayer());
+		}
 	}
 }

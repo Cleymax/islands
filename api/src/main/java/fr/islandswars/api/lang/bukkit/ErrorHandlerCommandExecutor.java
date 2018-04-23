@@ -1,13 +1,13 @@
-package fr.islandswars.core.test;
+package fr.islandswars.api.lang.bukkit;
 
-import fr.islandswars.api.cmd.lang.Command;
-import fr.islandswars.api.cmd.lang.CommandExecutor;
-import fr.islandswars.api.cmd.lang.Compound;
+import fr.islandswars.api.utils.ErrorHandler;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 /**
- * File <b>Hello</b> located on fr.islandswars.core.test
- * Hello is a part of Islands Wars - Api.
+ * File <b>ErrorHandlerCommandExecutor</b> located on fr.islandswars.api.lang.bukkit
+ * ErrorHandlerCommandExecutor is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,27 +25,28 @@ import org.bukkit.command.CommandSender;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
+ * @author DeltaEvo
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 17/03/2018 at 17:22
+ * Created the 10/04/2018 at 16:48
  * @since 0.2.9
  */
-@Command(aliases = "h")
-public class Hello {
+public class ErrorHandlerCommandExecutor implements CommandExecutor {
 
-	//Call if args.length == 0
-	@CommandExecutor
-	public static void simple(CommandSender sender) {
-		sender.sendMessage("Type /hello");
+	private final CommandExecutor owner;
+	private final ErrorHandler    handler;
+
+	public ErrorHandlerCommandExecutor(CommandExecutor owner, ErrorHandler handler) {
+		this.owner = owner;
+		this.handler = handler;
 	}
 
-	@Compound()
-	public static void world(CommandSender sender) {
-		sender.sendMessage("Type /hello world");
+	@Override
+	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+		try {
+			return owner.onCommand(commandSender, command, s, strings);
+		} catch (Throwable t) {
+			handler.handle(t);
+			return false;
+		}
 	}
-
-	@Compound
-	public static void bye(CommandSender sender, Integer value) {
-		sender.sendMessage("Set value to -> " + value);
-	}
-
 }
