@@ -61,7 +61,7 @@ public interface ScoreboardComponent {
 
 	/**
 	 * Update this scoreboard with the given packet for all viewers according to this
-	 * {@link Action value}
+	 * {@link Action label}
 	 *
 	 * @param action what to do with this scoreboard
 	 */

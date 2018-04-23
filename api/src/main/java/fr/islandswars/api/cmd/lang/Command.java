@@ -1,12 +1,13 @@
-package fr.islandswars.api.bossbar;
+package fr.islandswars.api.cmd.lang;
 
-import fr.islandswars.api.player.IslandsPlayer;
-
-import java.util.stream.Stream;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * File <b>BarSequence</b> located on fr.islandswars.api.bossbar
- * BarSequence is a part of Islands Wars - Api.
+ * File <b>Command</b> located on fr.islandswars.api.cmd.lang
+ * Command is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -24,35 +25,30 @@ import java.util.stream.Stream;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
+ * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 26/12/2017 at 21:58
- * @since 0.2.3
+ * Created the 16/03/2018 at 23:01
+ * @since 0.2.9
  * <p>
- * An array of bossbar to display in the given order
+ * A slicy modified command
  */
-public interface BarSequence {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Command {
 
 	/**
-	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
-	 * and free all resources
+	 * @return this specific command aliases
+	 * @throws IllegalArgumentException if one of the given alias is already registered
 	 */
-	void shutdownSequence();
+	String[] aliases() default {};
 
 	/**
-	 * Get (if exist) the currently displayed bossbar
-	 *
-	 * @return the current displayed bossbar
+	 * @return this command description shown in help message
 	 */
-	Bar getCurrentBar();
+	String description() default "";
 
 	/**
-	 * @return this bossbar viewers
+	 * @return the main command label
 	 */
-	Stream<IslandsPlayer> getViewers();
-
-	/**
-	 * @return all bars stocked in this sequence
-	 */
-	Stream<Bar> getBars();
-
+	String label() default "";
 }

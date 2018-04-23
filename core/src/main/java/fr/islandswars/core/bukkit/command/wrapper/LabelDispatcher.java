@@ -1,12 +1,10 @@
-package fr.islandswars.api.bossbar;
+package fr.islandswars.core.bukkit.command.wrapper;
 
-import fr.islandswars.api.player.IslandsPlayer;
-
-import java.util.stream.Stream;
+import org.bukkit.command.CommandSender;
 
 /**
- * File <b>BarSequence</b> located on fr.islandswars.api.bossbar
- * BarSequence is a part of Islands Wars - Api.
+ * File <b>LabelDispatcher</b> located on fr.islandswars.core.bukkit.command.wrapper
+ * LabelDispatcher is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,34 +23,31 @@ import java.util.stream.Stream;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 26/12/2017 at 21:58
- * @since 0.2.3
- * <p>
- * An array of bossbar to display in the given order
+ * Created the 17/03/2018 at 00:08
+ * @since 0.2.9
  */
-public interface BarSequence {
+public abstract class LabelDispatcher {
 
-	/**
-	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
-	 * and free all resources
-	 */
-	void shutdownSequence();
+	private final String[] aliases;
+	private       String   label;
+	String help, description;
 
-	/**
-	 * Get (if exist) the currently displayed bossbar
-	 *
-	 * @return the current displayed bossbar
-	 */
-	Bar getCurrentBar();
+	LabelDispatcher(String label, String[] aliases) {
+		this.aliases = aliases;
+		this.label = label;
+	}
 
-	/**
-	 * @return this bossbar viewers
-	 */
-	Stream<IslandsPlayer> getViewers();
+	public abstract void dispatch(CommandSender player, String[] args, int count) throws ReflectiveOperationException;
 
-	/**
-	 * @return all bars stocked in this sequence
-	 */
-	Stream<Bar> getBars();
+	public String[] getAliases() {
+		return aliases;
+	}
 
+	public String getHelp() {
+		return help;
+	}
+
+	public String getLabel() {
+		return label;
+	}
 }

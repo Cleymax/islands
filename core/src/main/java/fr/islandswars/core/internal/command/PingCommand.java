@@ -1,12 +1,12 @@
-package fr.islandswars.api.bossbar;
+package fr.islandswars.core.internal.command;
 
-import fr.islandswars.api.player.IslandsPlayer;
-
-import java.util.stream.Stream;
+import fr.islandswars.api.cmd.lang.Command;
+import fr.islandswars.api.cmd.lang.CommandExecutor;
+import org.bukkit.command.CommandSender;
 
 /**
- * File <b>BarSequence</b> located on fr.islandswars.api.bossbar
- * BarSequence is a part of Islands Wars - Api.
+ * File <b>PingCommand</b> located on fr.islandswars.core.internal.command
+ * PingCommand is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,34 +25,15 @@ import java.util.stream.Stream;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 26/12/2017 at 21:58
- * @since 0.2.3
- * <p>
- * An array of bossbar to display in the given order
+ * Created the 10/04/2018 at 17:07
+ * @since 0.2.9
  */
-public interface BarSequence {
+@Command(description = "core.command.ping.description", aliases = "p", label = "ping")
+public class PingCommand {
 
-	/**
-	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
-	 * and free all resources
-	 */
-	void shutdownSequence();
-
-	/**
-	 * Get (if exist) the currently displayed bossbar
-	 *
-	 * @return the current displayed bossbar
-	 */
-	Bar getCurrentBar();
-
-	/**
-	 * @return this bossbar viewers
-	 */
-	Stream<IslandsPlayer> getViewers();
-
-	/**
-	 * @return all bars stocked in this sequence
-	 */
-	Stream<Bar> getBars();
+	@CommandExecutor
+	public static void handle(CommandSender sender) {
+		sender.sendMessage("pong");
+	}
 
 }

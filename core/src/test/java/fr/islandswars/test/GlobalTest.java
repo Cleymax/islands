@@ -1,5 +1,7 @@
 package fr.islandswars.test;
 
+import org.junit.Test;
+
 /**
  * File <b>GlobalTest</b> located on fr.islandswars.test
  * GlobalTest is a part of Islands Wars - Api.
@@ -24,5 +26,9 @@ package fr.islandswars.test;
  * Created the 13/03/2018 at 13:14
  */
 public class GlobalTest {
+
+	@Test
+	public void test() {
+	}
 
 }

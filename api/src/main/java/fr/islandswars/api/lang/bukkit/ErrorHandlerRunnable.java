@@ -1,12 +1,10 @@
-package fr.islandswars.api.bossbar;
+package fr.islandswars.api.lang.bukkit;
 
-import fr.islandswars.api.player.IslandsPlayer;
-
-import java.util.stream.Stream;
+import fr.islandswars.api.utils.ErrorHandler;
 
 /**
- * File <b>BarSequence</b> located on fr.islandswars.api.bossbar
- * BarSequence is a part of Islands Wars - Api.
+ * File <b>ErrorHandlerRunnable</b> located on fr.islandswars.api.lang.bukkit
+ * ErrorHandlerRunnable is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -24,35 +22,27 @@ import java.util.stream.Stream;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
+ * @author DeltaEvo
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 26/12/2017 at 21:58
- * @since 0.2.3
- * <p>
- * An array of bossbar to display in the given order
+ * Created the 10/04/2018 at 16:49
+ * @since 0.2.9
  */
-public interface BarSequence {
+public class ErrorHandlerRunnable implements Runnable {
 
-	/**
-	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
-	 * and free all resources
-	 */
-	void shutdownSequence();
+	private final Runnable     owner;
+	private final ErrorHandler handler;
 
-	/**
-	 * Get (if exist) the currently displayed bossbar
-	 *
-	 * @return the current displayed bossbar
-	 */
-	Bar getCurrentBar();
+	public ErrorHandlerRunnable(Runnable owner, ErrorHandler handler) {
+		this.owner = owner;
+		this.handler = handler;
+	}
 
-	/**
-	 * @return this bossbar viewers
-	 */
-	Stream<IslandsPlayer> getViewers();
-
-	/**
-	 * @return all bars stocked in this sequence
-	 */
-	Stream<Bar> getBars();
-
+	@Override
+	public void run() {
+		try {
+			owner.run();
+		} catch (Throwable t) {
+			handler.handle(t);
+		}
+	}
 }

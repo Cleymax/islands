@@ -53,7 +53,7 @@ public enum Locale {
 	 * Get a String according to this language and format with the given parameters
 	 *
 	 * @param key        the property key
-	 * @param parameters the properties value to format with
+	 * @param parameters the properties label to format with
 	 * @return a {@link String#format(String, Object...)}, or else the key
 	 * @see Translatable#format(Locale, String, Object...)
 	 */

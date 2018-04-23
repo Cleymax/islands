@@ -39,9 +39,9 @@ public abstract class Wrapper<T> {
 	}
 
 	/**
-	 * Return the value of the given fieldname
+	 * Return the label of the given fieldname
 	 *
-	 * @param field a value to get from this field
+	 * @param field a label to get from this field
 	 * @return an object, if founded
 	 * @see NMSReflectionUtil#getFieldAccessor(Field)
 	 */
@@ -50,10 +50,10 @@ public abstract class Wrapper<T> {
 	}
 
 	/**
-	 * Set a new value to the given field
+	 * Set a new label to the given field
 	 *
 	 * @param field the field name to update
-	 * @param value the new value
+	 * @param value the new label
 	 * @see NMSReflectionUtil#getFieldAccessor(Field)
 	 */
 	protected final void setHandleValue(String field, Object value) {
@@ -61,11 +61,11 @@ public abstract class Wrapper<T> {
 	}
 
 	/**
-	 * Get the value from a given field
+	 * Get the label from a given field
 	 *
-	 * @param field    the field name to get value from
+	 * @param field    the field name to get label from
 	 * @param instance the object to get field
-	 * @return the value if found
+	 * @return the label if found
 	 * @see #getHandleValue(String, Object)
 	 */
 	protected final Object getHandleValue(String field, Object instance) {
@@ -73,11 +73,11 @@ public abstract class Wrapper<T> {
 	}
 
 	/**
-	 * Set a new value to the given field in the given instance
+	 * Set a new label to the given field in the given instance
 	 *
 	 * @param field    the field name to update
-	 * @param instance an instance to set new value
-	 * @param value    the new value
+	 * @param instance an instance to set new label
+	 * @param value    the new label
 	 * @see NMSReflectionUtil#getFieldAccessor(Field)
 	 */
 	protected final void setHandleValue(String field, Object instance, Object value) {

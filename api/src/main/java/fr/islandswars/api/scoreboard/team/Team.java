@@ -91,7 +91,7 @@ public interface Team extends ScoreboardComponent {
 	/**
 	 * Set if the team allow the friendly fire
 	 *
-	 * @param friendlyFire the new value of friendly fire
+	 * @param friendlyFire the new label of friendly fire
 	 */
 	void setFriendlyFire(boolean friendlyFire);
 
@@ -105,7 +105,7 @@ public interface Team extends ScoreboardComponent {
 	/**
 	 * Set if the team can see her members invisible
 	 *
-	 * @param seeFriendlyInvisible the new value of see members invisible
+	 * @param seeFriendlyInvisible the new label of see members invisible
 	 */
 	void setSeeFriendlyInvisible(boolean seeFriendlyInvisible);
 

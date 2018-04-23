@@ -1,4 +1,4 @@
-package fr.islandswars.core.log;
+package fr.islandswars.core.internal.log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,7 +11,7 @@ import java.io.PrintStream;
 import java.util.logging.Level;
 
 /**
- * File <b>InternalLogger</b> located on fr.islandswars.core.log
+ * File <b>InternalLogger</b> located on fr.islandswars.core.internal.log
  * InternalLogger is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
@@ -41,9 +41,9 @@ public class InternalLogger implements InfraLogger {
 	public InternalLogger() {
 		this.gson = new GsonBuilder().create();
 		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
-			createCustomLog(ErrorLog.class, Level.SEVERE, throwable.getMessage()).supplyStacktrace(throwable).log();
-		});
+		//Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+	//		createCustomLog(ErrorLog.class, Level.SEVERE, throwable.getMessage()).supplyStacktrace(throwable).log();
+//		});
 	}
 
 	@Override

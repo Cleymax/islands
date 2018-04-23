@@ -1,12 +1,13 @@
-package fr.islandswars.api.bossbar;
+package fr.islandswars.api.cmd.lang;
 
-import fr.islandswars.api.player.IslandsPlayer;
-
-import java.util.stream.Stream;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * File <b>BarSequence</b> located on fr.islandswars.api.bossbar
- * BarSequence is a part of Islands Wars - Api.
+ * File <b>Opt</b> located on fr.islandswars.api.cmd.lang
+ * Opt is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -24,35 +25,15 @@ import java.util.stream.Stream;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
+ * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 26/12/2017 at 21:58
- * @since 0.2.3
+ * Created the 16/03/2018 at 23:13
+ * @since 0.2.9
  * <p>
- * An array of bossbar to display in the given order
+ * Make an argument {@link Arg} optional
  */
-public interface BarSequence {
-
-	/**
-	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
-	 * and free all resources
-	 */
-	void shutdownSequence();
-
-	/**
-	 * Get (if exist) the currently displayed bossbar
-	 *
-	 * @return the current displayed bossbar
-	 */
-	Bar getCurrentBar();
-
-	/**
-	 * @return this bossbar viewers
-	 */
-	Stream<IslandsPlayer> getViewers();
-
-	/**
-	 * @return all bars stocked in this sequence
-	 */
-	Stream<Bar> getBars();
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.PARAMETER)
+public @interface Opt {
 
 }

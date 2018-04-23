@@ -1,12 +1,10 @@
-package fr.islandswars.api.bossbar;
+package fr.islandswars.api.cmd;
 
-import fr.islandswars.api.player.IslandsPlayer;
-
-import java.util.stream.Stream;
+import java.util.List;
 
 /**
- * File <b>BarSequence</b> located on fr.islandswars.api.bossbar
- * BarSequence is a part of Islands Wars - Api.
+ * File <b>CommandSerializer</b> located on fr.islandswars.api.cmd
+ * CommandSerializer is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -24,35 +22,37 @@ import java.util.stream.Stream;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
+ * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 26/12/2017 at 21:58
- * @since 0.2.3
+ * Created the 16/03/2018 at 23:15
+ * @since 0.2.9
  * <p>
- * An array of bossbar to display in the given order
+ * Command serializer to parse arguments
  */
-public interface BarSequence {
+public interface CommandSerializer<T> {
 
 	/**
-	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
-	 * and free all resources
-	 */
-	void shutdownSequence();
-
-	/**
-	 * Get (if exist) the currently displayed bossbar
+	 * Get tab completes for this serializers.
+	 * <p>
+	 * Warning: These tab complete must be sorted.
 	 *
-	 * @return the current displayed bossbar
+	 * @return the tab completes for this serializers
 	 */
-	Bar getCurrentBar();
+	default List<String> getAllTabCompletes() {
+		return null;
+	}
 
 	/**
-	 * @return this bossbar viewers
+	 * @param arg the argument to serialize
+	 * @return the serialized argument
+	 * @throws ReflectiveOperationException thrown if illegal syntax is found
 	 */
-	Stream<IslandsPlayer> getViewers();
+	T serialize(String arg) throws ReflectiveOperationException;
 
 	/**
-	 * @return all bars stocked in this sequence
+	 * Get the label type of the serializer.
+	 *
+	 * @return the label type of the serializer
 	 */
-	Stream<Bar> getBars();
-
+	String valueType();
 }

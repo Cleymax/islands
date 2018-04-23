@@ -33,7 +33,7 @@ import java.util.Set;
 public interface RedisService {
 
 	/**
-	 * Get the value of the specified key. If the key does not exist null is returned. If the value
+	 * Get the label of the specified key. If the key does not exist null is returned. If the label
 	 * stored at key is not a string an error is returned because GET can only handle string values.
 	 * <p>
 	 * Time complexity: O(1)
@@ -44,7 +44,7 @@ public interface RedisService {
 	Optional<String> get(final String key);
 
 	/**
-	 * Return all the members (elements) of the set value stored at key. This is just syntax glue for
+	 * Return all the members (elements) of the set label stored at key. This is just syntax glue for
 	 * {@link #sinter(String...) SINTER}.
 	 * <p>
 	 * Time complexity O(N)
@@ -108,19 +108,19 @@ public interface RedisService {
 	Optional<List<String>> lrange(final String key, final long start, final long stop);
 
 	/**
-	 * Set the string value as value of the key. The string can't be longer than 1073741824 bytes (1
+	 * Set the string label as label of the key. The string can't be longer than 1073741824 bytes (1
 	 * GB).
 	 * <p>
 	 * Time complexity: O(1)
 	 *
 	 * @param key   key storage system
-	 * @param value associated value
+	 * @param value associated label
 	 * @return status code reply
 	 */
 	String set(final String key, final String value);
 
 	/**
-	 * Add the string value to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key
+	 * Add the string label to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key
 	 * does not exist an empty list is created just before the append operation. If the key exists but
 	 * is not a List an error is returned.
 	 * <p>
@@ -134,7 +134,7 @@ public interface RedisService {
 	Long rpush(final String key, final String... strings);
 
 	/**
-	 * Add the string value to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key
+	 * Add the string label to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key
 	 * does not exist an empty list is created just before the append operation. If the key exists but
 	 * is not a List an error is returned.
 	 * <p>

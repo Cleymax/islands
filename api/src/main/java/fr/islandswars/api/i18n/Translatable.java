@@ -36,7 +36,7 @@ public interface Translatable {
 	 * Get a String according to the default language (French) and format with the given parameters
 	 *
 	 * @param key        the property key
-	 * @param parameters the properties value to format with
+	 * @param parameters the properties label to format with
 	 * @return a {@link String#format(String, Object...)}, or else the key
 	 * @see #format(Locale, String, Object...)
 	 */
@@ -47,7 +47,7 @@ public interface Translatable {
 	 *
 	 * @param locale     a language to use
 	 * @param key        the property key
-	 * @param parameters the properties value to format with
+	 * @param parameters the properties label to format with
 	 * @return a {@link String#format(String, Object...)}, or else the key
 	 */
 	String format(Locale locale, String key, Object... parameters);

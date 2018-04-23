@@ -41,7 +41,7 @@ public class SetCompressionPacket extends GamePacket<PacketLoginOutSetCompressio
 	 * Yes	Packet ID	      Varint	zlib compressed packet ID (see the sections below)
 	 * Data	        Byte Array	zlib compressed packet data (see the sections below)
 	 *
-	 * @return the compression value
+	 * @return the compression label
 	 */
 	public int getThresholdValue() {
 		return (int) getHandleValue("a");

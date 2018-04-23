@@ -1,12 +1,8 @@
-package fr.islandswars.api.bossbar;
-
-import fr.islandswars.api.player.IslandsPlayer;
-
-import java.util.stream.Stream;
+package fr.islandswars.api.cmd;
 
 /**
- * File <b>BarSequence</b> located on fr.islandswars.api.bossbar
- * BarSequence is a part of Islands Wars - Api.
+ * File <b>CommandManager</b> located on fr.islandswars.api.cmd
+ * CommandManager is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,34 +21,19 @@ import java.util.stream.Stream;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 26/12/2017 at 21:58
- * @since 0.2.3
+ * Created the 16/03/2018 at 23:06
+ * @since 0.2.9
  * <p>
- * An array of bossbar to display in the given order
+ * Register custom command
  */
-public interface BarSequence {
+public interface CommandManager {
 
 	/**
-	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
-	 * and free all resources
-	 */
-	void shutdownSequence();
-
-	/**
-	 * Get (if exist) the currently displayed bossbar
+	 * Attempt to inject this command into bukkit command map.
 	 *
-	 * @return the current displayed bossbar
+	 * @param commandClass a class that use {@link fr.islandswars.api.cmd.lang.Command} interface at least
+	 * @throws Exception if this class misses some annotations, or if some arguments are already registered
 	 */
-	Bar getCurrentBar();
-
-	/**
-	 * @return this bossbar viewers
-	 */
-	Stream<IslandsPlayer> getViewers();
-
-	/**
-	 * @return all bars stocked in this sequence
-	 */
-	Stream<Bar> getBars();
+	void registerCommand(Class<?> commandClass) throws Exception;
 
 }
