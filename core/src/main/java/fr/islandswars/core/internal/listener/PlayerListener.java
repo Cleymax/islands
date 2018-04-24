@@ -1,16 +1,21 @@
 package fr.islandswars.core.internal.listener;
 
 import fr.islandswars.api.IslandsApi;
+import fr.islandswars.api.item.ItemType;
 import fr.islandswars.api.listener.LazyListener;
 import fr.islandswars.api.log.internal.Action;
 import fr.islandswars.api.log.internal.PlayerLog;
 import fr.islandswars.api.player.IslandsPlayer;
+import fr.islandswars.api.storage.Storage;
+import fr.islandswars.api.storage.StorageBuilder;
 import fr.islandswars.core.IslandsCore;
 import java.util.logging.Level;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 /**
  * File <b>PlayerListener</b> located on fr.islandswars.core.internal.listener
@@ -38,9 +43,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
  */
 public class PlayerListener extends LazyListener {
 
+	private Storage storage;
 
 	public PlayerListener(IslandsApi api) {
 		super(api);
+		this.storage = api.getStorageManager().newStorage(StorageBuilder.build("Test", 9 * 1));
+		storage.addItem(api.getItemManager().createItem(new ItemType(Material.BEACON)));
 	}
 
 	@EventHandler
@@ -48,6 +56,11 @@ public class PlayerListener extends LazyListener {
 		Player p = event.getPlayer();
 		((IslandsCore) api).addPlayer(p);
 		api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + p.getName() + " joined the game.").setPlayer(p, Action.CONNECT).log();
+	}
+
+	@EventHandler
+	public void onSneak(PlayerToggleSneakEvent event) {
+		api.getStorageManager().openStorage(getFromPlayer(event.getPlayer()), storage);
 	}
 
 	@EventHandler

@@ -5,6 +5,7 @@ import fr.islandswars.api.cmd.CommandManager;
 import fr.islandswars.api.i18n.I18nLoader;
 import fr.islandswars.api.i18n.Translatable;
 import fr.islandswars.api.infra.ServiceManager;
+import fr.islandswars.api.item.ItemManager;
 import fr.islandswars.api.lang.bukkit.ErrorHandlerCommandExecutor;
 import fr.islandswars.api.lang.bukkit.ErrorHandlerRegisteredListener;
 import fr.islandswars.api.lang.bukkit.ErrorHandlerRunnable;
@@ -16,6 +17,7 @@ import fr.islandswars.api.permission.PermissibleManager;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
+import fr.islandswars.api.storage.StorageManager;
 import fr.islandswars.api.task.UpdaterManager;
 import fr.islandswars.api.utils.ErrorHandler;
 import fr.islandswars.api.utils.Preconditions;
@@ -119,6 +121,13 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	public abstract InfraLogger getInfraLogger();
 
 	/**
+	 * Create item layer to deal with translation
+	 *
+	 * @return an ItemStack factory
+	 */
+	public abstract ItemManager getItemManager();
+
+	/**
 	 * See if player's ranks match conditions
 	 *
 	 * @return a way to check {@link IslandsPlayer#getAllRanks()}
@@ -175,6 +184,13 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	 * @return an interface to interact with redis / rabbitmq
 	 */
 	public abstract ServiceManager getServiceManager();
+
+	/**
+	 * Interface to create wrapped inventory to deal with translations
+	 *
+	 * @return a storage factory
+	 */
+	public abstract StorageManager getStorageManager();
 
 	/**
 	 * Interface to format key to a valid String, according to user preferences
