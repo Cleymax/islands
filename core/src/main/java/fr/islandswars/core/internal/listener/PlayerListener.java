@@ -4,6 +4,7 @@ import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.listener.LazyListener;
 import fr.islandswars.api.log.internal.Action;
 import fr.islandswars.api.log.internal.PlayerLog;
+import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.core.IslandsCore;
 import java.util.logging.Level;
 import org.bukkit.entity.Player;
@@ -37,6 +38,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
  */
 public class PlayerListener extends LazyListener {
 
+
 	public PlayerListener(IslandsApi api) {
 		super(api);
 	}
@@ -50,9 +52,8 @@ public class PlayerListener extends LazyListener {
 
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event) {
-		Player p = event.getPlayer();
-		((IslandsCore) api).removePlayer(p);
-		System.out.println(p);
-		api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + p.getName() + " leaved the game.").setPlayer(p, Action.LEAVE).log();
+		IslandsPlayer player = getFromPlayer(event.getPlayer());
+		((IslandsCore) api).removePlayer(player);
+		api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + player.getCraftPlayer().getName() + " leaved the game.").setPlayer(player, Action.LEAVE).log();
 	}
 }

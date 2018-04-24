@@ -115,7 +115,6 @@ public class BossPacket extends GamePacket<PacketPlayOutBoss> {
 		setHandleValue("i", fog);
 	}
 
-
 	@Override
 	public PacketType getType() {
 		return PacketType.Play.Server.BOSS;

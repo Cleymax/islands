@@ -45,6 +45,11 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 public interface IslandsPlayer {
 
 	/**
+	 * Reset and clean all objects associated to this player
+	 */
+	void disconnect();
+
+	/**
 	 * Display the given bossbar to this player
 	 *
 	 * @param bar a bossbar to display
@@ -200,4 +205,5 @@ public interface IslandsPlayer {
 			new TitlePacket(translatedSubTitle, PacketPlayOutTitle.EnumTitleAction.SUBTITLE, 20, 60, 20).sendToPlayer(getCraftPlayer());
 		}
 	}
+
 }

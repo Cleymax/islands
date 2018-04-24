@@ -6,11 +6,8 @@ import fr.islandswars.api.task.TimeType;
 import fr.islandswars.api.task.Updater;
 import fr.islandswars.api.task.UpdaterManager;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -62,7 +59,6 @@ public class TaskManager implements UpdaterManager {
 						if (isScheduled(updater)) {
 							BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
 								try {
-									method.setAccessible(true);
 									method.invoke(updatable);
 								} catch (Exception e) {
 									plugin.getInfraLogger().logError(e);
@@ -105,7 +101,6 @@ public class TaskManager implements UpdaterManager {
 
 	@Override
 	public void stop(Object updatable) {
-		Bukkit.getLogger().log(Level.INFO, "TaskManager#stop()");
 		Class updatableClass = updatable.getClass();
 		for (Method method : updatableClass.getDeclaredMethods()) {
 			if (method.isAnnotationPresent(Updater.class) & method.getParameterCount() == 0 & runningTasks.containsKey(method)) {
@@ -115,12 +110,12 @@ public class TaskManager implements UpdaterManager {
 		}
 	}
 
-	private boolean isScheduled(Updater task) {
-		return task.time() != TimeType.NONE || task.delta() >= 1;
-	}
-
 	private long getDelta(Updater task) {
 		return task.time() == TimeType.NONE ? task.delta() : task.time().getTimeInTick();
+	}
+
+	private boolean isScheduled(Updater task) {
+		return task.time() != TimeType.NONE || task.delta() >= 1;
 	}
 }
 

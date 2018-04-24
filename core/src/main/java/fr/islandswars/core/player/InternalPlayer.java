@@ -1,5 +1,6 @@
 package fr.islandswars.core.player;
 
+import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.bossbar.Bar;
 import fr.islandswars.api.bossbar.BarSequence;
 import fr.islandswars.api.i18n.Locale;
@@ -8,11 +9,15 @@ import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.player.PlayerStorage;
 import fr.islandswars.api.player.rank.IslandsRank;
 import fr.islandswars.api.scoreboard.Scoreboard;
+import fr.islandswars.api.utils.Preconditions;
+import fr.islandswars.core.bukkit.bossbar.InternalBar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -42,9 +47,9 @@ import org.bukkit.entity.Player;
  */
 public class InternalPlayer implements IslandsPlayer {
 
-	private final           CraftPlayer       player;
-	private final transient List<Bar>         bars;
-	private final transient List<BarSequence> barSequences;
+	private final           CraftPlayer               player;
+	private final transient CopyOnWriteArrayList<Bar> bars;
+	private final transient List<BarSequence>         barSequences;
 
 	private Locale locale = Locale.FRENCH; //TODO debug purpose
 
@@ -52,8 +57,70 @@ public class InternalPlayer implements IslandsPlayer {
 	public InternalPlayer(Player player) {
 		this.barSequences = new ArrayList<>();
 		this.player = (CraftPlayer) player;
-		this.bars = new ArrayList<>();
+		this.bars = new CopyOnWriteArrayList<>();
 
+	}
+
+	@Override
+	public void disconnect() {
+		getDisplayedBars().forEach(this::hideBar);
+	}
+
+	@Override
+	public void displayBar(Bar bar) {
+		Preconditions.checkNotNull(bar);
+
+		InternalBar internalBar = (InternalBar) bar;
+		if (bar.getViewers().noneMatch(p -> p.equals(this))) {
+			bars.add(bar);
+			internalBar.addPlayer(this);
+		}
+	}
+
+	@Override
+	public void displaySequence(BarSequence sequence) {
+		Preconditions.checkNotNull(sequence);
+
+		barSequences.add(sequence);
+		//TODO code
+	}
+
+	@Override
+	public void displaybar(Bar bar, Supplier<Object[]> i18nParameters) {
+		Preconditions.checkNotNull(bar);
+		Preconditions.checkNotNull(i18nParameters);
+
+		InternalBar internalBar = (InternalBar) bar;
+		if (bar.getViewers().noneMatch(p -> p.equals(this))) {
+			bars.add(bar);
+			internalBar.supplyI18nParameters(this, i18nParameters);
+			internalBar.addPlayer(this);
+		}
+	}
+
+	@Override
+	public List<IslandsRank> getAllRanks() {
+		return null;
+	}
+
+	@Override
+	public CraftPlayer getCraftPlayer() {
+		return player;
+	}
+
+	@Override
+	public Optional<Scoreboard> getCurrentScoreboard() {
+		return Optional.empty();
+	}
+
+	@Override
+	public List<Bar> getDisplayedBars() {
+		return bars;
+	}
+
+	@Override
+	public IslandsRank getDisplayedRank() {
+		return null;
 	}
 
 	@Override
@@ -67,53 +134,20 @@ public class InternalPlayer implements IslandsPlayer {
 	}
 
 	@Override
-	public CraftPlayer getCraftPlayer() {
-		return player;
-	}
-
-	@Override
-	public List<Bar> getDisplayedBars() {
-		return null;
-	}
-
-	@Override
 	public PlayerStorage getPlayerStorage() {
 		return null;
 	}
 
 	@Override
-	public IslandsRank getDisplayedRank() {
-		return null;
-	}
-
-	@Override
-	public List<IslandsRank> getAllRanks() {
-		return null;
-	}
-
-	@Override
-	public void displayBar(Bar bar) {
-
-	}
-
-	@Override
-	public void displaySequence(BarSequence sequence) {
-
-	}
-
-	@Override
-	public void displaybar(Bar bar, Supplier<Object[]> i18nParameters) {
-
-	}
-
-	@Override
 	public void hideBar(Bar bar) {
+		IslandsApi.getInstance().getInfraLogger().createDefaultLog(Level.INFO, "Remove player from bar");
+		Preconditions.checkNotNull(bar);
 
-	}
-
-	@Override
-	public void hideSequence(BarSequence sequence) {
-
+		InternalBar internalBar = (InternalBar) bar;
+		if (bar.getViewers().anyMatch(p -> p.equals(this))) {
+			bars.remove(bar);
+			internalBar.removePlayer(this);
+		}
 	}
 
 	@Override
@@ -122,17 +156,36 @@ public class InternalPlayer implements IslandsPlayer {
 	}
 
 	@Override
-	public Optional<Scoreboard> getCurrentScoreboard() {
-		return Optional.empty();
-	}
+	public void hideSequence(BarSequence sequence) {
+		Preconditions.checkNotNull(sequence);
 
-	@Override
-	public void sendTranslatedMessage(ChatType type, String key, Object... parameters) {
-
+		barSequences.remove(sequence);
 	}
 
 	@Override
 	public void sendToHub() {
+		try {
+			IslandsApi.getInstance().getServiceManager().getRabbitService().publishToAnOpenQueue(new StringBuffer("hub|").append(player.getUniqueId()), "funicular");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
+	}
+
+	@Override
+	public void sendTranslatedMessage(ChatType type, String key, Object... parameters) {
+		Preconditions.checkNotNull(key);
+
+		switch (type) {
+			case CHAT:
+				player.sendMessage(locale.format(key, parameters));
+				break;
+			case SUBTITLE:
+				sendTranslatedTitle(null, null, key, parameters);
+				break;
+			case TITLE:
+				sendTranslatedTitle(key, parameters, null);
+				break;
+		}
 	}
 }

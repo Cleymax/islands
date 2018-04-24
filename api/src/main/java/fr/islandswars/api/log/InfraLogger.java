@@ -80,7 +80,7 @@ public interface InfraLogger {
 	 * @param e an error to log
 	 */
 	default void logError(Exception e) {
-		logError(e, e.getMessage());
+		logError(e, e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage());
 	}
 
 	/**

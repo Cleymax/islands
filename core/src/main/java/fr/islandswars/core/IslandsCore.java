@@ -17,17 +17,18 @@ import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
 import fr.islandswars.api.task.UpdaterManager;
+import fr.islandswars.api.utils.NMSReflectionUtil;
+import fr.islandswars.core.bukkit.bossbar.BukkitBarManager;
 import fr.islandswars.core.bukkit.command.BukkitCommandInjector;
+import fr.islandswars.core.bukkit.net.PacketHandlerManager;
+import fr.islandswars.core.bukkit.net.PacketInterceptor;
 import fr.islandswars.core.bukkit.task.TaskManager;
 import fr.islandswars.core.internal.command.PingCommand;
 import fr.islandswars.core.internal.i18n.LocaleTranslatable;
 import fr.islandswars.core.internal.listener.PlayerListener;
 import fr.islandswars.core.internal.log.InternalLogger;
 import fr.islandswars.core.player.InternalPlayer;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.logging.Level;
@@ -62,16 +63,23 @@ public class IslandsCore extends IslandsApi {
 
 	private final BukkitCommandInjector               commandmanager;
 	private final UpdaterManager                      updaterManager;
+	private final PacketHandlerManager                packetManager;
 	private final LocaleTranslatable                  translatable;
 	private final CopyOnWriteArrayList<IslandsPlayer> players;
+	private final List<Module>              modules;
 	private final InternalLogger                      logger;
+	private final BukkitBarManager                    barManager;
 
 	public IslandsCore() {
 		this.logger = new InternalLogger();
 		this.commandmanager = new BukkitCommandInjector();
+		this.packetManager = new PacketHandlerManager();
 		this.translatable = new LocaleTranslatable();
 		this.players = new CopyOnWriteArrayList<>();
 		this.updaterManager = new TaskManager();
+		this.modules = new ArrayList<>();
+
+		this.barManager = registerModule(BukkitBarManager.class);
 	}
 
 	public void addPlayer(Player p) {
@@ -80,7 +88,7 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public BarManager getBarManager() {
-		return null;
+		return barManager;
 	}
 
 	@Override
@@ -125,7 +133,7 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public ProtocolManager getProtocolManager() {
-		return null;
+		return packetManager;
 	}
 
 	@Override
@@ -151,17 +159,24 @@ public class IslandsCore extends IslandsApi {
 	@Override
 	public void onLoad() {
 		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Loading server...").setServer(new Server(Status.LOAD, ServerType.HUB)).log();
+
 		translatable.getLoader().registerCustomProperties(this);
+		modules.forEach(Module::onLoad);
 	}
 
 	@Override
 	public void onDisable() {
 		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Disabling server...").setServer(new Server(Status.DISABLE, ServerType.HUB)).log();
+
+		modules.forEach(Module::onDisable);
+		PacketInterceptor.clean();
 	}
 
 	@Override
 	public void onEnable() {
 		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Enable server in %s ms.").setServer(new Server(Status.ENABLE, ServerType.HUB)).log();
+		PacketInterceptor.inject();
+		modules.forEach(Module::onEnable);
 		try {
 			getCommandManager().registerCommand(PingCommand.class);
 
@@ -173,21 +188,38 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public <T extends Module> T registerModule(Class<T> module) {
-		return null;
+		try {
+			T mod = NMSReflectionUtil.getConstructorAccessor(module, IslandsApi.class).newInstance(IslandsApi.getInstance());
+			if (isEnabled()) {
+				mod.onLoad();
+				mod.onEnable();
+			}
+			modules.add(mod);
+			return mod;
+		} catch (Exception e) {
+			getInfraLogger().logError(e);
+			return null;
+		}
+
 	}
 
 	@Override
 	public <T extends Module> void unregisterModule(Class<T> module) {
-
+		Optional<? extends Module> optionalModule = modules.stream().filter(m -> m.getClass().equals(module)).findFirst();
+		optionalModule.ifPresent(mod -> {
+			mod.onDisable();
+			modules.remove(mod);
+		});
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T extends Module> Optional<T> getModule(Class<T> module) {
-		return Optional.empty();
+		return (Optional<T>) modules.stream().filter(m -> m.getClass().equals(module)).findFirst();
 	}
 
-	public void removePlayer(Player p) {
-		IslandsPlayer player = getPlayer(p.getUniqueId()).orElseThrow(() -> new NullPointerException("Given player is null"));
+	public void removePlayer(IslandsPlayer player) {
+		player.disconnect();
 		players.remove(player);
 	}
 }
