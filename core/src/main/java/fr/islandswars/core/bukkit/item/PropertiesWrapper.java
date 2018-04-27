@@ -31,7 +31,7 @@ import org.bukkit.inventory.ItemFlag;
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 27/04/2018 at 17:06
- * @since TODO edit
+ * @since 0.2.9
  */
 public class PropertiesWrapper implements ItemProperties {
 

@@ -1,26 +1,18 @@
 package fr.islandswars.core.internal.listener;
 
 import fr.islandswars.api.IslandsApi;
-import fr.islandswars.api.item.Item;
-import fr.islandswars.api.item.ItemType;
 import fr.islandswars.api.listener.LazyListener;
 import fr.islandswars.api.log.internal.Action;
 import fr.islandswars.api.log.internal.PlayerLog;
-import fr.islandswars.api.player.ChatType;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.storage.Storage;
-import fr.islandswars.api.storage.StorageBuilder;
-import fr.islandswars.api.storage.StorageType;
 import fr.islandswars.core.IslandsCore;
 import java.util.logging.Level;
-import org.bukkit.Material;
-import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 /**
  * File <b>PlayerListener</b> located on fr.islandswars.core.internal.listener
@@ -52,20 +44,6 @@ public class PlayerListener extends LazyListener {
 
 	public PlayerListener(IslandsApi api) {
 		super(api);
-		Item glass = api.getStorageManager().newItem(new ItemType(Material.STAINED_GLASS_PANE, (byte) 9));
-		api.getInfraLogger().createDefaultLog("Is item null ? " + (glass == null));
-		StorageBuilder builder = StorageBuilder.build("core.inventory.global.name", 6 * 9, StorageType.GLOBAL).withPattern(
-				"CCCCCCCCC" +
-						"C       C" +
-						"C       C" +
-						"C       C" +
-						"C       C" +
-						"CCCCCCCCC").supplyPattern('C', glass);
-		this.storage = api.getStorageManager().createStorage(builder);
-		storage.setItem(4, 8, storage.newItem(new ItemType(Material.SKULL_ITEM, (byte) SkullType.PLAYER.ordinal())).onClick((player, event) -> {
-			event.setCancelled(true);
-			player.sendTranslatedMessage(ChatType.CHAT, "coucou toi");
-		}), null);
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -80,10 +58,5 @@ public class PlayerListener extends LazyListener {
 		IslandsPlayer player = getFromPlayer(event.getPlayer());
 		((IslandsCore) api).removePlayer(player);
 		api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + player.getCraftPlayer().getName() + " leaved the game.").setPlayer(player, Action.LEAVE).log();
-	}
-
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onSneak(PlayerToggleSneakEvent event) {
-		getFromPlayer(event.getPlayer()).openStorage(storage);
 	}
 }

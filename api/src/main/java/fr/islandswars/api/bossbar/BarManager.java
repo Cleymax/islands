@@ -30,7 +30,7 @@ import org.bukkit.boss.BarFlag;
  * Created the 26/12/2017 at 19:58
  * @since 0.2.3
  * <p>
- * Create easily bossbar and sequence
+ * Create bossbar and bar's sequence
  */
 public abstract class BarManager extends Module {
 

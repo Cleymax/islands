@@ -40,7 +40,7 @@ public class GenericTest {
 		}
 
 		@Override
-		public void onLoad() {
+		public void onDisable() {
 
 		}
 
@@ -50,7 +50,7 @@ public class GenericTest {
 		}
 
 		@Override
-		public void onDisable() {
+		public void onLoad() {
 
 		}
 	}

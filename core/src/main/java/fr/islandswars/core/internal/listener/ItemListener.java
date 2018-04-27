@@ -46,5 +46,4 @@ public class ItemListener extends LazyListener {
 		IslandsPlayer player = getFromPlayer((Player) event.getWhoClicked());
 		IslandsApi.getInstance().getStorageManager().getItem(event.getCurrentItem()).ifPresent(item -> ((InternalItem) item).callEvent(player, event));
 	}
-
 }

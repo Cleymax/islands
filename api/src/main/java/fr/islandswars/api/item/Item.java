@@ -31,6 +31,8 @@ import org.bukkit.event.Cancellable;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 26/04/2018 at 13:28
  * @since 0.2.9
+ * <p>
+ * Represent an item to reduce {@link ItemStack} instance and support i18n
  */
 public interface Item {
 
@@ -54,14 +56,46 @@ public interface Item {
 	 */
 	ItemProperties getproperties();
 
+	/**
+	 * Set a lore supplier for every viewers of this item
+	 *
+	 * @param loreSupplier a i18n Object[] supplier
+	 * @return this item instance
+	 */
 	Item globalLoreParameters(Supplier<Object[]> loreSupplier);
 
+	/**
+	 * Set a name supplier for every viewers of this item
+	 *
+	 * @param nameSupplier a i18n Object[] supplier
+	 * @return this item instance
+	 */
 	Item globalNameParameters(Supplier<Object[]> nameSupplier);
 
+	/**
+	 * Param an event when a player click on this item
+	 *
+	 * @param event an event to execute
+	 * @return this item instance
+	 */
 	Item onClick(BiConsumer<IslandsPlayer, Cancellable> event);
 
+	/**
+	 * Set a personnal lore supplier for the given uuid
+	 *
+	 * @param loreSupplier a i18n Object[] supplier
+	 * @param id           supplier's target
+	 * @return this item instance
+	 */
 	Item personnalLoreParameters(Supplier<Object[]> loreSupplier, UUID id);
 
+	/**
+	 * Set a personnal name supplier for the given uuid
+	 *
+	 * @param nameSupplier a i18n Object[] supplier
+	 * @param id           supplier's target
+	 * @return this item instance
+	 */
 	Item personnalNameParameters(Supplier<Object[]> nameSupplier, UUID id);
 
 	/**
@@ -69,6 +103,13 @@ public interface Item {
 	 */
 	ItemStack toNMSItem();
 
+	/**
+	 * Provide name and lore key for this item, can be null
+	 *
+	 * @param nameKey an i18n key
+	 * @param loreKey another one ;)
+	 * @return this item instance
+	 */
 	Item withInternalisation(String nameKey, String loreKey);
 
 	/**

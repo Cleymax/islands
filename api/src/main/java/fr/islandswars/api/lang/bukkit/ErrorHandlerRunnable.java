@@ -26,6 +26,8 @@ import fr.islandswars.api.utils.ErrorHandler;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 10/04/2018 at 16:49
  * @since 0.2.9
+ * <p>
+ * Runnable error handler
  */
 public class ErrorHandlerRunnable implements Runnable {
 
