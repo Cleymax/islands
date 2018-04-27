@@ -1,4 +1,7 @@
 #Command
 core.command.usage=§7Besoin d'aide pour la commande §6%s §7?
-
 core.command.ping.description=§7Lance une partie de §6ping§7-§6pong§7 contre le serveur ;)
+#Inventory
+core.inventory.global.name=§6LightDiscord
+core.inventory.global.head.name=%s de Xharos
+core.inventory.global.head.lore=Argent dans mon porte monnaie %d.

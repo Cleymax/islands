@@ -16,16 +16,21 @@ import fr.islandswars.api.permission.PermissibleManager;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
+import fr.islandswars.api.storage.StorageManager;
 import fr.islandswars.api.task.UpdaterManager;
 import fr.islandswars.api.utils.NMSReflectionUtil;
 import fr.islandswars.core.bukkit.bossbar.BukkitBarManager;
 import fr.islandswars.core.bukkit.command.BukkitCommandInjector;
 import fr.islandswars.core.bukkit.net.PacketHandlerManager;
 import fr.islandswars.core.bukkit.net.PacketInterceptor;
+import fr.islandswars.core.bukkit.storage.StorageFactory;
 import fr.islandswars.core.bukkit.task.TaskManager;
 import fr.islandswars.core.internal.command.PingCommand;
 import fr.islandswars.core.internal.i18n.LocaleTranslatable;
+import fr.islandswars.core.internal.listener.ItemListener;
 import fr.islandswars.core.internal.listener.PlayerListener;
+import fr.islandswars.core.internal.listener.net.SetSlotHandler;
+import fr.islandswars.core.internal.listener.net.WindowItemHandler;
 import fr.islandswars.core.internal.log.InternalLogger;
 import fr.islandswars.core.player.InternalPlayer;
 import java.util.*;
@@ -63,10 +68,11 @@ public class IslandsCore extends IslandsApi {
 
 	private final BukkitCommandInjector               commandmanager;
 	private final UpdaterManager                      updaterManager;
+	private final StorageFactory                      storageManager;
 	private final PacketHandlerManager                packetManager;
 	private final LocaleTranslatable                  translatable;
 	private final CopyOnWriteArrayList<IslandsPlayer> players;
-	private final List<Module>              modules;
+	private final List<Module>                        modules;
 	private final InternalLogger                      logger;
 	private final BukkitBarManager                    barManager;
 
@@ -76,6 +82,7 @@ public class IslandsCore extends IslandsApi {
 		this.packetManager = new PacketHandlerManager();
 		this.translatable = new LocaleTranslatable();
 		this.players = new CopyOnWriteArrayList<>();
+		this.storageManager = new StorageFactory();
 		this.updaterManager = new TaskManager();
 		this.modules = new ArrayList<>();
 
@@ -147,6 +154,11 @@ public class IslandsCore extends IslandsApi {
 	}
 
 	@Override
+	public StorageManager getStorageManager() {
+		return storageManager;
+	}
+
+	@Override
 	public Translatable getTranslatable() {
 		return translatable;
 	}
@@ -181,6 +193,10 @@ public class IslandsCore extends IslandsApi {
 			getCommandManager().registerCommand(PingCommand.class);
 
 			new PlayerListener(this);
+			new ItemListener(this);
+
+			getProtocolManager().subscribeHandler(new SetSlotHandler(this));
+			getProtocolManager().subscribeHandler(new WindowItemHandler(this));
 		} catch (Exception e) {
 			getInfraLogger().logError(e);
 		}

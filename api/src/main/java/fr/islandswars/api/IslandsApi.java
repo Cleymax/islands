@@ -16,6 +16,7 @@ import fr.islandswars.api.permission.PermissibleManager;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
+import fr.islandswars.api.storage.StorageManager;
 import fr.islandswars.api.task.UpdaterManager;
 import fr.islandswars.api.utils.ErrorHandler;
 import fr.islandswars.api.utils.Preconditions;
@@ -175,6 +176,13 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	 * @return an interface to interact with redis / rabbitmq
 	 */
 	public abstract ServiceManager getServiceManager();
+
+	/**
+	 * interface to deal with item and internalisation
+	 *
+	 * @return a way to create and open inventory
+	 */
+	public abstract StorageManager getStorageManager();
 
 	/**
 	 * Interface to format key to a valid String, according to user preferences

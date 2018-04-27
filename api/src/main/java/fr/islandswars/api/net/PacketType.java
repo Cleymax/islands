@@ -13,12 +13,10 @@ import fr.islandswars.api.net.packet.status.client.PingPacket;
 import fr.islandswars.api.net.packet.status.client.StartPacket;
 import fr.islandswars.api.net.packet.status.server.PongPacket;
 import fr.islandswars.api.net.packet.status.server.ServerInfoPacket;
-import net.minecraft.server.v1_12_R1.*;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
+import net.minecraft.server.v1_12_R1.*;
 import static fr.islandswars.api.net.PacketType.Bound.IN;
 import static fr.islandswars.api.net.PacketType.Bound.OUT;
 import static fr.islandswars.api.net.PacketType.Protocol.*;
@@ -76,17 +74,10 @@ public class PacketType<T extends GamePacket> {
 	}
 
 	/**
-	 * @return the packet wrapper's protocol
+	 * @return the packet's bound
 	 */
-	public Protocol getProtocol() {
-		return protocol;
-	}
-
-	/**
-	 * @return the packet wrapper's class
-	 */
-	public Class<T> getPacket() {
-		return packet;
+	public Bound getBound() {
+		return bound;
 	}
 
 	/**
@@ -97,10 +88,17 @@ public class PacketType<T extends GamePacket> {
 	}
 
 	/**
-	 * @return the packet's bound
+	 * @return the packet wrapper's class
 	 */
-	public Bound getBound() {
-		return bound;
+	public Class<T> getPacket() {
+		return packet;
+	}
+
+	/**
+	 * @return the packet wrapper's protocol
+	 */
+	public Protocol getProtocol() {
+		return protocol;
 	}
 
 	public enum Protocol {
@@ -137,11 +135,13 @@ public class PacketType<T extends GamePacket> {
 	public static final class Status {
 
 		public static final class Client {
+
 			public static final PacketType<PingPacket>  PING  = new PacketType<>(PingPacket.class, PacketStatusInPing.class, STATUS, IN);
 			public static final PacketType<StartPacket> START = new PacketType<>(StartPacket.class, PacketStatusInStart.class, STATUS, IN);
 		}
 
 		public static final class Server {
+
 			public static final PacketType<PongPacket>       PONG        = new PacketType<>(PongPacket.class, PacketStatusOutPong.class, STATUS, OUT);
 			public static final PacketType<ServerInfoPacket> SERVER_INFO = new PacketType<>(ServerInfoPacket.class, PacketStatusOutServerInfo.class, STATUS, OUT);
 		}
@@ -151,11 +151,13 @@ public class PacketType<T extends GamePacket> {
 	public static final class Login {
 
 		public static final class Client {
+
 			public static final PacketType<EncryptionResponsePacket> ENCRYPION_RESPONSE = new PacketType<>(EncryptionResponsePacket.class, PacketLoginInEncryptionBegin.class, LOGIN, IN);
 			public static final PacketType<LoginStartPacket>         LOGIN_START        = new PacketType<>(LoginStartPacket.class, PacketLoginInStart.class, LOGIN, IN);
 		}
 
 		public static final class Server {
+
 			public static final PacketType<DisconnectPacket>        DISCONNECT         = new PacketType<>(DisconnectPacket.class, PacketLoginOutDisconnect.class, LOGIN, OUT);
 			public static final PacketType<EncryptionRequestPacket> ENCRYPTION_REQUEST = new PacketType<>(EncryptionRequestPacket.class, PacketLoginOutEncryptionBegin.class, LOGIN, OUT);
 			public static final PacketType<SetCompressionPacket>    COMPRESSION        = new PacketType<>(SetCompressionPacket.class, PacketLoginOutSetCompression.class, LOGIN, OUT);
@@ -166,6 +168,7 @@ public class PacketType<T extends GamePacket> {
 	public static final class Handshake {
 
 		public static final class Server {
+
 			public static final PacketType<HandShakePacket> HANDSHAKE = new PacketType<>(HandShakePacket.class, PacketHandshakingInSetProtocol.class, Protocol.HANDSHAKE, OUT);
 		}
 
@@ -174,6 +177,7 @@ public class PacketType<T extends GamePacket> {
 	public static final class Play {
 
 		public static final class Client {
+
 			public static final PacketType<ChatInPacket>               CHAT                 = new PacketType<>(ChatInPacket.class, PacketPlayInChat.class, PLAY, IN);
 			public static final PacketType<FlyingInPacket>             FLYING               = new PacketType<>(FlyingInPacket.class, PacketPlayInFlying.class, PLAY, IN);
 			public static final PacketType<AbilitiesInPacket>          ABILITIES            = new PacketType<>(AbilitiesInPacket.class, PacketPlayInAbilities.class, PLAY, IN);
@@ -189,6 +193,7 @@ public class PacketType<T extends GamePacket> {
 		}
 
 		public static final class Server {
+
 			public static final PacketType<WindowItemsPacket>                WINDOW_ITEMS      = new PacketType<>(WindowItemsPacket.class, PacketPlayOutWindowItems.class, PLAY, OUT);
 			public static final PacketType<SetSlotPacket>                    SET_SLOT          = new PacketType<>(SetSlotPacket.class, PacketPlayOutSetSlot.class, PLAY, OUT);
 			public static final PacketType<ChatOutPacket>                    CHAT_OUT          = new PacketType<>(ChatOutPacket.class, PacketPlayOutChat.class, PLAY, OUT);
@@ -197,9 +202,10 @@ public class PacketType<T extends GamePacket> {
 			public static final PacketType<ScoreboardObjectivePacket>        OBJECTIVE         = new PacketType<>(ScoreboardObjectivePacket.class, PacketPlayOutScoreboardObjective.class, PLAY, OUT);
 			public static final PacketType<ScoreboardDisplayObjectivePacket> DISPLAY_OBJECTIVE = new PacketType<>(ScoreboardDisplayObjectivePacket.class, PacketPlayOutScoreboardDisplayObjective.class, PLAY, OUT);
 			public static final PacketType<ScoreboardScorePacket>            SCORE             = new PacketType<>(ScoreboardScorePacket.class, PacketPlayOutScoreboardDisplayObjective.class, PLAY, OUT);
-			public static final PacketType<TabCompleteOutPacket>             TAB_COMPLETE      = new PacketType<>(TabCompleteOutPacket.class, PacketPlayOutTabComplete.class, PLAY, IN);
-			public static final PacketType<WorldParticlesPacket>             WORLD_PARTICLES   = new PacketType<>(WorldParticlesPacket.class, PacketPlayOutWorldParticles.class, PLAY, IN);
-			public static final PacketType<TitlePacket>                      TITLE             = new PacketType<>(TitlePacket.class, PacketPlayOutTitle.class, PLAY, IN);
+			public static final PacketType<TabCompleteOutPacket>             TAB_COMPLETE      = new PacketType<>(TabCompleteOutPacket.class, PacketPlayOutTabComplete.class, PLAY, OUT);
+			public static final PacketType<WorldParticlesPacket>             WORLD_PARTICLES   = new PacketType<>(WorldParticlesPacket.class, PacketPlayOutWorldParticles.class, PLAY, OUT);
+			public static final PacketType<TitlePacket>                      TITLE             = new PacketType<>(TitlePacket.class, PacketPlayOutTitle.class, PLAY, OUT);
+			public static final PacketType<OpenWindowPacket>                 OPEN_WINDOW       = new PacketType<>(OpenWindowPacket.class, PacketPlayOutOpenWindow.class, PLAY, OUT);
 		}
 	}
 }
