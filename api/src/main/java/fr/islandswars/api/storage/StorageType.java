@@ -1,12 +1,8 @@
-package fr.islandswars.core.bukkit.storage.item;
-
-import fr.islandswars.api.item.Item;
-import fr.islandswars.api.item.ItemType;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
+package fr.islandswars.api.storage;
 
 /**
- * File <b>TranslatableItem</b> located on fr.islandswars.core.bukkit.storage.item
- * TranslatableItem is a part of Islands Wars - Api.
+ * File <b>StorageType</b> located on fr.islandswars.api.storage
+ * StorageType is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -25,19 +21,12 @@ import net.minecraft.server.v1_12_R1.NBTTagCompound;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 24/04/2018 at 16:51
+ * Created the 27/04/2018 at 14:25
  * @since 0.2.9
  */
-public class TranslatableItem implements Item {
+public enum StorageType {
 
-	private final ItemType type;
-
-	public TranslatableItem(ItemType type) {
-		this.type = type;
-	}
-
-	public NBTTagCompound getCompound() {
-		return type.getCompound();
-	}
+	PERSONNAL,
+	GLOBAL;
 
 }

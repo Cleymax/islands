@@ -6,6 +6,7 @@ import fr.islandswars.api.i18n.Locale;
 import fr.islandswars.api.net.packet.play.server.TitlePacket;
 import fr.islandswars.api.player.rank.IslandsRank;
 import fr.islandswars.api.scoreboard.Scoreboard;
+import fr.islandswars.api.storage.Storage;
 import fr.islandswars.api.utils.Preconditions;
 import java.util.List;
 import java.util.Optional;
@@ -171,6 +172,13 @@ public interface IslandsPlayer {
 	 * @param sequence a bossbar to remove this player
 	 */
 	void hideSequence(BarSequence sequence);
+
+	/**
+	 * Open the given storage to this player
+	 *
+	 * @param storage an inventory to open
+	 */
+	void openStorage(Storage storage);
 
 	/**
 	 * Send the current player to an available hub (except if the player is already on a hub)

@@ -1,6 +1,9 @@
 package fr.islandswars.api.storage;
 
-import fr.islandswars.api.player.IslandsPlayer;
+import fr.islandswars.api.item.Item;
+import fr.islandswars.api.item.ItemType;
+import java.util.Optional;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * File <b>StorageManager</b> located on fr.islandswars.api.storage
@@ -23,34 +26,15 @@ import fr.islandswars.api.player.IslandsPlayer;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 24/04/2018 at 16:45
+ * Created the 26/04/2018 at 13:45
  * @since 0.2.9
  */
 public interface StorageManager {
 
-	/**
-	 * Open the given storage to this player
-	 *
-	 * @param target  a player to open this storage, this action will close any active storage
-	 * @param storage a storage to open
-	 */
-	void openStorage(IslandsPlayer target, Storage storage);
+	Storage createStorage(StorageBuilder builder);
 
-	/**
-	 * Open the given storage to this player with active translation
-	 *
-	 * @param target     a player to open this storage, this action will close any active storage
-	 * @param storage    a storage to open
-	 * @param parameters some parameters to format the title
-	 */
-	void openStorage(IslandsPlayer target, Storage storage, Object... parameters);
+	Optional<Item> getItem(ItemStack bukkitItem);
 
-	/**
-	 * Get a new storage according to the given options supplied in the builder
-	 *
-	 * @param builder some options
-	 * @return a new storage
-	 */
-	Storage newStorage(StorageBuilder builder);
+	Item newItem(ItemType type);
 
 }

@@ -1,11 +1,10 @@
-package fr.islandswars.api.storage;
+package fr.islandswars.core.bukkit.item;
 
-import fr.islandswars.api.item.Item;
-import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
- * File <b>StorageIndex</b> located on fr.islandswars.api.storage
- * StorageIndex is a part of Islands Wars - Api.
+ * File <b>ParametersSuppliers</b> located on fr.islandswars.core.bukkit.item
+ * ParametersSuppliers is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -24,24 +23,11 @@ import java.util.Optional;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 24/04/2018 at 16:47
+ * Created the 27/04/2018 at 17:23
  * @since 0.2.9
  */
-public interface StorageIndex {
+public class ParametersSuppliers {
 
-	/**
-	 * Get the item associated to this index
-	 *
-	 * @return an item if present, can be null
-	 */
-	Optional<Item> getItem();
-
-	/**
-	 * Store the given item to this index position
-	 *
-	 * @param item an item to stock
-	 */
-	void setItem(Item item);
+	public Supplier<Object[]> loreSupplier, nameSupplier;
 
 }
-

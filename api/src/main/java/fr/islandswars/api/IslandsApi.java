@@ -5,7 +5,6 @@ import fr.islandswars.api.cmd.CommandManager;
 import fr.islandswars.api.i18n.I18nLoader;
 import fr.islandswars.api.i18n.Translatable;
 import fr.islandswars.api.infra.ServiceManager;
-import fr.islandswars.api.item.ItemManager;
 import fr.islandswars.api.lang.bukkit.ErrorHandlerCommandExecutor;
 import fr.islandswars.api.lang.bukkit.ErrorHandlerRegisteredListener;
 import fr.islandswars.api.lang.bukkit.ErrorHandlerRunnable;
@@ -121,13 +120,6 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	public abstract InfraLogger getInfraLogger();
 
 	/**
-	 * Create item layer to deal with translation
-	 *
-	 * @return an ItemStack factory
-	 */
-	public abstract ItemManager getItemManager();
-
-	/**
 	 * See if player's ranks match conditions
 	 *
 	 * @return a way to check {@link IslandsPlayer#getAllRanks()}
@@ -186,9 +178,9 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	public abstract ServiceManager getServiceManager();
 
 	/**
-	 * Interface to create wrapped inventory to deal with translations
+	 * interface to deal with item and internalisation
 	 *
-	 * @return a storage factory
+	 * @return a way to create and open inventory
 	 */
 	public abstract StorageManager getStorageManager();
 

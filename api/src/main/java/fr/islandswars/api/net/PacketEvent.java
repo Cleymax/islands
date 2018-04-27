@@ -1,5 +1,7 @@
 package fr.islandswars.api.net;
 
+import fr.islandswars.api.IslandsApi;
+import fr.islandswars.api.player.IslandsPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 
@@ -32,23 +34,14 @@ import org.bukkit.event.Cancellable;
  */
 public class PacketEvent<T extends GamePacket> implements Cancellable {
 
-	private final Player  player;
-	private final T       packet;
-	private       boolean cancel;
+	private final IslandsPlayer player;
+	private final T             packet;
+	private       boolean       cancel;
 
 	public PacketEvent(Player player, T packet) {
-		this.player = player;
+		this.player = IslandsApi.getInstance().getPlayer(player.getUniqueId()).orElseThrow(() -> new NullPointerException("Try to send a packet to a non-registered player!"));
 		this.packet = packet;
 		cancel = false;
-	}
-
-	/**
-	 * Return the player who receive or send the packet
-	 *
-	 * @return this packet's target
-	 */
-	public Player getPlayer() {
-		return player;
 	}
 
 	/**
@@ -58,6 +51,15 @@ public class PacketEvent<T extends GamePacket> implements Cancellable {
 	 */
 	public T getPacket() {
 		return packet;
+	}
+
+	/**
+	 * Return the player who receive or send the packet
+	 *
+	 * @return this packet's target
+	 */
+	public IslandsPlayer getPlayer() {
+		return player;
 	}
 
 	@Override

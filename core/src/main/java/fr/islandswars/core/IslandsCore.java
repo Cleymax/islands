@@ -6,7 +6,6 @@ import fr.islandswars.api.cmd.CommandManager;
 import fr.islandswars.api.i18n.I18nLoader;
 import fr.islandswars.api.i18n.Translatable;
 import fr.islandswars.api.infra.ServiceManager;
-import fr.islandswars.api.item.ItemManager;
 import fr.islandswars.api.log.InfraLogger;
 import fr.islandswars.api.log.internal.Server;
 import fr.islandswars.api.log.internal.ServerLog;
@@ -28,7 +27,10 @@ import fr.islandswars.core.bukkit.storage.StorageFactory;
 import fr.islandswars.core.bukkit.task.TaskManager;
 import fr.islandswars.core.internal.command.PingCommand;
 import fr.islandswars.core.internal.i18n.LocaleTranslatable;
+import fr.islandswars.core.internal.listener.ItemListener;
 import fr.islandswars.core.internal.listener.PlayerListener;
+import fr.islandswars.core.internal.listener.net.SetSlotHandler;
+import fr.islandswars.core.internal.listener.net.WindowItemHandler;
 import fr.islandswars.core.internal.log.InternalLogger;
 import fr.islandswars.core.player.InternalPlayer;
 import java.util.*;
@@ -117,11 +119,6 @@ public class IslandsCore extends IslandsApi {
 	}
 
 	@Override
-	public ItemManager getItemManager() {
-		return storageManager;
-	}
-
-	@Override
 	public PermissibleManager getPermissionManager() {
 		return null;
 	}
@@ -196,6 +193,10 @@ public class IslandsCore extends IslandsApi {
 			getCommandManager().registerCommand(PingCommand.class);
 
 			new PlayerListener(this);
+			new ItemListener(this);
+
+			getProtocolManager().subscribeHandler(new SetSlotHandler(this));
+			getProtocolManager().subscribeHandler(new WindowItemHandler(this));
 		} catch (Exception e) {
 			getInfraLogger().logError(e);
 		}

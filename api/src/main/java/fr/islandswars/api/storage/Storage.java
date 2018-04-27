@@ -1,7 +1,8 @@
 package fr.islandswars.api.storage;
 
 import fr.islandswars.api.item.Item;
-import java.util.Optional;
+import fr.islandswars.api.item.ItemType;
+import fr.islandswars.api.player.IslandsPlayer;
 
 /**
  * File <b>Storage</b> located on fr.islandswars.api.storage
@@ -24,8 +25,10 @@ import java.util.Optional;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 24/04/2018 at 16:46
+ * Created the 26/04/2018 at 13:45
  * @since 0.2.9
+ * <p>
+ * TODO add a way to update title
  */
 public interface Storage {
 
@@ -34,7 +37,7 @@ public interface Storage {
 	 *
 	 * @param item the item to set
 	 */
-	void addItem(Item item);
+	void addItem(Item item, IslandsPlayer player);
 
 	/**
 	 * Get a column according to minecraft storing system
@@ -44,21 +47,6 @@ public interface Storage {
 	 */
 	default int getColumn(int index) {
 		return index - getRow(index) * 9 + 1;
-	}
-
-	/**
-	 * Get the index associated to this item
-	 *
-	 * @param key an item
-	 * @return this item's index, -1 if not found
-	 */
-	default int getItemIndex(Item key) {
-		for (int i = 0; i < getSize(); i++) {
-			Optional<Item> item = getSlots()[i].getItem();
-			if (item.isPresent() && item.get().equals(key))
-				return i;
-		}
-		return -1;
 	}
 
 	/**
@@ -72,30 +60,35 @@ public interface Storage {
 	}
 
 	/**
-	 * @return this storage size, must be a multiple of 9
+	 * @return this storage size
 	 */
 	int getSize();
 
 	/**
-	 * @return all {@link StorageIndex} in this storage
+	 * Create a new item based on the given builder
+	 *
+	 * @param type an item to instanciate
+	 * @return a new item
 	 */
-	StorageIndex[] getSlots();
+	Item newItem(ItemType type);
 
 	/**
 	 * Remove item (if exists) at this slot
 	 *
 	 * @param row    the index row, start to 0 from limit
 	 * @param column the index column, must be in [1;9]
+	 * @param player a player only if it's a personnal storage, or else can be null
 	 */
-	void removeItem(int row, int column);
+	void removeItem(int row, int column, IslandsPlayer player);
 
 	/**
 	 * Remove item (if exists) at this slot
 	 *
-	 * @param index the storage index, start to 0 from limit
+	 * @param index  the storage index, start to 0 from limit
+	 * @param player a player only if it's a personnal storage, or else can be null
 	 */
-	default void removeItem(int index) {
-		removeItem(getRow(index), getColumn(index));
+	default void removeItem(int index, IslandsPlayer player) {
+		removeItem(getRow(index), getColumn(index), player);
 	}
 
 	/**
@@ -104,17 +97,18 @@ public interface Storage {
 	 * @param row    the index row, start to 0 from limit
 	 * @param column the index column, must be in [1;9]
 	 * @param item   the item to set in this slot
+	 * @param player a player only if it's a personnal storage, or else can be null
 	 */
-	void setItem(int row, int column, Item item);
+	void setItem(int row, int column, Item item, IslandsPlayer player);
 
 	/**
 	 * Set an item to the storage at the given index
 	 *
-	 * @param index the storage, start to 0 from limit
-	 * @param item  the item to set in this index
+	 * @param index  the storage, start to 0 from limit
+	 * @param item   the item to set in this index
+	 * @param player a player only if it's a personnal storage, or else can be null
 	 */
-	default void setItem(int index, Item item) {
-		setItem(getRow(index), getColumn(index), item);
+	default void setItem(int index, Item item, IslandsPlayer player) {
+		setItem(getRow(index), getColumn(index), item, player);
 	}
 }
-

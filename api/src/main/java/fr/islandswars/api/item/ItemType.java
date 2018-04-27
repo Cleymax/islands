@@ -25,10 +25,10 @@ import org.bukkit.Material;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 24/04/2018 at 16:35
+ * Created the 26/04/2018 at 13:29
  * @since 0.2.9
  */
-public class ItemType implements Cloneable {
+public class ItemType {
 
 	private final NBTTagCompound tag;
 
@@ -70,50 +70,20 @@ public class ItemType implements Cloneable {
 	 *
 	 * @param material item material
 	 * @param amount   the stack size [1;128[
-	 */
-	public ItemType(Material material, int amount) {
-		Preconditions.checkNotNull(material);
-		Preconditions.checkState(amount, ref -> ref > 0 & ref < 128);
-
-		tag = new NBTTagCompound();
-		writeMaterial(material);
-		writeAmount(amount);
-	}
-
-	/**
-	 * Build an item
-	 *
-	 * @param material item material
-	 * @param amount   the stack size [1;128[
 	 * @param data     material data (such as color)
 	 */
 	public ItemType(Material material, int amount, short data) {
 		Preconditions.checkNotNull(material);
 		Preconditions.checkState(data, ref -> ref > 0);
-		Preconditions.checkState(amount, ref -> ref >= 1 && ref < 128);
+		Preconditions.checkState(amount, ref -> ref >= 1 && ref <= 128);
 
 		tag = new NBTTagCompound();
 		writeMaterial(material);
-		writeAmount(amount);
+		if (amount > 0 && amount < 128)
+			writeAmount(amount);
+		else
+			writeAmount(1);
 		writeData(data);
-	}
-
-	/**
-	 * Get this item's material stored in a {@link NBTTagCompound tag}
-	 *
-	 * @return a bukkit Material
-	 */
-	public Material getMaterial() {
-		return Material.getMaterial(Integer.valueOf(tag.getString("id")));
-	}
-
-	/**
-	 * Get this item's data stored in a {@link NBTTagCompound tag}
-	 *
-	 * @return item data (or durability)
-	 */
-	public short getData() {
-		return tag.getShort("Damage");
 	}
 
 	/**
@@ -126,16 +96,28 @@ public class ItemType implements Cloneable {
 	}
 
 	/**
-	 * Set the given material
-	 *
-	 * @param material this item material
-	 * @return this builder item
+	 * @return a compound representing this item
 	 */
-	public ItemType writeMaterial(Material material) {
-		Preconditions.checkNotNull(material);
+	public NBTTagCompound getCompound() {
+		return tag;
+	}
 
-		tag.setString("id", String.valueOf(material.getId()));
-		return this;
+	/**
+	 * Get this item's data stored in a {@link NBTTagCompound tag}
+	 *
+	 * @return item data (or durability)
+	 */
+	public short getData() {
+		return tag.getShort("Damage");
+	}
+
+	/**
+	 * Get this item's material stored in a {@link NBTTagCompound tag}
+	 *
+	 * @return a bukkit Material
+	 */
+	public Material getMaterial() {
+		return Material.getMaterial(Integer.valueOf(tag.getString("id")));
 	}
 
 	/**
@@ -145,7 +127,7 @@ public class ItemType implements Cloneable {
 	 * @return this builder item
 	 */
 	public ItemType writeAmount(int amount) {
-		Preconditions.checkState(amount, ref -> ref >= 1 && ref < 128);
+		Preconditions.checkState(amount, ref -> ref >= 1 && ref <= 128);
 
 		tag.setByte("Count", (byte) amount);
 		return this;
@@ -165,10 +147,16 @@ public class ItemType implements Cloneable {
 	}
 
 	/**
-	 * @return a compound representing this item
+	 * Set the given material
+	 *
+	 * @param material this item material
+	 * @return this builder item
 	 */
-	public NBTTagCompound getCompound() {
-		return tag;
+	public ItemType writeMaterial(Material material) {
+		Preconditions.checkNotNull(material);
+
+		tag.setString("id", String.valueOf(material.getId()));
+		return this;
 	}
 
 	@Override
@@ -176,4 +164,3 @@ public class ItemType implements Cloneable {
 		return new ItemType((NBTTagCompound) tag.clone());
 	}
 }
-

@@ -4,13 +4,16 @@ import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.bossbar.Bar;
 import fr.islandswars.api.bossbar.BarSequence;
 import fr.islandswars.api.i18n.Locale;
+import fr.islandswars.api.net.packet.play.server.OpenWindowPacket;
 import fr.islandswars.api.player.ChatType;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.player.PlayerStorage;
 import fr.islandswars.api.player.rank.IslandsRank;
 import fr.islandswars.api.scoreboard.Scoreboard;
+import fr.islandswars.api.storage.Storage;
 import fr.islandswars.api.utils.Preconditions;
 import fr.islandswars.core.bukkit.bossbar.InternalBar;
+import fr.islandswars.core.bukkit.storage.AbstractStorage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +21,14 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
 import java.util.logging.Level;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventory;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.InventoryWrapper;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 
 /**
  * File <b>InternalPlayer</b> located on fr.islandswars.core.player
@@ -160,6 +169,31 @@ public class InternalPlayer implements IslandsPlayer {
 		Preconditions.checkNotNull(sequence);
 
 		barSequences.remove(sequence);
+	}
+
+	@Override
+	public void openStorage(Storage storage) {
+		EntityPlayer  entityPlayer    = (EntityPlayer) getCraftPlayer().getHandle();
+		Inventory     inventory       = ((AbstractStorage) storage).getHandle(this);
+		InventoryType type            = inventory.getType();
+		Container     formerContainer = getCraftPlayer().getHandle().activeContainer;
+		IInventory    iinventory      = inventory instanceof CraftInventory ? ((CraftInventory) inventory).getInventory() : new InventoryWrapper(inventory);
+		Container     container       = CraftEventFactory.callInventoryOpenEvent(entityPlayer, new ContainerChest(entityPlayer.inventory, iinventory, entityPlayer));
+
+		if (container == null)
+			return;
+
+		if (entityPlayer.activeContainer != entityPlayer.defaultContainer)
+			entityPlayer.closeInventory();
+
+		int                     containerCounter = entityPlayer.nextContainerCounter();
+		String                  title            = locale.format(inventory.getTitle());
+		PacketPlayOutOpenWindow packet           = new PacketPlayOutOpenWindow(containerCounter, "minecraft:container", IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}"), inventory.getSize());
+		new OpenWindowPacket(packet).sendToPlayer(getCraftPlayer());
+
+		entityPlayer.activeContainer = container;
+		entityPlayer.activeContainer.windowId = containerCounter;
+		entityPlayer.activeContainer.addSlotListener(entityPlayer);
 	}
 
 	@Override

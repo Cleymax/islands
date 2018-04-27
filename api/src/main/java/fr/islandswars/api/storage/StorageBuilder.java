@@ -28,22 +28,26 @@ import java.util.function.Supplier;
  * <p>
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 24/04/2018 at 16:43
+ * Created the 26/04/2018 at 13:45
  * @since 0.2.9
+ * <p>
+ * Builder class to easily create custom inventory
  */
 public class StorageBuilder {
 
 	private final String               name;
 	private final int                  size;
+	private final StorageType          type;
 	private final Map<Character, Item> patternKey;
 	private       int                  maxSlot;
 	private       Supplier<Object[]>   nameParameters;
 	private       String               pattern;
 
-	private StorageBuilder(String name, int size) {
+	private StorageBuilder(String name, int size, StorageType type) {
 		this.nameParameters = () -> new Object[0];
 		this.patternKey = new HashMap<>();
 		this.maxSlot = 64;
+		this.type = type;
 		this.name = name;
 		this.size = size;
 	}
@@ -55,11 +59,12 @@ public class StorageBuilder {
 	 * @param size this storage max size, must be a multiple of 9 between [9;54]
 	 * @return a builder
 	 */
-	public static StorageBuilder build(String name, int size) {
+	public static StorageBuilder build(String name, int size, StorageType type) {
 		Preconditions.checkNotNull(name);
+		Preconditions.checkNotNull(type);
 		Preconditions.checkState(size, ref -> ref % 9 == 0 && ref >= 9 && ref <= 6 * 9, "Size must be a multiple of 9 from [9; 18; 27; 36; 45; 54]");
 
-		return new StorageBuilder(name, size);
+		return new StorageBuilder(name, size, type);
 	}
 
 	/**
@@ -105,11 +110,17 @@ public class StorageBuilder {
 	}
 
 	/**
+	 * @return this storage strategy
+	 */
+	public StorageType getType() {
+		return type;
+	}
+
+	/**
 	 * Set parameters to translate the storage name, and enable internalisation
 	 *
 	 * @param nameParameters translation parameters
 	 * @return this builder
-	 * @see fr.islandswars.api.i18n.Translatable#format(String, Object...)
 	 */
 	public StorageBuilder setGlobalNameParameter(Supplier<Object[]> nameParameters) {
 		Preconditions.checkNotNull(nameParameters);
@@ -120,6 +131,7 @@ public class StorageBuilder {
 
 	/**
 	 * Set an item according to this key, item's event is redefine to activate {@link org.bukkit.event.Cancellable#setCancelled(boolean) true}
+	 * Only work with {@link StorageType#GLOBAL}
 	 *
 	 * @param key  a char key, different from 'O' and ' '
 	 * @param item a non null item
@@ -130,7 +142,7 @@ public class StorageBuilder {
 		Preconditions.checkNotNull(item);
 		Preconditions.checkState(key, ref -> !ref.equals('O') && !ref.equals(' '), "A pattern key must be different from air key ('O', ' ')!");
 
-		//TODO item.onClick((player, event) -> event.setCancelled(true));
+		item.onClick((player, event) -> event.setCancelled(true));
 		patternKey.put(key, item);
 		return this;
 	}
