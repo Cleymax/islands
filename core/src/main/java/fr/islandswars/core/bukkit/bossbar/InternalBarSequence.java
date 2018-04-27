@@ -56,6 +56,27 @@ public class InternalBarSequence implements BarSequence {
 
 	}
 
+	@Override
+	public Stream<Bar> getBars() {
+		return sequence.stream().map(Bar.class::cast);
+	}
+
+	@Override
+	public Bar getCurrentBar() {
+		return sequence.get(currentBar);
+	}
+
+	@Override
+	public Stream<IslandsPlayer> getViewers() {
+		return viewers.stream();
+	}
+
+	@Override
+	public void shutdownSequence() {
+		viewers.forEach(this::removePlayer);
+		sequence.clear();
+	}
+
 	public InternalBar getNextbar() {
 		if (++currentBar == sequence.size() - 1)
 			currentBar = 0;
@@ -72,27 +93,6 @@ public class InternalBarSequence implements BarSequence {
 			lazyUnregister();
 			currentBar = 0;
 		}
-	}
-
-	@Override
-	public void shutdownSequence() {
-		viewers.forEach(this::removePlayer);
-		sequence.clear();
-	}
-
-	@Override
-	public Bar getCurrentBar() {
-		return sequence.get(currentBar);
-	}
-
-	@Override
-	public Stream<IslandsPlayer> getViewers() {
-		return viewers.stream();
-	}
-
-	@Override
-	public Stream<Bar> getBars() {
-		return sequence.stream().map(Bar.class::cast);
 	}
 
 	private void lazyRegister() {

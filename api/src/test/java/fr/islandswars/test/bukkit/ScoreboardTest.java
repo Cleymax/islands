@@ -4,10 +4,9 @@ import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.bossbar.Bar;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.Scoreboard;
-import net.minecraft.server.v1_12_R1.BossBattle;
-
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.server.v1_12_R1.BossBattle;
 
 /**
  * File <b>ScoreboardTest</b> located on fr.islandswars.test.bukkit
@@ -42,16 +41,16 @@ public class ScoreboardTest {
 		build();
 	}
 
-	private void build() {
-		scoreboard.addLine("------ Basic text line -----");
-		scoreboard.addGlobalI18nLine("hub.test.scoreboard.line2", () -> new Object[]{1});
-		scoreboard.<IslandsPlayer>addPersonnalI18nLine("hub.test.scoreboard.line3", (player) -> new Object[]{player.getDisplayedRank().getDisplayName()});
-	}
-
 	public void openTo(IslandsPlayer player) {
 		Bar                  bar               = IslandsApi.getInstance().getBarManager().createBar("Bar text", BossBattle.BarColor.BLUE, BossBattle.BarStyle.NOTCHED_20);
 		Map<Integer, Object> personnalInstance = new HashMap<>();
 		personnalInstance.put(2, player);
 		scoreboard.addPlayer(player, personnalInstance);
+	}
+
+	private void build() {
+		scoreboard.addLine("------ Basic text line -----");
+		scoreboard.addGlobalI18nLine("hub.test.scoreboard.line2", () -> new Object[]{1});
+		scoreboard.<IslandsPlayer>addPersonnalI18nLine("hub.test.scoreboard.line3", (player) -> new Object[]{player.getDisplayedRank().getDisplayName()});
 	}
 }

@@ -2,7 +2,6 @@ package fr.islandswars.api.bossbar;
 
 import fr.islandswars.api.i18n.viewers.I18nParameters;
 import fr.islandswars.api.player.IslandsPlayer;
-
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -35,19 +34,17 @@ import java.util.stream.Stream;
 public interface Bar extends I18nParameters<IslandsPlayer> {
 
 	/**
+	 * @return this bossbar viewers
+	 */
+	Stream<IslandsPlayer> getViewers();
+
+	/**
 	 * Add some properties such as timer, etc to this bossbar
 	 *
 	 * @param properties bossbar's properties to deal with
 	 * @param erase      update properties, even if it's already set
 	 */
 	void provideProperties(BarProperties properties, boolean erase);
-
-	/**
-	 * Register some parameters that will be used for all players
-	 *
-	 * @param parameters translation parameters
-	 */
-	void setGlobalParameter(Supplier<Object[]> parameters);
 
 	/**
 	 * Hide or display the current boss bossbar
@@ -57,11 +54,11 @@ public interface Bar extends I18nParameters<IslandsPlayer> {
 	void setActive(boolean active);
 
 	/**
-	 * Update this bossbar progress, must be inside 0 to 1 range
+	 * Display fog
 	 *
-	 * @param progress a new progress
+	 * @param createFog hide or display
 	 */
-	void setProgress(float progress);
+	void setCreateFog(boolean createFog);
 
 	/**
 	 * Active darken sky properties
@@ -71,6 +68,13 @@ public interface Bar extends I18nParameters<IslandsPlayer> {
 	void setDarkenSky(boolean darkenSky);
 
 	/**
+	 * Register some parameters that will be used for all players
+	 *
+	 * @param parameters translation parameters
+	 */
+	void setGlobalParameter(Supplier<Object[]> parameters);
+
+	/**
 	 * Play minecraft ender end music
 	 *
 	 * @param playMusic play or mute
@@ -78,15 +82,10 @@ public interface Bar extends I18nParameters<IslandsPlayer> {
 	void setPlayMusic(boolean playMusic);
 
 	/**
-	 * Display fog
+	 * Update this bossbar progress, must be inside 0 to 1 range
 	 *
-	 * @param createFog hide or display
+	 * @param progress a new progress
 	 */
-	void setCreateFog(boolean createFog);
-
-	/**
-	 * @return this bossbar viewers
-	 */
-	Stream<IslandsPlayer> getViewers();
+	void setProgress(float progress);
 
 }

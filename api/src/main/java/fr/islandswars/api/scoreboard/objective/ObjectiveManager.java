@@ -2,7 +2,6 @@ package fr.islandswars.api.scoreboard.objective;
 
 import fr.islandswars.api.scoreboard.objective.Objective.ObjectiveDisplayType;
 import fr.islandswars.api.scoreboard.objective.Objective.ObjectiveSlot;
-
 import java.util.Set;
 import java.util.function.Supplier;
 

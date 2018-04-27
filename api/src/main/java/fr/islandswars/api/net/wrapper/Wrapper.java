@@ -1,7 +1,6 @@
 package fr.islandswars.api.net.wrapper;
 
 import fr.islandswars.api.utils.NMSReflectionUtil;
-
 import java.lang.reflect.Field;
 
 /**
@@ -50,17 +49,6 @@ public abstract class Wrapper<T> {
 	}
 
 	/**
-	 * Set a new label to the given field
-	 *
-	 * @param field the field name to update
-	 * @param value the new label
-	 * @see NMSReflectionUtil#getFieldAccessor(Field)
-	 */
-	protected final void setHandleValue(String field, Object value) {
-		NMSReflectionUtil.getFieldAccessor(handle.getClass(), field).set(handle, value);
-	}
-
-	/**
 	 * Get the label from a given field
 	 *
 	 * @param field    the field name to get label from
@@ -70,6 +58,17 @@ public abstract class Wrapper<T> {
 	 */
 	protected final Object getHandleValue(String field, Object instance) {
 		return NMSReflectionUtil.getFieldAccessor(instance.getClass(), field).get(instance);
+	}
+
+	/**
+	 * Set a new label to the given field
+	 *
+	 * @param field the field name to update
+	 * @param value the new label
+	 * @see NMSReflectionUtil#getFieldAccessor(Field)
+	 */
+	protected final void setHandleValue(String field, Object value) {
+		NMSReflectionUtil.getFieldAccessor(handle.getClass(), field).set(handle, value);
 	}
 
 	/**

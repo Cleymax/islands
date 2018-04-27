@@ -40,59 +40,59 @@ public class ServerPingWrapper extends Wrapper<ServerPing> {
 		super(ping);
 	}
 
-	public GameProfile[] getSamples() {
-		return handle.b().c();
-	}
-
-	public void setOnlinePlayer(int onlinePlayer) {
-		setHandleValue("b", handle.b(), onlinePlayer);
-	}
-
-	public int getOnlinePlayer() {
-		return handle.b().b();
-	}
-
-	public void setMaxPlayer(int maxPlayer) {
-		setHandleValue("a", handle.b(), maxPlayer);
-	}
-
-	public int getMaxPlayer() {
-		return handle.b().a();
-	}
-
-	public void setFaviconPath(String faviconPath) {
-		handle.setFavicon(faviconPath);
+	public String getDescription() {
+		return getHandleValue("a").toString();
 	}
 
 	public String getFaviconPath() {
 		return (String) getHandleValue("d");
 	}
 
-	public void setProtocolVersionName(String protocolVersionName) {
-		setHandleValue("a", handle.getServerData(), protocolVersionName);
+	public int getMaxPlayer() {
+		return handle.b().a();
 	}
 
-	public String getProtocolversionName() {
-		return handle.getServerData().a();
+	public ServerPing getNMS() {
+		return handle;
 	}
 
-	public void setProtocolVersion(int protocolVersion) {
-		setHandleValue("b", handle.getServerData(), protocolVersion);
+	public int getOnlinePlayer() {
+		return handle.b().b();
 	}
 
 	public int getProtocolversion() {
 		return handle.getServerData().getProtocolVersion();
 	}
 
+	public String getProtocolversionName() {
+		return handle.getServerData().a();
+	}
+
+	public GameProfile[] getSamples() {
+		return handle.b().c();
+	}
+
 	public void setDescription(IChatBaseComponent component) {
 		handle.setMOTD(component);
 	}
 
-	public String getDescription() {
-		return getHandleValue("a").toString();
+	public void setFaviconPath(String faviconPath) {
+		handle.setFavicon(faviconPath);
 	}
 
-	public ServerPing getNMS() {
-		return handle;
+	public void setMaxPlayer(int maxPlayer) {
+		setHandleValue("a", handle.b(), maxPlayer);
+	}
+
+	public void setOnlinePlayer(int onlinePlayer) {
+		setHandleValue("b", handle.b(), onlinePlayer);
+	}
+
+	public void setProtocolVersion(int protocolVersion) {
+		setHandleValue("b", handle.getServerData(), protocolVersion);
+	}
+
+	public void setProtocolVersionName(String protocolVersionName) {
+		setHandleValue("a", handle.getServerData(), protocolVersionName);
 	}
 }

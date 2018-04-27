@@ -1,13 +1,12 @@
 package fr.islandswars.api.utils;
 
-import org.bukkit.Bukkit;
-
-import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.function.Supplier;
+import javax.annotation.Nonnull;
+import org.bukkit.Bukkit;
 
 /**
  * File <b>NMSReflectionUtil</b> located on fr.islandswars.api.utils
@@ -59,223 +58,211 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Search field in parent classes.
+	 * Invoke a method in a non-static way.
 	 *
-	 * @param clazz parent class
-	 * @param name  field name
-	 * @return a field if found
+	 * @param instance the instance
+	 * @param method   the name of the method to call
+	 * @param argsType the types of the arguments
+	 * @param args     the arguments
+	 * @param <T>      method call
+	 * @return the result of dispatching the method or <code>null</code> if the return packet is void
+	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
-	private static Field findField(Class<?> clazz, String name) {
-		return findField(clazz, name, clazz);
+	public static <T> T callMethod(@Nonnull Object instance, @Nonnull String method, @Nonnull Class<?>[] argsType, @Nonnull Object[] args) {
+		return methodCall(findMethod(instance.getClass(), method, argsType), instance, args);
 	}
 
 	/**
-	 * Recursive search field in parent classes
+	 * Invoke a method in a static way.
 	 *
-	 * @param clazz  parent class
-	 * @param name   field name
-	 * @param search recursive search
-	 * @return a field if found
+	 * @param clazz    the class where the method is
+	 * @param method   the name of the method to call
+	 * @param argsType the types of the arguments
+	 * @param args     the arguments
+	 * @param <T>      method call
+	 * @return the result of dispatching the method or <code>null</code> if the return packet is void
+	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
-	private static Field findField(Class<?> clazz, String name, Class<?> search) {
-		Field[] fields = search.getDeclaredFields();
-		for (Field field : fields)
-			if (field.getName().equals(name))
-				return field;
-
-		Class<?> superClass = search.getSuperclass();
-
-		if (superClass != null)
-			return findField(clazz, name, superClass);
-
-		throw new ReflectionException("Cannot find field " + name + " in " + clazz);
+	public static <T> T callStaticMethod(@Nonnull Class<?> clazz, @Nonnull String method, @Nonnull Class<?>[] argsType, @Nonnull Object[] args) {
+		return methodCall(findMethod(clazz, method, argsType), null, args);
 	}
 
 	/**
-	 * Search implemented method in parent classes, and default implementations in interfaces.
+	 * Invoke a method in a static way. This method resolves the class.
 	 *
-	 * @param clazz    parent class
-	 * @param name     method name
-	 * @param argsType method args
-	 * @return a method if found
+	 * @param clazz    a string representing the clazz
+	 * @param method   the name of the method to call
+	 * @param argsType the types of the arguments
+	 * @param args     the arguments
+	 * @param <T>      method call
+	 * @return the result of dispatching the method or <code>null</code> if the return packet is void
+	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
-	private static Method findMethod(Class<?> clazz, String name, Class<?>[] argsType) {
-		return findMethod(clazz, name, argsType, clazz);
+	public static <T> T callStaticMethod(@Nonnull String clazz, @Nonnull String method, @Nonnull Class<?>[] argsType, @Nonnull Object[] args) {
+		return methodCall(findMethod(getClass(clazz), method, argsType), null, args);
 	}
 
 	/**
-	 * Recursive search implemented method in parent classes, and default implementations in interfaces.
+	 * <a href="http://stackoverflow.com/questions/195321/why-is-class-newinstance-evil">Evil</a>
 	 *
-	 * @param clazz    parent class
-	 * @param name     method name
-	 * @param argsType method args
-	 * @param search   recursive class
-	 * @return a method if found
+	 * @param clazz the class to instanciate
+	 * @param <T>   instance class
+	 * @return the new instance
+	 * @throws ReflectionException if ANY exception is thrown
 	 */
-	private static Method findMethod(Class<?> clazz, String name, Class<?>[] argsType, Class<?> search) {
-		Method[] methods = search.getDeclaredMethods();
-		for (Method method : methods)
-			if (method.getName().equals(name)
-					&& Arrays.equals(argsType, method.getParameterTypes())
-					&& (!search.isInterface() || method.isDefault())) //Default methods in interfaces are fine
-				return method;
-
-		Class<?> superClass = search.getSuperclass();
-		Class[]  interfaces = search.getInterfaces();
-
-		for (Class interf : interfaces)
-			findMethod(interf, name, argsType); //Find default methods in interfaces
-
-		if (superClass != null)
-			return findMethod(clazz, name, argsType, superClass);
-
-		throw new ReflectionException("Cannot find field " + name + " in " + clazz);
+	@SuppressWarnings({"ClassNewInstance", "OverlyBroadCatchBlock"})
+	public static <T> T evilNewInstance(@Nonnull Class<T> clazz) {
+		return classNewInstance(clazz);
 	}
 
 	/**
-	 * Get constructor only in class and not super class
+	 * <a href="http://stackoverflow.com/questions/195321/why-is-class-newinstance-evil">Evil</a> This method resolves
+	 * the class.
 	 *
-	 * @param clazz    a class to get constructor from
-	 * @param argsType constructor args
-	 * @param <T>      class type
-	 * @return a new constructor if found
+	 * @param clazz a string representing the clazz
+	 * @param <T>   instance class
+	 * @return the new instance
+	 * @throws ReflectionException if ANY exception is thrown
 	 */
-	private static <T> Constructor<T> findConstructor(Class<T> clazz, Class<?>[] argsType) {
-		try {
-			return clazz.getDeclaredConstructor(argsType);
-		} catch (ReflectiveOperationException e) {
-			throw new ReflectionException(e);
-		}
+	public static <T> T evilNewInstance(@Nonnull String clazz) {
+		return classNewInstance(getClass(clazz));
 	}
 
 	/**
-	 * Find class by name
+	 * Get a class from its name. Replace <code>{nms}</code> to {@link #NMS}, <code>{cb}</code> to {@link #CB} and
+	 * <code>{version}</code> to {@link #VERSION}
 	 *
-	 * @param name a class name
-	 * @param <T>  class type
-	 * @return the class if found
+	 * @param clazz the class to resolve
+	 * @param <T>   field type
+	 * @return a ConstructorAccessor holding the Constructor
+	 * @throws ReflectionException if any non-runtime exception is thrown
+	 */
+	@SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
+	public static <T> Class<T> getClass(@Nonnull String clazz) {
+		return findClass(clazz.replace("{nms}", NMS).replace("{cb}", CB).replace("{version}", VERSION));
+	}
+
+	/**
+	 * Get a ConstructorAccessor by its class and parameters.
+	 *
+	 * @param clazz the class of the constructor
+	 * @param args  the parameters of the constructor
+	 * @param <T>   field type
+	 * @return a ConstructorAccessor holding the Constructor
+	 * @throws ReflectionException if any non-runtime exception is thrown
+	 */
+	public static <T> ConstructorAccessor<T> getConstructorAccessor(@Nonnull Class<T> clazz, @Nonnull Class<?>... args) {
+		return getConstructorAccessor(findConstructor(clazz, args));
+	}
+
+	/**
+	 * Get a ConstructorAccessor by its class and parameters. This method resolves the clazz.
+	 *
+	 * @param clazz a string representing the clazz
+	 * @param args  the parameters of the constructor
+	 * @param <T>   field type
+	 * @return a ConstructorAccessor holding the Constructor
+	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
 	@SuppressWarnings("unchecked")
-	private static <T> Class<T> findClass(String name) {
-		try {
-			return (Class<T>) Class.forName(name);
-		} catch (ReflectiveOperationException e) {
-			throw new ReflectionException(e);
-		}
-	}
-
-	/*
-	 * Used to search in parent classes.
-	 */
-	private static Field countFieldOfType(Class<?> clazz, Class<?> type, int count) {
-		return countFieldOfType(clazz, type, count, clazz);
-	}
-
-	/*
-	 * Recursive.
-	 */
-	private static Field countFieldOfType(Class<?> clazz, Class<?> type, int count, Class<?> search) {
-		int i = 0;
-		for (Field field : search.getDeclaredFields()) {
-			if (field.getType() == type) {
-				if (i == count) {
-					field.setAccessible(true);
-					return field;
-				}
-				i++;
-			}
-		}
-
-		Class<?> superClass = search.getSuperclass();
-		if (superClass != null)
-			return countFieldOfType(clazz, type, count, superClass);
-		throw new ReflectionException("Cannot find a field with packet " + type + " in " + clazz + '.');
+	public static <T> ConstructorAccessor<T> getConstructorAccessor(@Nonnull String clazz, @Nonnull Class<?>... args) {
+		return (ConstructorAccessor<T>) getConstructorAccessor(findConstructor(getClass(clazz), args));
 	}
 
 	/**
-	 * Access to a field
+	 * Get a ConstructorAccessor by its Constructor.
 	 *
-	 * @param field a field to get
-	 * @param inst  instance to get from
-	 * @param <T>   generic class
-	 * @return class
+	 * @param constructor the constructor to hook to
+	 * @param <T>         field type
+	 * @return a ConstructorAccessor holding the Constructor
 	 */
-	@SuppressWarnings("unchecked")
-	private static <T> T fieldGet(Field field, Object inst) {
-		try {
-			field.setAccessible(true);
-			return (T) field.get(inst);
-		} catch (ReflectiveOperationException e) {
-			throw new ReflectionException(e);
-		}
+	public static <T> ConstructorAccessor<T> getConstructorAccessor(@Nonnull Constructor<T> constructor) {
+		constructor.setAccessible(true); // Disable Accessible check -- Faster
+		return () -> constructor;
 	}
 
 	/**
-	 * Set a field label in the given instance
+	 * Find a field accessor by its clazz, packet and place in the clazz.
 	 *
-	 * @param field a field to set label
-	 * @param inst  class instance to set from
-	 * @param value a label to set
+	 * @param clazz the class of the field
+	 * @param type  the packet of the field
+	 * @param count the place of the field
+	 * @param <T>   field type
+	 * @return a FieldAccessor holding the Field
+	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
-	private static void fieldSet(Field field, Object inst, Object value) {
-		try {
-			field.setAccessible(true);
-			field.set(inst, value);
-		} catch (ReflectiveOperationException e) {
-			throw new ReflectionException(e);
-		}
+	public static <T> FieldAccessor<T> getCountFieldOfTypeAccessor(@Nonnull Class<?> clazz, @Nonnull Class<?> type, int count) {
+		return getFieldAccessor(countFieldOfType(clazz, type, count));
 	}
 
 	/**
-	 * Call a new method
+	 * Find a field accessor by its clazz, packet and place in the clazz. This method resolves the packet.
 	 *
-	 * @param method a method to call
-	 * @param inst   class instance to call from
-	 * @param args   method args
-	 * @param <T>    generic class
-	 * @return class
+	 * @param clazz the class of the field
+	 * @param type  a string representing the packet of the field
+	 * @param count the place of the field
+	 * @param <T>   field type
+	 * @return a FieldAccessor holding the Field
+	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
-	@SuppressWarnings("unchecked")
-	private static <T> T methodCall(Method method, Object inst, Object[] args) {
-		try {
-			method.setAccessible(true);
-			return (T) method.invoke(inst, args);
-		} catch (ReflectiveOperationException e) {
-			throw new ReflectionException(e);
-		}
+	public static <T> FieldAccessor<T> getCountFieldOfTypeAccessor(@Nonnull Class<?> clazz, @Nonnull String type, int count) {
+		return getCountFieldOfTypeAccessor(clazz, getClass(type), count);
 	}
 
 	/**
-	 * Call a constructor if existing
+	 * Find a field accessor by its clazz, packet and place in the clazz. This method resolves the class.
 	 *
-	 * @param method constructor method
-	 * @param args   constructor args
-	 * @param <T>    generic class
-	 * @return the new generic class
+	 * @param clazz a string representing the class
+	 * @param type  the class of the field
+	 * @param count the place of the field
+	 * @param <T>   field type
+	 * @return a FieldAccessor holding the Field
+	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
-	private static <T> T constructorNewInstance(Constructor<T> method, Object[] args) {
-		try {
-			method.setAccessible(true);
-			return method.newInstance(args);
-		} catch (ReflectiveOperationException e) {
-			throw new ReflectionException(e);
-		}
+	public static <T> FieldAccessor<T> getCountFieldOfTypeAccessor(@Nonnull String clazz, @Nonnull Class<?> type, int count) {
+		return getCountFieldOfTypeAccessor(getClass(clazz), type, count);
 	}
 
 	/**
-	 * Instanciate new class
+	 * Find a field accessor by its clazz, packet and place in the clazz. This method resolves the classes.
 	 *
-	 * @param clazz a class to instanciate
-	 * @param <T>   class type
-	 * @return a new class instance
+	 * @param clazz a string representing the class
+	 * @param type  a string representing the packet of the field
+	 * @param count the place of the field
+	 * @param <T>   field type
+	 * @return a FieldAccessor holding the Field
+	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
-	@SuppressWarnings("OverlyBroadCatchBlock")
-	private static <T> T classNewInstance(Class<T> clazz) {
-		try {
-			return clazz.newInstance();
-		} catch (Exception e) {
-			throw new ReflectionException(e);
-		}
+	public static <T> FieldAccessor<T> getCountFieldOfTypeAccessor(@Nonnull String clazz, @Nonnull String type, int count) {
+		return getCountFieldOfTypeAccessor(getClass(clazz), getClass(type), count);
+	}
+
+	/**
+	 * Get the label of the xth field with packet <code>packet</code>.
+	 *
+	 * @param instance the instance
+	 * @param type     a string representing the packet of the field
+	 * @param count    x
+	 * @param <T>      field label
+	 * @return the label of the field
+	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
+	 */
+	public static <T> T getCountValueOfType(@Nonnull Object instance, @Nonnull Class<?> type, int count) {
+		return fieldGet(countFieldOfType(instance.getClass(), type, count), instance);
+	}
+
+	/**
+	 * Get the label of the xth field with packet <code>packet</code>. This method resolves the class.
+	 *
+	 * @param instance the instance
+	 * @param type     a string representing the packet of the field
+	 * @param count    x
+	 * @param <T>      field label
+	 * @return the label of the field
+	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
+	 */
+	public static <T> T getCountValueOfType(@Nonnull Object instance, @Nonnull String type, int count) {
+		return fieldGet(countFieldOfType(instance.getClass(), getClass(type), count), instance);
 	}
 
 	/**
@@ -369,59 +356,29 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Find a field accessor by its clazz, packet and place in the clazz.
+	 * Get the label of a field by its packet. Return the first found.
 	 *
-	 * @param clazz the class of the field
-	 * @param type  the packet of the field
-	 * @param count the place of the field
-	 * @param <T>   field type
-	 * @return a FieldAccessor holding the Field
+	 * @param instance the instance
+	 * @param type     the packet of the field
+	 * @param <T>      field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
-	public static <T> FieldAccessor<T> getCountFieldOfTypeAccessor(@Nonnull Class<?> clazz, @Nonnull Class<?> type, int count) {
-		return getFieldAccessor(countFieldOfType(clazz, type, count));
+	public static <T> T getFirstValueOfType(@Nonnull Object instance, @Nonnull Class<?> type) {
+		return fieldGet(countFieldOfType(instance.getClass(), type, 0), instance);
 	}
 
 	/**
-	 * Find a field accessor by its clazz, packet and place in the clazz. This method resolves the packet.
+	 * Get the label of a field by its packet. Return the first found. This method resolves the class.
 	 *
-	 * @param clazz the class of the field
-	 * @param type  a string representing the packet of the field
-	 * @param count the place of the field
-	 * @param <T>   field type
-	 * @return a FieldAccessor holding the Field
+	 * @param instance the instance
+	 * @param type     a string representing the packet of the field
+	 * @param <T>      field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
 	 */
-	public static <T> FieldAccessor<T> getCountFieldOfTypeAccessor(@Nonnull Class<?> clazz, @Nonnull String type, int count) {
-		return getCountFieldOfTypeAccessor(clazz, getClass(type), count);
-	}
-
-	/**
-	 * Find a field accessor by its clazz, packet and place in the clazz. This method resolves the class.
-	 *
-	 * @param clazz a string representing the class
-	 * @param type  the class of the field
-	 * @param count the place of the field
-	 * @param <T>   field type
-	 * @return a FieldAccessor holding the Field
-	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
-	 */
-	public static <T> FieldAccessor<T> getCountFieldOfTypeAccessor(@Nonnull String clazz, @Nonnull Class<?> type, int count) {
-		return getCountFieldOfTypeAccessor(getClass(clazz), type, count);
-	}
-
-	/**
-	 * Find a field accessor by its clazz, packet and place in the clazz. This method resolves the classes.
-	 *
-	 * @param clazz a string representing the class
-	 * @param type  a string representing the packet of the field
-	 * @param count the place of the field
-	 * @param <T>   field type
-	 * @return a FieldAccessor holding the Field
-	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
-	 */
-	public static <T> FieldAccessor<T> getCountFieldOfTypeAccessor(@Nonnull String clazz, @Nonnull String type, int count) {
-		return getCountFieldOfTypeAccessor(getClass(clazz), getClass(type), count);
+	public static <T> T getFirstValueOfType(@Nonnull Object instance, @Nonnull String type) {
+		return fieldGet(countFieldOfType(instance.getClass(), getClass(type), 0), instance);
 	}
 
 	/**
@@ -465,59 +422,6 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Get a ConstructorAccessor by its class and parameters.
-	 *
-	 * @param clazz the class of the constructor
-	 * @param args  the parameters of the constructor
-	 * @param <T>   field type
-	 * @return a ConstructorAccessor holding the Constructor
-	 * @throws ReflectionException if any non-runtime exception is thrown
-	 */
-	public static <T> ConstructorAccessor<T> getConstructorAccessor(@Nonnull Class<T> clazz, @Nonnull Class<?>... args) {
-		return getConstructorAccessor(findConstructor(clazz, args));
-	}
-
-	/**
-	 * Get a ConstructorAccessor by its class and parameters. This method resolves the clazz.
-	 *
-	 * @param clazz a string representing the clazz
-	 * @param args  the parameters of the constructor
-	 * @param <T>   field type
-	 * @return a ConstructorAccessor holding the Constructor
-	 * @throws ReflectionException if any non-runtime exception is thrown
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> ConstructorAccessor<T> getConstructorAccessor(@Nonnull String clazz, @Nonnull Class<?>... args) {
-		return (ConstructorAccessor<T>) getConstructorAccessor(findConstructor(getClass(clazz), args));
-	}
-
-	/**
-	 * Get a ConstructorAccessor by its Constructor.
-	 *
-	 * @param constructor the constructor to hook to
-	 * @param <T>         field type
-	 * @return a ConstructorAccessor holding the Constructor
-	 */
-	public static <T> ConstructorAccessor<T> getConstructorAccessor(@Nonnull Constructor<T> constructor) {
-		constructor.setAccessible(true); // Disable Accessible check -- Faster
-		return () -> constructor;
-	}
-
-	/**
-	 * Get a class from its name. Replace <code>{nms}</code> to {@link #NMS}, <code>{cb}</code> to {@link #CB} and
-	 * <code>{version}</code> to {@link #VERSION}
-	 *
-	 * @param clazz the class to resolve
-	 * @param <T>   field type
-	 * @return a ConstructorAccessor holding the Constructor
-	 * @throws ReflectionException if any non-runtime exception is thrown
-	 */
-	@SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
-	public static <T> Class<T> getClass(@Nonnull String clazz) {
-		return findClass(clazz.replace("{nms}", NMS).replace("{cb}", CB).replace("{version}", VERSION));
-	}
-
-	/**
 	 * Get the name of the package of a class.
 	 *
 	 * @param clazz the class
@@ -526,154 +430,6 @@ public class NMSReflectionUtil {
 	public static String getPackage(@Nonnull String clazz) {
 		int index = clazz.lastIndexOf('.');
 		return index > 0 ? clazz.substring(0, index) : ""; //Empty string if default package
-	}
-
-	/**
-	 * Invoke a method in a non-static way.
-	 *
-	 * @param instance the instance
-	 * @param method   the name of the method to call
-	 * @param argsType the types of the arguments
-	 * @param args     the arguments
-	 * @param <T>      method call
-	 * @return the result of dispatching the method or <code>null</code> if the return packet is void
-	 * @throws ReflectionException if any non-runtime exception is thrown
-	 */
-	public static <T> T callMethod(@Nonnull Object instance, @Nonnull String method, @Nonnull Class<?>[] argsType, @Nonnull Object[] args) {
-		return methodCall(findMethod(instance.getClass(), method, argsType), instance, args);
-	}
-
-	/**
-	 * Invoke a method in a static way.
-	 *
-	 * @param clazz    the class where the method is
-	 * @param method   the name of the method to call
-	 * @param argsType the types of the arguments
-	 * @param args     the arguments
-	 * @param <T>      method call
-	 * @return the result of dispatching the method or <code>null</code> if the return packet is void
-	 * @throws ReflectionException if any non-runtime exception is thrown
-	 */
-	public static <T> T callStaticMethod(@Nonnull Class<?> clazz, @Nonnull String method, @Nonnull Class<?>[] argsType, @Nonnull Object[] args) {
-		return methodCall(findMethod(clazz, method, argsType), null, args);
-	}
-
-	/**
-	 * Invoke a method in a static way. This method resolves the class.
-	 *
-	 * @param clazz    a string representing the clazz
-	 * @param method   the name of the method to call
-	 * @param argsType the types of the arguments
-	 * @param args     the arguments
-	 * @param <T>      method call
-	 * @return the result of dispatching the method or <code>null</code> if the return packet is void
-	 * @throws ReflectionException if any non-runtime exception is thrown
-	 */
-	public static <T> T callStaticMethod(@Nonnull String clazz, @Nonnull String method, @Nonnull Class<?>[] argsType, @Nonnull Object[] args) {
-		return methodCall(findMethod(getClass(clazz), method, argsType), null, args);
-	}
-
-	/**
-	 * Get the label of a field in a non-static way.
-	 *
-	 * @param instance the instance
-	 * @param field    the name of the field
-	 * @param <T>      field label
-	 * @return the label of the field
-	 * @throws ReflectionException if any non-runtime exception is thrown
-	 */
-	public static <T> T getValue(@Nonnull Object instance, @Nonnull String field) {
-		return fieldGet(findField(instance.getClass(), field), instance);
-	}
-
-	/**
-	 * Get the label of a field by its packet. Return the first found.
-	 *
-	 * @param instance the instance
-	 * @param type     the packet of the field
-	 * @param <T>      field label
-	 * @return the label of the field
-	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
-	 */
-	public static <T> T getFirstValueOfType(@Nonnull Object instance, @Nonnull Class<?> type) {
-		return fieldGet(countFieldOfType(instance.getClass(), type, 0), instance);
-	}
-
-	/**
-	 * Get the label of a field by its packet. Return the first found. This method resolves the class.
-	 *
-	 * @param instance the instance
-	 * @param type     a string representing the packet of the field
-	 * @param <T>      field label
-	 * @return the label of the field
-	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
-	 */
-	public static <T> T getFirstValueOfType(@Nonnull Object instance, @Nonnull String type) {
-		return fieldGet(countFieldOfType(instance.getClass(), getClass(type), 0), instance);
-	}
-
-	/**
-	 * Get the label of the xth field with packet <code>packet</code>.
-	 *
-	 * @param instance the instance
-	 * @param type     a string representing the packet of the field
-	 * @param count    x
-	 * @param <T>      field label
-	 * @return the label of the field
-	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
-	 */
-	public static <T> T getCountValueOfType(@Nonnull Object instance, @Nonnull Class<?> type, int count) {
-		return fieldGet(countFieldOfType(instance.getClass(), type, count), instance);
-	}
-
-	/**
-	 * Get the label of the xth field with packet <code>packet</code>. This method resolves the class.
-	 *
-	 * @param instance the instance
-	 * @param type     a string representing the packet of the field
-	 * @param count    x
-	 * @param <T>      field label
-	 * @return the label of the field
-	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
-	 */
-	public static <T> T getCountValueOfType(@Nonnull Object instance, @Nonnull String type, int count) {
-		return fieldGet(countFieldOfType(instance.getClass(), getClass(type), count), instance);
-	}
-
-	/**
-	 * Set the label of a field in a non-static way.
-	 *
-	 * @param instance the instance
-	 * @param field    the name of the field
-	 * @param value    the label to set
-	 * @throws ReflectionException if any non-runtime exception is thrown
-	 */
-	public static void setField(@Nonnull Object instance, @Nonnull String field, @Nonnull Object value) {
-		fieldSet(findField(instance.getClass(), field), instance, value);
-	}
-
-	/**
-	 * Get the label of a field by its packet. Return the first found.
-	 *
-	 * @param instance the instance
-	 * @param type     the packet of the field
-	 * @param value    the label to set
-	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
-	 */
-	public static void setFirstValueOfType(@Nonnull Object instance, @Nonnull Class<?> type, @Nonnull Object value) {
-		fieldSet(countFieldOfType(instance.getClass(), type, 0), instance, value);
-	}
-
-	/**
-	 * Get the label of a field by its packet. Return the first found. This method resolves the class.
-	 *
-	 * @param instance the instance
-	 * @param type     a string representing the packet of the field
-	 * @param value    the label to set
-	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
-	 */
-	public static void setFirstValueOfType(@Nonnull Object instance, @Nonnull String type, @Nonnull Object value) {
-		fieldSet(countFieldOfType(instance.getClass(), getClass(type), 0), instance, value);
 	}
 
 	/**
@@ -703,27 +459,16 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * Set the label of a field in a static way.
+	 * Get the label of a field in a non-static way.
 	 *
-	 * @param clazz the class where the field is
-	 * @param field the name of the field
-	 * @param value the label to set
+	 * @param instance the instance
+	 * @param field    the name of the field
+	 * @param <T>      field label
+	 * @return the label of the field
 	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
-	public static void setStaticField(@Nonnull Class<?> clazz, @Nonnull String field, @Nonnull Object value) {
-		fieldSet(findField(clazz, field), null, value);
-	}
-
-	/**
-	 * Set the label of a field in a static way. This method resolves the class.
-	 *
-	 * @param clazz a string representing the clazz
-	 * @param field the name of the field
-	 * @param value the label to set
-	 * @throws ReflectionException if any non-runtime exception is thrown
-	 */
-	public static void setStaticField(@Nonnull String clazz, @Nonnull String field, @Nonnull Object value) {
-		fieldSet(findField(getClass(clazz), field), null, value);
+	public static <T> T getValue(@Nonnull Object instance, @Nonnull String field) {
+		return fieldGet(findField(instance.getClass(), field), instance);
 	}
 
 	/**
@@ -779,29 +524,283 @@ public class NMSReflectionUtil {
 	}
 
 	/**
-	 * <a href="http://stackoverflow.com/questions/195321/why-is-class-newinstance-evil">Evil</a>
+	 * Set the label of a field in a non-static way.
 	 *
-	 * @param clazz the class to instanciate
-	 * @param <T>   instance class
-	 * @return the new instance
-	 * @throws ReflectionException if ANY exception is thrown
+	 * @param instance the instance
+	 * @param field    the name of the field
+	 * @param value    the label to set
+	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
-	@SuppressWarnings({"ClassNewInstance", "OverlyBroadCatchBlock"})
-	public static <T> T evilNewInstance(@Nonnull Class<T> clazz) {
-		return classNewInstance(clazz);
+	public static void setField(@Nonnull Object instance, @Nonnull String field, @Nonnull Object value) {
+		fieldSet(findField(instance.getClass(), field), instance, value);
 	}
 
 	/**
-	 * <a href="http://stackoverflow.com/questions/195321/why-is-class-newinstance-evil">Evil</a> This method resolves
-	 * the class.
+	 * Get the label of a field by its packet. Return the first found.
+	 *
+	 * @param instance the instance
+	 * @param type     the packet of the field
+	 * @param value    the label to set
+	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
+	 */
+	public static void setFirstValueOfType(@Nonnull Object instance, @Nonnull Class<?> type, @Nonnull Object value) {
+		fieldSet(countFieldOfType(instance.getClass(), type, 0), instance, value);
+	}
+
+	/**
+	 * Get the label of a field by its packet. Return the first found. This method resolves the class.
+	 *
+	 * @param instance the instance
+	 * @param type     a string representing the packet of the field
+	 * @param value    the label to set
+	 * @throws ReflectionException if any non-runtime exception is thrown or if the field was not found
+	 */
+	public static void setFirstValueOfType(@Nonnull Object instance, @Nonnull String type, @Nonnull Object value) {
+		fieldSet(countFieldOfType(instance.getClass(), getClass(type), 0), instance, value);
+	}
+
+	/**
+	 * Set the label of a field in a static way.
+	 *
+	 * @param clazz the class where the field is
+	 * @param field the name of the field
+	 * @param value the label to set
+	 * @throws ReflectionException if any non-runtime exception is thrown
+	 */
+	public static void setStaticField(@Nonnull Class<?> clazz, @Nonnull String field, @Nonnull Object value) {
+		fieldSet(findField(clazz, field), null, value);
+	}
+
+	/**
+	 * Set the label of a field in a static way. This method resolves the class.
 	 *
 	 * @param clazz a string representing the clazz
-	 * @param <T>   instance class
-	 * @return the new instance
-	 * @throws ReflectionException if ANY exception is thrown
+	 * @param field the name of the field
+	 * @param value the label to set
+	 * @throws ReflectionException if any non-runtime exception is thrown
 	 */
-	public static <T> T evilNewInstance(@Nonnull String clazz) {
-		return classNewInstance(getClass(clazz));
+	public static void setStaticField(@Nonnull String clazz, @Nonnull String field, @Nonnull Object value) {
+		fieldSet(findField(getClass(clazz), field), null, value);
+	}
+
+	/**
+	 * Instanciate new class
+	 *
+	 * @param clazz a class to instanciate
+	 * @param <T>   class type
+	 * @return a new class instance
+	 */
+	@SuppressWarnings("OverlyBroadCatchBlock")
+	private static <T> T classNewInstance(Class<T> clazz) {
+		try {
+			return clazz.newInstance();
+		} catch (Exception e) {
+			throw new ReflectionException(e);
+		}
+	}
+
+	/**
+	 * Call a constructor if existing
+	 *
+	 * @param method constructor method
+	 * @param args   constructor args
+	 * @param <T>    generic class
+	 * @return the new generic class
+	 */
+	private static <T> T constructorNewInstance(Constructor<T> method, Object[] args) {
+		try {
+			method.setAccessible(true);
+			return method.newInstance(args);
+		} catch (ReflectiveOperationException e) {
+			throw new ReflectionException(e);
+		}
+	}
+
+	/*
+	 * Used to search in parent classes.
+	 */
+	private static Field countFieldOfType(Class<?> clazz, Class<?> type, int count) {
+		return countFieldOfType(clazz, type, count, clazz);
+	}
+
+	/*
+	 * Recursive.
+	 */
+	private static Field countFieldOfType(Class<?> clazz, Class<?> type, int count, Class<?> search) {
+		int i = 0;
+		for (Field field : search.getDeclaredFields()) {
+			if (field.getType() == type) {
+				if (i == count) {
+					field.setAccessible(true);
+					return field;
+				}
+				i++;
+			}
+		}
+
+		Class<?> superClass = search.getSuperclass();
+		if (superClass != null)
+			return countFieldOfType(clazz, type, count, superClass);
+		throw new ReflectionException("Cannot find a field with packet " + type + " in " + clazz + '.');
+	}
+
+	/**
+	 * Access to a field
+	 *
+	 * @param field a field to get
+	 * @param inst  instance to get from
+	 * @param <T>   generic class
+	 * @return class
+	 */
+	@SuppressWarnings("unchecked")
+	private static <T> T fieldGet(Field field, Object inst) {
+		try {
+			field.setAccessible(true);
+			return (T) field.get(inst);
+		} catch (ReflectiveOperationException e) {
+			throw new ReflectionException(e);
+		}
+	}
+
+	/**
+	 * Set a field label in the given instance
+	 *
+	 * @param field a field to set label
+	 * @param inst  class instance to set from
+	 * @param value a label to set
+	 */
+	private static void fieldSet(Field field, Object inst, Object value) {
+		try {
+			field.setAccessible(true);
+			field.set(inst, value);
+		} catch (ReflectiveOperationException e) {
+			throw new ReflectionException(e);
+		}
+	}
+
+	/**
+	 * Find class by name
+	 *
+	 * @param name a class name
+	 * @param <T>  class type
+	 * @return the class if found
+	 */
+	@SuppressWarnings("unchecked")
+	private static <T> Class<T> findClass(String name) {
+		try {
+			return (Class<T>) Class.forName(name);
+		} catch (ReflectiveOperationException e) {
+			throw new ReflectionException(e);
+		}
+	}
+
+	/**
+	 * Get constructor only in class and not super class
+	 *
+	 * @param clazz    a class to get constructor from
+	 * @param argsType constructor args
+	 * @param <T>      class type
+	 * @return a new constructor if found
+	 */
+	private static <T> Constructor<T> findConstructor(Class<T> clazz, Class<?>[] argsType) {
+		try {
+			return clazz.getDeclaredConstructor(argsType);
+		} catch (ReflectiveOperationException e) {
+			throw new ReflectionException(e);
+		}
+	}
+
+	/**
+	 * Search field in parent classes.
+	 *
+	 * @param clazz parent class
+	 * @param name  field name
+	 * @return a field if found
+	 */
+	private static Field findField(Class<?> clazz, String name) {
+		return findField(clazz, name, clazz);
+	}
+
+	/**
+	 * Recursive search field in parent classes
+	 *
+	 * @param clazz  parent class
+	 * @param name   field name
+	 * @param search recursive search
+	 * @return a field if found
+	 */
+	private static Field findField(Class<?> clazz, String name, Class<?> search) {
+		Field[] fields = search.getDeclaredFields();
+		for (Field field : fields)
+			if (field.getName().equals(name))
+				return field;
+
+		Class<?> superClass = search.getSuperclass();
+
+		if (superClass != null)
+			return findField(clazz, name, superClass);
+
+		throw new ReflectionException("Cannot find field " + name + " in " + clazz);
+	}
+
+	/**
+	 * Search implemented method in parent classes, and default implementations in interfaces.
+	 *
+	 * @param clazz    parent class
+	 * @param name     method name
+	 * @param argsType method args
+	 * @return a method if found
+	 */
+	private static Method findMethod(Class<?> clazz, String name, Class<?>[] argsType) {
+		return findMethod(clazz, name, argsType, clazz);
+	}
+
+	/**
+	 * Recursive search implemented method in parent classes, and default implementations in interfaces.
+	 *
+	 * @param clazz    parent class
+	 * @param name     method name
+	 * @param argsType method args
+	 * @param search   recursive class
+	 * @return a method if found
+	 */
+	private static Method findMethod(Class<?> clazz, String name, Class<?>[] argsType, Class<?> search) {
+		Method[] methods = search.getDeclaredMethods();
+		for (Method method : methods)
+			if (method.getName().equals(name)
+					&& Arrays.equals(argsType, method.getParameterTypes())
+					&& (!search.isInterface() || method.isDefault())) //Default methods in interfaces are fine
+				return method;
+
+		Class<?> superClass = search.getSuperclass();
+		Class[]  interfaces = search.getInterfaces();
+
+		for (Class interf : interfaces)
+			findMethod(interf, name, argsType); //Find default methods in interfaces
+
+		if (superClass != null)
+			return findMethod(clazz, name, argsType, superClass);
+
+		throw new ReflectionException("Cannot find field " + name + " in " + clazz);
+	}
+
+	/**
+	 * Call a new method
+	 *
+	 * @param method a method to call
+	 * @param inst   class instance to call from
+	 * @param args   method args
+	 * @param <T>    generic class
+	 * @return class
+	 */
+	@SuppressWarnings("unchecked")
+	private static <T> T methodCall(Method method, Object inst, Object[] args) {
+		try {
+			method.setAccessible(true);
+			return (T) method.invoke(inst, args);
+		} catch (ReflectiveOperationException e) {
+			throw new ReflectionException(e);
+		}
 	}
 
 	/**
@@ -826,30 +825,6 @@ public class NMSReflectionUtil {
 		}
 
 		/**
-		 * Set the label of the field.
-		 *
-		 * @param instance the instance -- null for static access
-		 * @param value    the new label
-		 */
-		default void set(Object instance, T value) {
-			try {
-				get().set(instance, value);
-			} catch (ReflectiveOperationException e) {
-				throw new ReflectionException(e);
-			}
-		}
-
-		/**
-		 * Check whether the target has the exact same field.
-		 *
-		 * @param target the target
-		 * @return <code>true</code> if the target is a sub class of the declaring class, <code>false</code> otherwise
-		 */
-		default boolean has(Class<?> target) {
-			return get().getDeclaringClass().isAssignableFrom(target);
-		}
-
-		/**
 		 * Get the declaring class of the field.
 		 *
 		 * @return the declaring class
@@ -867,6 +842,30 @@ public class NMSReflectionUtil {
 		default Class<T> getType() {
 			return (Class<T>) get().getType();
 		}
+
+		/**
+		 * Check whether the target has the exact same field.
+		 *
+		 * @param target the target
+		 * @return <code>true</code> if the target is a sub class of the declaring class, <code>false</code> otherwise
+		 */
+		default boolean has(Class<?> target) {
+			return get().getDeclaringClass().isAssignableFrom(target);
+		}
+
+		/**
+		 * Set the label of the field.
+		 *
+		 * @param instance the instance -- null for static access
+		 * @param value    the new label
+		 */
+		default void set(Object instance, T value) {
+			try {
+				get().set(instance, value);
+			} catch (ReflectiveOperationException e) {
+				throw new ReflectionException(e);
+			}
+		}
 	}
 
 	/**
@@ -874,6 +873,53 @@ public class NMSReflectionUtil {
 	 */
 	@FunctionalInterface
 	public interface MethodAccessor<T> extends Supplier<Method> {
+
+		/**
+		 * Get the declaring class of the field.
+		 *
+		 * @return the declaring class
+		 */
+		default Class<?> getDeclaringClass() {
+			return get().getDeclaringClass();
+		}
+
+		/**
+		 * Get the exception types of the method.
+		 *
+		 * @return the exception types
+		 */
+		default Class<?>[] getExceptionTypes() {
+			return get().getExceptionTypes();
+		}
+
+		/**
+		 * Get the parameter types of the method.
+		 *
+		 * @return the parameter types
+		 */
+		default Class<?>[] getParameterTypes() {
+			return get().getParameterTypes();
+		}
+
+		/**
+		 * Get the return packet of the method.
+		 *
+		 * @return the return packet of the method
+		 */
+		@SuppressWarnings("unchecked")
+		default Class<T> getReturnType() {
+			return (Class<T>) get().getReturnType();
+		}
+
+		/**
+		 * Check whether the target has the exact same method.
+		 *
+		 * @param target the target
+		 * @return <code>true</code> if the target is a sub class of the declaring class, <code>false</code> otherwise
+		 */
+		default boolean has(@Nonnull Class<?> target) {
+			return get().getDeclaringClass().isAssignableFrom(target);
+		}
 
 		/**
 		 * Invoke the method.
@@ -890,16 +936,13 @@ public class NMSReflectionUtil {
 				throw new ReflectionException(e);
 			}
 		}
+	}
 
-		/**
-		 * Check whether the target has the exact same method.
-		 *
-		 * @param target the target
-		 * @return <code>true</code> if the target is a sub class of the declaring class, <code>false</code> otherwise
-		 */
-		default boolean has(@Nonnull Class<?> target) {
-			return get().getDeclaringClass().isAssignableFrom(target);
-		}
+	/**
+	 * A Functional Interface holding a Constructor.
+	 */
+	@FunctionalInterface
+	public interface ConstructorAccessor<T> extends Supplier<Constructor<T>> {
 
 		/**
 		 * Get the declaring class of the field.
@@ -911,17 +954,16 @@ public class NMSReflectionUtil {
 		}
 
 		/**
-		 * Get the return packet of the method.
+		 * Get the exception types of the constructor.
 		 *
-		 * @return the return packet of the method
+		 * @return the exception types
 		 */
-		@SuppressWarnings("unchecked")
-		default Class<T> getReturnType() {
-			return (Class<T>) get().getReturnType();
+		default Class<?>[] getExceptionTypes() {
+			return get().getExceptionTypes();
 		}
 
 		/**
-		 * Get the parameter types of the method.
+		 * Get the parameter types of the constructor.
 		 *
 		 * @return the parameter types
 		 */
@@ -930,20 +972,14 @@ public class NMSReflectionUtil {
 		}
 
 		/**
-		 * Get the exception types of the method.
+		 * Check whether the target has the exact same constructor.
 		 *
-		 * @return the exception types
+		 * @param target the target
+		 * @return <code>true</code> if the target is a sub class of the declaring class, <code>false</code> otherwise
 		 */
-		default Class<?>[] getExceptionTypes() {
-			return get().getExceptionTypes();
+		default boolean has(@Nonnull Class<?> target) {
+			return get().getDeclaringClass().isAssignableFrom(target);
 		}
-	}
-
-	/**
-	 * A Functional Interface holding a Constructor.
-	 */
-	@FunctionalInterface
-	public interface ConstructorAccessor<T> extends Supplier<Constructor<T>> {
 
 		/**
 		 * Invoke the constructor.
@@ -958,49 +994,13 @@ public class NMSReflectionUtil {
 				throw new ReflectionException(e);
 			}
 		}
-
-		/**
-		 * Check whether the target has the exact same constructor.
-		 *
-		 * @param target the target
-		 * @return <code>true</code> if the target is a sub class of the declaring class, <code>false</code> otherwise
-		 */
-		default boolean has(@Nonnull Class<?> target) {
-			return get().getDeclaringClass().isAssignableFrom(target);
-		}
-
-		/**
-		 * Get the declaring class of the field.
-		 *
-		 * @return the declaring class
-		 */
-		default Class<?> getDeclaringClass() {
-			return get().getDeclaringClass();
-		}
-
-		/**
-		 * Get the parameter types of the constructor.
-		 *
-		 * @return the parameter types
-		 */
-		default Class<?>[] getParameterTypes() {
-			return get().getParameterTypes();
-		}
-
-		/**
-		 * Get the exception types of the constructor.
-		 *
-		 * @return the exception types
-		 */
-		default Class<?>[] getExceptionTypes() {
-			return get().getExceptionTypes();
-		}
 	}
 
 	/**
 	 * A runtime exception to rethrow any non-runtime exception related to Reflection.
 	 */
 	public static final class ReflectionException extends RuntimeException {
+
 		private ReflectionException() {
 		}
 

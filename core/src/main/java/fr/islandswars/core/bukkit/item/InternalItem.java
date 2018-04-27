@@ -72,6 +72,21 @@ public class InternalItem implements Item {
 	}
 
 	@Override
+	public String getLoreTranslationKey() {
+		return loreKey;
+	}
+
+	@Override
+	public String getNameTranslationKey() {
+		return nameKey;
+	}
+
+	@Override
+	public ItemProperties getproperties() {
+		return properties;
+	}
+
+	@Override
 	public Item globalLoreParameters(Supplier<Object[]> loreSupplier) {
 		Preconditions.checkNotNull(loreSupplier);
 
@@ -146,21 +161,6 @@ public class InternalItem implements Item {
 	public Item withProperties(Consumer<ItemProperties> propertiesConsumer) {
 		propertiesConsumer.accept(properties);
 		return this;
-	}
-
-	@Override
-	public String getNameTranslationKey() {
-		return nameKey;
-	}
-
-	@Override
-	public String getLoreTranslationKey() {
-		return loreKey;
-	}
-
-	@Override
-	public ItemProperties getproperties() {
-		return properties;
 	}
 
 	public PropertiesWrapper getProperties() {

@@ -104,7 +104,8 @@ public class BukkitBarManager extends BarManager {
 	}
 
 	@Override
-	public void onLoad() {
+	public void onDisable() {
+		api.getUpdaterManager().stop(this);
 	}
 
 	@Override
@@ -113,8 +114,7 @@ public class BukkitBarManager extends BarManager {
 	}
 
 	@Override
-	public void onDisable() {
-		api.getUpdaterManager().stop(this);
+	public void onLoad() {
 	}
 
 	@Updater(type = TaskType.SYNC, time = TimeType.TICK)

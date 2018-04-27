@@ -28,6 +28,8 @@ import org.bukkit.inventory.ItemFlag;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 27/04/2018 at 14:37
  * @since 0.2.9
+ * <p>
+ * Provide Item properties through {@link net.minecraft.server.v1_12_R1.NBTTagCompound}
  */
 public interface ItemProperties {
 

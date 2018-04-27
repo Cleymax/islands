@@ -49,49 +49,31 @@ public class BarProperties {
 	}
 
 	/**
-	 * Update current bossbar's color each 1/2 second to display crazy unicorn hack
-	 *
-	 * @param useMagicHack true YEAH BOY
-	 * @return a bossbar properties builder
+	 * @return the percent to increase
 	 */
-	public BarProperties withMagicColor(boolean useMagicHack) {
-		this.useMagicColor = useMagicHack;
-		return this;
+	public int getPercent() {
+		return percent;
 	}
 
 	/**
-	 * Only active if {@link #percent} if sup than 0, the progress will
-	 * decrease instead of increase
-	 *
-	 * @param useReverseOrder to reverse the display
-	 * @return a bossbar properties builder
+	 * @return the repeat tick can be null (0)
 	 */
-	public BarProperties withReverse(boolean useReverseOrder) {
-		this.useReverse = useReverseOrder;
-		return this;
+	public int getRepeat() {
+		return repeat;
 	}
 
 	/**
-	 * Specify a limit, before ending this bossbar. Used in
-	 * {@link BarSequence} where 0 means infinity
-	 *
-	 * @param time how many time before ending this sequence
-	 * @return a bossbar properties builder
+	 * @return the delta in tick
 	 */
-	public BarProperties withRepeat(int time) {
-		this.repeat = time;
-		return this;
+	public int getTick() {
+		return tick;
 	}
 
 	/**
-	 * Update this title according to specified time (in tick)
-	 *
-	 * @param time delta between each {@link net.minecraft.server.v1_12_R1.PacketPlayOutBoss.Action#UPDATE_NAME}
-	 * @return a bossbar properties builder
+	 * @return the title delta can be null (0)
 	 */
-	public BarProperties withTitleUpdate(int time) {
-		this.titleDelta = time;
-		return this;
+	public int getTitleDelta() {
+		return titleDelta;
 	}
 
 	/**
@@ -113,30 +95,48 @@ public class BarProperties {
 	}
 
 	/**
-	 * @return the percent to increase
+	 * Update current bossbar's color each 1/2 second to display crazy unicorn hack
+	 *
+	 * @param useMagicHack true YEAH BOY
+	 * @return a bossbar properties builder
 	 */
-	public int getPercent() {
-		return percent;
+	public BarProperties withMagicColor(boolean useMagicHack) {
+		this.useMagicColor = useMagicHack;
+		return this;
 	}
 
 	/**
-	 * @return the delta in tick
+	 * Specify a limit, before ending this bossbar. Used in
+	 * {@link BarSequence} where 0 means infinity
+	 *
+	 * @param time how many time before ending this sequence
+	 * @return a bossbar properties builder
 	 */
-	public int getTick() {
-		return tick;
+	public BarProperties withRepeat(int time) {
+		this.repeat = time;
+		return this;
 	}
 
 	/**
-	 * @return the repeat tick can be null (0)
+	 * Only active if {@link #percent} if sup than 0, the progress will
+	 * decrease instead of increase
+	 *
+	 * @param useReverseOrder to reverse the display
+	 * @return a bossbar properties builder
 	 */
-	public int getRepeat() {
-		return repeat;
+	public BarProperties withReverse(boolean useReverseOrder) {
+		this.useReverse = useReverseOrder;
+		return this;
 	}
 
 	/**
-	 * @return the title delta can be null (0)
+	 * Update this title according to specified time (in tick)
+	 *
+	 * @param time delta between each {@link net.minecraft.server.v1_12_R1.PacketPlayOutBoss.Action#UPDATE_NAME}
+	 * @return a bossbar properties builder
 	 */
-	public int getTitleDelta() {
-		return titleDelta;
+	public BarProperties withTitleUpdate(int time) {
+		this.titleDelta = time;
+		return this;
 	}
 }

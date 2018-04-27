@@ -2,10 +2,9 @@ package fr.islandswars.api.net;
 
 import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.net.wrapper.Wrapper;
+import java.util.stream.Stream;
 import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.entity.Player;
-
-import java.util.stream.Stream;
 
 /**
  * File <b>GamePacket</b> located on fr.islandswars.api.net
@@ -44,11 +43,6 @@ public abstract class GamePacket<T extends Packet> extends Wrapper<T> {
 	}
 
 	/**
-	 * @return the associed packet type to this packet
-	 */
-	public abstract PacketType getType();
-
-	/**
 	 * Represent the default NMS packet
 	 *
 	 * @return a NMS wrapped packet
@@ -56,6 +50,11 @@ public abstract class GamePacket<T extends Packet> extends Wrapper<T> {
 	public final T getNMSPacket() {
 		return this.handle;
 	}
+
+	/**
+	 * @return the associed packet type to this packet
+	 */
+	public abstract PacketType getType();
 
 	/**
 	 * Queued this packet to the given player

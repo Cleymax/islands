@@ -27,6 +27,8 @@ import org.bukkit.Material;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 26/04/2018 at 13:29
  * @since 0.2.9
+ * <p>
+ * An item type layer because bukkit suck
  */
 public class ItemType {
 
@@ -84,6 +86,11 @@ public class ItemType {
 		else
 			writeAmount(1);
 		writeData(data);
+	}
+
+	@Override
+	public ItemType clone() throws CloneNotSupportedException {
+		return new ItemType((NBTTagCompound) tag.clone());
 	}
 
 	/**
@@ -157,10 +164,5 @@ public class ItemType {
 
 		tag.setString("id", String.valueOf(material.getId()));
 		return this;
-	}
-
-	@Override
-	public ItemType clone() throws CloneNotSupportedException {
-		return new ItemType((NBTTagCompound) tag.clone());
 	}
 }

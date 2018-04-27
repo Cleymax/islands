@@ -1,9 +1,8 @@
 package fr.islandswars.api.scoreboard.objective;
 
 import fr.islandswars.api.scoreboard.ScoreboardComponent;
-
-import javax.annotation.Nullable;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * File <b>Objective</b> located on fr.islandswars.api.scoreboard.objective
@@ -35,20 +34,6 @@ import java.util.Arrays;
 public interface Objective extends ScoreboardComponent {
 
 	/**
-	 * Get the type of the objective
-	 *
-	 * @return the type
-	 */
-	ObjectiveDisplayType getDisplayType();
-
-	/**
-	 * Sets the type of objective
-	 *
-	 * @param displayType The display type
-	 */
-	void setDisplayType(ObjectiveDisplayType displayType);
-
-	/**
 	 * Get the slot of the objective
 	 *
 	 * @return the slot
@@ -56,11 +41,25 @@ public interface Objective extends ScoreboardComponent {
 	ObjectiveSlot getDisplaySlot();
 
 	/**
+	 * Get the type of the objective
+	 *
+	 * @return the type
+	 */
+	ObjectiveDisplayType getDisplayType();
+
+	/**
 	 * Sets the slot of objective
 	 *
 	 * @param displaySlot The display slot
 	 */
 	void setDisplaySlot(ObjectiveSlot displaySlot);
+
+	/**
+	 * Sets the type of objective
+	 *
+	 * @param displayType The display type
+	 */
+	void setDisplayType(ObjectiveDisplayType displayType);
 
 	/**
 	 * The slot where the objective will be displayed

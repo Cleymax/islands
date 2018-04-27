@@ -1,14 +1,13 @@
 package fr.islandswars.api.scoreboard;
 
 import fr.islandswars.api.player.IslandsPlayer;
-import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardScore;
-
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import javax.annotation.Nullable;
+import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardScore;
 
 /**
  * File <b>Scoreboard</b> located on fr.islandswars.api.scoreboard
@@ -39,18 +38,13 @@ import java.util.function.Supplier;
 public interface Scoreboard extends ScoreboardComponent {
 
 	/**
-	 * @return this objective name
-	 */
-	String getObjectiveName();
-
-	/**
-	 * Gets a line into the scoreboard
+	 * Append a new translatable line to this scoreboard
 	 *
-	 * @param line the position of the line
-	 * @param <T>  instance type
-	 * @return a wrapped ScoreboardLine inside an Optional
+	 * @param path       the text path in .lang file
+	 * @param parameters global i18n parameters
+	 * @return the current scoreboard
 	 */
-	<T> Optional<ScoreboardLine<T>> getLine(int line);
+	Scoreboard addGlobalI18nLine(String path, Supplier<Object[]> parameters);
 
 	/**
 	 * Append a new line to this scoreboard
@@ -61,34 +55,6 @@ public interface Scoreboard extends ScoreboardComponent {
 	Scoreboard addLine(String text);
 
 	/**
-	 * Set a line to the scoreboard
-	 *
-	 * @param line the line number
-	 * @param text The line content
-	 * @return the current scoreboard
-	 */
-	Scoreboard setLine(int line, String text);
-
-	/**
-	 * Append a new translatable line to this scoreboard
-	 *
-	 * @param path       the text path in .lang file
-	 * @param parameters global i18n parameters
-	 * @return the current scoreboard
-	 */
-	Scoreboard addGlobalI18nLine(String path, Supplier<Object[]> parameters);
-
-	/**
-	 * Set a translatable line to the scoreboard
-	 *
-	 * @param line       the line number
-	 * @param path       the text path in .lang file
-	 * @param parameters global i18n parameters
-	 * @return the current scoreboard
-	 */
-	Scoreboard setGlobalI18nLine(int line, String path, Supplier<Object[]> parameters);
-
-	/**
 	 * Append a new personnal translatable line to this scoreboard
 	 *
 	 * @param path                 the text path in .lang file
@@ -97,25 +63,6 @@ public interface Scoreboard extends ScoreboardComponent {
 	 * @return the current scoreboard
 	 */
 	<T> Scoreboard addPersonnalI18nLine(String path, Function<T, Object[]> translatableFunction);
-
-	/**
-	 * Set a personnal translatable line to the scoreboard
-	 *
-	 * @param line                 the line number
-	 * @param path                 the text path in .lang file
-	 * @param translatableFunction a per-user object resolver
-	 * @param <T>                  instance type
-	 * @return the current scoreboard
-	 */
-	<T> Scoreboard setPersonnalI18nLine(int line, String path, Function<T, Object[]> translatableFunction);
-
-	/**
-	 * Remove a line from the scoreboard
-	 *
-	 * @param line the line number to be removed
-	 * @return the current scoreboard
-	 */
-	Scoreboard removeLine(int line);
 
 	/**
 	 * Create this scoreboard for this player, it will use the given map to get {@link Function#apply(Object)}
@@ -137,11 +84,63 @@ public interface Scoreboard extends ScoreboardComponent {
 	void addPlayer(IslandsPlayer player, Map<Integer, Object> translatableLineInstance, Supplier<Object[]> customParameters);
 
 	/**
+	 * Gets a line into the scoreboard
+	 *
+	 * @param line the position of the line
+	 * @param <T>  instance type
+	 * @return a wrapped ScoreboardLine inside an Optional
+	 */
+	<T> Optional<ScoreboardLine<T>> getLine(int line);
+
+	/**
+	 * @return this objective name
+	 */
+	String getObjectiveName();
+
+	/**
 	 * Hide this scoreboard to the player
 	 *
 	 * @param player an IslandsPlayer to remove this scoreboard
 	 */
 	void hideToPlayer(IslandsPlayer player);
+
+	/**
+	 * Remove a line from the scoreboard
+	 *
+	 * @param line the line number to be removed
+	 * @return the current scoreboard
+	 */
+	Scoreboard removeLine(int line);
+
+	/**
+	 * Set a translatable line to the scoreboard
+	 *
+	 * @param line       the line number
+	 * @param path       the text path in .lang file
+	 * @param parameters global i18n parameters
+	 * @return the current scoreboard
+	 */
+	Scoreboard setGlobalI18nLine(int line, String path, Supplier<Object[]> parameters);
+
+	/**
+	 * Set a line to the scoreboard
+	 *
+	 * @param line the line number
+	 * @param text The line content
+	 * @return the current scoreboard
+	 */
+	Scoreboard setLine(int line, String text);
+
+	/**
+	 * Set a personnal translatable line to the scoreboard
+	 *
+	 * @param line                 the line number
+	 * @param path                 the text path in .lang file
+	 * @param translatableFunction a per-user object resolver
+	 * @param <T>                  instance type
+	 * @return the current scoreboard
+	 */
+	<T> Scoreboard setPersonnalI18nLine(int line, String path, Function<T, Object[]> translatableFunction);
 
 	/**
 	 * The slot where the scoreboard will be displayed

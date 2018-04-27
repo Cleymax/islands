@@ -45,6 +45,7 @@ public @interface Compound {
 	 */
 	String[] aliases() default {};
 
+	String description() default "";
 
 	/**
 	 * By default, it will uses method's name as label, but you can
@@ -53,6 +54,4 @@ public @interface Compound {
 	 * @return this inner compound label
 	 */
 	String label() default "";
-
-	String description() default "";
 }

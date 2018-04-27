@@ -29,16 +29,6 @@ package fr.islandswars.api.infra.rmq;
 public interface RabbitMQService {
 
 	/**
-	 * Proceed a basic publish to a known channel, this queue
-	 * will be deleted if nobody use it.
-	 *
-	 * @param buffer    a message to send
-	 * @param queueName a specific queue to send message to
-	 * @throws Exception which is automatically logged
-	 */
-	void publishToAnOpenQueue(StringBuffer buffer, String queueName) throws Exception;
-
-	/**
 	 * Proceed a topic publish with a given routingKey.
 	 *
 	 * @param buffer     a message to send
@@ -47,5 +37,15 @@ public interface RabbitMQService {
 	 * @throws Exception which is automatically logged
 	 */
 	void publishToATopic(StringBuffer buffer, String topicName, String routingKey) throws Exception;
+
+	/**
+	 * Proceed a basic publish to a known channel, this queue
+	 * will be deleted if nobody use it.
+	 *
+	 * @param buffer    a message to send
+	 * @param queueName a specific queue to send message to
+	 * @throws Exception which is automatically logged
+	 */
+	void publishToAnOpenQueue(StringBuffer buffer, String queueName) throws Exception;
 
 }

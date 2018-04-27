@@ -28,7 +28,7 @@ import fr.islandswars.api.player.IslandsPlayer;
  * Created the 26/04/2018 at 13:45
  * @since 0.2.9
  * <p>
- * TODO add a way to update title
+ * Store item, and support different strategy : personnal or global
  */
 public interface Storage {
 

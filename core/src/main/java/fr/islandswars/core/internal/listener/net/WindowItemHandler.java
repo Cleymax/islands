@@ -1,6 +1,5 @@
 package fr.islandswars.core.internal.listener.net;
 
-import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.i18n.Locale;
 import fr.islandswars.api.net.PacketEvent;
 import fr.islandswars.api.net.PacketHandler;

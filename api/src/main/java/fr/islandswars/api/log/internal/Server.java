@@ -26,6 +26,8 @@ import fr.islandswars.api.server.ServerType;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 13/03/2018 at 16:28
  * @since 0.2.9
+ * <p>
+ * Server status (start, stop, ...) log
  */
 public class Server {
 

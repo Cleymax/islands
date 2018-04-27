@@ -1,12 +1,10 @@
 package fr.islandswars.core.internal.listener.net;
 
-import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.i18n.Locale;
 import fr.islandswars.api.net.PacketEvent;
 import fr.islandswars.api.net.PacketHandler;
 import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.net.packet.play.server.SetSlotPacket;
-import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.core.IslandsCore;
 import fr.islandswars.core.bukkit.storage.StorageFactory;
 import net.minecraft.server.v1_12_R1.ItemStack;

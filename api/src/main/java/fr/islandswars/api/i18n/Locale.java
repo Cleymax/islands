@@ -1,7 +1,6 @@
 package fr.islandswars.api.i18n;
 
 import fr.islandswars.api.IslandsApi;
-
 import javax.annotation.concurrent.ThreadSafe;
 
 /**
@@ -43,13 +42,6 @@ public enum Locale {
 	}
 
 	/**
-	 * @return this lang id
-	 */
-	public String getI18nName() {
-		return i18nName;
-	}
-
-	/**
 	 * Get a String according to this language and format with the given parameters
 	 *
 	 * @param key        the property key
@@ -59,5 +51,12 @@ public enum Locale {
 	 */
 	public String format(String key, Object... parameters) {
 		return IslandsApi.getInstance().getTranslatable().format(this, key, parameters);
+	}
+
+	/**
+	 * @return this lang id
+	 */
+	public String getI18nName() {
+		return i18nName;
 	}
 }

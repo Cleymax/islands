@@ -40,17 +40,17 @@ public class GenericTest {
 		}
 
 		@Override
-		public void onLoad() {
-
-		}
-
-		@Override
 		public void onDisable() {
 
 		}
 
 		@Override
 		public void onEnable() {
+
+		}
+
+		@Override
+		public void onLoad() {
 
 		}
 	}

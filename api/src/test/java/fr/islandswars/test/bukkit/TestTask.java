@@ -29,8 +29,9 @@ import fr.islandswars.api.task.Updater;
  */
 public class TestTask {
 
-	@Updater(type = TaskType.SYNC)
-	void runOnceSync() {
+	@Updater(type = TaskType.ASYNC, delayed = 20 * 5)
+	void runDelayedAsync() {
+
 	}
 
 	@Updater(type = TaskType.ASYNC)
@@ -38,9 +39,8 @@ public class TestTask {
 
 	}
 
-	@Updater(type = TaskType.ASYNC, delayed = 20 * 5)
-	void runDelayedAsync() {
-
+	@Updater(type = TaskType.SYNC)
+	void runOnceSync() {
 	}
 
 	@Updater(type = TaskType.SYNC, delta = 1, time = TimeType.TICK)

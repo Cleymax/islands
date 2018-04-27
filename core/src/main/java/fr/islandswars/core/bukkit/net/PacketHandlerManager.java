@@ -48,6 +48,20 @@ public class PacketHandlerManager implements ProtocolManager {
 	}
 
 	@Override
+	public <T extends GamePacket> void sendPacket(Player target, T packet) {
+		Preconditions.checkNotNull(target);
+		Preconditions.checkNotNull(packet);
+
+		if (packet.getType().getBound() == PacketType.Bound.OUT)
+			if (packet.getType().getProtocol() == PacketType.Protocol.PLAY)
+				((CraftPlayer) target).getHandle().playerConnection.sendPacket(packet.getNMSPacket());
+			else
+				System.out.println("Cannot send " + packet.getType().getProtocol().name() + " to " + target.getName());
+		else System.err.println("Try to send an input packet \"" + packet.getNMSPacket() + "\" to " + target.getName());
+		//TODO remove debug message
+	}
+
+	@Override
 	public void subscribeHandler(PacketHandler<? extends GamePacket> handler) {
 		Preconditions.checkNotNull(handler);
 
@@ -61,20 +75,6 @@ public class PacketHandlerManager implements ProtocolManager {
 
 		if (handlers.containsKey(handler.getPacketType().getID()))
 			handlers.get(handler.getPacketType().getID()).remove(handler);
-	}
-
-	@Override
-	public <T extends GamePacket> void sendPacket(Player target, T packet) {
-		Preconditions.checkNotNull(target);
-		Preconditions.checkNotNull(packet);
-
-		if (packet.getType().getBound() == PacketType.Bound.OUT)
-			if (packet.getType().getProtocol() == PacketType.Protocol.PLAY)
-				((CraftPlayer) target).getHandle().playerConnection.sendPacket(packet.getNMSPacket());
-			else
-				System.out.println("Cannot send " + packet.getType().getProtocol().name() + " to " + target.getName());
-		else System.err.println("Try to send an input packet \"" + packet.getNMSPacket() + "\" to " + target.getName());
-		//TODO remove debug message
 	}
 
 	@SuppressWarnings("unchecked")

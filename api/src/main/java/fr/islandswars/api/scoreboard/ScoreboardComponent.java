@@ -31,18 +31,18 @@ import java.util.function.Supplier;
 public interface ScoreboardComponent {
 
 	/**
-	 * Get the name of the component
-	 *
-	 * @return The name of the component
-	 */
-	String getName();
-
-	/**
 	 * Get the display name of the component
 	 *
 	 * @return the display name of the component
 	 */
 	String getDisplayName();
+
+	/**
+	 * Get the name of the component
+	 *
+	 * @return The name of the component
+	 */
+	String getName();
 
 	/**
 	 * Set the display name
@@ -60,18 +60,18 @@ public interface ScoreboardComponent {
 	void setDisplayName(String displayName, Supplier<Object[]> parameters);
 
 	/**
+	 * Register some parameters that will be used for all players to format {@link #getDisplayName()}
+	 *
+	 * @param parameters translation parameters
+	 */
+	void setGlobalTitleParameter(Supplier<Object[]> parameters);
+
+	/**
 	 * Update this scoreboard with the given packet for all viewers according to this
 	 * {@link Action label}
 	 *
 	 * @param action what to do with this scoreboard
 	 */
 	void update(Action action);
-
-	/**
-	 * Register some parameters that will be used for all players to format {@link #getDisplayName()}
-	 *
-	 * @param parameters translation parameters
-	 */
-	void setGlobalTitleParameter(Supplier<Object[]> parameters);
 
 }

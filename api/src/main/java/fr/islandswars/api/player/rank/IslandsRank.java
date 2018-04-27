@@ -36,9 +36,9 @@ public interface IslandsRank {
 	String getDisplayName();
 
 	/**
-	 * @return a short identifier for this rank (useful in tab for example)
+	 * @return the bukkit color associated to this rank
 	 */
-	String getShortName();
+	ChatColor getRankColor();
 
 	/**
 	 * @return this rank level (use for permission)
@@ -46,8 +46,8 @@ public interface IslandsRank {
 	int getRankLevel();
 
 	/**
-	 * @return the bukkit color associated to this rank
+	 * @return a short identifier for this rank (useful in tab for example)
 	 */
-	ChatColor getRankColor();
+	String getShortName();
 
 }

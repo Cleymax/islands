@@ -34,6 +34,8 @@ import org.bukkit.scheduler.BukkitTask;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 23/04/2018 at 16:01
  * @since 0.2.9
+ * <p>
+ * TODO add task error handler
  */
 public class TaskManager implements UpdaterManager {
 

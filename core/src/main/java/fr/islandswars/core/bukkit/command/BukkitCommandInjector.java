@@ -58,20 +58,25 @@ public class BukkitCommandInjector implements CommandManager {
 	}
 
 	private static boolean dispatchCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-		if (!(command instanceof PluginCommand))
-			throw new IllegalArgumentException("Cannot find command " + command);
-
-		LabelDispatcher wrapper = BUKKIT_COMMANDS.get(command);
-
-		if (wrapper == null)
-			throw new IllegalArgumentException("Cannot find command " + command);
 		try {
-			wrapper.dispatch(sender, args, 0);
-			return true;
-		} catch (InvocationTargetException e) {
-			throw new CommandDispatchException("Error while dispatching command " + command, e.getCause());
-		} catch (ReflectiveOperationException e) {
-			throw new CommandDispatchException("Error while dispatching command " + command, e);
+			if (!(command instanceof PluginCommand))
+				throw new IllegalArgumentException("Cannot find command " + command);
+
+			LabelDispatcher wrapper = BUKKIT_COMMANDS.get(command);
+
+			if (wrapper == null)
+				throw new IllegalArgumentException("Cannot find command " + command);
+			try {
+				wrapper.dispatch(sender, args, 0);
+				return true;
+			} catch (InvocationTargetException e) {
+				throw new CommandDispatchException("Error while dispatching command " + command, e.getCause());
+			} catch (ReflectiveOperationException e) {
+				throw new CommandDispatchException("Error while dispatching command " + command, e);
+			}
+		} catch (Exception e) {
+			IslandsApi.getInstance().getInfraLogger().logError(e, e.getMessage());
+			return false;
 		}
 	}
 

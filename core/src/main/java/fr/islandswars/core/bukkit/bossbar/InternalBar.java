@@ -71,6 +71,11 @@ public class InternalBar extends BossBattle implements Bar {
 	}
 
 	@Override
+	public Stream<IslandsPlayer> getViewers() {
+		return viewers.stream();
+	}
+
+	@Override
 	public void provideProperties(BarProperties properties, boolean erase) {
 		Preconditions.checkNotNull(properties);
 
@@ -87,43 +92,10 @@ public class InternalBar extends BossBattle implements Bar {
 	}
 
 	@Override
-	public void setGlobalParameter(Supplier<Object[]> parameters) {
-		Preconditions.checkNotNull(parameters);
-
-		this.titleParameters = parameters;
-	}
-
-	@Override
 	public void setActive(boolean active) {
 		if (this.active != active) {
 			this.active = active;
 			update(active ? PacketPlayOutBoss.Action.ADD : PacketPlayOutBoss.Action.REMOVE);
-		}
-	}
-
-	@Override
-	public void setProgress(float progress) {
-		Preconditions.checkState(progress, ref -> ref >= 0 && ref <= 1);
-
-		if (progress != super.b) {
-			super.a(progress);
-			update(PacketPlayOutBoss.Action.UPDATE_PCT);
-		}
-	}
-
-	@Override
-	public void setDarkenSky(boolean darkenSky) {
-		if (darkenSky != this.e) {
-			super.a(darkenSky);
-			update(PacketPlayOutBoss.Action.UPDATE_PROPERTIES);
-		}
-	}
-
-	@Override
-	public void setPlayMusic(boolean playMusic) {
-		if (playMusic != this.f) {
-			super.b(playMusic);
-			update(PacketPlayOutBoss.Action.UPDATE_PROPERTIES);
 		}
 	}
 
@@ -136,8 +108,36 @@ public class InternalBar extends BossBattle implements Bar {
 	}
 
 	@Override
-	public Stream<IslandsPlayer> getViewers() {
-		return viewers.stream();
+	public void setDarkenSky(boolean darkenSky) {
+		if (darkenSky != this.e) {
+			super.a(darkenSky);
+			update(PacketPlayOutBoss.Action.UPDATE_PROPERTIES);
+		}
+	}
+
+	@Override
+	public void setGlobalParameter(Supplier<Object[]> parameters) {
+		Preconditions.checkNotNull(parameters);
+
+		this.titleParameters = parameters;
+	}
+
+	@Override
+	public void setPlayMusic(boolean playMusic) {
+		if (playMusic != this.f) {
+			super.b(playMusic);
+			update(PacketPlayOutBoss.Action.UPDATE_PROPERTIES);
+		}
+	}
+
+	@Override
+	public void setProgress(float progress) {
+		Preconditions.checkState(progress, ref -> ref >= 0 && ref <= 1);
+
+		if (progress != super.b) {
+			super.a(progress);
+			update(PacketPlayOutBoss.Action.UPDATE_PCT);
+		}
 	}
 
 	public void removePlayer(IslandsPlayer player) {

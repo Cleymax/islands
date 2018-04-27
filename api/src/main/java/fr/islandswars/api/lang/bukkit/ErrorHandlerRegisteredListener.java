@@ -29,6 +29,8 @@ import org.bukkit.plugin.RegisteredListener;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 10/04/2018 at 16:46
  * @since 0.2.9
+ * <p>
+ * Listener error handler
  */
 public class ErrorHandlerRegisteredListener extends RegisteredListener {
 

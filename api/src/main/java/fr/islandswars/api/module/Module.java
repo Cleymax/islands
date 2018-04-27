@@ -42,9 +42,9 @@ public abstract class Module extends LazyListener {
 	}
 
 	/**
-	 * Load this module, call in {@link JavaPlugin#onLoad()}
+	 * Disable this module, call in {@link JavaPlugin#onDisable()} or when using {@link ModuleManager#unregisterModule(Class)}
 	 */
-	public abstract void onLoad();
+	public abstract void onDisable();
 
 	/**
 	 * Enable this module, call in {@link JavaPlugin#onEnable()} ()} or when using {@link ModuleManager#registerModule(Class)}
@@ -52,8 +52,8 @@ public abstract class Module extends LazyListener {
 	public abstract void onEnable();
 
 	/**
-	 * Disable this module, call in {@link JavaPlugin#onDisable()} or when using {@link ModuleManager#unregisterModule(Class)}
+	 * Load this module, call in {@link JavaPlugin#onLoad()}
 	 */
-	public abstract void onDisable();
+	public abstract void onLoad();
 
 }

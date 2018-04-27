@@ -1,7 +1,6 @@
 package fr.islandswars.api.bossbar;
 
 import fr.islandswars.api.player.IslandsPlayer;
-
 import java.util.stream.Stream;
 
 /**
@@ -33,10 +32,9 @@ import java.util.stream.Stream;
 public interface BarSequence {
 
 	/**
-	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
-	 * and free all resources
+	 * @return all bars stocked in this sequence
 	 */
-	void shutdownSequence();
+	Stream<Bar> getBars();
 
 	/**
 	 * Get (if exist) the currently displayed bossbar
@@ -51,8 +49,9 @@ public interface BarSequence {
 	Stream<IslandsPlayer> getViewers();
 
 	/**
-	 * @return all bars stocked in this sequence
+	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
+	 * and free all resources
 	 */
-	Stream<Bar> getBars();
+	void shutdownSequence();
 
 }

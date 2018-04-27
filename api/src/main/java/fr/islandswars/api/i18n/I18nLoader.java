@@ -1,8 +1,7 @@
 package fr.islandswars.api.i18n;
 
-import org.bukkit.plugin.Plugin;
-
 import javax.annotation.concurrent.ThreadSafe;
+import org.bukkit.plugin.Plugin;
 
 /**
  * File <b>I18nLoader</b> located on fr.islandswars.api.i18n

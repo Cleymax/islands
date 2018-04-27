@@ -9,7 +9,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.SerializationException;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -111,6 +110,43 @@ public class CommandSerializers {
 	}
 
 	/**
+	 * Get a default serializer from its serialized class.
+	 *
+	 * @param <T>   the type of the serializer
+	 * @param clazz the class
+	 * @return the serializer
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> CommandSerializer<T> getSerializer(Class<T> clazz) {
+		return (CommandSerializer<T>) INSTANCES.get(clazz);
+	}
+
+	/* -------------------------- */
+	/* ---- SERIALIZER UTILS ---- */
+	/* -------------------------- */
+
+	/**
+	 * Get a default serializer from its class and serialized class.
+	 *
+	 * @param clazz      the serialized class
+	 * @param serializer the serializer class
+	 * @param <T>        the type of the serialized class
+	 * @return the command serializer
+	 * @throws ReflectiveOperationException reflection-related method
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> CommandSerializer<T> serializerOf(Class<T> clazz, Class<? extends CommandSerializer> serializer) throws ReflectiveOperationException {
+		CommandSerializer serial = CACHE.get(clazz);
+
+		if (serial != null && serial.getClass() == serializer)
+			return serial;
+
+		serial = serializer.getConstructor().newInstance();
+		CACHE.put(clazz, serial);
+		return serial;
+	}
+
+	/**
 	 * Append a value to a list.
 	 *
 	 * @param list the list
@@ -121,10 +157,6 @@ public class CommandSerializers {
 		list.add(str);
 		return list;
 	}
-
-	/* -------------------------- */
-	/* ---- SERIALIZER UTILS ---- */
-	/* -------------------------- */
 
 	/**
 	 * Get all online players' name.
@@ -176,39 +208,6 @@ public class CommandSerializers {
 	private static List<String> sort(List<String> list) {
 		list.sort(null);
 		return list;
-	}
-
-	/**
-	 * Get a default serializer from its serialized class.
-	 *
-	 * @param <T>   the type of the serializer
-	 * @param clazz the class
-	 * @return the serializer
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> CommandSerializer<T> getSerializer(Class<T> clazz) {
-		return (CommandSerializer<T>) INSTANCES.get(clazz);
-	}
-
-	/**
-	 * Get a default serializer from its class and serialized class.
-	 *
-	 * @param clazz      the serialized class
-	 * @param serializer the serializer class
-	 * @param <T>        the type of the serialized class
-	 * @return the command serializer
-	 * @throws ReflectiveOperationException reflection-related method
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> CommandSerializer<T> serializerOf(Class<T> clazz, Class<? extends CommandSerializer> serializer) throws ReflectiveOperationException {
-		CommandSerializer serial = CACHE.get(clazz);
-
-		if (serial != null && serial.getClass() == serializer)
-			return serial;
-
-		serial = serializer.getConstructor().newInstance();
-		CACHE.put(clazz, serial);
-		return serial;
 	}
 
 	/**

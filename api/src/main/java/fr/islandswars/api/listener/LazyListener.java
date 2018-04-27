@@ -48,7 +48,7 @@ public abstract class LazyListener implements Listener {
 	 * @param player a bukkit player
 	 * @return an IslandsPlayer if uuid matches
 	 */
-	public IslandsPlayer getFromPlayer(Player player) {
+	protected IslandsPlayer getFromPlayer(Player player) {
 		return api.getPlayer(player.getUniqueId()).orElseThrow(NullPointerException::new);
 	}
 }

@@ -2,12 +2,11 @@ package fr.islandswars.api.scoreboard.team;
 
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardComponent;
-import org.bukkit.DyeColor;
-
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.function.Supplier;
+import javax.annotation.Nullable;
+import org.bukkit.DyeColor;
 
 /**
  * File <b>Team</b> located on fr.islandswars.api.scoreboard.team
@@ -38,11 +37,82 @@ import java.util.function.Supplier;
 public interface Team extends ScoreboardComponent {
 
 	/**
+	 * Add a player to the team
+	 *
+	 * @param player the player who be added
+	 */
+	void addPlayer(IslandsPlayer player);
+
+	/**
+	 * Add a player who can see the team
+	 *
+	 * @param player who can see the team
+	 */
+	void addViewer(IslandsPlayer player);
+
+	/**
+	 * Check if the team allow the friendly fire
+	 *
+	 * @return <code>true</code> if the team allow the friendly fire
+	 */
+	boolean allowFriendlyFire();
+
+	/**
+	 * Check if the team can see her members invisible
+	 *
+	 * @return <code>true</code> if can see her members invisible
+	 */
+	boolean canSeeFriendlyInvisible();
+
+	/**
+	 * Get player in the team
+	 *
+	 * @return A {@link Set} of {@link IslandsPlayer}
+	 */
+	Set<IslandsPlayer> getPlayers();
+
+	/**
 	 * Get the prefix of a team
 	 *
 	 * @return the prefix of the team
 	 */
 	String getPrefix();
+
+	/**
+	 * Get the suffix of a team
+	 *
+	 * @return the suffix of the team
+	 */
+	String getSuffix();
+
+	/**
+	 * Get the color of a team
+	 *
+	 * @return THe {@link DyeColor} of the team
+	 */
+	DyeColor getTeamColor();
+
+	/**
+	 * Check if a player is in a team
+	 *
+	 * @param player the player who be checked
+	 * @return <code>true</code> if the player is in the team
+	 */
+	boolean hasPlayer(IslandsPlayer player);
+
+	/**
+	 * Remove a player from a team
+	 *
+	 * @param player the name player who be removed
+	 */
+	void removePlayer(IslandsPlayer player);
+
+	/**
+	 * Set if the team allow the friendly fire
+	 *
+	 * @param friendlyFire the new label of friendly fire
+	 */
+	void setFriendlyFire(boolean friendlyFire);
 
 	/**
 	 * Set the prefix of a team
@@ -60,11 +130,11 @@ public interface Team extends ScoreboardComponent {
 	void setPrefix(String prefix, Supplier<Object[]> parameters);
 
 	/**
-	 * Get the suffix of a team
+	 * Set if the team can see her members invisible
 	 *
-	 * @return the suffix of the team
+	 * @param seeFriendlyInvisible the new label of see members invisible
 	 */
-	String getSuffix();
+	void setSeeFriendlyInvisible(boolean seeFriendlyInvisible);
 
 	/**
 	 * Set the suffix of a team
@@ -82,82 +152,11 @@ public interface Team extends ScoreboardComponent {
 	void setSuffix(String suffix, Supplier<Object[]> parameters);
 
 	/**
-	 * Check if the team allow the friendly fire
-	 *
-	 * @return <code>true</code> if the team allow the friendly fire
-	 */
-	boolean allowFriendlyFire();
-
-	/**
-	 * Set if the team allow the friendly fire
-	 *
-	 * @param friendlyFire the new label of friendly fire
-	 */
-	void setFriendlyFire(boolean friendlyFire);
-
-	/**
-	 * Check if the team can see her members invisible
-	 *
-	 * @return <code>true</code> if can see her members invisible
-	 */
-	boolean canSeeFriendlyInvisible();
-
-	/**
-	 * Set if the team can see her members invisible
-	 *
-	 * @param seeFriendlyInvisible the new label of see members invisible
-	 */
-	void setSeeFriendlyInvisible(boolean seeFriendlyInvisible);
-
-	/**
-	 * Add a player to the team
-	 *
-	 * @param player the player who be added
-	 */
-	void addPlayer(IslandsPlayer player);
-
-	/**
-	 * Remove a player from a team
-	 *
-	 * @param player the name player who be removed
-	 */
-	void removePlayer(IslandsPlayer player);
-
-	/**
-	 * Check if a player is in a team
-	 *
-	 * @param player the player who be checked
-	 * @return <code>true</code> if the player is in the team
-	 */
-	boolean hasPlayer(IslandsPlayer player);
-
-	/**
-	 * Get the color of a team
-	 *
-	 * @return THe {@link DyeColor} of the team
-	 */
-	DyeColor getTeamColor();
-
-	/**
 	 * Set the color for a team
 	 *
 	 * @param teamColor the new color of the team
 	 */
 	void setTeamColor(DyeColor teamColor);
-
-	/**
-	 * Add a player who can see the team
-	 *
-	 * @param player who can see the team
-	 */
-	void addViewer(IslandsPlayer player);
-
-	/**
-	 * Get player in the team
-	 *
-	 * @return A {@link Set} of {@link IslandsPlayer}
-	 */
-	Set<IslandsPlayer> getPlayers();
 
 	/**
 	 * The CollisionRule parameter for the team

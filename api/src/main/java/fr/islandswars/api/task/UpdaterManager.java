@@ -1,8 +1,7 @@
 package fr.islandswars.api.task;
 
-import org.bukkit.scheduler.BukkitTask;
-
 import javax.annotation.concurrent.ThreadSafe;
+import org.bukkit.scheduler.BukkitTask;
 
 /**
  * File <b>UpdaterManager</b> located on fr.islandswars.api.task

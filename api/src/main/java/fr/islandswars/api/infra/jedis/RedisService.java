@@ -44,33 +44,18 @@ public interface RedisService {
 	Optional<String> get(final String key);
 
 	/**
-	 * Return all the members (elements) of the set label stored at key. This is just syntax glue for
-	 * {@link #sinter(String...) SINTER}.
+	 * Add the string label to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key
+	 * does not exist an empty list is created just before the append operation. If the key exists but
+	 * is not a List an error is returned.
 	 * <p>
-	 * Time complexity O(N)
+	 * Time complexity: O(1)
 	 *
-	 * @param key a registered key to get
-	 * @return wrapped multi bulk reply
+	 * @param key     a key to register
+	 * @param strings associated values
+	 * @return Integer reply, specifically, the number of elements inside the list after the push
+	 * operation.
 	 */
-	Optional<Set<String>> smembers(final String key);
-
-	/**
-	 * Return the members of a set resulting from the intersection of all the sets hold at the
-	 * specified keys. Like in {@link #lrange(String, long, long) LRANGE} the result is sent to the
-	 * client as a multi-bulk reply (see the protocol specification for more information). If just a
-	 * single key is specified, then this command produces the same result as
-	 * {@link #smembers(String) SMEMBERS}. Actually SMEMBERS is just syntax sugar for SINTER.
-	 * <p>
-	 * Non existing keys are considered like empty sets, so if one of the keys is missing an empty set
-	 * is returned (since the intersection with an empty set always is an empty set).
-	 * <p>
-	 * Time complexity O(N*M) worst case where N is the cardinality of the smallest set and M the
-	 * number of sets
-	 *
-	 * @param keys a registered key to get
-	 * @return Multi bulk reply, specifically the list of common elements.
-	 */
-	Optional<Set<String>> sinter(final String... keys);
+	Long lpush(final String key, final String... strings);
 
 	/**
 	 * Return the specified elements of the list stored at the specified key. Start and end are
@@ -108,18 +93,6 @@ public interface RedisService {
 	Optional<List<String>> lrange(final String key, final long start, final long stop);
 
 	/**
-	 * Set the string label as label of the key. The string can't be longer than 1073741824 bytes (1
-	 * GB).
-	 * <p>
-	 * Time complexity: O(1)
-	 *
-	 * @param key   key storage system
-	 * @param value associated label
-	 * @return status code reply
-	 */
-	String set(final String key, final String value);
-
-	/**
 	 * Add the string label to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key
 	 * does not exist an empty list is created just before the append operation. If the key exists but
 	 * is not a List an error is returned.
@@ -134,16 +107,43 @@ public interface RedisService {
 	Long rpush(final String key, final String... strings);
 
 	/**
-	 * Add the string label to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key
-	 * does not exist an empty list is created just before the append operation. If the key exists but
-	 * is not a List an error is returned.
+	 * Set the string label as label of the key. The string can't be longer than 1073741824 bytes (1
+	 * GB).
 	 * <p>
 	 * Time complexity: O(1)
 	 *
-	 * @param key     a key to register
-	 * @param strings associated values
-	 * @return Integer reply, specifically, the number of elements inside the list after the push
-	 * operation.
+	 * @param key   key storage system
+	 * @param value associated label
+	 * @return status code reply
 	 */
-	Long lpush(final String key, final String... strings);
+	String set(final String key, final String value);
+
+	/**
+	 * Return the members of a set resulting from the intersection of all the sets hold at the
+	 * specified keys. Like in {@link #lrange(String, long, long) LRANGE} the result is sent to the
+	 * client as a multi-bulk reply (see the protocol specification for more information). If just a
+	 * single key is specified, then this command produces the same result as
+	 * {@link #smembers(String) SMEMBERS}. Actually SMEMBERS is just syntax sugar for SINTER.
+	 * <p>
+	 * Non existing keys are considered like empty sets, so if one of the keys is missing an empty set
+	 * is returned (since the intersection with an empty set always is an empty set).
+	 * <p>
+	 * Time complexity O(N*M) worst case where N is the cardinality of the smallest set and M the
+	 * number of sets
+	 *
+	 * @param keys a registered key to get
+	 * @return Multi bulk reply, specifically the list of common elements.
+	 */
+	Optional<Set<String>> sinter(final String... keys);
+
+	/**
+	 * Return all the members (elements) of the set label stored at key. This is just syntax glue for
+	 * {@link #sinter(String...) SINTER}.
+	 * <p>
+	 * Time complexity O(N)
+	 *
+	 * @param key a registered key to get
+	 * @return wrapped multi bulk reply
+	 */
+	Optional<Set<String>> smembers(final String key);
 }

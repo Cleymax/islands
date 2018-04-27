@@ -1,11 +1,10 @@
 package fr.islandswars.api.scoreboard.team;
 
 import fr.islandswars.api.player.IslandsPlayer;
-import org.bukkit.DyeColor;
-
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
+import org.bukkit.DyeColor;
 
 /**
  * File <b>TeamManager</b> located on fr.islandswars.api.scoreboard.team
