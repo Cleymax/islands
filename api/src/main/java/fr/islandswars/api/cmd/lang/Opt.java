@@ -30,7 +30,8 @@ import java.lang.annotation.Target;
  * Created the 16/03/2018 at 23:13
  * @since 0.2.9
  * <p>
- * Make an argument {@link Arg} optional
+ * <p>
+ * Make an argument optional
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)

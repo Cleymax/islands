@@ -57,6 +57,7 @@ public class StorageBuilder {
 	 *
 	 * @param name this storage display name, or translation key
 	 * @param size this storage max size, must be a multiple of 9 between [9;54]
+	 * @param type the storage strategy to use
 	 * @return a builder
 	 */
 	public static StorageBuilder build(String name, int size, StorageType type) {
