@@ -32,12 +32,12 @@ import net.minecraft.server.v1_12_R1.PacketLoginInEncryptionBegin;
  */
 public class EncryptionResponsePacket extends GamePacket<PacketLoginInEncryptionBegin> {
 
-	protected EncryptionResponsePacket(PacketLoginInEncryptionBegin handle) {
-		super(handle);
-	}
+    protected EncryptionResponsePacket(PacketLoginInEncryptionBegin handle) {
+        super(handle);
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Login.Client.ENCRYPION_RESPONSE;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Login.Client.ENCRYPION_RESPONSE;
+    }
 }

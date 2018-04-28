@@ -2,9 +2,10 @@ package fr.islandswars.api.listener;
 
 import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.player.IslandsPlayer;
-import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+
+import java.util.UUID;
 
 /**
  * File <b>LazyListener</b> located on fr.islandswars.api.listener
@@ -35,20 +36,20 @@ import org.bukkit.event.Listener;
  */
 public abstract class LazyListener implements Listener {
 
-	protected final IslandsApi api;
+    protected final IslandsApi api;
 
-	public LazyListener(IslandsApi api) {
-		this.api = api;
-		api.registerEvent(this);
-	}
+    public LazyListener(IslandsApi api) {
+        this.api = api;
+        api.registerEvent(this);
+    }
 
-	/**
-	 * Get this IslandsPlayer (if exist) from a Bukkit player (via {@link IslandsApi#getPlayer(UUID)}
-	 *
-	 * @param player a bukkit player
-	 * @return an IslandsPlayer if uuid matches
-	 */
-	public IslandsPlayer getFromPlayer(Player player) {
-		return api.getPlayer(player.getUniqueId()).orElseThrow(NullPointerException::new);
-	}
+    /**
+     * Get this IslandsPlayer (if exist) from a Bukkit player (via {@link IslandsApi#getPlayer(UUID)}
+     *
+     * @param player a bukkit player
+     * @return an IslandsPlayer if uuid matches
+     */
+    public IslandsPlayer getFromPlayer(Player player) {
+        return api.getPlayer(player.getUniqueId()).orElseThrow(NullPointerException::new);
+    }
 }

@@ -35,37 +35,37 @@ import static fr.islandswars.api.net.PacketType.Play.Client.TAB_COMPLETE;
  */
 public class TabCompleteInPacket extends GamePacket<PacketPlayInTabComplete> {
 
-	protected TabCompleteInPacket(PacketPlayInTabComplete handle) {
-		super(handle);
-	}
+    protected TabCompleteInPacket(PacketPlayInTabComplete handle) {
+        super(handle);
+    }
 
-	public String getStartedCommand() {
-		return (String) getHandleValue("a");
-	}
+    public String getStartedCommand() {
+        return (String) getHandleValue("a");
+    }
 
-	public void setStartedCommand(String startedCommand) {
-		setHandleValue("a", startedCommand);
-	}
+    public void setStartedCommand(String startedCommand) {
+        setHandleValue("a", startedCommand);
+    }
 
-	public boolean isCommand() {
-		return (boolean) getHandleValue("b");
-	}
+    public boolean isCommand() {
+        return (boolean) getHandleValue("b");
+    }
 
-	public void setCommand(boolean command) {
-		setHandleValue("b", command);
-	}
+    public void setCommand(boolean command) {
+        setHandleValue("b", command);
+    }
 
-	@Nullable
-	public BlockPosition getBlockPosition() {
-		return (BlockPosition) getHandleValue("c");
-	}
+    @Nullable
+    public BlockPosition getBlockPosition() {
+        return (BlockPosition) getHandleValue("c");
+    }
 
-	public void setBlockPosition(BlockPosition position) {
-		setHandleValue("c", position);
-	}
+    public void setBlockPosition(BlockPosition position) {
+        setHandleValue("c", position);
+    }
 
-	@Override
-	public PacketType getType() {
-		return TAB_COMPLETE;
-	}
+    @Override
+    public PacketType getType() {
+        return TAB_COMPLETE;
+    }
 }

@@ -1,6 +1,7 @@
 package fr.islandswars.api.cmd.lang;
 
 import fr.islandswars.api.cmd.CommandSerializer;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -37,8 +38,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface Serial {
 
-	/**
-	 * @return the serializer for this parameter.
-	 */
-	Class<? extends CommandSerializer> value();
+    /**
+     * @return the serializer for this parameter.
+     */
+    Class<? extends CommandSerializer> value();
 }

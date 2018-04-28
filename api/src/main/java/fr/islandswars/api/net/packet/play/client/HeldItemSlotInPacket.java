@@ -32,20 +32,20 @@ import static fr.islandswars.api.net.PacketType.Play.Client.HELD_ITEM_SLOT;
  */
 public class HeldItemSlotInPacket extends GamePacket<PacketPlayInHeldItemSlot> {
 
-	public HeldItemSlotInPacket(PacketPlayInHeldItemSlot handle) {
-		super(handle);
-	}
+    public HeldItemSlotInPacket(PacketPlayInHeldItemSlot handle) {
+        super(handle);
+    }
 
-	public int getSlot() {
-		return (int) getHandleValue("itemInHandIndex");
-	}
+    public int getSlot() {
+        return (int) getHandleValue("itemInHandIndex");
+    }
 
-	public void setSlot(int slot) {
-		setHandleValue("itemInHandIndex", slot);
-	}
+    public void setSlot(int slot) {
+        setHandleValue("itemInHandIndex", slot);
+    }
 
-	@Override
-	public PacketType getType() {
-		return HELD_ITEM_SLOT;
-	}
+    @Override
+    public PacketType getType() {
+        return HELD_ITEM_SLOT;
+    }
 }

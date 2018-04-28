@@ -31,9 +31,9 @@ import org.bukkit.command.CommandSender;
 @Command(description = "core.command.ping.description", aliases = "p", label = "ping")
 public class PingCommand {
 
-	@CommandExecutor
-	public static void handle(CommandSender sender) {
-		sender.sendMessage("pong");
-	}
+    @CommandExecutor
+    public static void handle(CommandSender sender) {
+        sender.sendMessage("pong");
+    }
 
 }

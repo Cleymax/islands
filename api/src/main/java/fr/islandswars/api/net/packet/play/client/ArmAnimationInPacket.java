@@ -33,20 +33,20 @@ import static fr.islandswars.api.net.PacketType.Play.Client.ARM_ANIMATION;
  */
 public class ArmAnimationInPacket extends GamePacket<PacketPlayInArmAnimation> {
 
-	public ArmAnimationInPacket(PacketPlayInArmAnimation handle) {
-		super(handle);
-	}
+    public ArmAnimationInPacket(PacketPlayInArmAnimation handle) {
+        super(handle);
+    }
 
-	public EnumHand getHandAnimation() {
-		return (EnumHand) getHandleValue("a");
-	}
+    public EnumHand getHandAnimation() {
+        return (EnumHand) getHandleValue("a");
+    }
 
-	public void setHandAnimation(EnumHand handAnimation) {
-		setHandleValue("a", handAnimation);
-	}
+    public void setHandAnimation(EnumHand handAnimation) {
+        setHandleValue("a", handAnimation);
+    }
 
-	@Override
-	public PacketType getType() {
-		return ARM_ANIMATION;
-	}
+    @Override
+    public PacketType getType() {
+        return ARM_ANIMATION;
+    }
 }

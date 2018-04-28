@@ -34,103 +34,103 @@ import java.util.function.Supplier;
  */
 public interface ObjectiveManager {
 
-	/**
-	 * Create an objective
-	 *
-	 * @param name The unique name of the objective (can't be changed after)
-	 * @return A Bukkit wrapped Objective
-	 */
-	Objective createObjective(String name);
+    /**
+     * Create an objective
+     *
+     * @param name The unique name of the objective (can't be changed after)
+     * @return A Bukkit wrapped Objective
+     */
+    Objective createObjective(String name);
 
-	/**
-	 * Create an objective
-	 *
-	 * @param name        The unique name of the objective (can't be changed after)
-	 * @param displayName The display name of the objective
-	 * @return A Bukkit wrapped Objective
-	 */
-	Objective createObjective(String name, String displayName);
+    /**
+     * Create an objective
+     *
+     * @param name        The unique name of the objective (can't be changed after)
+     * @param displayName The display name of the objective
+     * @return A Bukkit wrapped Objective
+     */
+    Objective createObjective(String name, String displayName);
 
-	/**
-	 * Create an objective
-	 *
-	 * @param name        The unique name of the objective (can't be changed after)
-	 * @param displayName The display name of the objective
-	 * @param parameters  some translation parameters
-	 * @return A Bukkit wrapped Objective
-	 */
-	Objective createObjective(String name, String displayName, Supplier<Object[]> parameters);
+    /**
+     * Create an objective
+     *
+     * @param name        The unique name of the objective (can't be changed after)
+     * @param displayName The display name of the objective
+     * @param parameters  some translation parameters
+     * @return A Bukkit wrapped Objective
+     */
+    Objective createObjective(String name, String displayName, Supplier<Object[]> parameters);
 
-	/**
-	 * Create an objective
-	 *
-	 * @param name        The unique name of the objective (can't be changed after)
-	 * @param displayName The display name of the objective
-	 * @param displayType The display type of the objective (like heart for life)
-	 * @return A Bukkit wrapped Objective
-	 */
-	Objective createObjective(String name, String displayName, ObjectiveDisplayType displayType);
+    /**
+     * Create an objective
+     *
+     * @param name        The unique name of the objective (can't be changed after)
+     * @param displayName The display name of the objective
+     * @param displayType The display type of the objective (like heart for life)
+     * @return A Bukkit wrapped Objective
+     */
+    Objective createObjective(String name, String displayName, ObjectiveDisplayType displayType);
 
-	/**
-	 * Create an objective
-	 *
-	 * @param name        The unique name of the objective (can't be changed after)
-	 * @param displayName The display name of the objective
-	 * @param displayType The display type of the objective (like heart for life)
-	 * @param parameters  some translation parameters
-	 * @return A Bukkit wrapped Objective
-	 */
-	Objective createObjective(String name, String displayName, ObjectiveDisplayType displayType, Supplier<Object[]> parameters);
+    /**
+     * Create an objective
+     *
+     * @param name        The unique name of the objective (can't be changed after)
+     * @param displayName The display name of the objective
+     * @param displayType The display type of the objective (like heart for life)
+     * @param parameters  some translation parameters
+     * @return A Bukkit wrapped Objective
+     */
+    Objective createObjective(String name, String displayName, ObjectiveDisplayType displayType, Supplier<Object[]> parameters);
 
-	/**
-	 * Create an objective
-	 *
-	 * @param name        The unique name of the objective (can't be changed after)
-	 * @param displayName The display name of the objective
-	 * @param displaySlot The slot where will be display the objective
-	 * @return A Bukkit wrapped Objective
-	 */
-	Objective createObjective(String name, String displayName, ObjectiveSlot displaySlot);
+    /**
+     * Create an objective
+     *
+     * @param name        The unique name of the objective (can't be changed after)
+     * @param displayName The display name of the objective
+     * @param displaySlot The slot where will be display the objective
+     * @return A Bukkit wrapped Objective
+     */
+    Objective createObjective(String name, String displayName, ObjectiveSlot displaySlot);
 
-	/**
-	 * Create an objective
-	 *
-	 * @param name        The unique name of the objective (can't be changed after)
-	 * @param displayName The display name of the objective
-	 * @param displaySlot The slot where will be display the objective
-	 * @param parameters  some translation parameters
-	 * @return A Bukkit wrapped Objective
-	 */
-	Objective createObjective(String name, String displayName, ObjectiveSlot displaySlot, Supplier<Object[]> parameters);
+    /**
+     * Create an objective
+     *
+     * @param name        The unique name of the objective (can't be changed after)
+     * @param displayName The display name of the objective
+     * @param displaySlot The slot where will be display the objective
+     * @param parameters  some translation parameters
+     * @return A Bukkit wrapped Objective
+     */
+    Objective createObjective(String name, String displayName, ObjectiveSlot displaySlot, Supplier<Object[]> parameters);
 
-	/**
-	 * Create an objective
-	 *
-	 * @param name        The unique name of the objective (can't be changed after)
-	 * @param displayName The display name of the objective
-	 * @param displayType The display type of the objective (like heart for life)
-	 * @param displaySlot The slot where will be display the objective
-	 * @return A Bukkit wrapped Objective
-	 */
-	Objective createObjective(String name, String displayName, ObjectiveDisplayType displayType, ObjectiveSlot displaySlot);
+    /**
+     * Create an objective
+     *
+     * @param name        The unique name of the objective (can't be changed after)
+     * @param displayName The display name of the objective
+     * @param displayType The display type of the objective (like heart for life)
+     * @param displaySlot The slot where will be display the objective
+     * @return A Bukkit wrapped Objective
+     */
+    Objective createObjective(String name, String displayName, ObjectiveDisplayType displayType, ObjectiveSlot displaySlot);
 
-	/**
-	 * Create an objective
-	 *
-	 * @param name        The unique name of the objective (can't be changed after)
-	 * @param displayName The display name of the objective
-	 * @param displayType The display type of the objective (like heart for life)
-	 * @param displaySlot The slot where will be display the objective
-	 * @param parameters  some translation parameters
-	 * @return A Bukkit wrapped Objective
-	 */
-	Objective createObjective(String name, String displayName, ObjectiveDisplayType displayType, ObjectiveSlot displaySlot, Supplier<Object[]> parameters);
+    /**
+     * Create an objective
+     *
+     * @param name        The unique name of the objective (can't be changed after)
+     * @param displayName The display name of the objective
+     * @param displayType The display type of the objective (like heart for life)
+     * @param displaySlot The slot where will be display the objective
+     * @param parameters  some translation parameters
+     * @return A Bukkit wrapped Objective
+     */
+    Objective createObjective(String name, String displayName, ObjectiveDisplayType displayType, ObjectiveSlot displaySlot, Supplier<Object[]> parameters);
 
-	/**
-	 * Get all created objectives
-	 *
-	 * @return A {@link Set} of {@link Objective}
-	 */
-	Set<Objective> getRegisterObjectives();
+    /**
+     * Get all created objectives
+     *
+     * @return A {@link Set} of {@link Objective}
+     */
+    Set<Objective> getRegisterObjectives();
 
 }

@@ -30,61 +30,61 @@ import net.minecraft.server.v1_12_R1.PacketPlayInAbilities;
  */
 public class AbilitiesInPacket extends GamePacket<PacketPlayInAbilities> {
 
-	protected AbilitiesInPacket(PacketPlayInAbilities handle) {
-		super(handle);
-	}
+    protected AbilitiesInPacket(PacketPlayInAbilities handle) {
+        super(handle);
+    }
 
-	public boolean isInvulnerable() {
-		return (boolean) getHandleValue("a");
-	}
+    public boolean isInvulnerable() {
+        return (boolean) getHandleValue("a");
+    }
 
-	public void setInvulnerable(boolean invulnerable) {
-		setHandleValue("a", invulnerable);
-	}
+    public void setInvulnerable(boolean invulnerable) {
+        setHandleValue("a", invulnerable);
+    }
 
-	public boolean isFlying() {
-		return (boolean) getHandleValue("b");
-	}
+    public boolean isFlying() {
+        return (boolean) getHandleValue("b");
+    }
 
-	public void setFlying(boolean flying) {
-		setHandleValue("b", flying);
-	}
+    public void setFlying(boolean flying) {
+        setHandleValue("b", flying);
+    }
 
-	public boolean canFly() {
-		return (boolean) getHandleValue("c");
-	}
+    public boolean canFly() {
+        return (boolean) getHandleValue("c");
+    }
 
-	public void setFly(boolean fly) {
-		setHandleValue("c", fly);
-	}
+    public void setFly(boolean fly) {
+        setHandleValue("c", fly);
+    }
 
-	public boolean canInstantlyBuild() {
-		return (boolean) getHandleValue("d");
-	}
+    public boolean canInstantlyBuild() {
+        return (boolean) getHandleValue("d");
+    }
 
-	public void setInstantlyBuild(boolean instantlyBuild) {
-		setHandleValue("d", instantlyBuild);
-	}
+    public void setInstantlyBuild(boolean instantlyBuild) {
+        setHandleValue("d", instantlyBuild);
+    }
 
-	public float getFlySpeed() {
-		return (float) getHandleValue("e");
-	}
+    public float getFlySpeed() {
+        return (float) getHandleValue("e");
+    }
 
-	public void setFlySpeed(float flySpeed) {
-		setHandleValue("e", flySpeed);
-	}
+    public void setFlySpeed(float flySpeed) {
+        setHandleValue("e", flySpeed);
+    }
 
-	public float getWalkSpeed() {
-		return (float) getHandleValue("f");
-	}
+    public float getWalkSpeed() {
+        return (float) getHandleValue("f");
+    }
 
-	public void setWalkSpeed(float walkSpeed) {
-		setHandleValue("f", walkSpeed);
-	}
+    public void setWalkSpeed(float walkSpeed) {
+        setHandleValue("f", walkSpeed);
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Client.ABILITIES;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Play.Client.ABILITIES;
+    }
 
 }

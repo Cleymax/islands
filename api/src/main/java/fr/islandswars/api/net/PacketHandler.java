@@ -29,26 +29,26 @@ package fr.islandswars.api.net;
  */
 public abstract class PacketHandler<T extends GamePacket> {
 
-	private final PacketType<T> packetType;
+    private final PacketType<T> packetType;
 
-	public PacketHandler(PacketType<T> packetType) {
-		this.packetType = packetType;
-	}
+    public PacketHandler(PacketType<T> packetType) {
+        this.packetType = packetType;
+    }
 
-	/**
-	 * Get the type of the handled packet
-	 *
-	 * @return the packet type handle by the packet handler
-	 */
-	public final PacketType<T> getPacketType() {
-		return packetType;
-	}
+    /**
+     * Get the type of the handled packet
+     *
+     * @return the packet type handle by the packet handler
+     */
+    public final PacketType<T> getPacketType() {
+        return packetType;
+    }
 
-	/**
-	 * Called when a packet with the specified packet type is received
-	 *
-	 * @param event an event to consume when receiving or emitting this packet type
-	 */
-	public abstract void handlePacket(PacketEvent<T> event);
+    /**
+     * Called when a packet with the specified packet type is received
+     *
+     * @param event an event to consume when receiving or emitting this packet type
+     */
+    public abstract void handlePacket(PacketEvent<T> event);
 
 }

@@ -28,8 +28,8 @@ package fr.islandswars.api.player;
  */
 public enum ChatType {
 
-	TITLE,
-	SUBTITLE,
-	CHAT
+    TITLE,
+    SUBTITLE,
+    CHAT
 
 }

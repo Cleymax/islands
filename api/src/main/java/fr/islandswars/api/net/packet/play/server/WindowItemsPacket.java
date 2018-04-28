@@ -33,35 +33,35 @@ import java.util.List;
  */
 public class WindowItemsPacket extends GamePacket<PacketPlayOutWindowItems> {
 
-	protected WindowItemsPacket(PacketPlayOutWindowItems handle) {
-		super(handle);
-	}
+    protected WindowItemsPacket(PacketPlayOutWindowItems handle) {
+        super(handle);
+    }
 
-	public WindowItemsPacket(int id, List<ItemStack> items) {
-		this(new PacketPlayOutWindowItems());
-		setWindowID(id);
-		setItemStacks(items);
-	}
+    public WindowItemsPacket(int id, List<ItemStack> items) {
+        this(new PacketPlayOutWindowItems());
+        setWindowID(id);
+        setItemStacks(items);
+    }
 
-	public int getWindowID() {
-		return (int) getHandleValue("a");
-	}
+    public int getWindowID() {
+        return (int) getHandleValue("a");
+    }
 
-	public void setWindowID(int newId) {
-		setHandleValue("a", newId);
-	}
+    public void setWindowID(int newId) {
+        setHandleValue("a", newId);
+    }
 
-	@SuppressWarnings("unchecked")
-	public List<ItemStack> getItemStacks() {
-		return (List<ItemStack>) getHandleValue("b");
-	}
+    @SuppressWarnings("unchecked")
+    public List<ItemStack> getItemStacks() {
+        return (List<ItemStack>) getHandleValue("b");
+    }
 
-	public void setItemStacks(List<ItemStack> newItems) {
-		setHandleValue("b", newItems);
-	}
+    public void setItemStacks(List<ItemStack> newItems) {
+        setHandleValue("b", newItems);
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Server.WINDOW_ITEMS;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Play.Server.WINDOW_ITEMS;
+    }
 }

@@ -32,21 +32,21 @@ import org.bukkit.command.CommandSender;
  */
 public class ErrorHandlerCommandExecutor implements CommandExecutor {
 
-	private final CommandExecutor owner;
-	private final ErrorHandler    handler;
+    private final CommandExecutor owner;
+    private final ErrorHandler handler;
 
-	public ErrorHandlerCommandExecutor(CommandExecutor owner, ErrorHandler handler) {
-		this.owner = owner;
-		this.handler = handler;
-	}
+    public ErrorHandlerCommandExecutor(CommandExecutor owner, ErrorHandler handler) {
+        this.owner = owner;
+        this.handler = handler;
+    }
 
-	@Override
-	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-		try {
-			return owner.onCommand(commandSender, command, s, strings);
-		} catch (Throwable t) {
-			handler.handle(t);
-			return false;
-		}
-	}
+    @Override
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        try {
+            return owner.onCommand(commandSender, command, s, strings);
+        } catch (Throwable t) {
+            handler.handle(t);
+            return false;
+        }
+    }
 }

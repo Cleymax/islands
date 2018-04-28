@@ -31,29 +31,29 @@ import org.bukkit.entity.Player;
  */
 public interface ProtocolManager {
 
-	/**
-	 * Register the givan packet handler
-	 *
-	 * @param handler a custom handler for a {@link PacketType}
-	 */
-	void subscribeHandler(PacketHandler<? extends GamePacket> handler);
+    /**
+     * Register the givan packet handler
+     *
+     * @param handler a custom handler for a {@link PacketType}
+     */
+    void subscribeHandler(PacketHandler<? extends GamePacket> handler);
 
-	/**
-	 * Unregister the given handler, the {@link PacketHandler#handlePacket(PacketEvent)} won't be longer notified
-	 *
-	 * @param handler the handler to remove
-	 */
-	void unsubscribeHandler(PacketHandler<? extends GamePacket> handler);
+    /**
+     * Unregister the given handler, the {@link PacketHandler#handlePacket(PacketEvent)} won't be longer notified
+     *
+     * @param handler the handler to remove
+     */
+    void unsubscribeHandler(PacketHandler<? extends GamePacket> handler);
 
-	/**
-	 * Send this packet's wrapper to a Player, basically call :
-	 * <code>
-	 * ((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-	 * </code>
-	 *
-	 * @param target the player to send data
-	 * @param packet a valid Minecraft {@link fr.islandswars.api.net.PacketType.Bound#OUT} packet
-	 * @param <T>    a minecraft packet wrapper
-	 */
-	<T extends GamePacket> void sendPacket(Player target, T packet);
+    /**
+     * Send this packet's wrapper to a Player, basically call :
+     * <code>
+     * ((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
+     * </code>
+     *
+     * @param target the player to send data
+     * @param packet a valid Minecraft {@link fr.islandswars.api.net.PacketType.Bound#OUT} packet
+     * @param <T>    a minecraft packet wrapper
+     */
+    <T extends GamePacket> void sendPacket(Player target, T packet);
 }

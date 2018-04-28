@@ -33,12 +33,13 @@ import fr.islandswars.core.internal.listener.net.SetSlotHandler;
 import fr.islandswars.core.internal.listener.net.WindowItemHandler;
 import fr.islandswars.core.internal.log.InternalLogger;
 import fr.islandswars.core.player.InternalPlayer;
+import org.bukkit.entity.Player;
+
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-import org.bukkit.entity.Player;
 
 /**
  * File <b>IslandsCore</b> located on fr.islandswars.core
@@ -66,176 +67,176 @@ import org.bukkit.entity.Player;
  */
 public class IslandsCore extends IslandsApi {
 
-	private final BukkitCommandInjector               commandmanager;
-	private final UpdaterManager                      updaterManager;
-	private final StorageFactory                      storageManager;
-	private final PacketHandlerManager                packetManager;
-	private final LocaleTranslatable                  translatable;
-	private final CopyOnWriteArrayList<IslandsPlayer> players;
-	private final List<Module>                        modules;
-	private final InternalLogger                      logger;
-	private final BukkitBarManager                    barManager;
+    private final BukkitCommandInjector commandmanager;
+    private final UpdaterManager updaterManager;
+    private final StorageFactory storageManager;
+    private final PacketHandlerManager packetManager;
+    private final LocaleTranslatable translatable;
+    private final CopyOnWriteArrayList<IslandsPlayer> players;
+    private final List<Module> modules;
+    private final InternalLogger logger;
+    private final BukkitBarManager barManager;
 
-	public IslandsCore() {
-		this.logger = new InternalLogger();
-		this.commandmanager = new BukkitCommandInjector();
-		this.packetManager = new PacketHandlerManager();
-		this.translatable = new LocaleTranslatable();
-		this.players = new CopyOnWriteArrayList<>();
-		this.storageManager = new StorageFactory();
-		this.updaterManager = new TaskManager();
-		this.modules = new ArrayList<>();
+    public IslandsCore() {
+        this.logger = new InternalLogger();
+        this.commandmanager = new BukkitCommandInjector();
+        this.packetManager = new PacketHandlerManager();
+        this.translatable = new LocaleTranslatable();
+        this.players = new CopyOnWriteArrayList<>();
+        this.storageManager = new StorageFactory();
+        this.updaterManager = new TaskManager();
+        this.modules = new ArrayList<>();
 
-		this.barManager = registerModule(BukkitBarManager.class);
-	}
+        this.barManager = registerModule(BukkitBarManager.class);
+    }
 
-	public void addPlayer(Player p) {
-		players.add(new InternalPlayer(p));
-	}
+    public void addPlayer(Player p) {
+        players.add(new InternalPlayer(p));
+    }
 
-	@Override
-	public BarManager getBarManager() {
-		return barManager;
-	}
+    @Override
+    public BarManager getBarManager() {
+        return barManager;
+    }
 
-	@Override
-	public CommandManager getCommandManager() {
-		return commandmanager;
-	}
+    @Override
+    public CommandManager getCommandManager() {
+        return commandmanager;
+    }
 
-	@Override
-	public ServerType getCurrentServerType() {
-		return null;
-	}
+    @Override
+    public ServerType getCurrentServerType() {
+        return null;
+    }
 
-	@Override
-	public I18nLoader getI18nLoader() {
-		return translatable.getLoader();
-	}
+    @Override
+    public I18nLoader getI18nLoader() {
+        return translatable.getLoader();
+    }
 
-	@Override
-	public InfraLogger getInfraLogger() {
-		return logger;
-	}
+    @Override
+    public InfraLogger getInfraLogger() {
+        return logger;
+    }
 
-	@Override
-	public PermissibleManager getPermissionManager() {
-		return null;
-	}
+    @Override
+    public PermissibleManager getPermissionManager() {
+        return null;
+    }
 
-	@Override
-	public Optional<IslandsPlayer> getPlayer(UUID playerId) {
-		return players.stream().filter(p -> p.getCraftPlayer().getUniqueId().equals(playerId)).findFirst();
-	}
+    @Override
+    public Optional<IslandsPlayer> getPlayer(UUID playerId) {
+        return players.stream().filter(p -> p.getCraftPlayer().getUniqueId().equals(playerId)).findFirst();
+    }
 
-	@Override
-	public List<? extends IslandsPlayer> getPlayers() {
-		return Collections.unmodifiableList(players);
-	}
+    @Override
+    public List<? extends IslandsPlayer> getPlayers() {
+        return Collections.unmodifiableList(players);
+    }
 
-	@Override
-	public List<IslandsPlayer> getPlayers(Predicate<IslandsPlayer> predicate) {
-		return Collections.unmodifiableList(players.stream().filter(predicate).collect(Collectors.toList()));
-	}
+    @Override
+    public List<IslandsPlayer> getPlayers(Predicate<IslandsPlayer> predicate) {
+        return Collections.unmodifiableList(players.stream().filter(predicate).collect(Collectors.toList()));
+    }
 
-	@Override
-	public ProtocolManager getProtocolManager() {
-		return packetManager;
-	}
+    @Override
+    public ProtocolManager getProtocolManager() {
+        return packetManager;
+    }
 
-	@Override
-	public ScoreboardManager getScoreboardManager() {
-		return null;
-	}
+    @Override
+    public ScoreboardManager getScoreboardManager() {
+        return null;
+    }
 
-	@Override
-	public ServiceManager getServiceManager() {
-		return null;
-	}
+    @Override
+    public ServiceManager getServiceManager() {
+        return null;
+    }
 
-	@Override
-	public StorageManager getStorageManager() {
-		return storageManager;
-	}
+    @Override
+    public StorageManager getStorageManager() {
+        return storageManager;
+    }
 
-	@Override
-	public Translatable getTranslatable() {
-		return translatable;
-	}
+    @Override
+    public Translatable getTranslatable() {
+        return translatable;
+    }
 
-	@Override
-	public UpdaterManager getUpdaterManager() {
-		return updaterManager;
-	}
+    @Override
+    public UpdaterManager getUpdaterManager() {
+        return updaterManager;
+    }
 
-	@Override
-	public void onLoad() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Loading server...").setServer(new Server(Status.LOAD, ServerType.HUB)).log();
+    @Override
+    public void onLoad() {
+        getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Loading server...").setServer(new Server(Status.LOAD, ServerType.HUB)).log();
 
-		translatable.getLoader().registerCustomProperties(this);
-		modules.forEach(Module::onLoad);
-	}
+        translatable.getLoader().registerCustomProperties(this);
+        modules.forEach(Module::onLoad);
+    }
 
-	@Override
-	public void onDisable() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Disabling server...").setServer(new Server(Status.DISABLE, ServerType.HUB)).log();
+    @Override
+    public void onDisable() {
+        getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Disabling server...").setServer(new Server(Status.DISABLE, ServerType.HUB)).log();
 
-		modules.forEach(Module::onDisable);
-		PacketInterceptor.clean();
-	}
+        modules.forEach(Module::onDisable);
+        PacketInterceptor.clean();
+    }
 
-	@Override
-	public void onEnable() {
-		getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Enable server in %s ms.").setServer(new Server(Status.ENABLE, ServerType.HUB)).log();
-		PacketInterceptor.inject();
-		modules.forEach(Module::onEnable);
-		try {
-			getCommandManager().registerCommand(PingCommand.class);
+    @Override
+    public void onEnable() {
+        getInfraLogger().createCustomLog(ServerLog.class, Level.INFO, "Enable server in %s ms.").setServer(new Server(Status.ENABLE, ServerType.HUB)).log();
+        PacketInterceptor.inject();
+        modules.forEach(Module::onEnable);
+        try {
+            getCommandManager().registerCommand(PingCommand.class);
 
-			new PlayerListener(this);
-			new ItemListener(this);
+            new PlayerListener(this);
+            new ItemListener(this);
 
-			getProtocolManager().subscribeHandler(new SetSlotHandler(this));
-			getProtocolManager().subscribeHandler(new WindowItemHandler(this));
-		} catch (Exception e) {
-			getInfraLogger().logError(e);
-		}
-	}
+            getProtocolManager().subscribeHandler(new SetSlotHandler(this));
+            getProtocolManager().subscribeHandler(new WindowItemHandler(this));
+        } catch (Exception e) {
+            getInfraLogger().logError(e);
+        }
+    }
 
-	@Override
-	public <T extends Module> T registerModule(Class<T> module) {
-		try {
-			T mod = NMSReflectionUtil.getConstructorAccessor(module, IslandsApi.class).newInstance(IslandsApi.getInstance());
-			if (isEnabled()) {
-				mod.onLoad();
-				mod.onEnable();
-			}
-			modules.add(mod);
-			return mod;
-		} catch (Exception e) {
-			getInfraLogger().logError(e);
-			return null;
-		}
+    @Override
+    public <T extends Module> T registerModule(Class<T> module) {
+        try {
+            T mod = NMSReflectionUtil.getConstructorAccessor(module, IslandsApi.class).newInstance(IslandsApi.getInstance());
+            if (isEnabled()) {
+                mod.onLoad();
+                mod.onEnable();
+            }
+            modules.add(mod);
+            return mod;
+        } catch (Exception e) {
+            getInfraLogger().logError(e);
+            return null;
+        }
 
-	}
+    }
 
-	@Override
-	public <T extends Module> void unregisterModule(Class<T> module) {
-		Optional<? extends Module> optionalModule = modules.stream().filter(m -> m.getClass().equals(module)).findFirst();
-		optionalModule.ifPresent(mod -> {
-			mod.onDisable();
-			modules.remove(mod);
-		});
-	}
+    @Override
+    public <T extends Module> void unregisterModule(Class<T> module) {
+        Optional<? extends Module> optionalModule = modules.stream().filter(m -> m.getClass().equals(module)).findFirst();
+        optionalModule.ifPresent(mod -> {
+            mod.onDisable();
+            modules.remove(mod);
+        });
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T extends Module> Optional<T> getModule(Class<T> module) {
-		return (Optional<T>) modules.stream().filter(m -> m.getClass().equals(module)).findFirst();
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends Module> Optional<T> getModule(Class<T> module) {
+        return (Optional<T>) modules.stream().filter(m -> m.getClass().equals(module)).findFirst();
+    }
 
-	public void removePlayer(IslandsPlayer player) {
-		player.disconnect();
-		players.remove(player);
-	}
+    public void removePlayer(IslandsPlayer player) {
+        player.disconnect();
+        players.remove(player);
+    }
 }

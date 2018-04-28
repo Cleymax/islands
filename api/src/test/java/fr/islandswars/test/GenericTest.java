@@ -28,45 +28,45 @@ import fr.islandswars.api.module.Module;
  */
 public class GenericTest {
 
-	public void test() {
-		Core       core = new Core();
-		SomeModule mod  = core.registerModule(SomeModule.class);
-	}
+    public void test() {
+        Core core = new Core();
+        SomeModule mod = core.registerModule(SomeModule.class);
+    }
 
-	private class SomeModule extends Module {
+    private class SomeModule extends Module {
 
-		public SomeModule(IslandsApi api) {
-			super(api);
-		}
+        public SomeModule(IslandsApi api) {
+            super(api);
+        }
 
-		@Override
-		public void onLoad() {
+        @Override
+        public void onLoad() {
 
-		}
+        }
 
-		@Override
-		public void onDisable() {
+        @Override
+        public void onDisable() {
 
-		}
+        }
 
-		@Override
-		public void onEnable() {
+        @Override
+        public void onEnable() {
 
-		}
-	}
+        }
+    }
 
-	private class Core {
+    private class Core {
 
-		private <T extends Module> T registerModule(Class<T> module) {
-			try {
-				T mod = module.getDeclaredConstructor(IslandsApi.class).newInstance(IslandsApi.getInstance());
-				mod.onLoad();
-				mod.onEnable();
-				return mod;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-	}
+        private <T extends Module> T registerModule(Class<T> module) {
+            try {
+                T mod = module.getDeclaredConstructor(IslandsApi.class).newInstance(IslandsApi.getInstance());
+                mod.onLoad();
+                mod.onEnable();
+                return mod;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
 }

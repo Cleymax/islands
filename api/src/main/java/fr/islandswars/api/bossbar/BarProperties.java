@@ -28,115 +28,115 @@ package fr.islandswars.api.bossbar;
  */
 public class BarProperties {
 
-	private final int tick, percent;
-	private int repeat, titleDelta;
-	private boolean useMagicColor, useReverse;
+    private final int tick, percent;
+    private int repeat, titleDelta;
+    private boolean useMagicColor, useReverse;
 
-	private BarProperties(int tick, int percent) {
-		this.tick = tick;
-		this.percent = percent;
-	}
+    private BarProperties(int tick, int percent) {
+        this.tick = tick;
+        this.percent = percent;
+    }
 
-	/**
-	 * Supply some properties to the bossbar
-	 *
-	 * @param tick    the delta between each update (in tick, 1s == 20 ticks)
-	 * @param percent will be added to the current progress each delta
-	 * @return a bossbar properties builder
-	 */
-	public static BarProperties builder(int tick, int percent) {
-		return new BarProperties(tick, percent);
-	}
+    /**
+     * Supply some properties to the bossbar
+     *
+     * @param tick    the delta between each update (in tick, 1s == 20 ticks)
+     * @param percent will be added to the current progress each delta
+     * @return a bossbar properties builder
+     */
+    public static BarProperties builder(int tick, int percent) {
+        return new BarProperties(tick, percent);
+    }
 
-	/**
-	 * Update current bossbar's color each 1/2 second to display crazy unicorn hack
-	 *
-	 * @param useMagicHack true YEAH BOY
-	 * @return a bossbar properties builder
-	 */
-	public BarProperties withMagicColor(boolean useMagicHack) {
-		this.useMagicColor = useMagicHack;
-		return this;
-	}
+    /**
+     * Update current bossbar's color each 1/2 second to display crazy unicorn hack
+     *
+     * @param useMagicHack true YEAH BOY
+     * @return a bossbar properties builder
+     */
+    public BarProperties withMagicColor(boolean useMagicHack) {
+        this.useMagicColor = useMagicHack;
+        return this;
+    }
 
-	/**
-	 * Only active if {@link #percent} if sup than 0, the progress will
-	 * decrease instead of increase
-	 *
-	 * @param useReverseOrder to reverse the display
-	 * @return a bossbar properties builder
-	 */
-	public BarProperties withReverse(boolean useReverseOrder) {
-		this.useReverse = useReverseOrder;
-		return this;
-	}
+    /**
+     * Only active if {@link #percent} if sup than 0, the progress will
+     * decrease instead of increase
+     *
+     * @param useReverseOrder to reverse the display
+     * @return a bossbar properties builder
+     */
+    public BarProperties withReverse(boolean useReverseOrder) {
+        this.useReverse = useReverseOrder;
+        return this;
+    }
 
-	/**
-	 * Specify a limit, before ending this bossbar. Used in
-	 * {@link BarSequence} where 0 means infinity
-	 *
-	 * @param time how many time before ending this sequence
-	 * @return a bossbar properties builder
-	 */
-	public BarProperties withRepeat(int time) {
-		this.repeat = time;
-		return this;
-	}
+    /**
+     * Specify a limit, before ending this bossbar. Used in
+     * {@link BarSequence} where 0 means infinity
+     *
+     * @param time how many time before ending this sequence
+     * @return a bossbar properties builder
+     */
+    public BarProperties withRepeat(int time) {
+        this.repeat = time;
+        return this;
+    }
 
-	/**
-	 * Update this title according to specified time (in tick)
-	 *
-	 * @param time delta between each {@link net.minecraft.server.v1_12_R1.PacketPlayOutBoss.Action#UPDATE_NAME}
-	 * @return a bossbar properties builder
-	 */
-	public BarProperties withTitleUpdate(int time) {
-		this.titleDelta = time;
-		return this;
-	}
+    /**
+     * Update this title according to specified time (in tick)
+     *
+     * @param time delta between each {@link net.minecraft.server.v1_12_R1.PacketPlayOutBoss.Action#UPDATE_NAME}
+     * @return a bossbar properties builder
+     */
+    public BarProperties withTitleUpdate(int time) {
+        this.titleDelta = time;
+        return this;
+    }
 
-	/**
-	 * Can be null (false)
-	 *
-	 * @return if use magic color or not
-	 */
-	public boolean useMagicColor() {
-		return useMagicColor;
-	}
+    /**
+     * Can be null (false)
+     *
+     * @return if use magic color or not
+     */
+    public boolean useMagicColor() {
+        return useMagicColor;
+    }
 
-	/**
-	 * Can be null (false)
-	 *
-	 * @return if use reverse or not
-	 */
-	public boolean useReverse() {
-		return useReverse;
-	}
+    /**
+     * Can be null (false)
+     *
+     * @return if use reverse or not
+     */
+    public boolean useReverse() {
+        return useReverse;
+    }
 
-	/**
-	 * @return the percent to increase
-	 */
-	public int getPercent() {
-		return percent;
-	}
+    /**
+     * @return the percent to increase
+     */
+    public int getPercent() {
+        return percent;
+    }
 
-	/**
-	 * @return the delta in tick
-	 */
-	public int getTick() {
-		return tick;
-	}
+    /**
+     * @return the delta in tick
+     */
+    public int getTick() {
+        return tick;
+    }
 
-	/**
-	 * @return the repeat tick can be null (0)
-	 */
-	public int getRepeat() {
-		return repeat;
-	}
+    /**
+     * @return the repeat tick can be null (0)
+     */
+    public int getRepeat() {
+        return repeat;
+    }
 
-	/**
-	 * @return the title delta can be null (0)
-	 */
-	public int getTitleDelta() {
-		return titleDelta;
-	}
+    /**
+     * @return the title delta can be null (0)
+     */
+    public int getTitleDelta() {
+        return titleDelta;
+    }
 }

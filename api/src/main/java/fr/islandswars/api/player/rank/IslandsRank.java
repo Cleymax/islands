@@ -30,24 +30,24 @@ import org.bukkit.ChatColor;
  */
 public interface IslandsRank {
 
-	/**
-	 * @return this complete rank name
-	 */
-	String getDisplayName();
+    /**
+     * @return this complete rank name
+     */
+    String getDisplayName();
 
-	/**
-	 * @return a short identifier for this rank (useful in tab for example)
-	 */
-	String getShortName();
+    /**
+     * @return a short identifier for this rank (useful in tab for example)
+     */
+    String getShortName();
 
-	/**
-	 * @return this rank level (use for permission)
-	 */
-	int getRankLevel();
+    /**
+     * @return this rank level (use for permission)
+     */
+    int getRankLevel();
 
-	/**
-	 * @return the bukkit color associated to this rank
-	 */
-	ChatColor getRankColor();
+    /**
+     * @return the bukkit color associated to this rank
+     */
+    ChatColor getRankColor();
 
 }

@@ -4,8 +4,9 @@ import fr.islandswars.api.log.InfraLogger;
 import fr.islandswars.api.log.Log;
 import fr.islandswars.api.log.internal.DefaultLog;
 import fr.islandswars.api.utils.NMSReflectionUtil;
-import java.util.logging.Level;
 import org.junit.Test;
+
+import java.util.logging.Level;
 
 /**
  * File <b>LogTest</b> located on fr.islandswars.test.infra
@@ -32,49 +33,49 @@ import org.junit.Test;
  */
 public class LogTest {
 
-	private final InfraLogger logger = new InfraLogger() {
-		//Override since NMSReflectionUtil use Bukkit import that aren't initialized yet
-		@Override
-		public <T extends Log> T createCustomLog(Class<T> clazz, Level level, String message) {
-			try {
-				return clazz.getDeclaredConstructor(Level.class, String.class).newInstance(level, message);
-			} catch (ReflectiveOperationException e) {
-				throw new NMSReflectionUtil.ReflectionException(e);
-			}
-		}
+    private final InfraLogger logger = new InfraLogger() {
+        //Override since NMSReflectionUtil use Bukkit import that aren't initialized yet
+        @Override
+        public <T extends Log> T createCustomLog(Class<T> clazz, Level level, String message) {
+            try {
+                return clazz.getDeclaredConstructor(Level.class, String.class).newInstance(level, message);
+            } catch (ReflectiveOperationException e) {
+                throw new NMSReflectionUtil.ReflectionException(e);
+            }
+        }
 
-		@Override
-		public void log(Log object) {
-		}
-	};
+        @Override
+        public void log(Log object) {
+        }
+    };
 
-	@Test(expected = NMSReflectionUtil.ReflectionException.class)
-	public void testCustomLogInstanciation() {
-		ErrorLog log = logger.createCustomLog(ErrorLog.class, Level.INFO, "should not work");
-	}
+    @Test(expected = NMSReflectionUtil.ReflectionException.class)
+    public void testCustomLogInstanciation() {
+        ErrorLog log = logger.createCustomLog(ErrorLog.class, Level.INFO, "should not work");
+    }
 
-	@Test(expected = NullPointerException.class)
-	public void testLevelNotNull() {
-		DefaultLog defaultLog = new DefaultLog(null, "msg");
-		defaultLog.checkValue();
-	}
+    @Test(expected = NullPointerException.class)
+    public void testLevelNotNull() {
+        DefaultLog defaultLog = new DefaultLog(null, "msg");
+        defaultLog.checkValue();
+    }
 
-	@Test(expected = NullPointerException.class)
-	public void testMessageNotNull() {
-		DefaultLog defaultLog = new DefaultLog(Level.INFO, null);
-		defaultLog.checkValue();
-	}
+    @Test(expected = NullPointerException.class)
+    public void testMessageNotNull() {
+        DefaultLog defaultLog = new DefaultLog(Level.INFO, null);
+        defaultLog.checkValue();
+    }
 
-	public final class ErrorLog extends Log {
+    public final class ErrorLog extends Log {
 
-		public ErrorLog(Level level, String msg, String error) {
-			super(level, msg);
-		}
+        public ErrorLog(Level level, String msg, String error) {
+            super(level, msg);
+        }
 
-		@Override
-		public void checkValue() {
+        @Override
+        public void checkValue() {
 
-		}
-	}
+        }
+    }
 
 }

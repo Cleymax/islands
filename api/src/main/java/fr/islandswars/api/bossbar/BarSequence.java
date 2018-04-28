@@ -32,27 +32,27 @@ import java.util.stream.Stream;
  */
 public interface BarSequence {
 
-	/**
-	 * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
-	 * and free all resources
-	 */
-	void shutdownSequence();
+    /**
+     * Will call {@link IslandsPlayer#hideBar(Bar)} on each player
+     * and free all resources
+     */
+    void shutdownSequence();
 
-	/**
-	 * Get (if exist) the currently displayed bossbar
-	 *
-	 * @return the current displayed bossbar
-	 */
-	Bar getCurrentBar();
+    /**
+     * Get (if exist) the currently displayed bossbar
+     *
+     * @return the current displayed bossbar
+     */
+    Bar getCurrentBar();
 
-	/**
-	 * @return this bossbar viewers
-	 */
-	Stream<IslandsPlayer> getViewers();
+    /**
+     * @return this bossbar viewers
+     */
+    Stream<IslandsPlayer> getViewers();
 
-	/**
-	 * @return all bars stocked in this sequence
-	 */
-	Stream<Bar> getBars();
+    /**
+     * @return all bars stocked in this sequence
+     */
+    Stream<Bar> getBars();
 
 }

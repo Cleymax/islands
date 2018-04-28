@@ -37,71 +37,71 @@ import static fr.islandswars.api.net.PacketType.Play.Server.OBJECTIVE;
  */
 public class ScoreboardObjectivePacket extends GamePacket<PacketPlayOutScoreboardObjective> {
 
-	protected ScoreboardObjectivePacket(PacketPlayOutScoreboardObjective handle) {
-		super(handle);
-	}
+    protected ScoreboardObjectivePacket(PacketPlayOutScoreboardObjective handle) {
+        super(handle);
+    }
 
-	public String getObjectiveName() {
-		return (String) getHandleValue("a");
-	}
+    public String getObjectiveName() {
+        return (String) getHandleValue("a");
+    }
 
-	public void setObjectiveName(String objectiveName) {
-		setHandleValue("a", objectiveName);
-	}
+    public void setObjectiveName(String objectiveName) {
+        setHandleValue("a", objectiveName);
+    }
 
-	public String getDisplayName() {
-		return (String) getHandleValue("b");
-	}
+    public String getDisplayName() {
+        return (String) getHandleValue("b");
+    }
 
-	public void setDisplayName(String displayName) {
-		setHandleValue("b", displayName);
-	}
+    public void setDisplayName(String displayName) {
+        setHandleValue("b", displayName);
+    }
 
-	public ObjectiveDisplayType getDisplayType() {
-		return ObjectiveDisplayType.getHealthDisplay(((EnumScoreboardHealthDisplay) getHandleValue("c")).a());
-	}
+    public ObjectiveDisplayType getDisplayType() {
+        return ObjectiveDisplayType.getHealthDisplay(((EnumScoreboardHealthDisplay) getHandleValue("c")).a());
+    }
 
-	public void setDisplayType(ObjectiveDisplayType objectiveDisplayType) {
-		setHandleValue("c", EnumScoreboardHealthDisplay.a(objectiveDisplayType.getDisplay()));
-	}
+    public void setDisplayType(ObjectiveDisplayType objectiveDisplayType) {
+        setHandleValue("c", EnumScoreboardHealthDisplay.a(objectiveDisplayType.getDisplay()));
+    }
 
-	@Nullable
-	public ObjectiveMode getMode() {
-		return ObjectiveMode.getFromInt((int) getHandleValue("d"));
-	}
+    @Nullable
+    public ObjectiveMode getMode() {
+        return ObjectiveMode.getFromInt((int) getHandleValue("d"));
+    }
 
-	public void setMode(ObjectiveMode mode) {
-		setHandleValue("d", mode.getMode());
-	}
+    public void setMode(ObjectiveMode mode) {
+        setHandleValue("d", mode.getMode());
+    }
 
-	@Override
-	public PacketType getType() {
-		return OBJECTIVE;
-	}
+    @Override
+    public PacketType getType() {
+        return OBJECTIVE;
+    }
 
-	/**
-	 * The mode of the scoreboard (when the client receive the packet, what action it have to do)
-	 */
-	public enum ObjectiveMode {
+    /**
+     * The mode of the scoreboard (when the client receive the packet, what action it have to do)
+     */
+    public enum ObjectiveMode {
 
-		CREATE(0),
-		REMOVE(1),
-		UPDATE(2);
+        CREATE(0),
+        REMOVE(1),
+        UPDATE(2);
 
-		private final int mode;
+        private final int mode;
 
-		ObjectiveMode(final int mode) {
-			this.mode = mode;
-		}
+        ObjectiveMode(final int mode) {
+            this.mode = mode;
+        }
 
-		@Nullable
-		public static ObjectiveMode getFromInt(int mode) {
-			return Arrays.stream(values()).filter(objectiveMode -> objectiveMode.mode == mode).findFirst().orElse(null);
-		}
+        @Nullable
+        public static ObjectiveMode getFromInt(int mode) {
+            return Arrays.stream(values()).filter(objectiveMode -> objectiveMode.mode == mode).findFirst().orElse(null);
+        }
 
-		public final int getMode() {
-			return this.mode;
-		}
-	}
+        public final int getMode() {
+            return this.mode;
+        }
+    }
 
 }

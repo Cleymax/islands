@@ -33,28 +33,28 @@ import static fr.islandswars.api.net.PacketType.Play.Server.DISPLAY_OBJECTIVE;
  */
 public class ScoreboardDisplayObjectivePacket extends GamePacket<PacketPlayOutScoreboardDisplayObjective> {
 
-	protected ScoreboardDisplayObjectivePacket(PacketPlayOutScoreboardDisplayObjective handle) {
-		super(handle);
-	}
+    protected ScoreboardDisplayObjectivePacket(PacketPlayOutScoreboardDisplayObjective handle) {
+        super(handle);
+    }
 
-	public ObjectiveSlot getObjectiveSlot() {
-		return ObjectiveSlot.getObjectiveSlot((int) getHandleValue("a"));
-	}
+    public ObjectiveSlot getObjectiveSlot() {
+        return ObjectiveSlot.getObjectiveSlot((int) getHandleValue("a"));
+    }
 
-	public void setObjectiveSlot(ObjectiveSlot slot) {
-		setHandleValue("a", slot.getSlot());
-	}
+    public void setObjectiveSlot(ObjectiveSlot slot) {
+        setHandleValue("a", slot.getSlot());
+    }
 
-	public String getObjectiveName() {
-		return (String) getHandleValue("b");
-	}
+    public String getObjectiveName() {
+        return (String) getHandleValue("b");
+    }
 
-	public void setObjectiveName(String objectiveName) {
-		setHandleValue("b", objectiveName);
-	}
+    public void setObjectiveName(String objectiveName) {
+        setHandleValue("b", objectiveName);
+    }
 
-	@Override
-	public PacketType getType() {
-		return DISPLAY_OBJECTIVE;
-	}
+    @Override
+    public PacketType getType() {
+        return DISPLAY_OBJECTIVE;
+    }
 }

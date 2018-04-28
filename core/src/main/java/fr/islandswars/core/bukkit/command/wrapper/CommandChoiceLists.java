@@ -1,8 +1,9 @@
 package fr.islandswars.core.bukkit.command.wrapper;
 
+import org.bukkit.command.CommandException;
+
 import java.util.HashMap;
 import java.util.Map;
-import org.bukkit.command.CommandException;
 
 /**
  * File <b>CommandChoiceLists</b> located on fr.islandswars.core.bukkit.command.wrapper
@@ -30,45 +31,45 @@ import org.bukkit.command.CommandException;
  */
 public class CommandChoiceLists {
 
-	private static final Map<Class<?>, Map<String, Object>> ENUMS = new HashMap<>();
+    private static final Map<Class<?>, Map<String, Object>> ENUMS = new HashMap<>();
 
-	private CommandChoiceLists() {
-	}
+    private CommandChoiceLists() {
+    }
 
-	/**
-	 * Iterate through the enum, find all constants and map them into a choice list.
-	 *
-	 * @param clazz the enum
-	 * @return the enum constants as a choice list
-	 * @throws ReflectiveOperationException reflection-related method
-	 */
-	private static Map<String, Object> iterate(Class<?> clazz)
-			throws ReflectiveOperationException {
-		if (!clazz.isEnum())
-			throw new CommandException(clazz + " is not an enum, so cannot be used as a ChoiceList");
+    /**
+     * Iterate through the enum, find all constants and map them into a choice list.
+     *
+     * @param clazz the enum
+     * @return the enum constants as a choice list
+     * @throws ReflectiveOperationException reflection-related method
+     */
+    private static Map<String, Object> iterate(Class<?> clazz)
+            throws ReflectiveOperationException {
+        if (!clazz.isEnum())
+            throw new CommandException(clazz + " is not an enum, so cannot be used as a ChoiceList");
 
-		Map<String, Object> map = new HashMap<>();
-		for (Object o : clazz.getEnumConstants())
-			map.put(o.toString(), o);
+        Map<String, Object> map = new HashMap<>();
+        for (Object o : clazz.getEnumConstants())
+            map.put(o.toString(), o);
 
-		return map;
-	}
+        return map;
+    }
 
-	/**
-	 * Get a choice list from an enum.
-	 *
-	 * @param clazz the enum
-	 * @return the choice list
-	 * @throws ReflectiveOperationException reflection-related method
-	 */
-	static Map<String, Object> getFromEnum(Class<?> clazz)
-			throws ReflectiveOperationException {
-		Map<String, Object> map = ENUMS.get(clazz);
-		if (map == null) {
-			map = iterate(clazz);
-			ENUMS.put(clazz, map);
-		}
+    /**
+     * Get a choice list from an enum.
+     *
+     * @param clazz the enum
+     * @return the choice list
+     * @throws ReflectiveOperationException reflection-related method
+     */
+    static Map<String, Object> getFromEnum(Class<?> clazz)
+            throws ReflectiveOperationException {
+        Map<String, Object> map = ENUMS.get(clazz);
+        if (map == null) {
+            map = iterate(clazz);
+            ENUMS.put(clazz, map);
+        }
 
-		return map;
-	}
+        return map;
+    }
 }

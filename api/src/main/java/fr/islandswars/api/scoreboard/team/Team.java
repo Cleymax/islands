@@ -37,177 +37,177 @@ import java.util.function.Supplier;
  */
 public interface Team extends ScoreboardComponent {
 
-	/**
-	 * Get the prefix of a team
-	 *
-	 * @return the prefix of the team
-	 */
-	String getPrefix();
+    /**
+     * Get the prefix of a team
+     *
+     * @return the prefix of the team
+     */
+    String getPrefix();
 
-	/**
-	 * Set the prefix of a team
-	 *
-	 * @param prefix the new prefix
-	 */
-	void setPrefix(String prefix);
+    /**
+     * Set the prefix of a team
+     *
+     * @param prefix the new prefix
+     */
+    void setPrefix(String prefix);
 
-	/**
-	 * Set the prefix of a team
-	 *
-	 * @param prefix     the new prefix
-	 * @param parameters some translation parameters
-	 */
-	void setPrefix(String prefix, Supplier<Object[]> parameters);
+    /**
+     * Set the prefix of a team
+     *
+     * @param prefix     the new prefix
+     * @param parameters some translation parameters
+     */
+    void setPrefix(String prefix, Supplier<Object[]> parameters);
 
-	/**
-	 * Get the suffix of a team
-	 *
-	 * @return the suffix of the team
-	 */
-	String getSuffix();
+    /**
+     * Get the suffix of a team
+     *
+     * @return the suffix of the team
+     */
+    String getSuffix();
 
-	/**
-	 * Set the suffix of a team
-	 *
-	 * @param suffix the new suffix
-	 */
-	void setSuffix(String suffix);
+    /**
+     * Set the suffix of a team
+     *
+     * @param suffix the new suffix
+     */
+    void setSuffix(String suffix);
 
-	/**
-	 * Set the suffix of a team
-	 *
-	 * @param suffix     the new suffix
-	 * @param parameters some translation parameters
-	 */
-	void setSuffix(String suffix, Supplier<Object[]> parameters);
+    /**
+     * Set the suffix of a team
+     *
+     * @param suffix     the new suffix
+     * @param parameters some translation parameters
+     */
+    void setSuffix(String suffix, Supplier<Object[]> parameters);
 
-	/**
-	 * Check if the team allow the friendly fire
-	 *
-	 * @return <code>true</code> if the team allow the friendly fire
-	 */
-	boolean allowFriendlyFire();
+    /**
+     * Check if the team allow the friendly fire
+     *
+     * @return <code>true</code> if the team allow the friendly fire
+     */
+    boolean allowFriendlyFire();
 
-	/**
-	 * Set if the team allow the friendly fire
-	 *
-	 * @param friendlyFire the new label of friendly fire
-	 */
-	void setFriendlyFire(boolean friendlyFire);
+    /**
+     * Set if the team allow the friendly fire
+     *
+     * @param friendlyFire the new label of friendly fire
+     */
+    void setFriendlyFire(boolean friendlyFire);
 
-	/**
-	 * Check if the team can see her members invisible
-	 *
-	 * @return <code>true</code> if can see her members invisible
-	 */
-	boolean canSeeFriendlyInvisible();
+    /**
+     * Check if the team can see her members invisible
+     *
+     * @return <code>true</code> if can see her members invisible
+     */
+    boolean canSeeFriendlyInvisible();
 
-	/**
-	 * Set if the team can see her members invisible
-	 *
-	 * @param seeFriendlyInvisible the new label of see members invisible
-	 */
-	void setSeeFriendlyInvisible(boolean seeFriendlyInvisible);
+    /**
+     * Set if the team can see her members invisible
+     *
+     * @param seeFriendlyInvisible the new label of see members invisible
+     */
+    void setSeeFriendlyInvisible(boolean seeFriendlyInvisible);
 
-	/**
-	 * Add a player to the team
-	 *
-	 * @param player the player who be added
-	 */
-	void addPlayer(IslandsPlayer player);
+    /**
+     * Add a player to the team
+     *
+     * @param player the player who be added
+     */
+    void addPlayer(IslandsPlayer player);
 
-	/**
-	 * Remove a player from a team
-	 *
-	 * @param player the name player who be removed
-	 */
-	void removePlayer(IslandsPlayer player);
+    /**
+     * Remove a player from a team
+     *
+     * @param player the name player who be removed
+     */
+    void removePlayer(IslandsPlayer player);
 
-	/**
-	 * Check if a player is in a team
-	 *
-	 * @param player the player who be checked
-	 * @return <code>true</code> if the player is in the team
-	 */
-	boolean hasPlayer(IslandsPlayer player);
+    /**
+     * Check if a player is in a team
+     *
+     * @param player the player who be checked
+     * @return <code>true</code> if the player is in the team
+     */
+    boolean hasPlayer(IslandsPlayer player);
 
-	/**
-	 * Get the color of a team
-	 *
-	 * @return THe {@link DyeColor} of the team
-	 */
-	DyeColor getTeamColor();
+    /**
+     * Get the color of a team
+     *
+     * @return THe {@link DyeColor} of the team
+     */
+    DyeColor getTeamColor();
 
-	/**
-	 * Set the color for a team
-	 *
-	 * @param teamColor the new color of the team
-	 */
-	void setTeamColor(DyeColor teamColor);
+    /**
+     * Set the color for a team
+     *
+     * @param teamColor the new color of the team
+     */
+    void setTeamColor(DyeColor teamColor);
 
-	/**
-	 * Add a player who can see the team
-	 *
-	 * @param player who can see the team
-	 */
-	void addViewer(IslandsPlayer player);
+    /**
+     * Add a player who can see the team
+     *
+     * @param player who can see the team
+     */
+    void addViewer(IslandsPlayer player);
 
-	/**
-	 * Get player in the team
-	 *
-	 * @return A {@link Set} of {@link IslandsPlayer}
-	 */
-	Set<IslandsPlayer> getPlayers();
+    /**
+     * Get player in the team
+     *
+     * @return A {@link Set} of {@link IslandsPlayer}
+     */
+    Set<IslandsPlayer> getPlayers();
 
-	/**
-	 * The CollisionRule parameter for the team
-	 */
-	enum CollisionRule {
-		ALWAYS("always"),
-		NEVER("never"),
-		FOR_OTHER_TEAMS("pushOtherTeams"),
-		FOR_OWN_TEAM("pushOwnTeam");
+    /**
+     * The CollisionRule parameter for the team
+     */
+    enum CollisionRule {
+        ALWAYS("always"),
+        NEVER("never"),
+        FOR_OTHER_TEAMS("pushOtherTeams"),
+        FOR_OWN_TEAM("pushOwnTeam");
 
-		private final String collisionRule;
+        private final String collisionRule;
 
-		CollisionRule(String collisionRule) {
-			this.collisionRule = collisionRule;
-		}
+        CollisionRule(String collisionRule) {
+            this.collisionRule = collisionRule;
+        }
 
-		@Nullable
-		public static CollisionRule getCollisionRule(String rule) {
-			return Arrays.stream(values()).filter(collisionRule -> collisionRule.collisionRule.equalsIgnoreCase(rule)).findFirst().orElse(null);
-		}
+        @Nullable
+        public static CollisionRule getCollisionRule(String rule) {
+            return Arrays.stream(values()).filter(collisionRule -> collisionRule.collisionRule.equalsIgnoreCase(rule)).findFirst().orElse(null);
+        }
 
-		public String getCollisionRule() {
-			return collisionRule;
-		}
-	}
+        public String getCollisionRule() {
+            return collisionRule;
+        }
+    }
 
-	/**
-	 * The NameTagVisibility Parameter for the team
-	 */
-	enum NameTagVisibility {
-		ALWAYS("always"),
-		NEVER("never"),
-		FOR_OTHER_TEAMS("hideForOtherTeams"),
-		FOR_OWN_TEAM("hideForOwnTeam");
+    /**
+     * The NameTagVisibility Parameter for the team
+     */
+    enum NameTagVisibility {
+        ALWAYS("always"),
+        NEVER("never"),
+        FOR_OTHER_TEAMS("hideForOtherTeams"),
+        FOR_OWN_TEAM("hideForOwnTeam");
 
-		private final String nameTagVisibility;
+        private final String nameTagVisibility;
 
-		NameTagVisibility(String nameTagVisibility) {
-			this.nameTagVisibility = nameTagVisibility;
-		}
+        NameTagVisibility(String nameTagVisibility) {
+            this.nameTagVisibility = nameTagVisibility;
+        }
 
-		@Nullable
-		public static NameTagVisibility getNameTagVisibility(String nameTag) {
-			return Arrays.stream(values()).filter(nameTagVisibility -> nameTagVisibility.nameTagVisibility.equalsIgnoreCase(nameTag)).findFirst().orElse(null);
-		}
+        @Nullable
+        public static NameTagVisibility getNameTagVisibility(String nameTag) {
+            return Arrays.stream(values()).filter(nameTagVisibility -> nameTagVisibility.nameTagVisibility.equalsIgnoreCase(nameTag)).findFirst().orElse(null);
+        }
 
-		public String getNameTagVisibility() {
-			return nameTagVisibility;
-		}
+        public String getNameTagVisibility() {
+            return nameTagVisibility;
+        }
 
-	}
+    }
 
 }

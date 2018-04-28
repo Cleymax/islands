@@ -32,28 +32,28 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
  */
 public class ChatOutPacket extends GamePacket<PacketPlayOutChat> {
 
-	protected ChatOutPacket(PacketPlayOutChat handle) {
-		super(handle);
-	}
+    protected ChatOutPacket(PacketPlayOutChat handle) {
+        super(handle);
+    }
 
-	public void setMessageType(ChatMessageType type) {
-		setHandleValue("b", type);
-	}
+    public ChatMessageType getMessageType() {
+        return handle.c();
+    }
 
-	public ChatMessageType getMessageType() {
-		return handle.c();
-	}
+    public void setMessageType(ChatMessageType type) {
+        setHandleValue("b", type);
+    }
 
-	public void setMessage(String message) {
-		setHandleValue("a", IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}"));
-	}
+    public IChatBaseComponent getMessage() {
+        return (IChatBaseComponent) getHandleValue("a");
+    }
 
-	public IChatBaseComponent getMessage() {
-		return (IChatBaseComponent) getHandleValue("a");
-	}
+    public void setMessage(String message) {
+        setHandleValue("a", IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}"));
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Server.CHAT_OUT;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Play.Server.CHAT_OUT;
+    }
 }

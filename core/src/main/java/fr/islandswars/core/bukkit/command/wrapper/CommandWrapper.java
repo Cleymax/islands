@@ -4,10 +4,11 @@ import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.cmd.lang.Command;
 import fr.islandswars.api.cmd.lang.CommandExecutor;
 import fr.islandswars.api.cmd.lang.Compound;
-import java.lang.reflect.Method;
-import java.util.*;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
+
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * File <b>CommandWrapper</b> located on fr.islandswars.core.bukkit.command.wrapper
@@ -37,89 +38,89 @@ import org.bukkit.command.CommandSender;
  */
 public class CommandWrapper extends LabelDispatcher {
 
-	private final Map<List<String>, MethodCommandWrapper> compounds;
-	private final String                                  description;
-	private       Method                                  defaultExecutor;
+    private final Map<List<String>, MethodCommandWrapper> compounds;
+    private final String description;
+    private Method defaultExecutor;
 
-	public CommandWrapper(Class<?> commandClass, Command command) {
-		super(command.label().isEmpty() ? commandClass.getSimpleName().toLowerCase() : command.label(), command.aliases());
-		this.description = command.description();
-		this.compounds = new HashMap<>();
-		searchCompounds(commandClass.getMethods());
-		this.help = defaultExecutor == null ? null : " - type /" + getLabel() + " to trigger the default command";
-	}
+    public CommandWrapper(Class<?> commandClass, Command command) {
+        super(command.label().isEmpty() ? commandClass.getSimpleName().toLowerCase() : command.label(), command.aliases());
+        this.description = command.description();
+        this.compounds = new HashMap<>();
+        searchCompounds(commandClass.getMethods());
+        this.help = defaultExecutor == null ? null : " - type /" + getLabel() + " to trigger the default command";
+    }
 
-	@Override
-	public void dispatch(CommandSender player, String[] args, int count) throws ReflectiveOperationException {
-		if (args.length == 0)
-			if (defaultExecutor != null)
-				defaultExecutor.invoke(null, player);
-			else
-				showHelp(player);
-		else {
-			//There is at least one argument, so we can delegate to a compound
-			String               compound = args[count];
-			MethodCommandWrapper wrapper  = getCompound(compound);
-			if (wrapper == null)
-				showHelp(player);
-			else wrapper.dispatch(player, args, ++count);
-		}
-	}
+    @Override
+    public void dispatch(CommandSender player, String[] args, int count) throws ReflectiveOperationException {
+        if (args.length == 0)
+            if (defaultExecutor != null)
+                defaultExecutor.invoke(null, player);
+            else
+                showHelp(player);
+        else {
+            //There is at least one argument, so we can delegate to a compound
+            String compound = args[count];
+            MethodCommandWrapper wrapper = getCompound(compound);
+            if (wrapper == null)
+                showHelp(player);
+            else wrapper.dispatch(player, args, ++count);
+        }
+    }
 
-	private void addCompound(MethodCommandWrapper wrapper) {
-		List<String> compoundAliases = new ArrayList<>(Arrays.asList(wrapper.getAliases()));
-		compoundAliases.add(wrapper.getLabel());
+    private void addCompound(MethodCommandWrapper wrapper) {
+        List<String> compoundAliases = new ArrayList<>(Arrays.asList(wrapper.getAliases()));
+        compoundAliases.add(wrapper.getLabel());
 
-		for (String compoundAlias : compoundAliases) {
-			if (compounds.keySet().stream().anyMatch(aliases -> aliases.contains(compoundAlias)))
-				throw new CommandException("Given aliases for method " + wrapper.getLabel() + " are already bind!");
-		}
-		compounds.put(compoundAliases, wrapper);
-	}
+        for (String compoundAlias : compoundAliases) {
+            if (compounds.keySet().stream().anyMatch(aliases -> aliases.contains(compoundAlias)))
+                throw new CommandException("Given aliases for method " + wrapper.getLabel() + " are already bind!");
+        }
+        compounds.put(compoundAliases, wrapper);
+    }
 
-	private MethodCommandWrapper getCompound(String label) {
-		//TODO doesn't work
-		List<String> compoundAliases = compounds.keySet().stream().filter(aliases -> aliases.contains(label)).findFirst().orElse(null);
-		if (compoundAliases != null)
-			return compounds.get(compoundAliases);
-		else return null;
-	}
+    private MethodCommandWrapper getCompound(String label) {
+        //TODO doesn't work
+        List<String> compoundAliases = compounds.keySet().stream().filter(aliases -> aliases.contains(label)).findFirst().orElse(null);
+        if (compoundAliases != null)
+            return compounds.get(compoundAliases);
+        else return null;
+    }
 
-	private void searchCompounds(Method[] methods) {
-		for (Method method : methods) {
-			if (method.getAnnotation(CommandExecutor.class) != null) {
-				if (defaultExecutor != null)
-					throw new CommandException("Cannot have two CommandExecutor per command");
+    private void searchCompounds(Method[] methods) {
+        for (Method method : methods) {
+            if (method.getAnnotation(CommandExecutor.class) != null) {
+                if (defaultExecutor != null)
+                    throw new CommandException("Cannot have two CommandExecutor per command");
 
-				if (method.getParameterCount() != 1)
-					throw new CommandException("A CommandExecutor should only have one argument");
+                if (method.getParameterCount() != 1)
+                    throw new CommandException("A CommandExecutor should only have one argument");
 
-				defaultExecutor = method;
-				if (!CommandSender.class.isAssignableFrom(method.getParameterTypes()[0]))
-					throw new CommandException("Command sender type " + defaultExecutor.getParameterTypes()[0] + " isn't an IslandsPlayer");
-				continue;
-			}
-			Compound compound = method.getAnnotation(Compound.class);
-			if (compound == null)
-				continue;
+                defaultExecutor = method;
+                if (!CommandSender.class.isAssignableFrom(method.getParameterTypes()[0]))
+                    throw new CommandException("Command sender type " + defaultExecutor.getParameterTypes()[0] + " isn't an IslandsPlayer");
+                continue;
+            }
+            Compound compound = method.getAnnotation(Compound.class);
+            if (compound == null)
+                continue;
 
-			addCompound(new MethodCommandWrapper(getLabel(), method, compound));
-		}
-	}
+            addCompound(new MethodCommandWrapper(getLabel(), method, compound));
+        }
+    }
 
-	private void showHelp(CommandSender sender) {
-		String help = getHelp();
+    private void showHelp(CommandSender sender) {
+        String help = getHelp();
 
-		if (!description.isEmpty())
-			sender.sendMessage(IslandsApi.getInstance().getTranslatable().format(description));
-		else
-			sender.sendMessage(IslandsApi.getInstance().getTranslatable().format("core.command.usage", getLabel()));
+        if (!description.isEmpty())
+            sender.sendMessage(IslandsApi.getInstance().getTranslatable().format(description));
+        else
+            sender.sendMessage(IslandsApi.getInstance().getTranslatable().format("core.command.usage", getLabel()));
 
-		if (help != null)
-			sender.sendMessage(help);
-		compounds.values().forEach(wrapper -> {
-			sender.sendMessage(" - " + wrapper.getHelp());
-		});
-		sender.sendMessage("§8|§7--------------------------------------");
-	}
+        if (help != null)
+            sender.sendMessage(help);
+        compounds.values().forEach(wrapper -> {
+            sender.sendMessage(" - " + wrapper.getHelp());
+        });
+        sender.sendMessage("§8|§7--------------------------------------");
+    }
 }

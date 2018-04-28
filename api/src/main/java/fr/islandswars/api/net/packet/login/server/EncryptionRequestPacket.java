@@ -30,19 +30,19 @@ import net.minecraft.server.v1_12_R1.PacketLoginOutEncryptionBegin;
  */
 public class EncryptionRequestPacket extends GamePacket<PacketLoginOutEncryptionBegin> {
 
-	protected EncryptionRequestPacket(PacketLoginOutEncryptionBegin handle) {
-		super(handle);
-	}
+    protected EncryptionRequestPacket(PacketLoginOutEncryptionBegin handle) {
+        super(handle);
+    }
 
-	/**
-	 * @return the server id
-	 */
-	public String getServerId() {
-		return (String) getHandleValue("a");
-	}
+    /**
+     * @return the server id
+     */
+    public String getServerId() {
+        return (String) getHandleValue("a");
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Login.Server.ENCRYPTION_REQUEST;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Login.Server.ENCRYPTION_REQUEST;
+    }
 }

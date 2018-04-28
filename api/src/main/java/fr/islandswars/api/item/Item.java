@@ -1,12 +1,13 @@
 package fr.islandswars.api.item;
 
 import fr.islandswars.api.player.IslandsPlayer;
+import net.minecraft.server.v1_12_R1.ItemStack;
+import org.bukkit.event.Cancellable;
+
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import net.minecraft.server.v1_12_R1.ItemStack;
-import org.bukkit.event.Cancellable;
 
 /**
  * File <b>Item</b> located on fr.islandswars.api.item
@@ -34,49 +35,49 @@ import org.bukkit.event.Cancellable;
  */
 public interface Item {
 
-	/**
-	 * @return this internal item id
-	 */
-	int getId();
+    /**
+     * @return this internal item id
+     */
+    int getId();
 
-	Item globalLoreParameters(Supplier<Object[]> loreSupplier);
+    Item globalLoreParameters(Supplier<Object[]> loreSupplier);
 
-	Item globalNameParameters(Supplier<Object[]> nameSupplier);
+    Item globalNameParameters(Supplier<Object[]> nameSupplier);
 
-	Item onClick(BiConsumer<IslandsPlayer, Cancellable> event);
+    Item onClick(BiConsumer<IslandsPlayer, Cancellable> event);
 
-	Item personnalLoreParameters(Supplier<Object[]> loreSupplier, UUID id);
+    Item personnalLoreParameters(Supplier<Object[]> loreSupplier, UUID id);
 
-	Item personnalNameParameters(Supplier<Object[]> nameSupplier, UUID id);
+    Item personnalNameParameters(Supplier<Object[]> nameSupplier, UUID id);
 
-	/**
-	 * @return this item wrapped in nms item
-	 */
-	ItemStack toNMSItem();
+    /**
+     * @return this item wrapped in nms item
+     */
+    ItemStack toNMSItem();
 
-	Item withInternalisation(String nameKey, String loreKey);
+    Item withInternalisation(String nameKey, String loreKey);
 
-	/**
-	 * Supply custom properties to this item
-	 *
-	 * @param propertiesConsumer a consumer to fill existing properties
-	 * @return this item builder
-	 */
-	Item withProperties(Consumer<ItemProperties> propertiesConsumer);
+    /**
+     * Supply custom properties to this item
+     *
+     * @param propertiesConsumer a consumer to fill existing properties
+     * @return this item builder
+     */
+    Item withProperties(Consumer<ItemProperties> propertiesConsumer);
 
-	/**
-	 * @return the key use to translate this item's name, or else item's name
-	 */
-	String getNameTranslationKey();
+    /**
+     * @return the key use to translate this item's name, or else item's name
+     */
+    String getNameTranslationKey();
 
-	/**
-	 * @return the key use to translate this item's lore
-	 */
-	String getLoreTranslationKey();
+    /**
+     * @return the key use to translate this item's lore
+     */
+    String getLoreTranslationKey();
 
-	/**
-	 * @return this item's properties
-	 */
-	ItemProperties getproperties();
+    /**
+     * @return this item's properties
+     */
+    ItemProperties getproperties();
 
 }

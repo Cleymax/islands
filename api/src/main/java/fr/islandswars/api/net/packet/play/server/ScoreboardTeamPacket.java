@@ -38,138 +38,138 @@ import static fr.islandswars.api.net.PacketType.Play.Server.TEAM;
  */
 public class ScoreboardTeamPacket extends GamePacket<PacketPlayOutScoreboardTeam> {
 
-	private int option = 0;
+    private int option = 0;
 
-	protected ScoreboardTeamPacket(PacketPlayOutScoreboardTeam handle) {
-		super(handle);
-	}
+    protected ScoreboardTeamPacket(PacketPlayOutScoreboardTeam handle) {
+        super(handle);
+    }
 
-	public void setTeamName(String name) {
-		setHandleValue("a", name);
-	}
+    public String getTeamName() {
+        return (String) getHandleValue("a");
+    }
 
-	public String getTeamName() {
-		return (String) getHandleValue("a");
-	}
+    public void setTeamName(String name) {
+        setHandleValue("a", name);
+    }
 
-	public void setDisplayName(String displayName) {
-		setHandleValue("b", displayName);
-	}
+    public String getDisplayName() {
+        return (String) getHandleValue("b");
+    }
 
-	public String getDisplayName() {
-		return (String) getHandleValue("b");
-	}
+    public void setDisplayName(String displayName) {
+        setHandleValue("b", displayName);
+    }
 
-	public void setPrefix(String prefix) {
-		setHandleValue("c", prefix);
-	}
+    public String getPrefix() {
+        return (String) getHandleValue("c");
+    }
 
-	public String getPrefix() {
-		return (String) getHandleValue("c");
-	}
+    public void setPrefix(String prefix) {
+        setHandleValue("c", prefix);
+    }
 
-	public void setSuffix(String suffix) {
-		setHandleValue("d", suffix);
-	}
+    public String getSuffix() {
+        return (String) getHandleValue("d");
+    }
 
-	public String getSuffix() {
-		return (String) getHandleValue("d");
-	}
+    public void setSuffix(String suffix) {
+        setHandleValue("d", suffix);
+    }
 
-	public void setNameTagVisibility(NameTagVisibility nameTagVisibility) {
-		setHandleValue("e", nameTagVisibility.getNameTagVisibility());
-	}
+    @Nullable
+    public NameTagVisibility getNameTagVisibility() {
+        return NameTagVisibility.getNameTagVisibility((String) getHandleValue("e"));
+    }
 
-	@Nullable
-	public NameTagVisibility getNameTagVisibility() {
-		return NameTagVisibility.getNameTagVisibility((String) getHandleValue("e"));
-	}
+    public void setNameTagVisibility(NameTagVisibility nameTagVisibility) {
+        setHandleValue("e", nameTagVisibility.getNameTagVisibility());
+    }
 
-	public void setCollisionRule(CollisionRule collisionRule) {
-		setHandleValue("f", collisionRule.getCollisionRule());
-	}
+    @Nullable
+    public CollisionRule getCollisionRule() {
+        return CollisionRule.getCollisionRule((String) getHandleValue("f"));
+    }
 
-	@Nullable
-	public CollisionRule getCollisionRule() {
-		return CollisionRule.getCollisionRule((String) getHandleValue("f"));
-	}
+    public void setCollisionRule(CollisionRule collisionRule) {
+        setHandleValue("f", collisionRule.getCollisionRule());
+    }
 
-	/**
-	 * -1 by default
-	 *
-	 * @param chatColor the chatColor
-	 */
-	public void setChatColor(int chatColor) {
-		setHandleValue("g", chatColor);
-	}
+    /**
+     * -1 by default
+     *
+     * @param chatColor the chatColor
+     */
+    public void setChatColor(int chatColor) {
+        setHandleValue("g", chatColor);
+    }
 
-	public int getChatColor(int chatColor) {
-		return (int) getHandleValue("g");
-	}
+    public int getChatColor(int chatColor) {
+        return (int) getHandleValue("g");
+    }
 
-	public void setPlayers(Collection<String> players) {
-		setHandleValue("h", players);
-	}
+    @SuppressWarnings("unchecked")
+    public Collection<String> getPlayers() {
+        return (Collection<String>) getHandleValue("h");
+    }
 
-	@SuppressWarnings("unchecked")
-	public Collection<String> getPlayers() {
-		return (Collection<String>) getHandleValue("h");
-	}
+    public void setPlayers(Collection<String> players) {
+        setHandleValue("h", players);
+    }
 
-	public void setMode(TeamMode mode) {
-		setHandleValue("i", mode.mode);
-	}
+    @Nullable
+    public TeamMode getMode() {
+        return TeamMode.getTeamMode((int) getHandleValue("i"));
+    }
 
-	@Nullable
-	public TeamMode getMode() {
-		return TeamMode.getTeamMode((int) getHandleValue("i"));
-	}
+    public void setMode(TeamMode mode) {
+        setHandleValue("i", mode.mode);
+    }
 
-	public void allowFriendlyFire() {
-		option |= 0b01;
-		setHandleValue("j", (int) getHandleValue("j") | 0b01);
-	}
+    public void allowFriendlyFire() {
+        option |= 0b01;
+        setHandleValue("j", (int) getHandleValue("j") | 0b01);
+    }
 
-	public void setCanSeeFriendlyInvisible() {
-		option |= 0b10;
-		setHandleValue("j", option);
-	}
+    public void setCanSeeFriendlyInvisible() {
+        option |= 0b10;
+        setHandleValue("j", option);
+    }
 
-	public boolean hasAllowedFriendlyFire() {
-		return ((int) getHandleValue("j") & 0b01) != 0;
-	}
+    public boolean hasAllowedFriendlyFire() {
+        return ((int) getHandleValue("j") & 0b01) != 0;
+    }
 
-	public boolean canSeeFriendlyInvisible() {
-		return ((int) getHandleValue("j") & 0b10) != 0;
-	}
+    public boolean canSeeFriendlyInvisible() {
+        return ((int) getHandleValue("j") & 0b10) != 0;
+    }
 
-	@Override
-	public PacketType getType() {
-		return TEAM;
-	}
+    @Override
+    public PacketType getType() {
+        return TEAM;
+    }
 
-	/**
-	 * The mode of the team (when the client receive the packet, what action it have to do)
-	 */
-	public enum TeamMode {
+    /**
+     * The mode of the team (when the client receive the packet, what action it have to do)
+     */
+    public enum TeamMode {
 
-		CREATE(0),
-		REMOVE(1),
-		UPDATE(2),
-		ADD_PLAYER(3),
-		REMOVE_PLAYER(4);
+        CREATE(0),
+        REMOVE(1),
+        UPDATE(2),
+        ADD_PLAYER(3),
+        REMOVE_PLAYER(4);
 
-		private final int mode;
+        private final int mode;
 
-		TeamMode(final int mode) {
-			this.mode = mode;
-		}
+        TeamMode(final int mode) {
+            this.mode = mode;
+        }
 
-		@Nullable
-		public static TeamMode getTeamMode(int mode) {
-			return Arrays.stream(values()).filter(teamMode -> teamMode.mode == mode).findFirst().orElse(null);
-		}
+        @Nullable
+        public static TeamMode getTeamMode(int mode) {
+            return Arrays.stream(values()).filter(teamMode -> teamMode.mode == mode).findFirst().orElse(null);
+        }
 
-	}
+    }
 
 }

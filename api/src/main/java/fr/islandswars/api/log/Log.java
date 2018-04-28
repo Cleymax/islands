@@ -2,6 +2,7 @@ package fr.islandswars.api.log;
 
 import com.google.gson.annotations.SerializedName;
 import fr.islandswars.api.IslandsApi;
+
 import java.util.logging.Level;
 
 /**
@@ -32,26 +33,26 @@ import java.util.logging.Level;
  */
 public abstract class Log {
 
-	protected final String level;
-	@SerializedName("message")
-	protected final String msg;
+    protected final String level;
+    @SerializedName("message")
+    protected final String msg;
 
-	protected Log(Level level, String msg) {
-		this.level = level.toString();
-		this.msg = msg;
-	}
+    protected Log(Level level, String msg) {
+        this.level = level.toString();
+        this.msg = msg;
+    }
 
-	/**
-	 * perform {@link fr.islandswars.api.utils.Preconditions#checkNotNull(Object)} on custom log
-	 */
-	public abstract void checkValue();
+    /**
+     * perform {@link fr.islandswars.api.utils.Preconditions#checkNotNull(Object)} on custom log
+     */
+    public abstract void checkValue();
 
-	/**
-	 * @see InfraLogger#log(Log)
-	 */
-	public void log() {
-		checkValue();
+    /**
+     * @see InfraLogger#log(Log)
+     */
+    public void log() {
+        checkValue();
 
-		IslandsApi.getInstance().getInfraLogger().log(this);
-	}
+        IslandsApi.getInstance().getInfraLogger().log(this);
+    }
 }

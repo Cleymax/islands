@@ -32,47 +32,47 @@ import java.util.function.Supplier;
  */
 public interface ScoreboardLine<T> {
 
-	/**
-	 * Return the specified text, if active
-	 *
-	 * @return specified text, or null
-	 */
-	String getText();
+    /**
+     * Return the specified text, if active
+     *
+     * @return specified text, or null
+     */
+    String getText();
 
-	/**
-	 * Set the line content (or new line key, if translatable line is active)
-	 *
-	 * @param key captain obvious
-	 */
-	void setText(String key);
+    /**
+     * Set the line content (or new line key, if translatable line is active)
+     *
+     * @param key captain obvious
+     */
+    void setText(String key);
 
-	/**
-	 * Return the global parameters if specified
-	 *
-	 * @return wrapped parameters, or {@link Optional#empty()}
-	 */
-	Optional<Supplier<Object[]>> getGlobalParameters();
+    /**
+     * Return the global parameters if specified
+     *
+     * @return wrapped parameters, or {@link Optional#empty()}
+     */
+    Optional<Supplier<Object[]>> getGlobalParameters();
 
-	/**
-	 * Set the global translation parameters
-	 *
-	 * @param parameters captain obvious
-	 */
-	void setGlobalParameters(Supplier<Object[]> parameters);
+    /**
+     * Set the global translation parameters
+     *
+     * @param parameters captain obvious
+     */
+    void setGlobalParameters(Supplier<Object[]> parameters);
 
-	/**
-	 * Will return wrapped i18n parameters if it's a personnal line and this player is
-	 * an actual viewers of this scoreboard
-	 *
-	 * @param genericKey the generic key to invoke {@link Function#apply(Object)}
-	 * @return wrapped parameters, or {@link Optional#empty()}
-	 */
-	Optional<Supplier<Object[]>> getPersonnalParameters(T genericKey);
+    /**
+     * Will return wrapped i18n parameters if it's a personnal line and this player is
+     * an actual viewers of this scoreboard
+     *
+     * @param genericKey the generic key to invoke {@link Function#apply(Object)}
+     * @return wrapped parameters, or {@link Optional#empty()}
+     */
+    Optional<Supplier<Object[]>> getPersonnalParameters(T genericKey);
 
-	/**
-	 * Set the personnal translation parameters
-	 *
-	 * @param translatableFunction a function to convert type to Object[]
-	 */
-	void setPersonnalParameters(Function<T, Object[]> translatableFunction);
+    /**
+     * Set the personnal translation parameters
+     *
+     * @param translatableFunction a function to convert type to Object[]
+     */
+    void setPersonnalParameters(Function<T, Object[]> translatableFunction);
 }

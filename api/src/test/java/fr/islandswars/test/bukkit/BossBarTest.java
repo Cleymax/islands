@@ -33,22 +33,22 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  */
 public class BossBarTest {
 
-	private Bar welcome;
+    private Bar welcome;
 
-	public BossBarTest() {
-		//hub.bossbar.welcome = "Welcome %s on Islands - Wars"
-		this.welcome = IslandsApi.getInstance().getBarManager().createBar("hub.bossbar.welcome", BossBattle.BarColor.BLUE, BossBattle.BarStyle.NOTCHED_6);
-		welcome.provideProperties(BarProperties.builder(-1, -1).withMagicColor(true), true);
-	}
+    public BossBarTest() {
+        //hub.bossbar.welcome = "Welcome %s on Islands - Wars"
+        this.welcome = IslandsApi.getInstance().getBarManager().createBar("hub.bossbar.welcome", BossBattle.BarColor.BLUE, BossBattle.BarStyle.NOTCHED_6);
+        welcome.provideProperties(BarProperties.builder(-1, -1).withMagicColor(true), true);
+    }
 
-	@EventHandler
-	public void onSendMessage(AsyncPlayerChatEvent event) {
-		if (event.getMessage() != null && event.getMessage().contains("welcome")) {
-			IslandsPlayer player = IslandsApi.getInstance().getPlayer(event.getPlayer().getUniqueId()).get();
-			player.displaybar(welcome, () -> new Object[]{player.getCraftPlayer().getName()});
-		} else if (event.getMessage() != null && event.getMessage().contains("bye")) {
-			IslandsPlayer player = IslandsApi.getInstance().getPlayer(event.getPlayer().getUniqueId()).get();
-			player.hideBar(welcome);
-		}
-	}
+    @EventHandler
+    public void onSendMessage(AsyncPlayerChatEvent event) {
+        if (event.getMessage() != null && event.getMessage().contains("welcome")) {
+            IslandsPlayer player = IslandsApi.getInstance().getPlayer(event.getPlayer().getUniqueId()).get();
+            player.displaybar(welcome, () -> new Object[]{player.getCraftPlayer().getName()});
+        } else if (event.getMessage() != null && event.getMessage().contains("bye")) {
+            IslandsPlayer player = IslandsApi.getInstance().getPlayer(event.getPlayer().getUniqueId()).get();
+            player.hideBar(welcome);
+        }
+    }
 }

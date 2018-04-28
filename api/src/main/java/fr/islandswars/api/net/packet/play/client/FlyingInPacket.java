@@ -30,76 +30,76 @@ import net.minecraft.server.v1_12_R1.PacketPlayInFlying;
  */
 public class FlyingInPacket extends GamePacket<PacketPlayInFlying> {
 
-	public FlyingInPacket(PacketPlayInFlying handle) {
-		super(handle);
-	}
+    public FlyingInPacket(PacketPlayInFlying handle) {
+        super(handle);
+    }
 
-	public double getX() {
-		return (double) getHandleValue("x");
-	}
+    public double getX() {
+        return (double) getHandleValue("x");
+    }
 
-	public void setX(double x) {
-		setHandleValue("x", x);
-	}
+    public void setX(double x) {
+        setHandleValue("x", x);
+    }
 
-	public double getY() {
-		return (double) getHandleValue("y");
-	}
+    public double getY() {
+        return (double) getHandleValue("y");
+    }
 
-	public void setY(double y) {
-		setHandleValue("y", y);
-	}
+    public void setY(double y) {
+        setHandleValue("y", y);
+    }
 
-	public double getZ() {
-		return (double) getHandleValue("z");
-	}
+    public double getZ() {
+        return (double) getHandleValue("z");
+    }
 
-	public void setZ(double z) {
-		setHandleValue("z", z);
-	}
+    public void setZ(double z) {
+        setHandleValue("z", z);
+    }
 
-	public float getYaw() {
-		return (float) getHandleValue("yaw");
-	}
+    public float getYaw() {
+        return (float) getHandleValue("yaw");
+    }
 
-	public void setYaw(float yaw) {
-		setHandleValue("yaw", yaw);
-	}
+    public void setYaw(float yaw) {
+        setHandleValue("yaw", yaw);
+    }
 
-	public float getPitch() {
-		return (float) getHandleValue("pitch");
-	}
+    public float getPitch() {
+        return (float) getHandleValue("pitch");
+    }
 
-	public void setPitch(float pitch) {
-		setHandleValue("pitch", pitch);
-	}
+    public void setPitch(float pitch) {
+        setHandleValue("pitch", pitch);
+    }
 
-	public boolean isOnGround() {
-		return (boolean) getHandleValue("f");
-	}
+    public boolean isOnGround() {
+        return (boolean) getHandleValue("f");
+    }
 
-	public void setOnGround(boolean onGround) {
-		setHandleValue("f", onGround);
-	}
+    public void setOnGround(boolean onGround) {
+        setHandleValue("f", onGround);
+    }
 
-	public boolean hasPositionPacket() {
-		return (boolean) getHandleValue("hasPos");
-	}
+    public boolean hasPositionPacket() {
+        return (boolean) getHandleValue("hasPos");
+    }
 
-	public void setHasPositionPacket(boolean hasPositionPacket) {
-		setHandleValue("hasPos", hasPositionPacket);
-	}
+    public void setHasPositionPacket(boolean hasPositionPacket) {
+        setHandleValue("hasPos", hasPositionPacket);
+    }
 
-	public boolean hasLookPacket() {
-		return (boolean) getHandleValue("hasLook");
-	}
+    public boolean hasLookPacket() {
+        return (boolean) getHandleValue("hasLook");
+    }
 
-	public void setHasLookPacket(boolean hasLookPacket) {
-		setHandleValue("hasLook", hasLookPacket);
-	}
+    public void setHasLookPacket(boolean hasLookPacket) {
+        setHandleValue("hasLook", hasLookPacket);
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Client.FLYING;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Play.Client.FLYING;
+    }
 }

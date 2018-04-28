@@ -34,80 +34,80 @@ import java.util.Arrays;
  */
 public interface Objective extends ScoreboardComponent {
 
-	/**
-	 * Get the type of the objective
-	 *
-	 * @return the type
-	 */
-	ObjectiveDisplayType getDisplayType();
+    /**
+     * Get the type of the objective
+     *
+     * @return the type
+     */
+    ObjectiveDisplayType getDisplayType();
 
-	/**
-	 * Sets the type of objective
-	 *
-	 * @param displayType The display type
-	 */
-	void setDisplayType(ObjectiveDisplayType displayType);
+    /**
+     * Sets the type of objective
+     *
+     * @param displayType The display type
+     */
+    void setDisplayType(ObjectiveDisplayType displayType);
 
-	/**
-	 * Get the slot of the objective
-	 *
-	 * @return the slot
-	 */
-	ObjectiveSlot getDisplaySlot();
+    /**
+     * Get the slot of the objective
+     *
+     * @return the slot
+     */
+    ObjectiveSlot getDisplaySlot();
 
-	/**
-	 * Sets the slot of objective
-	 *
-	 * @param displaySlot The display slot
-	 */
-	void setDisplaySlot(ObjectiveSlot displaySlot);
+    /**
+     * Sets the slot of objective
+     *
+     * @param displaySlot The display slot
+     */
+    void setDisplaySlot(ObjectiveSlot displaySlot);
 
-	/**
-	 * The slot where the objective will be displayed
-	 */
-	enum ObjectiveSlot {
+    /**
+     * The slot where the objective will be displayed
+     */
+    enum ObjectiveSlot {
 
-		LIST(0),
-		SIDEBAR(1),
-		BELOW_NAME(2);
+        LIST(0),
+        SIDEBAR(1),
+        BELOW_NAME(2);
 
-		private final int slot;
+        private final int slot;
 
-		ObjectiveSlot(final int slot) {
-			this.slot = slot;
-		}
+        ObjectiveSlot(final int slot) {
+            this.slot = slot;
+        }
 
-		@Nullable
-		public static ObjectiveSlot getObjectiveSlot(int slot) {
-			return Arrays.stream(values()).filter(objectiveSlot -> objectiveSlot.slot == slot).findFirst().orElse(null);
-		}
+        @Nullable
+        public static ObjectiveSlot getObjectiveSlot(int slot) {
+            return Arrays.stream(values()).filter(objectiveSlot -> objectiveSlot.slot == slot).findFirst().orElse(null);
+        }
 
-		public final int getSlot() {
-			return this.slot;
-		}
+        public final int getSlot() {
+            return this.slot;
+        }
 
-	}
+    }
 
-	/**
-	 * The type of objective to display
-	 */
-	enum ObjectiveDisplayType {
-		INTEGER("integer"),
-		HEARTS("hearts");
+    /**
+     * The type of objective to display
+     */
+    enum ObjectiveDisplayType {
+        INTEGER("integer"),
+        HEARTS("hearts");
 
-		private final String display;
+        private final String display;
 
-		ObjectiveDisplayType(String display) {
-			this.display = display;
-		}
+        ObjectiveDisplayType(String display) {
+            this.display = display;
+        }
 
-		public static ObjectiveDisplayType getHealthDisplay(String display) {
-			return Arrays.stream(values()).filter(healthDisplay -> healthDisplay.display.equalsIgnoreCase(display)).findFirst().orElse(INTEGER);
-		}
+        public static ObjectiveDisplayType getHealthDisplay(String display) {
+            return Arrays.stream(values()).filter(healthDisplay -> healthDisplay.display.equalsIgnoreCase(display)).findFirst().orElse(INTEGER);
+        }
 
-		public String getDisplay() {
-			return this.display;
-		}
-	}
+        public String getDisplay() {
+            return this.display;
+        }
+    }
 
 }

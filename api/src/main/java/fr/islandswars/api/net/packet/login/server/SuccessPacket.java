@@ -31,19 +31,19 @@ import net.minecraft.server.v1_12_R1.PacketLoginOutSuccess;
  */
 public class SuccessPacket extends GamePacket<PacketLoginOutSuccess> {
 
-	protected SuccessPacket(PacketLoginOutSuccess handle) {
-		super(handle);
-	}
+    protected SuccessPacket(PacketLoginOutSuccess handle) {
+        super(handle);
+    }
 
-	/**
-	 * @return a now valide game profile for the client
-	 */
-	public GameProfile getValidatedGameProfile() {
-		return (GameProfile) getHandleValue("a");
-	}
+    /**
+     * @return a now valide game profile for the client
+     */
+    public GameProfile getValidatedGameProfile() {
+        return (GameProfile) getHandleValue("a");
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Login.Server.SUCCESS;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Login.Server.SUCCESS;
+    }
 }

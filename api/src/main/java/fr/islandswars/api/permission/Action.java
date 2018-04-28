@@ -29,16 +29,16 @@ package fr.islandswars.api.permission;
  */
 public enum Action {
 
-	/**
-	 * Can the player pos / break / drop block ?
-	 */
-	BUILD(),
-	/**
-	 * Can the given player send message in chat ?
-	 */
-	SEND_MESSAGE(),
-	/**
-	 * Is this player affected by slow mode chat ?
-	 */
-	SLOW_MODE()
+    /**
+     * Can the player pos / break / drop block ?
+     */
+    BUILD(),
+    /**
+     * Can the given player send message in chat ?
+     */
+    SEND_MESSAGE(),
+    /**
+     * Is this player affected by slow mode chat ?
+     */
+    SLOW_MODE()
 }

@@ -34,59 +34,59 @@ import java.util.stream.Stream;
  */
 public interface Bar extends I18nParameters<IslandsPlayer> {
 
-	/**
-	 * Add some properties such as timer, etc to this bossbar
-	 *
-	 * @param properties bossbar's properties to deal with
-	 * @param erase      update properties, even if it's already set
-	 */
-	void provideProperties(BarProperties properties, boolean erase);
+    /**
+     * Add some properties such as timer, etc to this bossbar
+     *
+     * @param properties bossbar's properties to deal with
+     * @param erase      update properties, even if it's already set
+     */
+    void provideProperties(BarProperties properties, boolean erase);
 
-	/**
-	 * Register some parameters that will be used for all players
-	 *
-	 * @param parameters translation parameters
-	 */
-	void setGlobalParameter(Supplier<Object[]> parameters);
+    /**
+     * Register some parameters that will be used for all players
+     *
+     * @param parameters translation parameters
+     */
+    void setGlobalParameter(Supplier<Object[]> parameters);
 
-	/**
-	 * Hide or display the current boss bossbar
-	 *
-	 * @param active hide or display bossbar
-	 */
-	void setActive(boolean active);
+    /**
+     * Hide or display the current boss bossbar
+     *
+     * @param active hide or display bossbar
+     */
+    void setActive(boolean active);
 
-	/**
-	 * Update this bossbar progress, must be inside 0 to 1 range
-	 *
-	 * @param progress a new progress
-	 */
-	void setProgress(float progress);
+    /**
+     * Update this bossbar progress, must be inside 0 to 1 range
+     *
+     * @param progress a new progress
+     */
+    void setProgress(float progress);
 
-	/**
-	 * Active darken sky properties
-	 *
-	 * @param darkenSky hide or display
-	 */
-	void setDarkenSky(boolean darkenSky);
+    /**
+     * Active darken sky properties
+     *
+     * @param darkenSky hide or display
+     */
+    void setDarkenSky(boolean darkenSky);
 
-	/**
-	 * Play minecraft ender end music
-	 *
-	 * @param playMusic play or mute
-	 */
-	void setPlayMusic(boolean playMusic);
+    /**
+     * Play minecraft ender end music
+     *
+     * @param playMusic play or mute
+     */
+    void setPlayMusic(boolean playMusic);
 
-	/**
-	 * Display fog
-	 *
-	 * @param createFog hide or display
-	 */
-	void setCreateFog(boolean createFog);
+    /**
+     * Display fog
+     *
+     * @param createFog hide or display
+     */
+    void setCreateFog(boolean createFog);
 
-	/**
-	 * @return this bossbar viewers
-	 */
-	Stream<IslandsPlayer> getViewers();
+    /**
+     * @return this bossbar viewers
+     */
+    Stream<IslandsPlayer> getViewers();
 
 }

@@ -30,12 +30,12 @@ import net.minecraft.server.v1_12_R1.PacketStatusInStart;
  */
 public class StartPacket extends GamePacket<PacketStatusInStart> {
 
-	public StartPacket(PacketStatusInStart handle) {
-		super(handle);
-	}
+    public StartPacket(PacketStatusInStart handle) {
+        super(handle);
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Status.Client.START;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Status.Client.START;
+    }
 }

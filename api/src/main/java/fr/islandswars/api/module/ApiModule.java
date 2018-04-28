@@ -31,19 +31,19 @@ import fr.islandswars.api.module.bukkit.ArrowModule;
  */
 public enum ApiModule {
 
-	BOSS_BAR(BarManager.class),
-	ARROW(ArrowModule.class);
+    BOSS_BAR(BarManager.class),
+    ARROW(ArrowModule.class);
 
-	private final Class<? extends Module> moduleClass;
+    private final Class<? extends Module> moduleClass;
 
-	ApiModule(Class<? extends Module> moduleClass) {
-		this.moduleClass = moduleClass;
-	}
+    ApiModule(Class<? extends Module> moduleClass) {
+        this.moduleClass = moduleClass;
+    }
 
-	/**
-	 * @return this module class
-	 */
-	public Class<? extends Module> getModuleClass() {
-		return moduleClass;
-	}
+    /**
+     * @return this module class
+     */
+    public Class<? extends Module> getModuleClass() {
+        return moduleClass;
+    }
 }

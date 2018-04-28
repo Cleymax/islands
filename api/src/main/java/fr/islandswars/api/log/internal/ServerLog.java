@@ -2,6 +2,7 @@ package fr.islandswars.api.log.internal;
 
 import fr.islandswars.api.log.Log;
 import fr.islandswars.api.utils.Preconditions;
+
 import java.util.logging.Level;
 
 /**
@@ -32,19 +33,19 @@ import java.util.logging.Level;
  */
 public class ServerLog extends Log {
 
-	private Server server;
+    private Server server;
 
-	public ServerLog(Level level, String msg) {
-		super(level, msg);
-	}
+    public ServerLog(Level level, String msg) {
+        super(level, msg);
+    }
 
-	@Override
-	public void checkValue() {
-		Preconditions.checkNotNull(server);
-	}
+    @Override
+    public void checkValue() {
+        Preconditions.checkNotNull(server);
+    }
 
-	public ServerLog setServer(Server server) {
-		this.server = server;
-		return this;
-	}
+    public ServerLog setServer(Server server) {
+        this.server = server;
+        return this;
+    }
 }

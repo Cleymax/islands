@@ -32,20 +32,20 @@ import static fr.islandswars.api.net.PacketType.Play.Client.KEEP_ALIVE;
  */
 public class KeepAliveInPacket extends GamePacket<PacketPlayInKeepAlive> {
 
-	public KeepAliveInPacket(PacketPlayInKeepAlive handle) {
-		super(handle);
-	}
+    public KeepAliveInPacket(PacketPlayInKeepAlive handle) {
+        super(handle);
+    }
 
-	public int getKeepAliveId() {
-		return (int) getHandleValue("a");
-	}
+    public int getKeepAliveId() {
+        return (int) getHandleValue("a");
+    }
 
-	public void setKeepAliveId(int keepAliveId) {
-		setHandleValue("a", keepAliveId);
-	}
+    public void setKeepAliveId(int keepAliveId) {
+        setHandleValue("a", keepAliveId);
+    }
 
-	@Override
-	public PacketType getType() {
-		return KEEP_ALIVE;
-	}
+    @Override
+    public PacketType getType() {
+        return KEEP_ALIVE;
+    }
 }

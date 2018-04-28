@@ -31,62 +31,62 @@ import net.minecraft.server.v1_12_R1.PacketHandshakingInSetProtocol;
  */
 public class HandShakePacket extends GamePacket<PacketHandshakingInSetProtocol> {
 
-	protected HandShakePacket(PacketHandshakingInSetProtocol handle) {
-		super(handle);
-	}
+    protected HandShakePacket(PacketHandshakingInSetProtocol handle) {
+        super(handle);
+    }
 
-	/**
-	 * @return this server's host
-	 */
-	public String getHost() {
-		return (String) getHandleValue("hostname");
-	}
+    /**
+     * @return this server's host
+     */
+    public String getHost() {
+        return (String) getHandleValue("hostname");
+    }
 
-	/**
-	 * @param newHost a new host to send
-	 */
-	public void setHost(String newHost) {
-		setHandleValue("hostname", newHost);
-	}
+    /**
+     * @param newHost a new host to send
+     */
+    public void setHost(String newHost) {
+        setHandleValue("hostname", newHost);
+    }
 
-	/**
-	 * @return this server's port
-	 */
-	public int getPort() {
-		return (int) getHandleValue("port");
-	}
+    /**
+     * @return this server's port
+     */
+    public int getPort() {
+        return (int) getHandleValue("port");
+    }
 
-	/**
-	 * @param newPort a new port to send
-	 */
-	public void setPort(int newPort) {
-		setHandleValue("port", newPort);
-	}
+    /**
+     * @param newPort a new port to send
+     */
+    public void setPort(int newPort) {
+        setHandleValue("port", newPort);
+    }
 
-	/**
-	 * @return this current server implementation protocol version
-	 */
-	public int getProtocolVersion() {
-		return (int) getHandleValue("a");
-	}
+    /**
+     * @return this current server implementation protocol version
+     */
+    public int getProtocolVersion() {
+        return (int) getHandleValue("a");
+    }
 
-	/**
-	 * @param newProtocolversion a new version to send
-	 * @deprecated the client will see this server outdated
-	 */
-	public void setProtocolVersion(int newProtocolversion) {
-		setHandleValue("a", newProtocolversion);
-	}
+    /**
+     * @param newProtocolversion a new version to send
+     * @deprecated the client will see this server outdated
+     */
+    public void setProtocolVersion(int newProtocolversion) {
+        setHandleValue("a", newProtocolversion);
+    }
 
-	/**
-	 * @return the next enum protocol state
-	 */
-	public EnumProtocol getEnumProtocol() {
-		return (EnumProtocol) getHandleValue("d");
-	}
+    /**
+     * @return the next enum protocol state
+     */
+    public EnumProtocol getEnumProtocol() {
+        return (EnumProtocol) getHandleValue("d");
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Handshake.Server.HANDSHAKE;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Handshake.Server.HANDSHAKE;
+    }
 }

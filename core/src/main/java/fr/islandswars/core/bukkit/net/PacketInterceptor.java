@@ -2,14 +2,15 @@ package fr.islandswars.core.bukkit.net;
 
 import fr.islandswars.api.utils.NMSReflectionUtil;
 import io.netty.channel.*;
-import java.net.SocketAddress;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+
+import java.net.SocketAddress;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -38,115 +39,115 @@ import org.bukkit.entity.Player;
  */
 public class PacketInterceptor {
 
-	private static final Map<SocketAddress, PacketHandler> HANDLERS = new ConcurrentHashMap<>();
-	private static List<ChannelFuture>  channelFutures;
-	private static PacketHandlerManager manager;
+    private static final Map<SocketAddress, PacketHandler> HANDLERS = new ConcurrentHashMap<>();
+    private static List<ChannelFuture> channelFutures;
+    private static PacketHandlerManager manager;
 
 
-	PacketInterceptor(PacketHandlerManager packetHandlerManager) {
-		manager = packetHandlerManager;
-	}
+    PacketInterceptor(PacketHandlerManager packetHandlerManager) {
+        manager = packetHandlerManager;
+    }
 
-	public static void clean() {
-		if (channelFutures == null)
-			return;
+    public static void clean() {
+        if (channelFutures == null)
+            return;
 
-		for (ChannelFuture o : channelFutures) {
-			ChannelPipeline pp = o.channel().pipeline();
-			if (pp.get(ChannelFutureHandler.ID) != null)
-				pp.remove(ChannelFutureHandler.ID);
-		}
+        for (ChannelFuture o : channelFutures) {
+            ChannelPipeline pp = o.channel().pipeline();
+            if (pp.get(ChannelFutureHandler.ID) != null)
+                pp.remove(ChannelFutureHandler.ID);
+        }
 
-		for (PacketHandler handler : HANDLERS.values()) {
-			handler.channel.pipeline().remove(handler); //Remove all HANDLERS
-		}
-	}
+        for (PacketHandler handler : HANDLERS.values()) {
+            handler.channel.pipeline().remove(handler); //Remove all HANDLERS
+        }
+    }
 
-	public static void inject() {
-		Object mcServer      = NMSReflectionUtil.getValue(Bukkit.getServer(), "console");
-		Object srvConnection = NMSReflectionUtil.getFirstValueOfType(mcServer, "{nms}.ServerConnection");
-		channelFutures = NMSReflectionUtil.getFirstValueOfType(srvConnection, List.class); //Steal channelFutures list
+    public static void inject() {
+        Object mcServer = NMSReflectionUtil.getValue(Bukkit.getServer(), "console");
+        Object srvConnection = NMSReflectionUtil.getFirstValueOfType(mcServer, "{nms}.ServerConnection");
+        channelFutures = NMSReflectionUtil.getFirstValueOfType(srvConnection, List.class); //Steal channelFutures list
 
-		for (ChannelFuture o : channelFutures)
-			o.channel().pipeline().addFirst(ChannelFutureHandler.ID, ChannelFutureHandler.INSTANCE);
+        for (ChannelFuture o : channelFutures)
+            o.channel().pipeline().addFirst(ChannelFutureHandler.ID, ChannelFutureHandler.INSTANCE);
 
-		for (Player player : Bukkit.getOnlinePlayers()) // /reload support
-			injectPlayer(player);                       // (inject to already connected players)
-	}
+        for (Player player : Bukkit.getOnlinePlayers()) // /reload support
+            injectPlayer(player);                       // (inject to already connected players)
+    }
 
-	private static void injectPlayer(Player player) {
-		Channel       ch      = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
-		PacketHandler handler = new PacketHandler(ch);
-		ch.pipeline().addBefore("packet_handler", PacketHandler.ID, handler);
-		HANDLERS.put(ch.remoteAddress(), handler);
-	}
+    private static void injectPlayer(Player player) {
+        Channel ch = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
+        PacketHandler handler = new PacketHandler(ch);
+        ch.pipeline().addBefore("packet_handler", PacketHandler.ID, handler);
+        HANDLERS.put(ch.remoteAddress(), handler);
+    }
 
-	public static final class ChannelFutureHandler extends ChannelDuplexHandler {
+    public static final class ChannelFutureHandler extends ChannelDuplexHandler {
 
-		private static final ChannelFutureHandler INSTANCE = new ChannelFutureHandler();
-		private static final String               ID       = "NMSProtocol-ChannelFuture";
+        private static final ChannelFutureHandler INSTANCE = new ChannelFutureHandler();
+        private static final String ID = "NMSProtocol-ChannelFuture";
 
-		private ChannelFutureHandler() {
-		}
+        private ChannelFutureHandler() {
+        }
 
-		@Override
-		public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-			Channel channel = ((Channel) msg);
-			channel.pipeline().addFirst(ChannelInitHandler.ID, new ChannelInitHandler(channel));
+        @Override
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            Channel channel = ((Channel) msg);
+            channel.pipeline().addFirst(ChannelInitHandler.ID, new ChannelInitHandler(channel));
 
-			super.channelRead(ctx, msg);
-		}
-	}
+            super.channelRead(ctx, msg);
+        }
+    }
 
-	@ChannelHandler.Sharable
-	public static final class ChannelInitHandler extends ChannelDuplexHandler {
+    @ChannelHandler.Sharable
+    public static final class ChannelInitHandler extends ChannelDuplexHandler {
 
-		private static final String ID = "NMSProtocol-Init";
-		private final Channel channel;
+        private static final String ID = "NMSProtocol-Init";
+        private final Channel channel;
 
-		ChannelInitHandler(Channel channel) {
-			this.channel = channel;
-		}
+        ChannelInitHandler(Channel channel) {
+            this.channel = channel;
+        }
 
-		@Override
-		public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-			PacketHandler handler = new PacketHandler(channel);
-			HANDLERS.put(channel.remoteAddress(), handler);
+        @Override
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            PacketHandler handler = new PacketHandler(channel);
+            HANDLERS.put(channel.remoteAddress(), handler);
 
-			ChannelPipeline pipeline = ctx.channel().pipeline();
-			pipeline.addBefore("packet_handler", PacketHandler.ID, handler);
-			pipeline.remove(this); //Auto-remove
+            ChannelPipeline pipeline = ctx.channel().pipeline();
+            pipeline.addBefore("packet_handler", PacketHandler.ID, handler);
+            pipeline.remove(this); //Auto-remove
 
-			super.channelRead(ctx, msg);
-		}
-	}
+            super.channelRead(ctx, msg);
+        }
+    }
 
-	public static final class PacketHandler extends ChannelDuplexHandler {
+    public static final class PacketHandler extends ChannelDuplexHandler {
 
-		private static final String ID = "NMSProtocol-PacketHandler";
-		private final Channel channel;
+        private static final String ID = "NMSProtocol-PacketHandler";
+        private final Channel channel;
 
-		PacketHandler(Channel channel) {
-			this.channel = channel;
-		}
+        PacketHandler(Channel channel) {
+            this.channel = channel;
+        }
 
-		@Override
-		public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-			HANDLERS.remove(channel.remoteAddress());
-			ctx.fireChannelUnregistered();
-		}
+        @Override
+        public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+            HANDLERS.remove(channel.remoteAddress());
+            ctx.fireChannelUnregistered();
+        }
 
-		@Override
-		public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-			if (!manager.handlePacket((Packet) msg, channel)) //if event not cancelled
-				super.write(ctx, msg, promise);
-		}
+        @Override
+        public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+            if (!manager.handlePacket((Packet) msg, channel)) //if event not cancelled
+                super.write(ctx, msg, promise);
+        }
 
-		@Override
-		public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-			if (!manager.handlePacket((Packet) msg, channel)) //if event not cancelled
-				super.channelRead(ctx, msg);
-		}
-	}
+        @Override
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            if (!manager.handlePacket((Packet) msg, channel)) //if event not cancelled
+                super.channelRead(ctx, msg);
+        }
+    }
 }
 

@@ -20,13 +20,6 @@ import fr.islandswars.api.storage.StorageManager;
 import fr.islandswars.api.task.UpdaterManager;
 import fr.islandswars.api.utils.ErrorHandler;
 import fr.islandswars.api.utils.Preconditions;
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -35,6 +28,14 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * File <b>IslandsApi</b> located on fr.islandswars.api
@@ -65,184 +66,184 @@ import org.bukkit.scheduler.BukkitTask;
  */
 public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 
-	private static IslandsApi   instance;
-	private final  ErrorHandler handler;
-	private final ServerType type     = null;
-	private final int        serverId = 0;
+    private static IslandsApi instance;
+    private final ErrorHandler handler;
+    private final ServerType type = null;
+    private final int serverId = 0;
 
-	protected IslandsApi() {
-		if (instance == null)
-			instance = this;
-		handler = (t) -> getInfraLogger().createCustomLog(ErrorLog.class, Level.SEVERE, (t.getMessage() == null || t.getMessage().isEmpty()) ? "Error thrown" : t.getMessage()).supplyStacktrace(t).log();
+    protected IslandsApi() {
+        if (instance == null)
+            instance = this;
+        handler = (t) -> getInfraLogger().createCustomLog(ErrorLog.class, Level.SEVERE, (t.getMessage() == null || t.getMessage().isEmpty()) ? "Error thrown" : t.getMessage()).supplyStacktrace(t).log();
 
-		//TODO this.type = ServerType.valueOf(System.getenv("SERVER_TYPE"));
-		//this.serverId = Integer.valueOf(System.getenv("SERVER_ID"));
-	}
+        //TODO this.type = ServerType.valueOf(System.getenv("SERVER_TYPE"));
+        //this.serverId = Integer.valueOf(System.getenv("SERVER_ID"));
+    }
 
-	/**
-	 * @return this API unique instance
-	 */
-	public static IslandsApi getInstance() {
-		return instance;
-	}
+    /**
+     * @return this API unique instance
+     */
+    public static IslandsApi getInstance() {
+        return instance;
+    }
 
-	/**
-	 * Interface to easily create complex boss bossbar pattern
-	 *
-	 * @return an abstract nms layer to easily deal with boss bossbar packet
-	 */
-	public abstract BarManager getBarManager();
+    /**
+     * Interface to easily create complex boss bossbar pattern
+     *
+     * @return an abstract nms layer to easily deal with boss bossbar packet
+     */
+    public abstract BarManager getBarManager();
 
-	/**
-	 * Method invocation based command pattern
-	 *
-	 * @return a manager to register custom command compound
-	 */
-	public abstract CommandManager getCommandManager();
+    /**
+     * Method invocation based command pattern
+     *
+     * @return a manager to register custom command compound
+     */
+    public abstract CommandManager getCommandManager();
 
-	/**
-	 * An enum representing the server, and some static properties
-	 *
-	 * @return the running server type
-	 */
-	public abstract ServerType getCurrentServerType();
+    /**
+     * An enum representing the server, and some static properties
+     *
+     * @return the running server type
+     */
+    public abstract ServerType getCurrentServerType();
 
-	/**
-	 * Interface to register and instanciates translation
-	 *
-	 * @return a String storage according to i18n format
-	 */
-	public abstract I18nLoader getI18nLoader();
+    /**
+     * Interface to register and instanciates translation
+     *
+     * @return a String storage according to i18n format
+     */
+    public abstract I18nLoader getI18nLoader();
 
-	/**
-	 * @return an abstract logger to output custom log
-	 */
-	public abstract InfraLogger getInfraLogger();
+    /**
+     * @return an abstract logger to output custom log
+     */
+    public abstract InfraLogger getInfraLogger();
 
-	/**
-	 * See if player's ranks match conditions
-	 *
-	 * @return a way to check {@link IslandsPlayer#getAllRanks()}
-	 */
-	public abstract PermissibleManager getPermissionManager();
+    /**
+     * See if player's ranks match conditions
+     *
+     * @return a way to check {@link IslandsPlayer#getAllRanks()}
+     */
+    public abstract PermissibleManager getPermissionManager();
 
-	/**
-	 * Retrieve an IslandsPlayer
-	 *
-	 * @param playerId this playerId
-	 * @return a wrapped player if online, or else null
-	 */
-	public abstract Optional<IslandsPlayer> getPlayer(UUID playerId);
+    /**
+     * Retrieve an IslandsPlayer
+     *
+     * @param playerId this playerId
+     * @return a wrapped player if online, or else null
+     */
+    public abstract Optional<IslandsPlayer> getPlayer(UUID playerId);
 
-	/**
-	 * Retrieve all IslandsPlayer
-	 *
-	 * @return all connected players
-	 */
-	public abstract List<? extends IslandsPlayer> getPlayers();
+    /**
+     * Retrieve all IslandsPlayer
+     *
+     * @return all connected players
+     */
+    public abstract List<? extends IslandsPlayer> getPlayers();
 
-	/**
-	 * Retrieve all IslandsPlayer matching the predicate
-	 *
-	 * @param predicate a filter predicate
-	 * @return all connected players
-	 */
-	public abstract List<IslandsPlayer> getPlayers(Predicate<IslandsPlayer> predicate);
+    /**
+     * Retrieve all IslandsPlayer matching the predicate
+     *
+     * @param predicate a filter predicate
+     * @return all connected players
+     */
+    public abstract List<IslandsPlayer> getPlayers(Predicate<IslandsPlayer> predicate);
 
-	/**
-	 * Interface to easily listen and write for in/outcoming packet
-	 *
-	 * @return a protocol manager for this minecraft server version
-	 */
-	public abstract ProtocolManager getProtocolManager();
+    /**
+     * Interface to easily listen and write for in/outcoming packet
+     *
+     * @return a protocol manager for this minecraft server version
+     */
+    public abstract ProtocolManager getProtocolManager();
 
-	/**
-	 * Interface to manager all scoreboard components easily
-	 *
-	 * @return an abstract nms layer to easily deal with scoreboard's packets
-	 */
-	public abstract ScoreboardManager getScoreboardManager();
+    /**
+     * Interface to manager all scoreboard components easily
+     *
+     * @return an abstract nms layer to easily deal with scoreboard's packets
+     */
+    public abstract ScoreboardManager getScoreboardManager();
 
-	/**
-	 * @return this server infra identifier
-	 */
-	public String getServerIdentifier() {
-		return type.getTypeName() + "-" + serverId;
-	}
+    /**
+     * @return this server infra identifier
+     */
+    public String getServerIdentifier() {
+        return type.getTypeName() + "-" + serverId;
+    }
 
-	/**
-	 * Interface to deal with restricted access to a service
-	 *
-	 * @return an interface to interact with redis / rabbitmq
-	 */
-	public abstract ServiceManager getServiceManager();
+    /**
+     * Interface to deal with restricted access to a service
+     *
+     * @return an interface to interact with redis / rabbitmq
+     */
+    public abstract ServiceManager getServiceManager();
 
-	/**
-	 * interface to deal with item and internalisation
-	 *
-	 * @return a way to create and open inventory
-	 */
-	public abstract StorageManager getStorageManager();
+    /**
+     * interface to deal with item and internalisation
+     *
+     * @return a way to create and open inventory
+     */
+    public abstract StorageManager getStorageManager();
 
-	/**
-	 * Interface to format key to a valid String, according to user preferences
-	 *
-	 * @return a way to format message according to a given language
-	 */
-	public abstract Translatable getTranslatable();
+    /**
+     * Interface to format key to a valid String, according to user preferences
+     *
+     * @return a way to format message according to a given language
+     */
+    public abstract Translatable getTranslatable();
 
-	/**
-	 * @return this server type
-	 */
-	public ServerType getType() {
-		return type;
-	}
+    /**
+     * @return this server type
+     */
+    public ServerType getType() {
+        return type;
+    }
 
-	/**
-	 * Interface to register and schedule task from method annotations
-	 *
-	 * @return an interface to register and run task
-	 */
-	public abstract UpdaterManager getUpdaterManager();
+    /**
+     * Interface to register and schedule task from method annotations
+     *
+     * @return an interface to register and run task
+     */
+    public abstract UpdaterManager getUpdaterManager();
 
-	@Override
-	public abstract void onLoad();
+    @Override
+    public abstract void onLoad();
 
-	@Override
-	public abstract void onDisable();
+    @Override
+    public abstract void onDisable();
 
-	@Override
-	public abstract void onEnable();
+    @Override
+    public abstract void onEnable();
 
-	public void registerEvent(Listener listener) {
-		Preconditions.checkNotNull(listener);
+    public void registerEvent(Listener listener) {
+        Preconditions.checkNotNull(listener);
 
-		getPluginLoader().createRegisteredListeners(listener, this).forEach((e, l) -> getHandlerList(e).registerAll(l.stream().map(r -> new ErrorHandlerRegisteredListener(r, handler)).collect(Collectors.toList())));
-	}
+        getPluginLoader().createRegisteredListeners(listener, this).forEach((e, l) -> getHandlerList(e).registerAll(l.stream().map(r -> new ErrorHandlerRegisteredListener(r, handler)).collect(Collectors.toList())));
+    }
 
-	public BukkitTask runTask(Runnable task) {
-		return Bukkit.getScheduler().runTask(this, new ErrorHandlerRunnable(task, handler));
-	}
+    public BukkitTask runTask(Runnable task) {
+        return Bukkit.getScheduler().runTask(this, new ErrorHandlerRunnable(task, handler));
+    }
 
-	public BukkitTask runTaskAsynchronously(Runnable task) {
-		return Bukkit.getScheduler().runTaskAsynchronously(this, new ErrorHandlerRunnable(task, handler));
-	}
+    public BukkitTask runTaskAsynchronously(Runnable task) {
+        return Bukkit.getScheduler().runTaskAsynchronously(this, new ErrorHandlerRunnable(task, handler));
+    }
 
-	public void setExecutor(PluginCommand command, CommandExecutor executor) {
-		command.setExecutor(new ErrorHandlerCommandExecutor(executor, handler));
-	}
+    public void setExecutor(PluginCommand command, CommandExecutor executor) {
+        command.setExecutor(new ErrorHandlerCommandExecutor(executor, handler));
+    }
 
-	private HandlerList getHandlerList(Class<? extends Event> event) {
-		while (event.getSuperclass() != null && Event.class.isAssignableFrom(event.getSuperclass())) {
-			try {
-				Method method = event.getDeclaredMethod("getHandlerList");
-				method.setAccessible(true);
-				return (HandlerList) method.invoke(null);
-			} catch (ReflectiveOperationException e) {
-				event = event.getSuperclass().asSubclass(Event.class);
-			}
-		}
-		throw new IllegalStateException("No HandlerList for " + event.getName());
-	}
+    private HandlerList getHandlerList(Class<? extends Event> event) {
+        while (event.getSuperclass() != null && Event.class.isAssignableFrom(event.getSuperclass())) {
+            try {
+                Method method = event.getDeclaredMethod("getHandlerList");
+                method.setAccessible(true);
+                return (HandlerList) method.invoke(null);
+            } catch (ReflectiveOperationException e) {
+                event = event.getSuperclass().asSubclass(Event.class);
+            }
+        }
+        throw new IllegalStateException("No HandlerList for " + event.getName());
+    }
 
 }

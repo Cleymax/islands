@@ -30,12 +30,12 @@ import java.util.function.Supplier;
  */
 public interface I18nParameters<T> {
 
-	/**
-	 * Register this parameters with the generic key
-	 *
-	 * @param key            a generic key use to access this resource
-	 * @param i18nParameters an array of Object use for formatting
-	 */
-	void supplyI18nParameters(T key, Supplier<Object[]> i18nParameters);
+    /**
+     * Register this parameters with the generic key
+     *
+     * @param key            a generic key use to access this resource
+     * @param i18nParameters an array of Object use for formatting
+     */
+    void supplyI18nParameters(T key, Supplier<Object[]> i18nParameters);
 
 }

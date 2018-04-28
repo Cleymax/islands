@@ -32,20 +32,20 @@ import static fr.islandswars.api.net.PacketType.Play.Client.RESOURCE_PACK_STATUS
  */
 public class ResourcePackStatusInPacket extends GamePacket<PacketPlayInResourcePackStatus> {
 
-	public ResourcePackStatusInPacket(PacketPlayInResourcePackStatus handle) {
-		super(handle);
-	}
+    public ResourcePackStatusInPacket(PacketPlayInResourcePackStatus handle) {
+        super(handle);
+    }
 
-	public PacketPlayInResourcePackStatus.EnumResourcePackStatus getResourcePackStatus() {
-		return (PacketPlayInResourcePackStatus.EnumResourcePackStatus) getHandleValue("status");
-	}
+    public PacketPlayInResourcePackStatus.EnumResourcePackStatus getResourcePackStatus() {
+        return (PacketPlayInResourcePackStatus.EnumResourcePackStatus) getHandleValue("status");
+    }
 
-	public void setResourcePackStatus(PacketPlayInResourcePackStatus.EnumResourcePackStatus resourcePackStatus) {
-		setHandleValue("status", resourcePackStatus);
-	}
+    public void setResourcePackStatus(PacketPlayInResourcePackStatus.EnumResourcePackStatus resourcePackStatus) {
+        setHandleValue("status", resourcePackStatus);
+    }
 
-	@Override
-	public PacketType getType() {
-		return RESOURCE_PACK_STATUS;
-	}
+    @Override
+    public PacketType getType() {
+        return RESOURCE_PACK_STATUS;
+    }
 }

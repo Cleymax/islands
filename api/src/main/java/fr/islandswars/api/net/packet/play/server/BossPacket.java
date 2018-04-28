@@ -35,88 +35,88 @@ import java.util.UUID;
  */
 public class BossPacket extends GamePacket<PacketPlayOutBoss> {
 
-	protected BossPacket(PacketPlayOutBoss handle) {
-		super(handle);
-	}
+    protected BossPacket(PacketPlayOutBoss handle) {
+        super(handle);
+    }
 
-	public BossPacket(PacketPlayOutBoss.Action action, BossBattle bar) {
-		this(new PacketPlayOutBoss(action, bar));
-	}
+    public BossPacket(PacketPlayOutBoss.Action action, BossBattle bar) {
+        this(new PacketPlayOutBoss(action, bar));
+    }
 
-	public UUID getBarId() {
-		return (UUID) getHandleValue("a");
-	}
+    public UUID getBarId() {
+        return (UUID) getHandleValue("a");
+    }
 
-	public void setBarId(UUID id) {
-		setHandleValue("a", id);
-	}
+    public void setBarId(UUID id) {
+        setHandleValue("a", id);
+    }
 
-	public PacketPlayOutBoss.Action getAction() {
-		return (PacketPlayOutBoss.Action) getHandleValue("b");
-	}
+    public PacketPlayOutBoss.Action getAction() {
+        return (PacketPlayOutBoss.Action) getHandleValue("b");
+    }
 
-	public void setAction(PacketPlayOutBoss.Action action) {
-		setHandleValue("b", action);
-	}
+    public void setAction(PacketPlayOutBoss.Action action) {
+        setHandleValue("b", action);
+    }
 
-	public IChatBaseComponent getTitle() {
-		return (IChatBaseComponent) getHandleValue("c");
-	}
+    public IChatBaseComponent getTitle() {
+        return (IChatBaseComponent) getHandleValue("c");
+    }
 
-	public void setTitle(String title) {
-		setHandleValue("c", CraftChatMessage.fromString(title, true)[0]);
-	}
+    public void setTitle(String title) {
+        setHandleValue("c", CraftChatMessage.fromString(title, true)[0]);
+    }
 
-	public float getBarHealth() {
-		return (float) getHandleValue("d");
-	}
+    public float getBarHealth() {
+        return (float) getHandleValue("d");
+    }
 
-	public void setHealth(float health) {
-		setHandleValue("d", health);
-	}
+    public void setHealth(float health) {
+        setHandleValue("d", health);
+    }
 
-	public BossBattle.BarColor getBarColor() {
-		return (BossBattle.BarColor) getHandleValue("e");
-	}
+    public BossBattle.BarColor getBarColor() {
+        return (BossBattle.BarColor) getHandleValue("e");
+    }
 
-	public void setBarColor(BossBattle.BarColor color) {
-		setHandleValue("e", color);
-	}
+    public void setBarColor(BossBattle.BarColor color) {
+        setHandleValue("e", color);
+    }
 
-	public BossBattle.BarStyle getBarStyle() {
-		return (BossBattle.BarStyle) getHandleValue("f");
-	}
+    public BossBattle.BarStyle getBarStyle() {
+        return (BossBattle.BarStyle) getHandleValue("f");
+    }
 
-	public void setBarStyle(BossBattle.BarStyle style) {
-		setHandleValue("f", style);
-	}
+    public void setBarStyle(BossBattle.BarStyle style) {
+        setHandleValue("f", style);
+    }
 
-	public boolean isDarkenSky() {
-		return (boolean) getHandleValue("g");
-	}
+    public boolean isDarkenSky() {
+        return (boolean) getHandleValue("g");
+    }
 
-	public void setDarkenSky(boolean darkenSky) {
-		setHandleValue("g", darkenSky);
-	}
+    public void setDarkenSky(boolean darkenSky) {
+        setHandleValue("g", darkenSky);
+    }
 
-	public boolean isPlayingMusic() {
-		return (boolean) getHandleValue("h");
-	}
+    public boolean isPlayingMusic() {
+        return (boolean) getHandleValue("h");
+    }
 
-	public void setPlayMusic(boolean playMusic) {
-		setHandleValue("h", playMusic);
-	}
+    public void setPlayMusic(boolean playMusic) {
+        setHandleValue("h", playMusic);
+    }
 
-	public boolean isFogActive() {
-		return (boolean) getHandleValue("i");
-	}
+    public boolean isFogActive() {
+        return (boolean) getHandleValue("i");
+    }
 
-	public void setFogActive(boolean fog) {
-		setHandleValue("i", fog);
-	}
+    public void setFogActive(boolean fog) {
+        setHandleValue("i", fog);
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Server.BOSS;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Play.Server.BOSS;
+    }
 }

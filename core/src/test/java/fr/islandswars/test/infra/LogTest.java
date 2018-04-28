@@ -6,11 +6,12 @@ import fr.islandswars.api.log.internal.Action;
 import fr.islandswars.api.log.internal.DefaultLog;
 import fr.islandswars.api.log.internal.PlayerLog;
 import fr.islandswars.core.internal.log.InternalLogger;
-import java.util.UUID;
-import java.util.logging.Level;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  * File <b>LogTest</b> located on fr.islandswars.test.infra
@@ -37,27 +38,27 @@ import org.junit.Test;
  */
 public class LogTest {
 
-	private Gson           gson;
-	private InternalLogger logger;
+    private Gson gson;
+    private InternalLogger logger;
 
-	@Before
-	public void init() {
-		this.logger = new InternalLogger();
-		this.gson = new Gson();
-	}
+    @Before
+    public void init() {
+        this.logger = new InternalLogger();
+        this.gson = new Gson();
+    }
 
-	@Test
-	public void testIsJson() {
-		Assert.assertEquals("{\"level\":\"INFO\",\"message\":\"test\"}", debug(new DefaultLog(Level.INFO, "test")));
-	}
+    @Test
+    public void testIsJson() {
+        Assert.assertEquals("{\"level\":\"INFO\",\"message\":\"test\"}", debug(new DefaultLog(Level.INFO, "test")));
+    }
 
-	@Test
-	public void testPlayerLog() {
-		Assert.assertEquals("{\"action\":{\"name\":\"Xharos\",\"action\":\"CONNECT\",\"uuid\":\"d74d02da-a825-47fa-9adc-8058abec4b80\"},\"level\":\"INFO\",\"message\":\"test\"}",
-							debug(new PlayerLog(Level.INFO, "test").setPlayer("Xharos", UUID.fromString("d74d02da-a825-47fa-9adc-8058abec4b80"), Action.CONNECT)));
-	}
+    @Test
+    public void testPlayerLog() {
+        Assert.assertEquals("{\"action\":{\"name\":\"Xharos\",\"action\":\"CONNECT\",\"uuid\":\"d74d02da-a825-47fa-9adc-8058abec4b80\"},\"level\":\"INFO\",\"message\":\"test\"}",
+                debug(new PlayerLog(Level.INFO, "test").setPlayer("Xharos", UUID.fromString("d74d02da-a825-47fa-9adc-8058abec4b80"), Action.CONNECT)));
+    }
 
-	private String debug(Log object) {
-		return gson.toJson(object);
-	}
+    private String debug(Log object) {
+        return gson.toJson(object);
+    }
 }

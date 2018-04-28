@@ -31,40 +31,40 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutSetSlot;
  */
 public class SetSlotPacket extends GamePacket<PacketPlayOutSetSlot> {
 
-	protected SetSlotPacket(PacketPlayOutSetSlot handle) {
-		super(handle);
-	}
+    protected SetSlotPacket(PacketPlayOutSetSlot handle) {
+        super(handle);
+    }
 
-	public SetSlotPacket(int windowID, int slot, ItemStack itemStack) {
-		super(new PacketPlayOutSetSlot(windowID, slot, itemStack));
-	}
+    public SetSlotPacket(int windowID, int slot, ItemStack itemStack) {
+        super(new PacketPlayOutSetSlot(windowID, slot, itemStack));
+    }
 
-	public void setWindowID(int windowID) {
-		setHandleValue("a", windowID);
-	}
+    public int getWindowID() {
+        return (int) getHandleValue("a");
+    }
 
-	public int getWindowID() {
-		return (int) getHandleValue("a");
-	}
+    public void setWindowID(int windowID) {
+        setHandleValue("a", windowID);
+    }
 
-	public void setSlot(int slot) {
-		setHandleValue("b", slot);
-	}
+    public int getSlot() {
+        return (int) getHandleValue("b");
+    }
 
-	public int getSlot() {
-		return (int) getHandleValue("b");
-	}
+    public void setSlot(int slot) {
+        setHandleValue("b", slot);
+    }
 
-	public void setItemStack(ItemStack itemStack) {
-		setHandleValue("c", itemStack);
-	}
+    public ItemStack getItemStack() {
+        return (ItemStack) getHandleValue("c");
+    }
 
-	public ItemStack getItemStack() {
-		return (ItemStack) getHandleValue("c");
-	}
+    public void setItemStack(ItemStack itemStack) {
+        setHandleValue("c", itemStack);
+    }
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Server.SET_SLOT;
-	}
+    @Override
+    public PacketType getType() {
+        return PacketType.Play.Server.SET_SLOT;
+    }
 }

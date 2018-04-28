@@ -32,20 +32,20 @@ import static fr.islandswars.api.net.PacketType.Play.Server.TAB_COMPLETE;
  */
 public class TabCompleteOutPacket extends GamePacket<PacketPlayOutTabComplete> {
 
-	protected TabCompleteOutPacket(PacketPlayOutTabComplete handle) {
-		super(handle);
-	}
+    protected TabCompleteOutPacket(PacketPlayOutTabComplete handle) {
+        super(handle);
+    }
 
-	public String[] getTabCompletes() {
-		return (String[]) getHandleValue("a");
-	}
+    public String[] getTabCompletes() {
+        return (String[]) getHandleValue("a");
+    }
 
-	public void setTabCompletes(String[] tabCompletes) {
-		setHandleValue("a", tabCompletes);
-	}
+    public void setTabCompletes(String[] tabCompletes) {
+        setHandleValue("a", tabCompletes);
+    }
 
-	@Override
-	public PacketType getType() {
-		return TAB_COMPLETE;
-	}
+    @Override
+    public PacketType getType() {
+        return TAB_COMPLETE;
+    }
 }

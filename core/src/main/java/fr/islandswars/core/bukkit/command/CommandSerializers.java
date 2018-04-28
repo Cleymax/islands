@@ -1,17 +1,17 @@
 package fr.islandswars.core.bukkit.command;
 
 import fr.islandswars.api.cmd.CommandSerializer;
+import org.apache.commons.lang.SerializationException;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import org.apache.commons.lang.SerializationException;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 /**
  * File <b>CommandSerializers</b> located on fr.islandswars.core.bukkit.command
@@ -39,262 +39,257 @@ import org.bukkit.entity.Player;
  */
 public class CommandSerializers {
 
-	/**
-	 * Used to cache all default serializers.
-	 */
-	private static final Map<Class<?>, CommandSerializer<?>> INSTANCES = new HashMap<>();
-
-	/**
-	 * Used to cache all custom serializers.
-	 */
-	private static final Map<Class<?>, CommandSerializer<?>> CACHE = new HashMap<>();
+    static final CommandSerializer<Boolean> BOOLEAN = new ConstantTabCompleteCommandSerializer<>(
+            Boolean::valueOf,
+            "boolean",
+            Arrays.asList("false", "true")
+    );
+    static final CommandSerializer<Byte> BYTE = new NoTabCommandSerializer<>(Byte::valueOf, "byte");
 
 
-	/* ----------------------------- */
-	/* ---- DEFAULT SERIALIZERS ---- */
-	/* ----------------------------- */
+    /* ----------------------------- */
+    /* ---- DEFAULT SERIALIZERS ---- */
+    /* ----------------------------- */
 
-	// Primitives
+    // Primitives
+    static final CommandSerializer<Short> SHORT = new NoTabCommandSerializer<>(Short::valueOf, "short");
+    static final CommandSerializer<Integer> INTEGER = new NoTabCommandSerializer<>(Integer::valueOf, "int");
+    static final CommandSerializer<Long> LONG = new NoTabCommandSerializer<>(Long::valueOf, "long");
+    static final CommandSerializer<Float> FLOAT = new NoTabCommandSerializer<>(Float::valueOf, "float");
+    static final CommandSerializer<Double> DOUBLE = new NoTabCommandSerializer<>(Double::valueOf, "double");
+    static final CommandSerializer<Character> CHARACTER = new NoTabCommandSerializer<>(str -> str.charAt(0), "char");
+    static final CommandSerializer<Player> PLAYER = new CommandSerializerImpl<>(
+            CommandSerializers::getPlayer, "Player", () -> sort(getAllPlayers())
+    );
+    static final CommandSerializer<CommandSender> COMMAND_SENDER = new CommandSerializerImpl<>(
+            str -> "@CONSOLE".equalsIgnoreCase(str) ? Bukkit.getConsoleSender() : getPlayer(str), "Command Sender", () -> sort(append(getAllPlayers(), "@CONSOLE"))
+    );
 
-	static final CommandSerializer<Boolean> BOOLEAN = new ConstantTabCompleteCommandSerializer<>(
-			Boolean::valueOf,
-			"boolean",
-			Arrays.asList("false", "true")
-	);
+    // Others
+    /**
+     * Used to cache all default serializers.
+     */
+    private static final Map<Class<?>, CommandSerializer<?>> INSTANCES = new HashMap<>();
+    /**
+     * Used to cache all custom serializers.
+     */
+    private static final Map<Class<?>, CommandSerializer<?>> CACHE = new HashMap<>();
 
-	static final CommandSerializer<Byte>      BYTE      = new NoTabCommandSerializer<>(Byte::valueOf, "byte");
-	static final CommandSerializer<Short>     SHORT     = new NoTabCommandSerializer<>(Short::valueOf, "short");
-	static final CommandSerializer<Integer>   INTEGER   = new NoTabCommandSerializer<>(Integer::valueOf, "int");
-	static final CommandSerializer<Long>      LONG      = new NoTabCommandSerializer<>(Long::valueOf, "long");
-	static final CommandSerializer<Float>     FLOAT     = new NoTabCommandSerializer<>(Float::valueOf, "float");
-	static final CommandSerializer<Double>    DOUBLE    = new NoTabCommandSerializer<>(Double::valueOf, "double");
-	static final CommandSerializer<Character> CHARACTER = new NoTabCommandSerializer<>(str -> str.charAt(0), "char");
+    /*
+     * Setup the INSTANCES field.
+     */
+    static {
+        // Primitives
+        INSTANCES.put(boolean.class, BOOLEAN);
+        INSTANCES.put(Boolean.class, BOOLEAN);
+        INSTANCES.put(byte.class, BYTE);
+        INSTANCES.put(Byte.class, BYTE);
+        INSTANCES.put(short.class, SHORT);
+        INSTANCES.put(Short.class, SHORT);
+        INSTANCES.put(int.class, INTEGER);
+        INSTANCES.put(Integer.class, INTEGER);
+        INSTANCES.put(long.class, LONG);
+        INSTANCES.put(Long.class, LONG);
+        INSTANCES.put(float.class, FLOAT);
+        INSTANCES.put(Float.class, FLOAT);
+        INSTANCES.put(double.class, DOUBLE);
+        INSTANCES.put(Double.class, DOUBLE);
+        INSTANCES.put(char.class, CHARACTER);
+        INSTANCES.put(Character.class, CHARACTER);
 
-	// Others
+        // Others
+        INSTANCES.put(Player.class, PLAYER);
+        INSTANCES.put(CommandSender.class, COMMAND_SENDER);
+    }
 
-	static final CommandSerializer<Player> PLAYER = new CommandSerializerImpl<>(
-			CommandSerializers::getPlayer, "Player", () -> sort(getAllPlayers())
-	);
+    private CommandSerializers() {
+    }
 
-	static final CommandSerializer<CommandSender> COMMAND_SENDER = new CommandSerializerImpl<>(
-			str -> "@CONSOLE".equalsIgnoreCase(str) ? Bukkit.getConsoleSender() : getPlayer(str), "Command Sender", () -> sort(append(getAllPlayers(), "@CONSOLE"))
-	);
+    /**
+     * Append a value to a list.
+     *
+     * @param list the list
+     * @param str  the value to append
+     * @return the list
+     */
+    private static List<String> append(List<String> list, String str) {
+        list.add(str);
+        return list;
+    }
 
-	/*
-	 * Setup the INSTANCES field.
-	 */
-	static {
-		// Primitives
-		INSTANCES.put(boolean.class, BOOLEAN);
-		INSTANCES.put(Boolean.class, BOOLEAN);
-		INSTANCES.put(byte.class, BYTE);
-		INSTANCES.put(Byte.class, BYTE);
-		INSTANCES.put(short.class, SHORT);
-		INSTANCES.put(Short.class, SHORT);
-		INSTANCES.put(int.class, INTEGER);
-		INSTANCES.put(Integer.class, INTEGER);
-		INSTANCES.put(long.class, LONG);
-		INSTANCES.put(Long.class, LONG);
-		INSTANCES.put(float.class, FLOAT);
-		INSTANCES.put(Float.class, FLOAT);
-		INSTANCES.put(double.class, DOUBLE);
-		INSTANCES.put(Double.class, DOUBLE);
-		INSTANCES.put(char.class, CHARACTER);
-		INSTANCES.put(Character.class, CHARACTER);
+    /* -------------------------- */
+    /* ---- SERIALIZER UTILS ---- */
+    /* -------------------------- */
 
-		// Others
-		INSTANCES.put(Player.class, PLAYER);
-		INSTANCES.put(CommandSender.class, COMMAND_SENDER);
-	}
+    /**
+     * Get all online players' name.
+     *
+     * @return all online players' name into a modifiable list
+     */
+    private static List<String> getAllPlayers() {
+        return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+    }
 
-	private CommandSerializers() {
-	}
+    /**
+     * Get a player from its name.
+     *
+     * @param str the name of the player
+     * @return the player
+     * @throws SerializationException if the player was not found
+     */
+    private static Player getPlayer(String str) throws SerializationException {
+        Player player = Bukkit.getPlayerExact(str);
+        if (player == null)
+            throw new SerializationException("Cannot find player \"" + str + '"');
+        return player;
+    }
 
-	/**
-	 * Append a value to a list.
-	 *
-	 * @param list the list
-	 * @param str  the value to append
-	 * @return the list
-	 */
-	private static List<String> append(List<String> list, String str) {
-		list.add(str);
-		return list;
-	}
+    /**
+     * Format an argument.
+     *
+     * @param formatter the formatter
+     * @param arg       the argument
+     * @param valueType the value type of the argument
+     * @param <T>       the type of argument
+     * @return the formatted argument
+     * @throws SerializationException if error while formatting
+     */
+    private static <T> T safeFormat(SafeFormatter<T> formatter, String arg, String valueType) throws SerializationException {
+        try {
+            return formatter.format(arg);
+        } catch (NumberFormatException ignored) {
+            throw new SerializationException("Input \"" + arg + "\" is not of type " + valueType);
+        }
+    }
 
-	/* -------------------------- */
-	/* ---- SERIALIZER UTILS ---- */
-	/* -------------------------- */
+    /**
+     * Sort the list.
+     *
+     * @param list the list
+     * @return the list
+     */
+    private static List<String> sort(List<String> list) {
+        list.sort(null);
+        return list;
+    }
 
-	/**
-	 * Get all online players' name.
-	 *
-	 * @return all online players' name into a modifiable list
-	 */
-	private static List<String> getAllPlayers() {
-		return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
-	}
+    /**
+     * Get a default serializer from its serialized class.
+     *
+     * @param <T>   the type of the serializer
+     * @param clazz the class
+     * @return the serializer
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> CommandSerializer<T> getSerializer(Class<T> clazz) {
+        return (CommandSerializer<T>) INSTANCES.get(clazz);
+    }
 
-	/**
-	 * Get a player from its name.
-	 *
-	 * @param str the name of the player
-	 * @return the player
-	 * @throws SerializationException if the player was not found
-	 */
-	private static Player getPlayer(String str) throws SerializationException {
-		Player player = Bukkit.getPlayerExact(str);
-		if (player == null)
-			throw new SerializationException("Cannot find player \"" + str + '"');
-		return player;
-	}
+    /**
+     * Get a default serializer from its class and serialized class.
+     *
+     * @param clazz      the serialized class
+     * @param serializer the serializer class
+     * @param <T>        the type of the serialized class
+     * @return the command serializer
+     * @throws ReflectiveOperationException reflection-related method
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> CommandSerializer<T> serializerOf(Class<T> clazz, Class<? extends CommandSerializer> serializer) throws ReflectiveOperationException {
+        CommandSerializer serial = CACHE.get(clazz);
 
-	/**
-	 * Format an argument.
-	 *
-	 * @param formatter the formatter
-	 * @param arg       the argument
-	 * @param valueType the value type of the argument
-	 * @param <T>       the type of argument
-	 * @return the formatted argument
-	 * @throws SerializationException if error while formatting
-	 */
-	private static <T> T safeFormat(SafeFormatter<T> formatter, String arg, String valueType) throws SerializationException {
-		try {
-			return formatter.format(arg);
-		} catch (NumberFormatException ignored) {
-			throw new SerializationException("Input \"" + arg + "\" is not of type " + valueType);
-		}
-	}
+        if (serial != null && serial.getClass() == serializer)
+            return serial;
 
-	/**
-	 * Sort the list.
-	 *
-	 * @param list the list
-	 * @return the list
-	 */
-	private static List<String> sort(List<String> list) {
-		list.sort(null);
-		return list;
-	}
+        serial = serializer.getConstructor().newInstance();
+        CACHE.put(clazz, serial);
+        return serial;
+    }
 
-	/**
-	 * Get a default serializer from its serialized class.
-	 *
-	 * @param <T>   the type of the serializer
-	 * @param clazz the class
-	 * @return the serializer
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> CommandSerializer<T> getSerializer(Class<T> clazz) {
-		return (CommandSerializer<T>) INSTANCES.get(clazz);
-	}
+    /**
+     * Argument-formatter.
+     *
+     * @param <T> the type of argument
+     */
+    @FunctionalInterface
+    private interface SafeFormatter<T> {
 
-	/**
-	 * Get a default serializer from its class and serialized class.
-	 *
-	 * @param clazz      the serialized class
-	 * @param serializer the serializer class
-	 * @param <T>        the type of the serialized class
-	 * @return the command serializer
-	 * @throws ReflectiveOperationException reflection-related method
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> CommandSerializer<T> serializerOf(Class<T> clazz, Class<? extends CommandSerializer> serializer) throws ReflectiveOperationException {
-		CommandSerializer serial = CACHE.get(clazz);
+        T format(String arg) throws NumberFormatException, SerializationException;
+    }
 
-		if (serial != null && serial.getClass() == serializer)
-			return serial;
+    /**
+     * A serializer with no tab complete.
+     *
+     * @param <T> the type of argument
+     */
+    private static class NoTabCommandSerializer<T> implements CommandSerializer<T> {
 
-		serial = serializer.getConstructor().newInstance();
-		CACHE.put(clazz, serial);
-		return serial;
-	}
+        final SafeFormatter<T> formatter;
+        final String valueType;
 
-	/**
-	 * Argument-formatter.
-	 *
-	 * @param <T> the type of argument
-	 */
-	@FunctionalInterface
-	private interface SafeFormatter<T> {
+        NoTabCommandSerializer(SafeFormatter<T> formatter, String valueType) {
+            this.formatter = formatter;
+            this.valueType = valueType;
+        }
 
-		T format(String arg) throws NumberFormatException, SerializationException;
-	}
+        @Override
+        public T serialize(String arg) throws SerializationException {
+            return safeFormat(formatter, arg, valueType);
+        }
 
-	/**
-	 * A serializer with no tab complete.
-	 *
-	 * @param <T> the type of argument
-	 */
-	private static class NoTabCommandSerializer<T> implements CommandSerializer<T> {
+        @Override
+        public String valueType() {
+            return valueType;
+        }
+    }
 
-		final SafeFormatter<T> formatter;
-		final String           valueType;
+    /**
+     * A serializer with tab completes.
+     *
+     * @param <T> the type of argument
+     */
+    private static class CommandSerializerImpl<T> extends NoTabCommandSerializer<T> {
 
-		NoTabCommandSerializer(SafeFormatter<T> formatter, String valueType) {
-			this.formatter = formatter;
-			this.valueType = valueType;
-		}
+        final Supplier<List<String>> tabCompleter;
 
-		@Override
-		public T serialize(String arg) throws SerializationException {
-			return safeFormat(formatter, arg, valueType);
-		}
+        CommandSerializerImpl(SafeFormatter<T> formatter, String valueType, Supplier<List<String>> tabCompleter) {
+            super(formatter, valueType);
+            this.tabCompleter = tabCompleter;
+        }
 
-		@Override
-		public String valueType() {
-			return valueType;
-		}
-	}
+        @Override
+        public List<String> getAllTabCompletes() {
+            return tabCompleter.get();
+        }
 
-	/**
-	 * A serializer with tab completes.
-	 *
-	 * @param <T> the type of argument
-	 */
-	private static class CommandSerializerImpl<T> extends NoTabCommandSerializer<T> {
+        @Override
+        public T serialize(String arg) throws SerializationException {
+            return formatter.format(arg);
+        }
+    }
 
-		final Supplier<List<String>> tabCompleter;
+    /**
+     * A serializer with constant tab completes.
+     *
+     * @param <T> the type of argument
+     */
+    private static class ConstantTabCompleteCommandSerializer<T> extends NoTabCommandSerializer<T> {
 
-		CommandSerializerImpl(SafeFormatter<T> formatter, String valueType, Supplier<List<String>> tabCompleter) {
-			super(formatter, valueType);
-			this.tabCompleter = tabCompleter;
-		}
+        final List<String> tabCompletes;
 
-		@Override
-		public List<String> getAllTabCompletes() {
-			return tabCompleter.get();
-		}
+        ConstantTabCompleteCommandSerializer(SafeFormatter<T> formatter, String valueType, List<String> tabCompletes) {
+            super(formatter, valueType);
+            this.tabCompletes = tabCompletes;
+        }
 
-		@Override
-		public T serialize(String arg) throws SerializationException {
-			return formatter.format(arg);
-		}
-	}
+        @Override
+        public T serialize(String arg) throws SerializationException {
+            return formatter.format(arg);
+        }
 
-	/**
-	 * A serializer with constant tab completes.
-	 *
-	 * @param <T> the type of argument
-	 */
-	private static class ConstantTabCompleteCommandSerializer<T> extends NoTabCommandSerializer<T> {
-
-		final List<String> tabCompletes;
-
-		ConstantTabCompleteCommandSerializer(SafeFormatter<T> formatter, String valueType, List<String> tabCompletes) {
-			super(formatter, valueType);
-			this.tabCompletes = tabCompletes;
-		}
-
-		@Override
-		public T serialize(String arg) throws SerializationException {
-			return formatter.format(arg);
-		}
-
-		@Override
-		public List<String> getAllTabCompletes() {
-			return tabCompletes;
-		}
-	}
+        @Override
+        public List<String> getAllTabCompletes() {
+            return tabCompletes;
+        }
+    }
 }

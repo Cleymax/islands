@@ -2,8 +2,9 @@ package fr.islandswars.api.storage;
 
 import fr.islandswars.api.item.Item;
 import fr.islandswars.api.item.ItemType;
-import java.util.Optional;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Optional;
 
 /**
  * File <b>StorageManager</b> located on fr.islandswars.api.storage
@@ -31,10 +32,10 @@ import org.bukkit.inventory.ItemStack;
  */
 public interface StorageManager {
 
-	Storage createStorage(StorageBuilder builder);
+    Storage createStorage(StorageBuilder builder);
 
-	Optional<Item> getItem(ItemStack bukkitItem);
+    Optional<Item> getItem(ItemStack bukkitItem);
 
-	Item newItem(ItemType type);
+    Item newItem(ItemType type);
 
 }

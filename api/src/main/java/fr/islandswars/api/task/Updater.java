@@ -33,33 +33,33 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface Updater {
 
-	/**
-	 * All bukkit interactions need to be run inside the main thread, declared with the sync tag
-	 *
-	 * @return this task tag
-	 */
-	TaskType type();
+    /**
+     * All bukkit interactions need to be run inside the main thread, declared with the sync tag
+     *
+     * @return this task tag
+     */
+    TaskType type();
 
-	/**
-	 * Use this parameters when using a task that needs to be repeated
-	 * and {@link TimeType} doesn't give you exact update time
-	 *
-	 * @return the time between each call
-	 * @see #time()
-	 */
-	int delta() default -1;
+    /**
+     * Use this parameters when using a task that needs to be repeated
+     * and {@link TimeType} doesn't give you exact update time
+     *
+     * @return the time between each call
+     * @see #time()
+     */
+    int delta() default -1;
 
-	/**
-	 * Set a time before run this task (in ticks where 1 seconds equals 20 ticks)
-	 *
-	 * @return the time in tick before run this task
-	 */
-	int delayed() default -1;
+    /**
+     * Set a time before run this task (in ticks where 1 seconds equals 20 ticks)
+     *
+     * @return the time in tick before run this task
+     */
+    int delayed() default -1;
 
-	/**
-	 * Set an unit  according to the {@link #delta()}
-	 *
-	 * @return the time type used
-	 */
-	TimeType time() default TimeType.NONE;
+    /**
+     * Set an unit  according to the {@link #delta()}
+     *
+     * @return the time type used
+     */
+    TimeType time() default TimeType.NONE;
 }

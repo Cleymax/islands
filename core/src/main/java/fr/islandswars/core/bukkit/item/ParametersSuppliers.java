@@ -28,6 +28,6 @@ import java.util.function.Supplier;
  */
 public class ParametersSuppliers {
 
-	public Supplier<Object[]> loreSupplier, nameSupplier;
+    public Supplier<Object[]> loreSupplier, nameSupplier;
 
 }

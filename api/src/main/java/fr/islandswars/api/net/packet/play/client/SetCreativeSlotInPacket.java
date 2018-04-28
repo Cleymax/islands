@@ -34,29 +34,29 @@ import static fr.islandswars.api.net.PacketType.Play.Client.SET_CREATIVE_SLOT;
  */
 public class SetCreativeSlotInPacket extends GamePacket<PacketPlayInSetCreativeSlot> {
 
-	public SetCreativeSlotInPacket(PacketPlayInSetCreativeSlot handle) {
-		super(handle);
-	}
+    public SetCreativeSlotInPacket(PacketPlayInSetCreativeSlot handle) {
+        super(handle);
+    }
 
-	public int getSlot() {
-		return (int) getHandleValue("slot");
-	}
+    public int getSlot() {
+        return (int) getHandleValue("slot");
+    }
 
-	public void setSlot(int slot) {
-		setHandleValue("slot", slot);
-	}
+    public void setSlot(int slot) {
+        setHandleValue("slot", slot);
+    }
 
-	public org.bukkit.inventory.ItemStack getItemStack() {
-		return CraftItemStack.asBukkitCopy((ItemStack) getHandleValue("b"));
-	}
+    public org.bukkit.inventory.ItemStack getItemStack() {
+        return CraftItemStack.asBukkitCopy((ItemStack) getHandleValue("b"));
+    }
 
-	public void setItemStack(org.bukkit.inventory.ItemStack itemStack) {
-		setHandleValue("b", CraftItemStack.asNMSCopy(itemStack));
-	}
+    public void setItemStack(org.bukkit.inventory.ItemStack itemStack) {
+        setHandleValue("b", CraftItemStack.asNMSCopy(itemStack));
+    }
 
-	@Override
-	public PacketType getType() {
-		return SET_CREATIVE_SLOT;
-	}
+    @Override
+    public PacketType getType() {
+        return SET_CREATIVE_SLOT;
+    }
 
 }

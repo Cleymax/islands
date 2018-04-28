@@ -28,7 +28,7 @@ package fr.islandswars.api.log.internal;
  */
 public enum Action {
 
-	CONNECT(),
-	LEAVE();
+    CONNECT(),
+    LEAVE();
 
 }

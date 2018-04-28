@@ -39,119 +39,119 @@ import java.util.stream.Stream;
  */
 public interface PlayerStorage {
 
-	/**
-	 * @return the player main hand item, or optional empty if not selected
-	 */
-	Optional<Item> getItemInMainHand();
+    /**
+     * @return the player main hand item, or optional empty if not selected
+     */
+    Optional<Item> getItemInMainHand();
 
-	/**
-	 * Set this item in the current player selected slots
-	 *
-	 * @param item an item to set
-	 */
-	default void setItemInMainHand(Item item) {
-		Preconditions.checkNotNull(item);
+    /**
+     * Set this item in the current player selected slots
+     *
+     * @param item an item to set
+     */
+    default void setItemInMainHand(Item item) {
+        Preconditions.checkNotNull(item);
 
-		setItem(0, getSelectedColumn(), item);
-	}
+        setItem(0, getSelectedColumn(), item);
+    }
 
-	/**
-	 * @return the player off hand item, or optional empty if not selected
-	 */
-	Optional<Item> getItemInOffHand();
+    /**
+     * @return the player off hand item, or optional empty if not selected
+     */
+    Optional<Item> getItemInOffHand();
 
-	/**
-	 * Set this item in player off hand
-	 *
-	 * @param item an item to set
-	 */
-	void setItemInOffHand(Item item);
+    /**
+     * Set this item in player off hand
+     *
+     * @param item an item to set
+     */
+    void setItemInOffHand(Item item);
 
-	/**
-	 * @return the player helmet if set
-	 */
-	Optional<Item> getHelmet();
+    /**
+     * @return the player helmet if set
+     */
+    Optional<Item> getHelmet();
 
-	/**
-	 * Set this player armor's helmet
-	 *
-	 * @param item an item to set
-	 */
-	void setHelmet(Item item);
+    /**
+     * Set this player armor's helmet
+     *
+     * @param item an item to set
+     */
+    void setHelmet(Item item);
 
-	/**
-	 * @return the player chest plate if set
-	 */
-	Optional<Item> getChestplate();
+    /**
+     * @return the player chest plate if set
+     */
+    Optional<Item> getChestplate();
 
-	/**
-	 * Set this player armor's chest plate
-	 *
-	 * @param item an item to set
-	 */
-	void setChestplate(Item item);
+    /**
+     * Set this player armor's chest plate
+     *
+     * @param item an item to set
+     */
+    void setChestplate(Item item);
 
-	/**
-	 * @return the player leggings if set
-	 */
-	Optional<Item> getLeggings();
+    /**
+     * @return the player leggings if set
+     */
+    Optional<Item> getLeggings();
 
-	/**
-	 * Set this player armor's leggings
-	 *
-	 * @param item an item to set
-	 */
-	void setLeggings(Item item);
+    /**
+     * Set this player armor's leggings
+     *
+     * @param item an item to set
+     */
+    void setLeggings(Item item);
 
-	/**
-	 * @return the player boots if set
-	 */
-	Optional<Item> getBoots();
+    /**
+     * @return the player boots if set
+     */
+    Optional<Item> getBoots();
 
-	/**
-	 * Set this player armor's boots
-	 *
-	 * @param item an item to set
-	 */
-	void setBoots(Item item);
+    /**
+     * Set this player armor's boots
+     *
+     * @param item an item to set
+     */
+    void setBoots(Item item);
 
-	/**
-	 * @return this player armor contents
-	 */
-	default List<Item> getPlayerArmor() {
-		return Stream.of(getHelmet(), getChestplate(), getLeggings(), getBoots()).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
-	}
+    /**
+     * @return this player armor contents
+     */
+    default List<Item> getPlayerArmor() {
+        return Stream.of(getHelmet(), getChestplate(), getLeggings(), getBoots()).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+    }
 
-	/**
-	 * Set an item to the given index, basically call {@link net.minecraft.server.v1_12_R1.PlayerInventory#setItem(int, ItemStack)}
-	 *
-	 * @param index an index to set this item to
-	 * @param item  an item to set
-	 */
-	void setItem(int index, Item item);
+    /**
+     * Set an item to the given index, basically call {@link net.minecraft.server.v1_12_R1.PlayerInventory#setItem(int, ItemStack)}
+     *
+     * @param index an index to set this item to
+     * @param item  an item to set
+     */
+    void setItem(int index, Item item);
 
-	/**
-	 * @return the selected hotbar's column index between [1;9]
-	 */
-	int getSelectedColumn();
+    /**
+     * @return the selected hotbar's column index between [1;9]
+     */
+    int getSelectedColumn();
 
-	default int getSize() {
-		return InventoryType.PLAYER.getDefaultSize();
-	}
+    default int getSize() {
+        return InventoryType.PLAYER.getDefaultSize();
+    }
 
-	/**
-	 * Util method to set item with grid values instead of index. You can just set
-	 * item in player storage and hotbar
-	 *
-	 * @param row    a row belong to [0;3]
-	 * @param column a column belong to [1;9]
-	 * @param item   an item to set
-	 */
-	default void setItem(int row, int column, Item item) {
-		setItem(row * 9 + column - 1, item);
-	}
+    /**
+     * Util method to set item with grid values instead of index. You can just set
+     * item in player storage and hotbar
+     *
+     * @param row    a row belong to [0;3]
+     * @param column a column belong to [1;9]
+     * @param item   an item to set
+     */
+    default void setItem(int row, int column, Item item) {
+        setItem(row * 9 + column - 1, item);
+    }
 
-	public interface Item {
+    public interface Item {
 
-	}
+    }
 }
