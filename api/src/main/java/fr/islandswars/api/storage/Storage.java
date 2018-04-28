@@ -35,7 +35,8 @@ public interface Storage {
 	/**
 	 * Add an item to the next unused index
 	 *
-	 * @param item the item to set
+	 * @param item   the item to set
+	 * @param player the target to add item
 	 */
 	void addItem(Item item, IslandsPlayer player);
 
