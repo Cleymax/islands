@@ -7,9 +7,8 @@ import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.net.packet.play.server.WindowItemsPacket;
 import fr.islandswars.core.IslandsCore;
 import fr.islandswars.core.bukkit.storage.StorageFactory;
-import net.minecraft.server.v1_12_R1.ItemStack;
-
 import java.util.List;
+import net.minecraft.server.v1_12_R1.ItemStack;
 
 /**
  * File <b>WindowItemhandler</b> located on fr.islandswars.core.internal.listener.net
@@ -37,22 +36,22 @@ import java.util.List;
  */
 public class WindowItemHandler extends PacketHandler<WindowItemsPacket> {
 
-    private final StorageFactory storageManager;
+	private final StorageFactory storageManager;
 
-    public WindowItemHandler(IslandsCore core) {
-        super(PacketType.Play.Server.WINDOW_ITEMS);
-        this.storageManager = (StorageFactory) core.getStorageManager();
-    }
+	public WindowItemHandler(IslandsCore core) {
+		super(PacketType.Play.Server.WINDOW_ITEMS);
+		this.storageManager = (StorageFactory) core.getStorageManager();
+	}
 
-    @Override
-    public void handlePacket(PacketEvent<WindowItemsPacket> event) {
-        List<ItemStack> items = event.getPacket().getItemStacks();
-        Locale locale = event.getPlayer().getPlayerLocale();
-        items.forEach(item -> {
-            if (!item.hasTag() || !item.getTag().hasKeyOfType("id", 3))
-                return;
-            storageManager.translateItem(item, event.getPlayer());
-        });
-    }
+	@Override
+	public void handlePacket(PacketEvent<WindowItemsPacket> event) {
+		List<ItemStack> items  = event.getPacket().getItemStacks();
+		Locale          locale = event.getPlayer().getPlayerLocale();
+		items.forEach(item -> {
+			if (!item.hasTag() || !item.getTag().hasKeyOfType("id", 3))
+				return;
+			storageManager.translateItem(item, event.getPlayer());
+		});
+	}
 }
 

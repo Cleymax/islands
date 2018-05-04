@@ -2,10 +2,9 @@ package fr.islandswars.api.net.packet.play.server;
 
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
+import java.util.List;
 import net.minecraft.server.v1_12_R1.ItemStack;
 import net.minecraft.server.v1_12_R1.PacketPlayOutWindowItems;
-
-import java.util.List;
 
 /**
  * File <b>WindowItemsPacket</b> located on fr.islandswars.api.net.packet.play.server
@@ -33,35 +32,35 @@ import java.util.List;
  */
 public class WindowItemsPacket extends GamePacket<PacketPlayOutWindowItems> {
 
-    protected WindowItemsPacket(PacketPlayOutWindowItems handle) {
-        super(handle);
-    }
+	protected WindowItemsPacket(PacketPlayOutWindowItems handle) {
+		super(handle);
+	}
 
-    public WindowItemsPacket(int id, List<ItemStack> items) {
-        this(new PacketPlayOutWindowItems());
-        setWindowID(id);
-        setItemStacks(items);
-    }
+	public WindowItemsPacket(int id, List<ItemStack> items) {
+		this(new PacketPlayOutWindowItems());
+		setWindowID(id);
+		setItemStacks(items);
+	}
 
-    public int getWindowID() {
-        return (int) getHandleValue("a");
-    }
+	@SuppressWarnings("unchecked")
+	public List<ItemStack> getItemStacks() {
+		return (List<ItemStack>) getHandleValue("b");
+	}
 
-    public void setWindowID(int newId) {
-        setHandleValue("a", newId);
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Server.WINDOW_ITEMS;
+	}
 
-    @SuppressWarnings("unchecked")
-    public List<ItemStack> getItemStacks() {
-        return (List<ItemStack>) getHandleValue("b");
-    }
+	public int getWindowID() {
+		return (int) getHandleValue("a");
+	}
 
-    public void setItemStacks(List<ItemStack> newItems) {
-        setHandleValue("b", newItems);
-    }
+	public void setItemStacks(List<ItemStack> newItems) {
+		setHandleValue("b", newItems);
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Play.Server.WINDOW_ITEMS;
-    }
+	public void setWindowID(int newId) {
+		setHandleValue("a", newId);
+	}
 }

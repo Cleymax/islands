@@ -34,17 +34,17 @@ import org.bukkit.event.inventory.InventoryClickEvent;
  */
 public class ItemListener extends LazyListener {
 
-    public ItemListener(IslandsApi api) {
-        super(api);
-    }
+	public ItemListener(IslandsApi api) {
+		super(api);
+	}
 
-    @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        if (event.getWhoClicked() == null || !(event.getWhoClicked() instanceof Player) || event.getCurrentItem() == null)
-            return;
+	@EventHandler
+	public void onClick(InventoryClickEvent event) {
+		if (event.getWhoClicked() == null || !(event.getWhoClicked() instanceof Player) || event.getCurrentItem() == null)
+			return;
 
-        IslandsPlayer player = getFromPlayer((Player) event.getWhoClicked());
-        IslandsApi.getInstance().getStorageManager().getItem(event.getCurrentItem()).ifPresent(item -> ((InternalItem) item).callEvent(player, event));
-    }
+		IslandsPlayer player = getFromPlayer((Player) event.getWhoClicked());
+		IslandsApi.getInstance().getStorageManager().getItem(event.getCurrentItem()).ifPresent(item -> ((InternalItem) item).callEvent(player, event));
+	}
 
 }

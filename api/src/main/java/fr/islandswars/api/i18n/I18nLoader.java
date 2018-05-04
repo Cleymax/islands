@@ -1,8 +1,7 @@
 package fr.islandswars.api.i18n;
 
-import org.bukkit.plugin.Plugin;
-
 import javax.annotation.concurrent.ThreadSafe;
+import org.bukkit.plugin.Plugin;
 
 /**
  * File <b>I18nLoader</b> located on fr.islandswars.api.i18n
@@ -33,21 +32,21 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public interface I18nLoader {
 
-    /**
-     * It will load file located on resources/lang/ folder, each file must contains {@link Locale#i18nName}
-     * identifier to detect the locale to register to
-     *
-     * @param plugin the plugin to load, it will load only file according to the conventions
-     */
-    void registerCustomProperties(Plugin plugin);
+	/**
+	 * It will load file located on resources/lang/ folder, each file must contains {@link Locale#i18nName}
+	 * identifier to detect the locale to register to
+	 *
+	 * @param plugin the plugin to load, it will load only file according to the conventions
+	 */
+	void registerCustomProperties(Plugin plugin);
 
-    /**
-     * Dynamically register a key:label inside the locale property map if not exist
-     *
-     * @param locale the language to fulfill with
-     * @param key    a unique key
-     * @param value  a label following the {@link String#format(String, Object...)} conventions
-     */
-    void registerDynamicProperty(Locale locale, String key, String value);
+	/**
+	 * Dynamically register a key:label inside the locale property map if not exist
+	 *
+	 * @param locale the language to fulfill with
+	 * @param key    a unique key
+	 * @param value  a label following the {@link String#format(String, Object...)} conventions
+	 */
+	void registerDynamicProperty(Locale locale, String key, String value);
 
 }

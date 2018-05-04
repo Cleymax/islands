@@ -36,19 +36,19 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Command {
 
-    /**
-     * @return this specific command aliases
-     * @throws IllegalArgumentException if one of the given alias is already registered
-     */
-    String[] aliases() default {};
+	/**
+	 * @return this specific command aliases
+	 * @throws IllegalArgumentException if one of the given alias is already registered
+	 */
+	String[] aliases() default {};
 
-    /**
-     * @return this command description shown in help message
-     */
-    String description() default "";
+	/**
+	 * @return this command description shown in help message
+	 */
+	String description() default "";
 
-    /**
-     * @return the main command label
-     */
-    String label() default "";
+	/**
+	 * @return the main command label
+	 */
+	String label() default "";
 }

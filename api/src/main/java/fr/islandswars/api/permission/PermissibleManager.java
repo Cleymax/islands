@@ -30,36 +30,36 @@ import fr.islandswars.api.player.IslandsPlayer;
  */
 public interface PermissibleManager {
 
-    /**
-     * Is the given player belong to the staff crew ?
-     *
-     * @param player a player to test
-     * @return true or not
-     */
-    boolean isStaff(IslandsPlayer player);
+	/**
+	 * Is the given player paid for something ? (VIP access or something like that) ?
+	 *
+	 * @param player a player to test
+	 * @return if true or not
+	 */
+	boolean hasPayingRank(IslandsPlayer player);
 
-    /**
-     * Is the given player paid for something ? (VIP access or something like that) ?
-     *
-     * @param player a player to test
-     * @return if true or not
-     */
-    boolean hasPayingRank(IslandsPlayer player);
+	/**
+	 * Is the given player admin (simply check if name == Xharos || name == Vinetos of course) ?
+	 *
+	 * @param player a player to test
+	 * @return if true or not
+	 */
+	boolean isAdmin(IslandsPlayer player);
 
-    /**
-     * Is the given player admin (simply check if name == Xharos || name == Vinetos of course) ?
-     *
-     * @param player a player to test
-     * @return if true or not
-     */
-    boolean isAdmin(IslandsPlayer player);
+	/**
+	 * Test weither or not this player is allowed to do this action
+	 *
+	 * @param player a player to test
+	 * @param action an action to do
+	 * @return if allowed or not
+	 */
+	boolean isAllowed(IslandsPlayer player, Action action);
 
-    /**
-     * Test weither or not this player is allowed to do this action
-     *
-     * @param player a player to test
-     * @param action an action to do
-     * @return if allowed or not
-     */
-    boolean isAllowed(IslandsPlayer player, Action action);
+	/**
+	 * Is the given player belong to the staff crew ?
+	 *
+	 * @param player a player to test
+	 * @return true or not
+	 */
+	boolean isStaff(IslandsPlayer player);
 }

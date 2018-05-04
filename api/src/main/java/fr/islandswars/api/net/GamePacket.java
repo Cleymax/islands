@@ -2,10 +2,9 @@ package fr.islandswars.api.net;
 
 import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.net.wrapper.Wrapper;
+import java.util.stream.Stream;
 import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.entity.Player;
-
-import java.util.stream.Stream;
 
 /**
  * File <b>GamePacket</b> located on fr.islandswars.api.net
@@ -36,43 +35,43 @@ import java.util.stream.Stream;
  */
 public abstract class GamePacket<T extends Packet> extends Wrapper<T> {
 
-    protected T handle;
+	protected T handle;
 
-    protected GamePacket(T handle) {
-        super(handle);
-        this.handle = handle;
-    }
+	protected GamePacket(T handle) {
+		super(handle);
+		this.handle = handle;
+	}
 
-    /**
-     * @return the associed packet type to this packet
-     */
-    public abstract PacketType getType();
+	/**
+	 * Represent the default NMS packet
+	 *
+	 * @return a NMS wrapped packet
+	 */
+	public final T getNMSPacket() {
+		return this.handle;
+	}
 
-    /**
-     * Represent the default NMS packet
-     *
-     * @return a NMS wrapped packet
-     */
-    public final T getNMSPacket() {
-        return this.handle;
-    }
+	/**
+	 * @return the associed packet type to this packet
+	 */
+	public abstract PacketType getType();
 
-    /**
-     * Queued this packet to the given player
-     *
-     * @param receiver a connected bukkit player
-     */
-    public final void sendToPlayer(Player receiver) {
-        IslandsApi.getInstance().getProtocolManager().sendPacket(receiver, this);
-    }
+	/**
+	 * Queued this packet to the given player
+	 *
+	 * @param receiver a connected bukkit player
+	 */
+	public final void sendToPlayer(Player receiver) {
+		IslandsApi.getInstance().getProtocolManager().sendPacket(receiver, this);
+	}
 
-    /**
-     * Queued this packet to the given player
-     *
-     * @param receivers a connected stream of bukkit player
-     */
-    public final void sendToPlayer(Stream<Player> receivers) {
-        receivers.forEach(this::sendToPlayer);
-    }
+	/**
+	 * Queued this packet to the given player
+	 *
+	 * @param receivers a connected stream of bukkit player
+	 */
+	public final void sendToPlayer(Stream<Player> receivers) {
+		receivers.forEach(this::sendToPlayer);
+	}
 }
 

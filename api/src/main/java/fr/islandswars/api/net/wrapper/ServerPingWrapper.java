@@ -32,67 +32,67 @@ import net.minecraft.server.v1_12_R1.ServerPing;
  */
 public class ServerPingWrapper extends Wrapper<ServerPing> {
 
-    public ServerPingWrapper() {
-        super(new ServerPing());
-    }
+	public ServerPingWrapper() {
+		super(new ServerPing());
+	}
 
-    public ServerPingWrapper(ServerPing ping) {
-        super(ping);
-    }
+	public ServerPingWrapper(ServerPing ping) {
+		super(ping);
+	}
 
-    public GameProfile[] getSamples() {
-        return handle.b().c();
-    }
+	public String getDescription() {
+		return getHandleValue("a").toString();
+	}
 
-    public int getOnlinePlayer() {
-        return handle.b().b();
-    }
+	public String getFaviconPath() {
+		return (String) getHandleValue("d");
+	}
 
-    public void setOnlinePlayer(int onlinePlayer) {
-        setHandleValue("b", handle.b(), onlinePlayer);
-    }
+	public int getMaxPlayer() {
+		return handle.b().a();
+	}
 
-    public int getMaxPlayer() {
-        return handle.b().a();
-    }
+	public ServerPing getNMS() {
+		return handle;
+	}
 
-    public void setMaxPlayer(int maxPlayer) {
-        setHandleValue("a", handle.b(), maxPlayer);
-    }
+	public int getOnlinePlayer() {
+		return handle.b().b();
+	}
 
-    public String getFaviconPath() {
-        return (String) getHandleValue("d");
-    }
+	public int getProtocolversion() {
+		return handle.getServerData().getProtocolVersion();
+	}
 
-    public void setFaviconPath(String faviconPath) {
-        handle.setFavicon(faviconPath);
-    }
+	public String getProtocolversionName() {
+		return handle.getServerData().a();
+	}
 
-    public void setProtocolVersionName(String protocolVersionName) {
-        setHandleValue("a", handle.getServerData(), protocolVersionName);
-    }
+	public GameProfile[] getSamples() {
+		return handle.b().c();
+	}
 
-    public String getProtocolversionName() {
-        return handle.getServerData().a();
-    }
+	public void setDescription(IChatBaseComponent component) {
+		handle.setMOTD(component);
+	}
 
-    public void setProtocolVersion(int protocolVersion) {
-        setHandleValue("b", handle.getServerData(), protocolVersion);
-    }
+	public void setFaviconPath(String faviconPath) {
+		handle.setFavicon(faviconPath);
+	}
 
-    public int getProtocolversion() {
-        return handle.getServerData().getProtocolVersion();
-    }
+	public void setMaxPlayer(int maxPlayer) {
+		setHandleValue("a", handle.b(), maxPlayer);
+	}
 
-    public String getDescription() {
-        return getHandleValue("a").toString();
-    }
+	public void setOnlinePlayer(int onlinePlayer) {
+		setHandleValue("b", handle.b(), onlinePlayer);
+	}
 
-    public void setDescription(IChatBaseComponent component) {
-        handle.setMOTD(component);
-    }
+	public void setProtocolVersion(int protocolVersion) {
+		setHandleValue("b", handle.getServerData(), protocolVersion);
+	}
 
-    public ServerPing getNMS() {
-        return handle;
-    }
+	public void setProtocolVersionName(String protocolVersionName) {
+		setHandleValue("a", handle.getServerData(), protocolVersionName);
+	}
 }

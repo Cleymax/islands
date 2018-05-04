@@ -34,49 +34,49 @@ import org.bukkit.inventory.Inventory;
  */
 public abstract class AbstractStorage implements Storage {
 
-    private final int size;
-    private final String name;
+	private final int    size;
+	private final String name;
 
-    AbstractStorage(int size, String titleKey) {
-        this.size = size;
-        this.name = titleKey;
-    }
+	AbstractStorage(int size, String titleKey) {
+		this.size = size;
+		this.name = titleKey;
+	}
 
-    @Override
-    public void addItem(Item item, IslandsPlayer player) {
-        Preconditions.checkNotNull(item);
+	@Override
+	public void addItem(Item item, IslandsPlayer player) {
+		Preconditions.checkNotNull(item);
 
-        set(getNextFreeSlot(player), item, player);
-    }
+		set(getNextFreeSlot(player), item, player);
+	}
 
-    @Override
-    public int getSize() {
-        return size;
-    }
+	@Override
+	public int getSize() {
+		return size;
+	}
 
-    @Override
-    public Item newItem(ItemType type) {
-        return IslandsApi.getInstance().getStorageManager().newItem(type);
-    }
+	@Override
+	public Item newItem(ItemType type) {
+		return IslandsApi.getInstance().getStorageManager().newItem(type);
+	}
 
-    @Override
-    public void removeItem(int row, int column, IslandsPlayer player) {
-        Preconditions.checkState(row, ref -> ref >= 0 && ref <= size % 9);
-        Preconditions.checkState(column, ref -> ref >= 1 && ref <= 9);
+	@Override
+	public void removeItem(int row, int column, IslandsPlayer player) {
+		Preconditions.checkState(row, ref -> ref >= 0 && ref <= size % 9);
+		Preconditions.checkState(column, ref -> ref >= 1 && ref <= 9);
 
-        removeItem(row * 9 + column - 1, player);
-    }
+		removeItem(row * 9 + column - 1, player);
+	}
 
-    @Override
-    public void setItem(int row, int column, Item item, IslandsPlayer player) {
-        set(row * 9 + column - 1, item, player);
-    }
+	@Override
+	public void setItem(int row, int column, Item item, IslandsPlayer player) {
+		set(row * 9 + column - 1, item, player);
+	}
 
-    public abstract Inventory getHandle(IslandsPlayer player);
+	public abstract Inventory getHandle(IslandsPlayer player);
 
-    public abstract int getNextFreeSlot(IslandsPlayer player);
+	public abstract int getNextFreeSlot(IslandsPlayer player);
 
-    public abstract void remove(int slot, IslandsPlayer player);
+	public abstract void remove(int slot, IslandsPlayer player);
 
-    public abstract void set(int slot, Item item, IslandsPlayer player);
+	public abstract void set(int slot, Item item, IslandsPlayer player);
 }

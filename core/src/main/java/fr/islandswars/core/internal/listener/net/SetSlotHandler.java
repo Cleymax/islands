@@ -35,21 +35,21 @@ import net.minecraft.server.v1_12_R1.ItemStack;
  */
 public class SetSlotHandler extends PacketHandler<SetSlotPacket> {
 
-    private final StorageFactory storageManager;
+	private final StorageFactory storageManager;
 
-    public SetSlotHandler(IslandsCore core) {
-        super(PacketType.Play.Server.SET_SLOT);
-        this.storageManager = (StorageFactory) core.getStorageManager();
-    }
+	public SetSlotHandler(IslandsCore core) {
+		super(PacketType.Play.Server.SET_SLOT);
+		this.storageManager = (StorageFactory) core.getStorageManager();
+	}
 
-    @Override
-    public void handlePacket(PacketEvent<SetSlotPacket> event) {
-        ItemStack item = event.getPacket().getItemStack();
-        Locale locale = event.getPlayer().getPlayerLocale();
-        if (!item.hasTag() || !item.getTag().hasKeyOfType("id", 3))
-            return;
-        storageManager.translateItem(item, event.getPlayer());
-    }
+	@Override
+	public void handlePacket(PacketEvent<SetSlotPacket> event) {
+		ItemStack item   = event.getPacket().getItemStack();
+		Locale    locale = event.getPlayer().getPlayerLocale();
+		if (!item.hasTag() || !item.getTag().hasKeyOfType("id", 3))
+			return;
+		storageManager.translateItem(item, event.getPlayer());
+	}
 
 }
 

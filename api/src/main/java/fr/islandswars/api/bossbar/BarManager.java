@@ -2,10 +2,9 @@ package fr.islandswars.api.bossbar;
 
 import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.module.Module;
+import java.util.function.Supplier;
 import net.minecraft.server.v1_12_R1.BossBattle;
 import org.bukkit.boss.BarFlag;
-
-import java.util.function.Supplier;
 
 /**
  * File <b>BarManager</b> located on fr.islandswars.api.bossbar
@@ -35,41 +34,41 @@ import java.util.function.Supplier;
  */
 public abstract class BarManager extends Module {
 
-    public BarManager(IslandsApi api) {
-        super(api);
-    }
+	public BarManager(IslandsApi api) {
+		super(api);
+	}
 
-    /**
-     * Create a boss bossbar with the supplied parameters
-     *
-     * @param title bossbar's title (or translation key if used)
-     * @param color bossbar's color
-     * @param style bossbar's style
-     * @param flags bossbar's flags
-     * @return a bukkit wrapped boss bossbar
-     */
-    public abstract Bar createBar(String title, BossBattle.BarColor color, BossBattle.BarStyle style, BarFlag... flags);
+	/**
+	 * Create a boss bossbar with the supplied parameters
+	 *
+	 * @param title bossbar's title (or translation key if used)
+	 * @param color bossbar's color
+	 * @param style bossbar's style
+	 * @param flags bossbar's flags
+	 * @return a bukkit wrapped boss bossbar
+	 */
+	public abstract Bar createBar(String title, BossBattle.BarColor color, BossBattle.BarStyle style, BarFlag... flags);
 
-    /**
-     * Create a boss bossbar with the supplied parameters and title parameters
-     *
-     * @param title      title translation key
-     * @param color      bossbar's color
-     * @param style      bossbar's style
-     * @param parameters some translation parameters
-     * @param flags      bossbar's flags
-     * @return a bukkit wrapped boss bossbar
-     */
-    public abstract Bar createBar(String title, BossBattle.BarColor color, BossBattle.BarStyle style, Supplier<Object[]> parameters, BarFlag... flags);
+	/**
+	 * Create a boss bossbar with the supplied parameters and title parameters
+	 *
+	 * @param title      title translation key
+	 * @param color      bossbar's color
+	 * @param style      bossbar's style
+	 * @param parameters some translation parameters
+	 * @param flags      bossbar's flags
+	 * @return a bukkit wrapped boss bossbar
+	 */
+	public abstract Bar createBar(String title, BossBattle.BarColor color, BossBattle.BarStyle style, Supplier<Object[]> parameters, BarFlag... flags);
 
-    /**
-     * Create a bossbar sequence to display multiples bars in a specific order
-     *
-     * @param properties bossbar properties, it will be set to each bossbar, except if
-     *                   supplied bars already have some properties set
-     * @param bars       minimum 1 bossbar to init sequence
-     * @return an util class to manage this sequence
-     */
-    public abstract BarSequence createSequence(BarProperties properties, Bar... bars);
+	/**
+	 * Create a bossbar sequence to display multiples bars in a specific order
+	 *
+	 * @param properties bossbar properties, it will be set to each bossbar, except if
+	 *                   supplied bars already have some properties set
+	 * @param bars       minimum 1 bossbar to init sequence
+	 * @return an util class to manage this sequence
+	 */
+	public abstract BarSequence createSequence(BarProperties properties, Bar... bars);
 
 }

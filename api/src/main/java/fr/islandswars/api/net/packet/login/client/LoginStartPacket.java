@@ -31,19 +31,19 @@ import net.minecraft.server.v1_12_R1.PacketLoginInStart;
  */
 public class LoginStartPacket extends GamePacket<PacketLoginInStart> {
 
-    protected LoginStartPacket(PacketLoginInStart handle) {
-        super(handle);
-    }
+	protected LoginStartPacket(PacketLoginInStart handle) {
+		super(handle);
+	}
 
-    /**
-     * @return the player's {@link GameProfile}
-     */
-    public GameProfile getProfile() {
-        return handle.a();
-    }
+	/**
+	 * @return the player's {@link GameProfile}
+	 */
+	public GameProfile getProfile() {
+		return handle.a();
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Login.Client.LOGIN_START;
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Login.Client.LOGIN_START;
+	}
 }

@@ -2,7 +2,6 @@ package fr.islandswars.api.bossbar;
 
 import fr.islandswars.api.i18n.viewers.I18nParameters;
 import fr.islandswars.api.player.IslandsPlayer;
-
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -34,59 +33,59 @@ import java.util.stream.Stream;
  */
 public interface Bar extends I18nParameters<IslandsPlayer> {
 
-    /**
-     * Add some properties such as timer, etc to this bossbar
-     *
-     * @param properties bossbar's properties to deal with
-     * @param erase      update properties, even if it's already set
-     */
-    void provideProperties(BarProperties properties, boolean erase);
+	/**
+	 * @return this bossbar viewers
+	 */
+	Stream<IslandsPlayer> getViewers();
 
-    /**
-     * Register some parameters that will be used for all players
-     *
-     * @param parameters translation parameters
-     */
-    void setGlobalParameter(Supplier<Object[]> parameters);
+	/**
+	 * Add some properties such as timer, etc to this bossbar
+	 *
+	 * @param properties bossbar's properties to deal with
+	 * @param erase      update properties, even if it's already set
+	 */
+	void provideProperties(BarProperties properties, boolean erase);
 
-    /**
-     * Hide or display the current boss bossbar
-     *
-     * @param active hide or display bossbar
-     */
-    void setActive(boolean active);
+	/**
+	 * Hide or display the current boss bossbar
+	 *
+	 * @param active hide or display bossbar
+	 */
+	void setActive(boolean active);
 
-    /**
-     * Update this bossbar progress, must be inside 0 to 1 range
-     *
-     * @param progress a new progress
-     */
-    void setProgress(float progress);
+	/**
+	 * Display fog
+	 *
+	 * @param createFog hide or display
+	 */
+	void setCreateFog(boolean createFog);
 
-    /**
-     * Active darken sky properties
-     *
-     * @param darkenSky hide or display
-     */
-    void setDarkenSky(boolean darkenSky);
+	/**
+	 * Active darken sky properties
+	 *
+	 * @param darkenSky hide or display
+	 */
+	void setDarkenSky(boolean darkenSky);
 
-    /**
-     * Play minecraft ender end music
-     *
-     * @param playMusic play or mute
-     */
-    void setPlayMusic(boolean playMusic);
+	/**
+	 * Register some parameters that will be used for all players
+	 *
+	 * @param parameters translation parameters
+	 */
+	void setGlobalParameter(Supplier<Object[]> parameters);
 
-    /**
-     * Display fog
-     *
-     * @param createFog hide or display
-     */
-    void setCreateFog(boolean createFog);
+	/**
+	 * Play minecraft ender end music
+	 *
+	 * @param playMusic play or mute
+	 */
+	void setPlayMusic(boolean playMusic);
 
-    /**
-     * @return this bossbar viewers
-     */
-    Stream<IslandsPlayer> getViewers();
+	/**
+	 * Update this bossbar progress, must be inside 0 to 1 range
+	 *
+	 * @param progress a new progress
+	 */
+	void setProgress(float progress);
 
 }

@@ -29,11 +29,11 @@ package fr.islandswars.api.utils;
 @FunctionalInterface
 public interface Disposable<T> {
 
-    /**
-     * Dispose the given resource
-     *
-     * @param resource an object to safely delete
-     */
-    void dispose(T resource);
+	/**
+	 * Dispose the given resource
+	 *
+	 * @param resource an object to safely delete
+	 */
+	void dispose(T resource);
 
 }

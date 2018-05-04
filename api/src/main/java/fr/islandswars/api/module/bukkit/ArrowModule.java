@@ -37,49 +37,49 @@ import org.bukkit.event.entity.ProjectileHitEvent;
  */
 public class ArrowModule extends Module {
 
-    private long removeTime = 10;
+	private long removeTime = 10;
 
-    public ArrowModule(IslandsApi api) {
-        super(api);
-    }
+	public ArrowModule(IslandsApi api) {
+		super(api);
+	}
 
-    @Override
-    public void onLoad() {
+	@Override
+	public void onDisable() {
+		enabled = false;
+	}
 
-    }
+	@Override
+	public void onEnable() {
+		enabled = true;
+		Bukkit.getPluginManager().registerEvents(this, api);
+	}
 
-    @Override
-    public void onEnable() {
-        enabled = true;
-        Bukkit.getPluginManager().registerEvents(this, api);
-    }
+	@Override
+	public void onLoad() {
 
-    @Override
-    public void onDisable() {
-        enabled = false;
-    }
+	}
 
-    @EventHandler
-    public void onShoot(ProjectileHitEvent event) {
-        if (enabled) {
-            if (event.getEntityType() == EntityType.ARROW) {
-                Arrow arrow = (Arrow) event.getEntity();
-                Bukkit.getScheduler().runTaskLater(api, () -> {
-                    if (arrow.isValid() && !arrow.isDead())
-                        arrow.remove();
-                }, removeTime);
-            }
-        } else
-            event.getHandlers().unregister(this);
-    }
+	@EventHandler
+	public void onShoot(ProjectileHitEvent event) {
+		if (enabled) {
+			if (event.getEntityType() == EntityType.ARROW) {
+				Arrow arrow = (Arrow) event.getEntity();
+				Bukkit.getScheduler().runTaskLater(api, () -> {
+					if (arrow.isValid() && !arrow.isDead())
+						arrow.remove();
+				}, removeTime);
+			}
+		} else
+			event.getHandlers().unregister(this);
+	}
 
-    /**
-     * Set a time (must be positive) before removing a shooted arrow
-     *
-     * @param removeTime a time before remove this entity
-     */
-    public void setRemoveTime(long removeTime) {
-        Preconditions.checkState(removeTime, ref -> ref >= 0);
-        this.removeTime = removeTime;
-    }
+	/**
+	 * Set a time (must be positive) before removing a shooted arrow
+	 *
+	 * @param removeTime a time before remove this entity
+	 */
+	public void setRemoveTime(long removeTime) {
+		Preconditions.checkState(removeTime, ref -> ref >= 0);
+		this.removeTime = removeTime;
+	}
 }

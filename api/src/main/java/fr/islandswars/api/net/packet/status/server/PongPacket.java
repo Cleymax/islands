@@ -30,16 +30,16 @@ import net.minecraft.server.v1_12_R1.PacketStatusOutPong;
  */
 public class PongPacket extends GamePacket<PacketStatusOutPong> {
 
-    protected PongPacket(PacketStatusOutPong handle) {
-        super(handle);
-    }
+	protected PongPacket(PacketStatusOutPong handle) {
+		super(handle);
+	}
 
-    public long getPayloadResponse() {
-        return (long) getHandleValue("a");
-    }
+	public long getPayloadResponse() {
+		return (long) getHandleValue("a");
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Status.Server.PONG;
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Status.Server.PONG;
+	}
 }

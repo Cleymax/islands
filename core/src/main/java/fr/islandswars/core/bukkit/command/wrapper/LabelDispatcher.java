@@ -28,26 +28,26 @@ import org.bukkit.command.CommandSender;
  */
 public abstract class LabelDispatcher {
 
-    private final String[] aliases;
-    String help, description;
-    private String label;
+	private final String[] aliases;
+	private String label;
+	String help, description;
 
-    LabelDispatcher(String label, String[] aliases) {
-        this.aliases = aliases;
-        this.label = label;
-    }
+	LabelDispatcher(String label, String[] aliases) {
+		this.aliases = aliases;
+		this.label = label;
+	}
 
-    public abstract void dispatch(CommandSender player, String[] args, int count) throws ReflectiveOperationException;
+	public abstract void dispatch(CommandSender player, String[] args, int count) throws ReflectiveOperationException;
 
-    public String[] getAliases() {
-        return aliases;
-    }
+	public String[] getAliases() {
+		return aliases;
+	}
 
-    public String getHelp() {
-        return help;
-    }
+	public String getHelp() {
+		return help;
+	}
 
-    public String getLabel() {
-        return label;
-    }
+	public String getLabel() {
+		return label;
+	}
 }

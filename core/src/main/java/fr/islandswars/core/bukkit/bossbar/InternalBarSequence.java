@@ -5,7 +5,6 @@ import fr.islandswars.api.bossbar.Bar;
 import fr.islandswars.api.bossbar.BarSequence;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.utils.Preconditions;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -36,72 +35,72 @@ import java.util.stream.Stream;
  */
 public class InternalBarSequence implements BarSequence {
 
-    private List<IslandsPlayer> viewers;
-    private List<InternalBar> sequence;
-    private int currentBar;
+	private List<IslandsPlayer> viewers;
+	private List<InternalBar>   sequence;
+	private int                 currentBar;
 
-    public InternalBarSequence(List<InternalBar> bars) {
-        this.sequence = bars;
-        this.viewers = new ArrayList<>();
-        this.currentBar = 0;
-    }
+	public InternalBarSequence(List<InternalBar> bars) {
+		this.sequence = bars;
+		this.viewers = new ArrayList<>();
+		this.currentBar = 0;
+	}
 
-    public void addPlayer(IslandsPlayer player) {
-        Preconditions.checkNotNull(player);
+	public void addPlayer(IslandsPlayer player) {
+		Preconditions.checkNotNull(player);
 
-        sequence.get(currentBar).addPlayer(player);
-        viewers.add(player);
+		sequence.get(currentBar).addPlayer(player);
+		viewers.add(player);
 
-        if (viewers.size() == 1)
-            lazyRegister();
+		if (viewers.size() == 1)
+			lazyRegister();
 
-    }
+	}
 
-    public InternalBar getNextbar() {
-        if (++currentBar == sequence.size() - 1)
-            currentBar = 0;
-        return sequence.get(0);
-    }
+	@Override
+	public Stream<Bar> getBars() {
+		return sequence.stream().map(Bar.class::cast);
+	}
 
-    public void removePlayer(IslandsPlayer player) {
-        Preconditions.checkNotNull(player);
+	@Override
+	public Bar getCurrentBar() {
+		return sequence.get(currentBar);
+	}
 
-        sequence.get(currentBar).removePlayer(player);
-        viewers.remove(player);
+	@Override
+	public Stream<IslandsPlayer> getViewers() {
+		return viewers.stream();
+	}
 
-        if (viewers.size() == 0) {
-            lazyUnregister();
-            currentBar = 0;
-        }
-    }
+	@Override
+	public void shutdownSequence() {
+		viewers.forEach(this::removePlayer);
+		sequence.clear();
+	}
 
-    @Override
-    public void shutdownSequence() {
-        viewers.forEach(this::removePlayer);
-        sequence.clear();
-    }
+	public InternalBar getNextbar() {
+		if (++currentBar == sequence.size() - 1)
+			currentBar = 0;
+		return sequence.get(0);
+	}
 
-    @Override
-    public Bar getCurrentBar() {
-        return sequence.get(currentBar);
-    }
+	public void removePlayer(IslandsPlayer player) {
+		Preconditions.checkNotNull(player);
 
-    @Override
-    public Stream<IslandsPlayer> getViewers() {
-        return viewers.stream();
-    }
+		sequence.get(currentBar).removePlayer(player);
+		viewers.remove(player);
 
-    @Override
-    public Stream<Bar> getBars() {
-        return sequence.stream().map(Bar.class::cast);
-    }
+		if (viewers.size() == 0) {
+			lazyUnregister();
+			currentBar = 0;
+		}
+	}
 
-    private void lazyRegister() {
-        ((BukkitBarManager) IslandsApi.getInstance().getBarManager()).scheduleSequence(this);
-    }
+	private void lazyRegister() {
+		((BukkitBarManager) IslandsApi.getInstance().getBarManager()).scheduleSequence(this);
+	}
 
-    private void lazyUnregister() {
-        ((BukkitBarManager) IslandsApi.getInstance().getBarManager()).removeSequence(this);
-    }
+	private void lazyUnregister() {
+		((BukkitBarManager) IslandsApi.getInstance().getBarManager()).removeSequence(this);
+	}
 }
 

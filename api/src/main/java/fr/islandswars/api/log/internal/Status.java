@@ -30,21 +30,21 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public enum Status {
 
-    /**
-     * @see JavaPlugin#onLoad()
-     */
-    LOAD(),
-    /**
-     * @see JavaPlugin#onEnable()
-     */
-    ENABLE(),
-    /**
-     * Ready to accept player
-     */
-    READY(),
-    /**
-     * This server is stopping {@link JavaPlugin#onDisable()}
-     */
-    DISABLE(),
+	/**
+	 * @see JavaPlugin#onLoad()
+	 */
+	LOAD(),
+	/**
+	 * @see JavaPlugin#onEnable()
+	 */
+	ENABLE(),
+	/**
+	 * Ready to accept player
+	 */
+	READY(),
+	/**
+	 * This server is stopping {@link JavaPlugin#onDisable()}
+	 */
+	DISABLE(),
 
 }

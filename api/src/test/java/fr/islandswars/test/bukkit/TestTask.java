@@ -29,27 +29,27 @@ import fr.islandswars.api.task.Updater;
  */
 public class TestTask {
 
-    @Updater(type = TaskType.SYNC)
-    void runOnceSync() {
-    }
+	@Updater(type = TaskType.ASYNC, delayed = 20 * 5)
+	void runDelayedAsync() {
 
-    @Updater(type = TaskType.ASYNC)
-    void runOnceAsync() {
+	}
 
-    }
+	@Updater(type = TaskType.ASYNC)
+	void runOnceAsync() {
 
-    @Updater(type = TaskType.ASYNC, delayed = 20 * 5)
-    void runDelayedAsync() {
+	}
 
-    }
+	@Updater(type = TaskType.SYNC)
+	void runOnceSync() {
+	}
 
-    @Updater(type = TaskType.SYNC, delta = 1, time = TimeType.TICK)
-    void runScheduleEachTickSync() {
+	@Updater(type = TaskType.SYNC, delta = 1, time = TimeType.TICK)
+	void runScheduleEachTickSync() {
 
-    }
+	}
 
-    @Updater(type = TaskType.ASYNC, delta = 1, time = TimeType.MINUT, delayed = 20 * 2)
-    void runScheduledEachMinutAndDelayedAsync() {
+	@Updater(type = TaskType.ASYNC, delta = 1, time = TimeType.MINUT, delayed = 20 * 2)
+	void runScheduledEachMinutAndDelayedAsync() {
 
-    }
+	}
 }

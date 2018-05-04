@@ -5,12 +5,11 @@ import fr.islandswars.api.task.TaskType;
 import fr.islandswars.api.task.TimeType;
 import fr.islandswars.api.task.Updater;
 import fr.islandswars.api.task.UpdaterManager;
-import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitTask;
-
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitTask;
 
 /**
  * File <b>TaskManager</b> located on fr.islandswars.core.bukkit.task
@@ -39,84 +38,84 @@ import java.util.concurrent.ConcurrentMap;
 public class TaskManager implements UpdaterManager {
 
 
-    private final IslandsApi plugin;
-    private final ConcurrentMap<Method, Integer> runningTasks;
+	private final IslandsApi                     plugin;
+	private final ConcurrentMap<Method, Integer> runningTasks;
 
-    public TaskManager() {
-        this.plugin = IslandsApi.getInstance();
-        this.runningTasks = new ConcurrentHashMap<>();
-    }
+	public TaskManager() {
+		this.plugin = IslandsApi.getInstance();
+		this.runningTasks = new ConcurrentHashMap<>();
+	}
 
-    @Override
-    public void register(Object updatable) {
-        Class updatableClass = updatable.getClass();
-        for (Method method : updatableClass.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Updater.class) & method.getParameterCount() == 0) {
-                Updater updater = method.getAnnotation(Updater.class);
-                method.setAccessible(true);
-                TaskType type = updater.type();
-                switch (type) {
-                    case ASYNC:
-                        if (isScheduled(updater)) {
-                            BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-                                try {
-                                    method.invoke(updatable);
-                                } catch (Exception e) {
-                                    plugin.getInfraLogger().logError(e);
-                                }
-                            }, updater.delayed(), getDelta(updater));
-                            runningTasks.put(method, task.getTaskId());
-                        } else
-                            Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
-                                try {
-                                    method.invoke(updatable);
-                                } catch (Exception e) {
-                                    plugin.getInfraLogger().logError(e);
-                                }
-                            }, updater.delayed());
-                        break;
-                    case SYNC:
-                        if (isScheduled(updater)) {
-                            BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                                try {
-                                    method.invoke(updatable);
-                                } catch (Exception e) {
-                                    plugin.getInfraLogger().logError(e);
-                                }
-                            }, updater.delayed(), getDelta(updater));
-                            runningTasks.put(method, task.getTaskId());
-                        } else
-                            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                                try {
-                                    method.invoke(updatable);
-                                } catch (Exception e) {
-                                    plugin.getInfraLogger().logError(e);
-                                }
-                            }, updater.delayed());
+	@Override
+	public void register(Object updatable) {
+		Class updatableClass = updatable.getClass();
+		for (Method method : updatableClass.getDeclaredMethods()) {
+			if (method.isAnnotationPresent(Updater.class) & method.getParameterCount() == 0) {
+				Updater updater = method.getAnnotation(Updater.class);
+				method.setAccessible(true);
+				TaskType type = updater.type();
+				switch (type) {
+					case ASYNC:
+						if (isScheduled(updater)) {
+							BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+								try {
+									method.invoke(updatable);
+								} catch (Exception e) {
+									plugin.getInfraLogger().logError(e);
+								}
+							}, updater.delayed(), getDelta(updater));
+							runningTasks.put(method, task.getTaskId());
+						} else
+							Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+								try {
+									method.invoke(updatable);
+								} catch (Exception e) {
+									plugin.getInfraLogger().logError(e);
+								}
+							}, updater.delayed());
+						break;
+					case SYNC:
+						if (isScheduled(updater)) {
+							BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+								try {
+									method.invoke(updatable);
+								} catch (Exception e) {
+									plugin.getInfraLogger().logError(e);
+								}
+							}, updater.delayed(), getDelta(updater));
+							runningTasks.put(method, task.getTaskId());
+						} else
+							Bukkit.getScheduler().runTaskLater(plugin, () -> {
+								try {
+									method.invoke(updatable);
+								} catch (Exception e) {
+									plugin.getInfraLogger().logError(e);
+								}
+							}, updater.delayed());
 
-                        break;
-                }
-            }
-        }
-    }
+						break;
+				}
+			}
+		}
+	}
 
-    @Override
-    public void stop(Object updatable) {
-        Class updatableClass = updatable.getClass();
-        for (Method method : updatableClass.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Updater.class) & method.getParameterCount() == 0 & runningTasks.containsKey(method)) {
-                Bukkit.getScheduler().cancelTask(runningTasks.remove(method)); //TODO instance
-                method.setAccessible(false);
-            }
-        }
-    }
+	@Override
+	public void stop(Object updatable) {
+		Class updatableClass = updatable.getClass();
+		for (Method method : updatableClass.getDeclaredMethods()) {
+			if (method.isAnnotationPresent(Updater.class) & method.getParameterCount() == 0 & runningTasks.containsKey(method)) {
+				Bukkit.getScheduler().cancelTask(runningTasks.remove(method)); //TODO instance
+				method.setAccessible(false);
+			}
+		}
+	}
 
-    private long getDelta(Updater task) {
-        return task.time() == TimeType.NONE ? task.delta() : task.time().getTimeInTick();
-    }
+	private long getDelta(Updater task) {
+		return task.time() == TimeType.NONE ? task.delta() : task.time().getTimeInTick();
+	}
 
-    private boolean isScheduled(Updater task) {
-        return task.time() != TimeType.NONE || task.delta() >= 1;
-    }
+	private boolean isScheduled(Updater task) {
+		return task.time() != TimeType.NONE || task.delta() >= 1;
+	}
 }
 

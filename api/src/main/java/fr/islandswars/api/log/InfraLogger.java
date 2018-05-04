@@ -3,7 +3,6 @@ package fr.islandswars.api.log;
 import fr.islandswars.api.log.internal.DefaultLog;
 import fr.islandswars.api.log.internal.ErrorLog;
 import fr.islandswars.api.utils.NMSReflectionUtil;
-
 import java.util.logging.Level;
 
 /**
@@ -34,64 +33,64 @@ import java.util.logging.Level;
  */
 public interface InfraLogger {
 
-    /**
-     * Instanciate and retrieve a custom log, or else throw Exception if reflection failed
-     *
-     * @param clazz   a custom class to instanciate
-     * @param level   a log level
-     * @param message a log message
-     * @param <T>     log type
-     * @return a custom {@link Log} implementation
-     * @see fr.islandswars.api.utils.NMSReflectionUtil#getConstructorAccessor(String, Class[])
-     */
-    default <T extends Log> T createCustomLog(Class<T> clazz, Level level, String message) {
-        return NMSReflectionUtil.getConstructorAccessor(clazz, Level.class, String.class).newInstance(level, message);
-    }
+	/**
+	 * Instanciate and retrieve a custom log, or else throw Exception if reflection failed
+	 *
+	 * @param clazz   a custom class to instanciate
+	 * @param level   a log level
+	 * @param message a log message
+	 * @param <T>     log type
+	 * @return a custom {@link Log} implementation
+	 * @see fr.islandswars.api.utils.NMSReflectionUtil#getConstructorAccessor(String, Class[])
+	 */
+	default <T extends Log> T createCustomLog(Class<T> clazz, Level level, String message) {
+		return NMSReflectionUtil.getConstructorAccessor(clazz, Level.class, String.class).newInstance(level, message);
+	}
 
-    /**
-     * Create a default log with INFO level and a custom message
-     *
-     * @param message a message to log
-     * @see #createDefaultLog(Level, String)
-     */
-    default void createDefaultLog(String message) {
-        createDefaultLog(Level.INFO, message);
-    }
+	/**
+	 * Create a default log with INFO level and a custom message
+	 *
+	 * @param message a message to log
+	 * @see #createDefaultLog(Level, String)
+	 */
+	default void createDefaultLog(String message) {
+		createDefaultLog(Level.INFO, message);
+	}
 
-    /**
-     * Helper method to create and directly log a simple log
-     *
-     * @param level a log level
-     * @param msg   a log message
-     */
-    default void createDefaultLog(Level level, String msg) {
-        new DefaultLog(level, msg).log();
-    }
+	/**
+	 * Helper method to create and directly log a simple log
+	 *
+	 * @param level a log level
+	 * @param msg   a log message
+	 */
+	default void createDefaultLog(Level level, String msg) {
+		new DefaultLog(level, msg).log();
+	}
 
-    /**
-     * Send this message to default docker sysout
-     *
-     * @param object an object to log, it will be serialize to json and sent to graylog through GELF
-     */
-    void log(Log object);
+	/**
+	 * Send this message to default docker sysout
+	 *
+	 * @param object an object to log, it will be serialize to json and sent to graylog through GELF
+	 */
+	void log(Log object);
 
-    /**
-     * Log and format an error
-     *
-     * @param e an error to log
-     */
-    default void logError(Exception e) {
-        logError(e, e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage());
-    }
+	/**
+	 * Log and format an error
+	 *
+	 * @param e an error to log
+	 */
+	default void logError(Exception e) {
+		logError(e, e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage());
+	}
 
-    /**
-     * Log an error with a custom message
-     *
-     * @param e       an error to log
-     * @param message a specific message
-     */
-    default void logError(Exception e, String message) {
-        createCustomLog(ErrorLog.class, Level.WARNING, message).supplyStacktrace(e).log();
-    }
+	/**
+	 * Log an error with a custom message
+	 *
+	 * @param e       an error to log
+	 * @param message a specific message
+	 */
+	default void logError(Exception e, String message) {
+		createCustomLog(ErrorLog.class, Level.WARNING, message).supplyStacktrace(e).log();
+	}
 
 }

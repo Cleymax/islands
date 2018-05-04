@@ -31,99 +31,99 @@ import org.bukkit.inventory.ItemFlag;
  */
 public interface ItemProperties {
 
-    /**
-     * Add an enchantment to this item
-     *
-     * @param enchantment an enchantment to set
-     * @param level       this enchantment level
-     * @return this item builder properties
-     */
-    ItemProperties addEnchantment(Enchantment enchantment, int level);
+	/**
+	 * Add an enchantment to this item
+	 *
+	 * @param enchantment an enchantment to set
+	 * @param level       this enchantment level
+	 * @return this item builder properties
+	 */
+	ItemProperties addEnchantment(Enchantment enchantment, int level);
 
-    /**
-     * Add an item flag to this item
-     *
-     * @param flags some flags to set
-     * @return this item builder properties
-     */
-    ItemProperties addItemFlags(ItemFlag... flags);
+	/**
+	 * Add an item flag to this item
+	 *
+	 * @param flags some flags to set
+	 * @return this item builder properties
+	 */
+	ItemProperties addItemFlags(ItemFlag... flags);
 
-    /**
-     * Add an tag to this item
-     *
-     * @param key    this tag key
-     * @param nbtTag a tag to set
-     * @return this builder properties
-     */
-    ItemProperties addNBTTag(String key, NBTBase nbtTag);
+	/**
+	 * Add an tag to this item
+	 *
+	 * @param key    this tag key
+	 * @param nbtTag a tag to set
+	 * @return this builder properties
+	 */
+	ItemProperties addNBTTag(String key, NBTBase nbtTag);
 
-    /**
-     * Duplicate tjhe internal {@link net.minecraft.server.v1_12_R1.NBTTagCompound} used for storage
-     *
-     * @return a new ItemProperties based on this ItemType and "tag" properties
-     */
-    ItemProperties clone();
+	/**
+	 * Duplicate tjhe internal {@link net.minecraft.server.v1_12_R1.NBTTagCompound} used for storage
+	 *
+	 * @return a new ItemProperties based on this ItemType and "tag" properties
+	 */
+	ItemProperties clone();
 
-    /**
-     * @return item amount
-     */
-    int getAmount();
+	/**
+	 * @return item amount
+	 */
+	int getAmount();
 
-    /**
-     * Update this item amount
-     *
-     * @param amount a new amount to set according to maxStackSize
-     * @return this item builder properties
-     */
-    ItemProperties setAmount(int amount);
+	/**
+	 * @return this item durability
+	 */
+	short getDurability();
 
-    /**
-     * @return this item durability
-     */
-    short getDurability();
+	/**
+	 * @return this item wrapped material
+	 */
+	Material getMaterial();
 
-    /**
-     * Update this item durability
-     *
-     * @param durability new durability to set
-     * @return thjis item builder properties
-     */
-    ItemProperties setDurability(short durability);
+	/**
+	 * Update this item amount
+	 *
+	 * @param amount a new amount to set according to maxStackSize
+	 * @return this item builder properties
+	 */
+	ItemProperties setAmount(int amount);
 
-    /**
-     * @return this item wrapped material
-     */
-    Material getMaterial();
+	/**
+	 * Update this item durability
+	 *
+	 * @param durability new durability to set
+	 * @return thjis item builder properties
+	 */
+	ItemProperties setDurability(short durability);
 
-    /**
-     * Update this item material
-     *
-     * @param material new material to set
-     * @return this item builder properties
-     */
-    ItemProperties setMaterial(Material material);
+	/**
+	 * Set glowing effect
+	 *
+	 * @param value active or not
+	 * @return this builder properties
+	 */
+	ItemProperties setGlowing(boolean value);
 
-    /**
-     * Set glowing effect
-     *
-     * @param value active or not
-     * @return this builder properties
-     */
-    ItemProperties setGlowing(boolean value);
+	/**
+	 * Update this item material
+	 *
+	 * @param material new material to set
+	 * @return this item builder properties
+	 */
+	ItemProperties setMaterial(Material material);
 
-    /**
-     * Set infinit durability
-     *
-     * @param value active or not
-     * @return this builder properties
-     */
-    ItemProperties setUnbreakable(boolean value);
+	/**
+	 * Set infinit durability
+	 *
+	 * @param value active or not
+	 * @return this builder properties
+	 */
+	ItemProperties setUnbreakable(boolean value);
 
-    /**
-     * Will only work on {@link Material#SKULL_ITEM} with data equals {@link org.bukkit.SkullType#PLAYER}
-     * It will use only display viewer's head
-     *
-     * @return this builder properties
-     */
-    ItemProperties usePlayerHead();
+	/**
+	 * Will only work on {@link Material#SKULL_ITEM} with data equals {@link org.bukkit.SkullType#PLAYER}
+	 * It will use only display viewer's head
+	 *
+	 * @return this builder properties
+	 */
+	ItemProperties usePlayerHead();
 }

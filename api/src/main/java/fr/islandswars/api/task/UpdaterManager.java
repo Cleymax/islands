@@ -1,8 +1,7 @@
 package fr.islandswars.api.task;
 
-import org.bukkit.scheduler.BukkitTask;
-
 import javax.annotation.concurrent.ThreadSafe;
+import org.bukkit.scheduler.BukkitTask;
 
 /**
  * File <b>UpdaterManager</b> located on fr.islandswars.api.task
@@ -33,20 +32,20 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public interface UpdaterManager {
 
-    /**
-     * Will look inside the class method to register every method which has
-     * a {@link Updater} annotation (and no method's parameters)
-     * The bukkit task {@link BukkitTask#getTaskId() id} will be sync from the hash of class + method name
-     *
-     * @param updatable a class to register
-     */
-    void register(Object updatable);
+	/**
+	 * Will look inside the class method to register every method which has
+	 * a {@link Updater} annotation (and no method's parameters)
+	 * The bukkit task {@link BukkitTask#getTaskId() id} will be sync from the hash of class + method name
+	 *
+	 * @param updatable a class to register
+	 */
+	void register(Object updatable);
 
-    /**
-     * Will stop all task associated to this object, according to hash
-     *
-     * @param updatable a class to stop
-     */
-    void stop(Object updatable);
+	/**
+	 * Will stop all task associated to this object, according to hash
+	 *
+	 * @param updatable a class to stop
+	 */
+	void stop(Object updatable);
 
 }

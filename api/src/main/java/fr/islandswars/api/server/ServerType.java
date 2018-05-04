@@ -28,27 +28,27 @@ package fr.islandswars.api.server;
  */
 public enum ServerType {
 
-    HUB(64, "hub");
+	HUB(64, "hub");
 
-    private final int maxPlayer;
-    private final String name;
+	private final int    maxPlayer;
+	private final String name;
 
-    ServerType(int maxPlayer, String name) {
-        this.maxPlayer = maxPlayer;
-        this.name = name;
-    }
+	ServerType(int maxPlayer, String name) {
+		this.maxPlayer = maxPlayer;
+		this.name = name;
+	}
 
-    /**
-     * @return the maximum player allowed on this server
-     */
-    public int getMaxPlayer() {
-        return maxPlayer;
-    }
+	/**
+	 * @return the maximum player allowed on this server
+	 */
+	public int getMaxPlayer() {
+		return maxPlayer;
+	}
 
-    /**
-     * @return the server type name
-     */
-    public String getTypeName() {
-        return name;
-    }
+	/**
+	 * @return the server type name
+	 */
+	public String getTypeName() {
+		return name;
+	}
 }

@@ -32,28 +32,28 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public abstract class Module extends LazyListener {
 
-    protected final IslandsApi api;
-    protected boolean enabled;
+	protected final IslandsApi api;
+	protected       boolean    enabled;
 
-    public Module(IslandsApi api) {
-        super(api);
-        this.api = api;
-        enabled = false;
-    }
+	public Module(IslandsApi api) {
+		super(api);
+		this.api = api;
+		enabled = false;
+	}
 
-    /**
-     * Load this module, call in {@link JavaPlugin#onLoad()}
-     */
-    public abstract void onLoad();
+	/**
+	 * Disable this module, call in {@link JavaPlugin#onDisable()} or when using {@link ModuleManager#unregisterModule(Class)}
+	 */
+	public abstract void onDisable();
 
-    /**
-     * Enable this module, call in {@link JavaPlugin#onEnable()} ()} or when using {@link ModuleManager#registerModule(Class)}
-     */
-    public abstract void onEnable();
+	/**
+	 * Enable this module, call in {@link JavaPlugin#onEnable()} ()} or when using {@link ModuleManager#registerModule(Class)}
+	 */
+	public abstract void onEnable();
 
-    /**
-     * Disable this module, call in {@link JavaPlugin#onDisable()} or when using {@link ModuleManager#unregisterModule(Class)}
-     */
-    public abstract void onDisable();
+	/**
+	 * Load this module, call in {@link JavaPlugin#onLoad()}
+	 */
+	public abstract void onLoad();
 
 }

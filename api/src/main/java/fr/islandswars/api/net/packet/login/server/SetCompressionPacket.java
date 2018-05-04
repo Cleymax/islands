@@ -29,27 +29,27 @@ import net.minecraft.server.v1_12_R1.PacketLoginOutSetCompression;
  */
 public class SetCompressionPacket extends GamePacket<PacketLoginOutSetCompression> {
 
-    protected SetCompressionPacket(PacketLoginOutSetCompression handle) {
-        super(handle);
-    }
+	protected SetCompressionPacket(PacketLoginOutSetCompression handle) {
+		super(handle);
+	}
 
-    /**
-     * If compression is active (meaning this packet has been sent by a client) the
-     * server will encode all packets using zlib according to this scheme :
-     * No	Packet Length	  VarInt	Length of Data Length + compressed length of (Packet ID + Data)
-     * No	Data Length	      VarInt	Length of uncompressed (Packet ID + Data) or 0
-     * Yes	Packet ID	      Varint	zlib compressed packet ID (see the sections below)
-     * Data	        Byte Array	zlib compressed packet data (see the sections below)
-     *
-     * @return the compression label
-     */
-    public int getThresholdValue() {
-        return (int) getHandleValue("a");
-    }
+	/**
+	 * If compression is active (meaning this packet has been sent by a client) the
+	 * server will encode all packets using zlib according to this scheme :
+	 * No	Packet Length	  VarInt	Length of Data Length + compressed length of (Packet ID + Data)
+	 * No	Data Length	      VarInt	Length of uncompressed (Packet ID + Data) or 0
+	 * Yes	Packet ID	      Varint	zlib compressed packet ID (see the sections below)
+	 * Data	        Byte Array	zlib compressed packet data (see the sections below)
+	 *
+	 * @return the compression label
+	 */
+	public int getThresholdValue() {
+		return (int) getHandleValue("a");
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Login.Server.COMPRESSION;
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Login.Server.COMPRESSION;
+	}
 }
 

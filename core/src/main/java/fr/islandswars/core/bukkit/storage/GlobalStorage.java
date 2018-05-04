@@ -33,37 +33,37 @@ import org.bukkit.inventory.Inventory;
  */
 public class GlobalStorage extends AbstractStorage {
 
-    private final CraftInventoryCustom inventory;
+	private final CraftInventoryCustom inventory;
 
-    GlobalStorage(int size, String name) {
-        super(size, name);
-        this.inventory = (CraftInventoryCustom) Bukkit.createInventory(null, size, name);
-    }
+	GlobalStorage(int size, String name) {
+		super(size, name);
+		this.inventory = (CraftInventoryCustom) Bukkit.createInventory(null, size, name);
+	}
 
-    @Override
-    public Inventory getHandle(IslandsPlayer player) {
-        return inventory;
-    }
+	@Override
+	public Inventory getHandle(IslandsPlayer player) {
+		return inventory;
+	}
 
-    @Override
-    public int getNextFreeSlot(IslandsPlayer player) {
-        for (int i = 0; i < getSize(); i++) {
-            if (inventory.getItem(i) == null)
-                return i;
-        }
-        return -1;
-    }
+	@Override
+	public int getNextFreeSlot(IslandsPlayer player) {
+		for (int i = 0; i < getSize(); i++) {
+			if (inventory.getItem(i) == null)
+				return i;
+		}
+		return -1;
+	}
 
-    @Override
-    public void remove(int slot, IslandsPlayer player) {
-        inventory.setItem(slot, null);
-    }
+	@Override
+	public void remove(int slot, IslandsPlayer player) {
+		inventory.setItem(slot, null);
+	}
 
-    @Override
-    public void set(int slot, Item item, IslandsPlayer player) {
-        Preconditions.checkNotNull(item);
+	@Override
+	public void set(int slot, Item item, IslandsPlayer player) {
+		Preconditions.checkNotNull(item);
 
-        if (slot != -1)
-            inventory.getInventory().setItem(slot, item.toNMSItem());
-    }
+		if (slot != -1)
+			inventory.getInventory().setItem(slot, item.toNMSItem());
+	}
 }

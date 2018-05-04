@@ -5,7 +5,6 @@ import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.scoreboard.Scoreboard.ScoreAction;
 import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardScore;
 import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardScore.EnumScoreboardAction;
-
 import static fr.islandswars.api.net.PacketType.Play.Server.SCORE;
 
 /**
@@ -34,45 +33,44 @@ import static fr.islandswars.api.net.PacketType.Play.Server.SCORE;
  */
 public class ScoreboardScorePacket extends GamePacket<PacketPlayOutScoreboardScore> {
 
-    protected ScoreboardScorePacket(PacketPlayOutScoreboardScore handle) {
-        super(handle);
-    }
+	protected ScoreboardScorePacket(PacketPlayOutScoreboardScore handle) {
+		super(handle);
+	}
 
-    public String getName() {
-        return (String) getHandleValue("a");
-    }
+	public ScoreAction getAction() {
+		return ScoreAction.getAction((EnumScoreboardAction) getHandleValue("d"));
+	}
 
-    public void setName(String name) {
-        setHandleValue("a", name);
-    }
+	public int getLineNumber() {
+		return (int) getHandleValue("c");
+	}
 
-    public String getObjectiveName() {
-        return (String) getHandleValue("b");
-    }
+	public String getName() {
+		return (String) getHandleValue("a");
+	}
 
-    public void setObjectiveName(String name) {
-        setHandleValue("b", name);
-    }
+	public String getObjectiveName() {
+		return (String) getHandleValue("b");
+	}
 
-    public int getLineNumber() {
-        return (int) getHandleValue("c");
-    }
+	@Override
+	public PacketType getType() {
+		return SCORE;
+	}
 
-    public void setLineNumber(int lineNumber) {
-        setHandleValue("c", lineNumber);
-    }
+	public void setAction(ScoreAction action) {
+		setHandleValue("d", action.getAction());
+	}
 
-    public ScoreAction getAction() {
-        return ScoreAction.getAction((EnumScoreboardAction) getHandleValue("d"));
-    }
+	public void setLineNumber(int lineNumber) {
+		setHandleValue("c", lineNumber);
+	}
 
-    public void setAction(ScoreAction action) {
-        setHandleValue("d", action.getAction());
-    }
+	public void setName(String name) {
+		setHandleValue("a", name);
+	}
 
-
-    @Override
-    public PacketType getType() {
-        return SCORE;
-    }
+	public void setObjectiveName(String name) {
+		setHandleValue("b", name);
+	}
 }

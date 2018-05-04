@@ -32,23 +32,23 @@ import org.bukkit.plugin.RegisteredListener;
  */
 public class ErrorHandlerRegisteredListener extends RegisteredListener {
 
-    private final RegisteredListener owner;
-    private final ErrorHandler handler;
+	private final RegisteredListener owner;
+	private final ErrorHandler       handler;
 
-    public ErrorHandlerRegisteredListener(RegisteredListener owner, ErrorHandler handler) {
-        super(owner.getListener(), null, owner.getPriority(), owner.getPlugin(), owner.isIgnoringCancelled());
-        this.owner = owner;
-        this.handler = handler;
-    }
+	public ErrorHandlerRegisteredListener(RegisteredListener owner, ErrorHandler handler) {
+		super(owner.getListener(), null, owner.getPriority(), owner.getPlugin(), owner.isIgnoringCancelled());
+		this.owner = owner;
+		this.handler = handler;
+	}
 
-    @Override
-    public void callEvent(Event event) throws EventException {
-        try {
-            owner.callEvent(event);
-        } catch (EventException e) {
-            handler.handle(e.getCause());
-        } catch (Throwable t) {
-            handler.handle(t);
-        }
-    }
+	@Override
+	public void callEvent(Event event) throws EventException {
+		try {
+			owner.callEvent(event);
+		} catch (EventException e) {
+			handler.handle(e.getCause());
+		} catch (Throwable t) {
+			handler.handle(t);
+		}
+	}
 }

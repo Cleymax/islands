@@ -12,6 +12,7 @@ import fr.islandswars.api.storage.Storage;
 import fr.islandswars.api.storage.StorageBuilder;
 import fr.islandswars.api.storage.StorageType;
 import fr.islandswars.core.IslandsCore;
+import java.util.logging.Level;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
@@ -20,8 +21,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
-
-import java.util.logging.Level;
 
 /**
  * File <b>PlayerListener</b> located on fr.islandswars.core.internal.listener
@@ -49,42 +48,42 @@ import java.util.logging.Level;
  */
 public class PlayerListener extends LazyListener {
 
-    private Storage storage;
+	private Storage storage;
 
-    public PlayerListener(IslandsApi api) {
-        super(api);
-        Item glass = api.getStorageManager().newItem(new ItemType(Material.STAINED_GLASS_PANE, (byte) 9));
-        api.getInfraLogger().createDefaultLog("Is item null ? " + (glass == null));
-        StorageBuilder builder = StorageBuilder.build("core.inventory.global.name", 6 * 9, StorageType.GLOBAL).withPattern(
-                "CCCCCCCCC" +
-                        "C       C" +
-                        "C       C" +
-                        "C       C" +
-                        "C       C" +
-                        "CCCCCCCCC").supplyPattern('C', glass);
-        this.storage = api.getStorageManager().createStorage(builder);
-        storage.setItem(4, 8, storage.newItem(new ItemType(Material.SKULL_ITEM, (byte) SkullType.PLAYER.ordinal())).onClick((player, event) -> {
-            event.setCancelled(true);
-            player.sendTranslatedMessage(ChatType.CHAT, "coucou toi");
-        }), null);
-    }
+	public PlayerListener(IslandsApi api) {
+		super(api);
+		Item glass = api.getStorageManager().newItem(new ItemType(Material.STAINED_GLASS_PANE, (byte) 9));
+		api.getInfraLogger().createDefaultLog("Is item null ? " + (glass == null));
+		StorageBuilder builder = StorageBuilder.build("core.inventory.global.name", 6 * 9, StorageType.GLOBAL).withPattern(
+				"CCCCCCCCC" +
+						"C       C" +
+						"C       C" +
+						"C       C" +
+						"C       C" +
+						"CCCCCCCCC").supplyPattern('C', glass);
+		this.storage = api.getStorageManager().createStorage(builder);
+		storage.setItem(4, 8, storage.newItem(new ItemType(Material.SKULL_ITEM, (byte) SkullType.PLAYER.ordinal())).onClick((player, event) -> {
+			event.setCancelled(true);
+			player.sendTranslatedMessage(ChatType.CHAT, "coucou toi");
+		}), null);
+	}
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onConnect(PlayerJoinEvent event) {
-        Player p = event.getPlayer();
-        ((IslandsCore) api).addPlayer(p);
-        api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + p.getName() + " joined the game.").setPlayer(p, Action.CONNECT).log();
-    }
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onConnect(PlayerJoinEvent event) {
+		Player p = event.getPlayer();
+		((IslandsCore) api).addPlayer(p);
+		api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + p.getName() + " joined the game.").setPlayer(p, Action.CONNECT).log();
+	}
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onLeave(PlayerQuitEvent event) {
-        IslandsPlayer player = getFromPlayer(event.getPlayer());
-        ((IslandsCore) api).removePlayer(player);
-        api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + player.getCraftPlayer().getName() + " leaved the game.").setPlayer(player, Action.LEAVE).log();
-    }
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onLeave(PlayerQuitEvent event) {
+		IslandsPlayer player = getFromPlayer(event.getPlayer());
+		((IslandsCore) api).removePlayer(player);
+		api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + player.getCraftPlayer().getName() + " leaved the game.").setPlayer(player, Action.LEAVE).log();
+	}
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onSneak(PlayerToggleSneakEvent event) {
-        getFromPlayer(event.getPlayer()).openStorage(storage);
-    }
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onSneak(PlayerToggleSneakEvent event) {
+		getFromPlayer(event.getPlayer()).openStorage(storage);
+	}
 }

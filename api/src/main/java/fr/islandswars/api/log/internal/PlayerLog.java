@@ -3,10 +3,9 @@ package fr.islandswars.api.log.internal;
 import fr.islandswars.api.log.Log;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.utils.Preconditions;
-import org.bukkit.entity.Player;
-
 import java.util.UUID;
 import java.util.logging.Level;
+import org.bukkit.entity.Player;
 
 /**
  * File <b>PlayerLog</b> located on fr.islandswars.api.log.internal
@@ -36,33 +35,33 @@ import java.util.logging.Level;
  */
 public class PlayerLog extends Log {
 
-    protected PlayerAction action;
+	protected PlayerAction action;
 
-    public PlayerLog(Level level, String msg) {
-        super(level, msg);
-    }
+	public PlayerLog(Level level, String msg) {
+		super(level, msg);
+	}
 
-    @Override
-    public void checkValue() {
-        Preconditions.checkNotNull(action);
-    }
+	@Override
+	public void checkValue() {
+		Preconditions.checkNotNull(action);
+	}
 
-    public PlayerLog setPlayer(IslandsPlayer player, Action action) {
-        return setPlayer(player.getCraftPlayer(), action);
-    }
+	public PlayerLog setPlayer(IslandsPlayer player, Action action) {
+		return setPlayer(player.getCraftPlayer(), action);
+	}
 
-    public PlayerLog setPlayer(Player player, Action action) {
-        return setPlayer(player.getName(), player.getUniqueId(), action);
-    }
+	public PlayerLog setPlayer(Player player, Action action) {
+		return setPlayer(player.getName(), player.getUniqueId(), action);
+	}
 
-    public PlayerLog setPlayer(String name, UUID id, Action action) {
-        Preconditions.checkNotNull(name);
-        Preconditions.checkNotNull(id);
-        Preconditions.checkNotNull(action);
+	public PlayerLog setPlayer(String name, UUID id, Action action) {
+		Preconditions.checkNotNull(name);
+		Preconditions.checkNotNull(id);
+		Preconditions.checkNotNull(action);
 
-        this.action = new PlayerAction(name, action, id);
-        return this;
-    }
+		this.action = new PlayerAction(name, action, id);
+		return this;
+	}
 
 
 }

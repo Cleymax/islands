@@ -2,13 +2,12 @@ package fr.islandswars.core.bukkit.storage;
 
 import fr.islandswars.api.item.Item;
 import fr.islandswars.api.player.IslandsPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventoryCustom;
-import org.bukkit.inventory.Inventory;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventoryCustom;
+import org.bukkit.inventory.Inventory;
 
 /**
  * File <b>PersonnalStorage</b> located on fr.islandswars.core.bukkit.storage
@@ -36,36 +35,36 @@ import java.util.UUID;
  */
 public class PersonnalStorage extends AbstractStorage {
 
-    private final Map<UUID, CraftInventoryCustom> inventories;
+	private final Map<UUID, CraftInventoryCustom> inventories;
 
-    PersonnalStorage(int size, String titleKey) {
-        super(size, titleKey);
-        this.inventories = new HashMap<>();
-    }
+	PersonnalStorage(int size, String titleKey) {
+		super(size, titleKey);
+		this.inventories = new HashMap<>();
+	}
 
-    @Override
-    public Inventory getHandle(IslandsPlayer player) {
-        return inventories.computeIfAbsent(player.getPlayerID(), (key) -> (CraftInventoryCustom) Bukkit.createInventory(null, 1, ""));
-    }
+	@Override
+	public Inventory getHandle(IslandsPlayer player) {
+		return inventories.computeIfAbsent(player.getPlayerID(), (key) -> (CraftInventoryCustom) Bukkit.createInventory(null, 1, ""));
+	}
 
-    @Override
-    public int getNextFreeSlot(IslandsPlayer player) {
-        Inventory inventory = getHandle(player);
-        for (int i = 0; i < getSize(); i++) {
-            if (inventory.getItem(i) == null)
-                return i;
-        }
-        return -1;
-    }
+	@Override
+	public int getNextFreeSlot(IslandsPlayer player) {
+		Inventory inventory = getHandle(player);
+		for (int i = 0; i < getSize(); i++) {
+			if (inventory.getItem(i) == null)
+				return i;
+		}
+		return -1;
+	}
 
-    @Override
-    public void remove(int slot, IslandsPlayer player) {
-        getHandle(player).setItem(slot, null);
-    }
+	@Override
+	public void remove(int slot, IslandsPlayer player) {
+		getHandle(player).setItem(slot, null);
+	}
 
-    @Override
-    public void set(int slot, Item item, IslandsPlayer player) {
-        if (slot != -1)
-            ((CraftInventoryCustom) getHandle(player)).getInventory().setItem(slot, item.toNMSItem());
-    }
+	@Override
+	public void set(int slot, Item item, IslandsPlayer player) {
+		if (slot != -1)
+			((CraftInventoryCustom) getHandle(player)).getInventory().setItem(slot, item.toNMSItem());
+	}
 }

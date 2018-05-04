@@ -31,19 +31,19 @@ import net.minecraft.server.v1_12_R1.PacketLoginOutDisconnect;
  */
 public class DisconnectPacket extends GamePacket<PacketLoginOutDisconnect> {
 
-    protected DisconnectPacket(PacketLoginOutDisconnect handle) {
-        super(handle);
-    }
+	protected DisconnectPacket(PacketLoginOutDisconnect handle) {
+		super(handle);
+	}
 
-    /**
-     * @return the reason of disconnection wrapped in json message
-     */
-    public IChatBaseComponent getReason() {
-        return (IChatBaseComponent) getHandleValue("a");
-    }
+	/**
+	 * @return the reason of disconnection wrapped in json message
+	 */
+	public IChatBaseComponent getReason() {
+		return (IChatBaseComponent) getHandleValue("a");
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Login.Server.DISCONNECT;
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Login.Server.DISCONNECT;
+	}
 }

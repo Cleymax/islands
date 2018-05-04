@@ -3,7 +3,6 @@ package fr.islandswars.api.net.packet.play.client;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.PacketPlayInEntityAction;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.ENTITY_ACTION;
 
 /**
@@ -32,37 +31,37 @@ import static fr.islandswars.api.net.PacketType.Play.Client.ENTITY_ACTION;
  */
 public class EntityActionInPacket extends GamePacket<PacketPlayInEntityAction> {
 
-    public EntityActionInPacket(PacketPlayInEntityAction handle) {
-        super(handle);
-    }
+	public EntityActionInPacket(PacketPlayInEntityAction handle) {
+		super(handle);
+	}
 
-    public int getEntityId() {
-        return (int) getHandleValue("a");
-    }
+	public PacketPlayInEntityAction.EnumPlayerAction getAnimation() {
+		return (PacketPlayInEntityAction.EnumPlayerAction) getHandleValue("animation");
+	}
 
-    public void setEntityId(int entityId) {
-        setHandleValue("a", entityId);
-    }
+	public int getEntityId() {
+		return (int) getHandleValue("a");
+	}
 
-    public int getHorseJumpHeight() {
-        return (int) getHandleValue("c");
-    }
+	public int getHorseJumpHeight() {
+		return (int) getHandleValue("c");
+	}
 
-    public void setHorseJumpHeight(int horseJumpHeight) {
-        setHandleValue("c", horseJumpHeight);
-    }
+	@Override
+	public PacketType getType() {
+		return ENTITY_ACTION;
+	}
 
-    public PacketPlayInEntityAction.EnumPlayerAction getAnimation() {
-        return (PacketPlayInEntityAction.EnumPlayerAction) getHandleValue("animation");
-    }
+	public void setAnimation(PacketPlayInEntityAction.EnumPlayerAction animation) {
+		setHandleValue("animation", animation);
+	}
 
-    public void setAnimation(PacketPlayInEntityAction.EnumPlayerAction animation) {
-        setHandleValue("animation", animation);
-    }
+	public void setEntityId(int entityId) {
+		setHandleValue("a", entityId);
+	}
 
-    @Override
-    public PacketType getType() {
-        return ENTITY_ACTION;
-    }
+	public void setHorseJumpHeight(int horseJumpHeight) {
+		setHandleValue("c", horseJumpHeight);
+	}
 
 }

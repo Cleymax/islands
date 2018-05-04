@@ -4,7 +4,6 @@ import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.scoreboard.objective.Objective.ObjectiveSlot;
 import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardDisplayObjective;
-
 import static fr.islandswars.api.net.PacketType.Play.Server.DISPLAY_OBJECTIVE;
 
 /**
@@ -33,28 +32,28 @@ import static fr.islandswars.api.net.PacketType.Play.Server.DISPLAY_OBJECTIVE;
  */
 public class ScoreboardDisplayObjectivePacket extends GamePacket<PacketPlayOutScoreboardDisplayObjective> {
 
-    protected ScoreboardDisplayObjectivePacket(PacketPlayOutScoreboardDisplayObjective handle) {
-        super(handle);
-    }
+	protected ScoreboardDisplayObjectivePacket(PacketPlayOutScoreboardDisplayObjective handle) {
+		super(handle);
+	}
 
-    public ObjectiveSlot getObjectiveSlot() {
-        return ObjectiveSlot.getObjectiveSlot((int) getHandleValue("a"));
-    }
+	public String getObjectiveName() {
+		return (String) getHandleValue("b");
+	}
 
-    public void setObjectiveSlot(ObjectiveSlot slot) {
-        setHandleValue("a", slot.getSlot());
-    }
+	public ObjectiveSlot getObjectiveSlot() {
+		return ObjectiveSlot.getObjectiveSlot((int) getHandleValue("a"));
+	}
 
-    public String getObjectiveName() {
-        return (String) getHandleValue("b");
-    }
+	@Override
+	public PacketType getType() {
+		return DISPLAY_OBJECTIVE;
+	}
 
-    public void setObjectiveName(String objectiveName) {
-        setHandleValue("b", objectiveName);
-    }
+	public void setObjectiveName(String objectiveName) {
+		setHandleValue("b", objectiveName);
+	}
 
-    @Override
-    public PacketType getType() {
-        return DISPLAY_OBJECTIVE;
-    }
+	public void setObjectiveSlot(ObjectiveSlot slot) {
+		setHandleValue("a", slot.getSlot());
+	}
 }

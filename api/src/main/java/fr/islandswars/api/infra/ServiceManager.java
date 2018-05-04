@@ -31,14 +31,14 @@ import fr.islandswars.api.infra.rmq.RabbitMQService;
  */
 public interface ServiceManager {
 
-    /**
-     * @return the rabbitmq service to send message to specific queue/topic
-     */
-    RabbitMQService getRabbitService();
+	/**
+	 * @return the rabbitmq service to send message to specific queue/topic
+	 */
+	RabbitMQService getRabbitService();
 
-    /**
-     * @return the redis service to simply get and set basic data
-     */
-    RedisService getRedisService();
+	/**
+	 * @return the redis service to simply get and set basic data
+	 */
+	RedisService getRedisService();
 
 }

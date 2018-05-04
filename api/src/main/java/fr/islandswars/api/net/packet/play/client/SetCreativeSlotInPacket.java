@@ -5,7 +5,6 @@ import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.ItemStack;
 import net.minecraft.server.v1_12_R1.PacketPlayInSetCreativeSlot;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.SET_CREATIVE_SLOT;
 
 /**
@@ -34,29 +33,29 @@ import static fr.islandswars.api.net.PacketType.Play.Client.SET_CREATIVE_SLOT;
  */
 public class SetCreativeSlotInPacket extends GamePacket<PacketPlayInSetCreativeSlot> {
 
-    public SetCreativeSlotInPacket(PacketPlayInSetCreativeSlot handle) {
-        super(handle);
-    }
+	public SetCreativeSlotInPacket(PacketPlayInSetCreativeSlot handle) {
+		super(handle);
+	}
 
-    public int getSlot() {
-        return (int) getHandleValue("slot");
-    }
+	public org.bukkit.inventory.ItemStack getItemStack() {
+		return CraftItemStack.asBukkitCopy((ItemStack) getHandleValue("b"));
+	}
 
-    public void setSlot(int slot) {
-        setHandleValue("slot", slot);
-    }
+	public int getSlot() {
+		return (int) getHandleValue("slot");
+	}
 
-    public org.bukkit.inventory.ItemStack getItemStack() {
-        return CraftItemStack.asBukkitCopy((ItemStack) getHandleValue("b"));
-    }
+	@Override
+	public PacketType getType() {
+		return SET_CREATIVE_SLOT;
+	}
 
-    public void setItemStack(org.bukkit.inventory.ItemStack itemStack) {
-        setHandleValue("b", CraftItemStack.asNMSCopy(itemStack));
-    }
+	public void setItemStack(org.bukkit.inventory.ItemStack itemStack) {
+		setHandleValue("b", CraftItemStack.asNMSCopy(itemStack));
+	}
 
-    @Override
-    public PacketType getType() {
-        return SET_CREATIVE_SLOT;
-    }
+	public void setSlot(int slot) {
+		setHandleValue("slot", slot);
+	}
 
 }

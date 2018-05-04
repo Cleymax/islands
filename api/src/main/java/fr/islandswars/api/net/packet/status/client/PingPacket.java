@@ -30,17 +30,17 @@ import net.minecraft.server.v1_12_R1.PacketStatusInPing;
  */
 public class PingPacket extends GamePacket<PacketStatusInPing> {
 
-    public PingPacket(PacketStatusInPing handle) {
-        super(handle);
-    }
+	public PingPacket(PacketStatusInPing handle) {
+		super(handle);
+	}
 
-    public long getPayload() {
-        return handle.a();
-    }
+	public long getPayload() {
+		return handle.a();
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Status.Client.PING;
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Status.Client.PING;
+	}
 
 }

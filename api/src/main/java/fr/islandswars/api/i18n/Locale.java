@@ -1,7 +1,6 @@
 package fr.islandswars.api.i18n;
 
 import fr.islandswars.api.IslandsApi;
-
 import javax.annotation.concurrent.ThreadSafe;
 
 /**
@@ -33,31 +32,31 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public enum Locale {
 
-    FRENCH("fr-FR"),
-    ENGLISH("en-GB");
+	FRENCH("fr-FR"),
+	ENGLISH("en-GB");
 
-    private final String i18nName;
+	private final String i18nName;
 
-    Locale(String i18nName) {
-        this.i18nName = i18nName;
-    }
+	Locale(String i18nName) {
+		this.i18nName = i18nName;
+	}
 
-    /**
-     * @return this lang id
-     */
-    public String getI18nName() {
-        return i18nName;
-    }
+	/**
+	 * Get a String according to this language and format with the given parameters
+	 *
+	 * @param key        the property key
+	 * @param parameters the properties label to format with
+	 * @return a {@link String#format(String, Object...)}, or else the key
+	 * @see Translatable#format(Locale, String, Object...)
+	 */
+	public String format(String key, Object... parameters) {
+		return IslandsApi.getInstance().getTranslatable().format(this, key, parameters);
+	}
 
-    /**
-     * Get a String according to this language and format with the given parameters
-     *
-     * @param key        the property key
-     * @param parameters the properties label to format with
-     * @return a {@link String#format(String, Object...)}, or else the key
-     * @see Translatable#format(Locale, String, Object...)
-     */
-    public String format(String key, Object... parameters) {
-        return IslandsApi.getInstance().getTranslatable().format(this, key, parameters);
-    }
+	/**
+	 * @return this lang id
+	 */
+	public String getI18nName() {
+		return i18nName;
+	}
 }

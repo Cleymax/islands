@@ -31,55 +31,55 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutOpenWindow;
  */
 public class OpenWindowPacket extends GamePacket<PacketPlayOutOpenWindow> {
 
-    public OpenWindowPacket(PacketPlayOutOpenWindow handle) {
-        super(handle);
-    }
+	public OpenWindowPacket(PacketPlayOutOpenWindow handle) {
+		super(handle);
+	}
 
-    public int getHorseEntityID() {
-        if (getWindowType().equals("EntityHorse"))
-            return (int) getHandleValue("e");
-        else return 0;
-    }
+	public int getHorseEntityID() {
+		if (getWindowType().equals("EntityHorse"))
+			return (int) getHandleValue("e");
+		else return 0;
+	}
 
-    public void setHorseEntityID(int entityID) {
-        if (getWindowType().equals("EntityHorse"))
-            setHandleValue("e", entityID);
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Server.OPEN_WINDOW;
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Play.Server.OPEN_WINDOW;
-    }
+	public int getWindowID() {
+		return (int) getHandleValue("a");
+	}
 
-    public int getWindowID() {
-        return (int) getHandleValue("a");
-    }
+	public int getWindowSize() {
+		return (int) getHandleValue("d");
+	}
 
-    public void setWindowID(int windowId) {
-        setHandleValue("a", windowId);
-    }
+	public String getWindowTitle() {
+		return ((IChatBaseComponent) getHandleValue("c")).getText();
+	}
 
-    public int getWindowSize() {
-        return (int) getHandleValue("d");
-    }
+	public String getWindowType() {
+		return (String) getHandleValue("b");
+	}
 
-    public void setWindowSize(int windowSize) {
-        setHandleValue("d", windowSize);
-    }
+	public void setHorseEntityID(int entityID) {
+		if (getWindowType().equals("EntityHorse"))
+			setHandleValue("e", entityID);
+	}
 
-    public String getWindowTitle() {
-        return ((IChatBaseComponent) getHandleValue("c")).getText();
-    }
+	public void setWindowID(int windowId) {
+		setHandleValue("a", windowId);
+	}
 
-    public void setWindowTitle(IChatBaseComponent title) {
-        setHandleValue("c", title);
-    }
+	public void setWindowSize(int windowSize) {
+		setHandleValue("d", windowSize);
+	}
 
-    public String getWindowType() {
-        return (String) getHandleValue("b");
-    }
+	public void setWindowTitle(IChatBaseComponent title) {
+		setHandleValue("c", title);
+	}
 
-    public void setWindowType(String type) {
-        setHandleValue("b", type);
-    }
+	public void setWindowType(String type) {
+		setHandleValue("b", type);
+	}
 }

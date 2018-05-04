@@ -30,63 +30,63 @@ import java.util.Optional;
  */
 public interface ModuleManager {
 
-    /**
-     * Register the given module and load it if the plugin is already enabled
-     *
-     * @param module a module class to register
-     * @param <T>    extends Mocule
-     * @return a new instance of this module
-     */
-    <T extends Module> T registerModule(Class<T> module);
+	/**
+	 * Get this module, if it has been registered
+	 *
+	 * @param module a module to get
+	 * @param <T>    extends Module
+	 * @return a wrapepd module instance, if found
+	 */
+	<T extends Module> Optional<T> getModule(Class<T> module);
 
-    /**
-     * Register an existing module and load it if the plugin is already enabled
-     *
-     * @param module a module type to enabled
-     * @param <T>    extends Mocule
-     * @return this module
-     */
-    @SuppressWarnings("unchecked")
-    default <T extends Module> T registerApiModule(ApiModule module) {
-        return (T) registerModule(module.getModuleClass());
-    }
+	/**
+	 * Get this api module, if it has been registered
+	 *
+	 * @param module a module to get
+	 * @param <T>    extends Module
+	 * @return a wrapped module instance, if found
+	 */
+	@SuppressWarnings("unchecked")
+	default <T extends Module> Optional<T> getModule(ApiModule module) {
+		return (Optional<T>) getModule(module.getModuleClass());
+	}
 
-    /**
-     * Unregister the given module, if it has been registered and enabled
-     *
-     * @param module a module to unregister
-     * @param <T>    extends Module
-     */
-    <T extends Module> void unregisterModule(Class<T> module);
+	/**
+	 * Register an existing module and load it if the plugin is already enabled
+	 *
+	 * @param module a module type to enabled
+	 * @param <T>    extends Mocule
+	 * @return this module
+	 */
+	@SuppressWarnings("unchecked")
+	default <T extends Module> T registerApiModule(ApiModule module) {
+		return (T) registerModule(module.getModuleClass());
+	}
 
-    /**
-     * Unregister an existing module, if it has been registered and enabled
-     *
-     * @param module a module to unregister
-     * @param <T>    extends Module
-     */
-    default <T extends Module> void unregisterApiModule(ApiModule module) {
-        unregisterModule(module.getModuleClass());
-    }
+	/**
+	 * Register the given module and load it if the plugin is already enabled
+	 *
+	 * @param module a module class to register
+	 * @param <T>    extends Mocule
+	 * @return a new instance of this module
+	 */
+	<T extends Module> T registerModule(Class<T> module);
 
-    /**
-     * Get this module, if it has been registered
-     *
-     * @param module a module to get
-     * @param <T>    extends Module
-     * @return a wrapepd module instance, if found
-     */
-    <T extends Module> Optional<T> getModule(Class<T> module);
+	/**
+	 * Unregister an existing module, if it has been registered and enabled
+	 *
+	 * @param module a module to unregister
+	 * @param <T>    extends Module
+	 */
+	default <T extends Module> void unregisterApiModule(ApiModule module) {
+		unregisterModule(module.getModuleClass());
+	}
 
-    /**
-     * Get this api module, if it has been registered
-     *
-     * @param module a module to get
-     * @param <T>    extends Module
-     * @return a wrapped module instance, if found
-     */
-    @SuppressWarnings("unchecked")
-    default <T extends Module> Optional<T> getModule(ApiModule module) {
-        return (Optional<T>) getModule(module.getModuleClass());
-    }
+	/**
+	 * Unregister the given module, if it has been registered and enabled
+	 *
+	 * @param module a module to unregister
+	 * @param <T>    extends Module
+	 */
+	<T extends Module> void unregisterModule(Class<T> module);
 }

@@ -35,24 +35,23 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface Compound {
 
-    /**
-     * Specify aliases that can be duplicated with other compound that have the same length
-     * /test compound and /test compound1
-     * compound and compound1 can't have same aliases
-     *
-     * @return this specific command aliases
-     * @throws IllegalArgumentException if one of the given alias is already registered
-     */
-    String[] aliases() default {};
+	/**
+	 * Specify aliases that can be duplicated with other compound that have the same length
+	 * /test compound and /test compound1
+	 * compound and compound1 can't have same aliases
+	 *
+	 * @return this specific command aliases
+	 * @throws IllegalArgumentException if one of the given alias is already registered
+	 */
+	String[] aliases() default {};
 
+	String description() default "";
 
-    /**
-     * By default, it will uses method's name as label, but you can
-     * specify your own label here (it will be shown in description)
-     *
-     * @return this inner compound label
-     */
-    String label() default "";
-
-    String description() default "";
+	/**
+	 * By default, it will uses method's name as label, but you can
+	 * specify your own label here (it will be shown in description)
+	 *
+	 * @return this inner compound label
+	 */
+	String label() default "";
 }

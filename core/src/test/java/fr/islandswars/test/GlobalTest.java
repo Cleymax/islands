@@ -27,8 +27,8 @@ import org.junit.Test;
  */
 public class GlobalTest {
 
-    @Test
-    public void test() {
-    }
+	@Test
+	public void test() {
+	}
 
 }

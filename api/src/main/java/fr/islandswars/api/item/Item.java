@@ -1,13 +1,12 @@
 package fr.islandswars.api.item;
 
 import fr.islandswars.api.player.IslandsPlayer;
-import net.minecraft.server.v1_12_R1.ItemStack;
-import org.bukkit.event.Cancellable;
-
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import net.minecraft.server.v1_12_R1.ItemStack;
+import org.bukkit.event.Cancellable;
 
 /**
  * File <b>Item</b> located on fr.islandswars.api.item
@@ -35,49 +34,49 @@ import java.util.function.Supplier;
  */
 public interface Item {
 
-    /**
-     * @return this internal item id
-     */
-    int getId();
+	/**
+	 * @return this internal item id
+	 */
+	int getId();
 
-    Item globalLoreParameters(Supplier<Object[]> loreSupplier);
+	/**
+	 * @return the key use to translate this item's lore
+	 */
+	String getLoreTranslationKey();
 
-    Item globalNameParameters(Supplier<Object[]> nameSupplier);
+	/**
+	 * @return the key use to translate this item's name, or else item's name
+	 */
+	String getNameTranslationKey();
 
-    Item onClick(BiConsumer<IslandsPlayer, Cancellable> event);
+	/**
+	 * @return this item's properties
+	 */
+	ItemProperties getproperties();
 
-    Item personnalLoreParameters(Supplier<Object[]> loreSupplier, UUID id);
+	Item globalLoreParameters(Supplier<Object[]> loreSupplier);
 
-    Item personnalNameParameters(Supplier<Object[]> nameSupplier, UUID id);
+	Item globalNameParameters(Supplier<Object[]> nameSupplier);
 
-    /**
-     * @return this item wrapped in nms item
-     */
-    ItemStack toNMSItem();
+	Item onClick(BiConsumer<IslandsPlayer, Cancellable> event);
 
-    Item withInternalisation(String nameKey, String loreKey);
+	Item personnalLoreParameters(Supplier<Object[]> loreSupplier, UUID id);
 
-    /**
-     * Supply custom properties to this item
-     *
-     * @param propertiesConsumer a consumer to fill existing properties
-     * @return this item builder
-     */
-    Item withProperties(Consumer<ItemProperties> propertiesConsumer);
+	Item personnalNameParameters(Supplier<Object[]> nameSupplier, UUID id);
 
-    /**
-     * @return the key use to translate this item's name, or else item's name
-     */
-    String getNameTranslationKey();
+	/**
+	 * @return this item wrapped in nms item
+	 */
+	ItemStack toNMSItem();
 
-    /**
-     * @return the key use to translate this item's lore
-     */
-    String getLoreTranslationKey();
+	Item withInternalisation(String nameKey, String loreKey);
 
-    /**
-     * @return this item's properties
-     */
-    ItemProperties getproperties();
+	/**
+	 * Supply custom properties to this item
+	 *
+	 * @param propertiesConsumer a consumer to fill existing properties
+	 * @return this item builder
+	 */
+	Item withProperties(Consumer<ItemProperties> propertiesConsumer);
 
 }

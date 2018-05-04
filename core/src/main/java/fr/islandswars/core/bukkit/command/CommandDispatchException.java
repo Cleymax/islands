@@ -27,18 +27,18 @@ package fr.islandswars.core.bukkit.command;
  */
 final class CommandDispatchException extends RuntimeException {
 
-    CommandDispatchException() {
-    }
+	CommandDispatchException() {
+	}
 
-    CommandDispatchException(String var1) {
-        super(var1);
-    }
+	CommandDispatchException(String var1) {
+		super(var1);
+	}
 
-    CommandDispatchException(String var1, Throwable var2) {
-        super(var1, var2);
-    }
+	CommandDispatchException(String var1, Throwable var2) {
+		super(var1, var2);
+	}
 
-    CommandDispatchException(Throwable var1) {
-        super(var1);
-    }
+	CommandDispatchException(Throwable var1) {
+		super(var1);
+	}
 }

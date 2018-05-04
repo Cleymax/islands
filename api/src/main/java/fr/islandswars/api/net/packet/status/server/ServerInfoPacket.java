@@ -32,24 +32,24 @@ import net.minecraft.server.v1_12_R1.ServerPing;
  */
 public class ServerInfoPacket extends GamePacket<PacketStatusOutServerInfo> {
 
-    private ServerPingWrapper wrapper;
+	private ServerPingWrapper wrapper;
 
-    public ServerInfoPacket(PacketStatusOutServerInfo handle) {
-        super(handle);
-    }
+	public ServerInfoPacket(PacketStatusOutServerInfo handle) {
+		super(handle);
+	}
 
-    public ServerPingWrapper getResponse() {
-        if (wrapper == null)
-            this.wrapper = new ServerPingWrapper((ServerPing) getHandleValue("b"));
-        return wrapper;
-    }
+	public ServerPingWrapper getResponse() {
+		if (wrapper == null)
+			this.wrapper = new ServerPingWrapper((ServerPing) getHandleValue("b"));
+		return wrapper;
+	}
 
-    public void setResponse(ServerPingWrapper wrapper) {
-        setHandleValue("b", wrapper.getNMS());
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Status.Server.SERVER_INFO;
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Status.Server.SERVER_INFO;
-    }
+	public void setResponse(ServerPingWrapper wrapper) {
+		setHandleValue("b", wrapper.getNMS());
+	}
 }

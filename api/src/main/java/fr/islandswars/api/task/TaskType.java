@@ -28,6 +28,6 @@ package fr.islandswars.api.task;
  */
 public enum TaskType {
 
-    SYNC,
-    ASYNC
+	SYNC,
+	ASYNC
 }

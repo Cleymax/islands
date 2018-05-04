@@ -1,7 +1,6 @@
 package fr.islandswars.api.net.wrapper;
 
 import fr.islandswars.api.utils.NMSReflectionUtil;
-
 import java.lang.reflect.Field;
 
 /**
@@ -32,56 +31,56 @@ import java.lang.reflect.Field;
  */
 public abstract class Wrapper<T> {
 
-    protected final T handle;
+	protected final T handle;
 
-    public Wrapper(T handle) {
-        this.handle = handle;
-    }
+	public Wrapper(T handle) {
+		this.handle = handle;
+	}
 
-    /**
-     * Return the label of the given fieldname
-     *
-     * @param field a label to get from this field
-     * @return an object, if founded
-     * @see NMSReflectionUtil#getFieldAccessor(Field)
-     */
-    protected final Object getHandleValue(String field) {
-        return NMSReflectionUtil.getFieldAccessor(handle.getClass(), field).get(handle);
-    }
+	/**
+	 * Return the label of the given fieldname
+	 *
+	 * @param field a label to get from this field
+	 * @return an object, if founded
+	 * @see NMSReflectionUtil#getFieldAccessor(Field)
+	 */
+	protected final Object getHandleValue(String field) {
+		return NMSReflectionUtil.getFieldAccessor(handle.getClass(), field).get(handle);
+	}
 
-    /**
-     * Set a new label to the given field
-     *
-     * @param field the field name to update
-     * @param value the new label
-     * @see NMSReflectionUtil#getFieldAccessor(Field)
-     */
-    protected final void setHandleValue(String field, Object value) {
-        NMSReflectionUtil.getFieldAccessor(handle.getClass(), field).set(handle, value);
-    }
+	/**
+	 * Get the label from a given field
+	 *
+	 * @param field    the field name to get label from
+	 * @param instance the object to get field
+	 * @return the label if found
+	 * @see #getHandleValue(String, Object)
+	 */
+	protected final Object getHandleValue(String field, Object instance) {
+		return NMSReflectionUtil.getFieldAccessor(instance.getClass(), field).get(instance);
+	}
 
-    /**
-     * Get the label from a given field
-     *
-     * @param field    the field name to get label from
-     * @param instance the object to get field
-     * @return the label if found
-     * @see #getHandleValue(String, Object)
-     */
-    protected final Object getHandleValue(String field, Object instance) {
-        return NMSReflectionUtil.getFieldAccessor(instance.getClass(), field).get(instance);
-    }
+	/**
+	 * Set a new label to the given field
+	 *
+	 * @param field the field name to update
+	 * @param value the new label
+	 * @see NMSReflectionUtil#getFieldAccessor(Field)
+	 */
+	protected final void setHandleValue(String field, Object value) {
+		NMSReflectionUtil.getFieldAccessor(handle.getClass(), field).set(handle, value);
+	}
 
-    /**
-     * Set a new label to the given field in the given instance
-     *
-     * @param field    the field name to update
-     * @param instance an instance to set new label
-     * @param value    the new label
-     * @see NMSReflectionUtil#getFieldAccessor(Field)
-     */
-    protected final void setHandleValue(String field, Object instance, Object value) {
-        NMSReflectionUtil.getFieldAccessor(instance.getClass(), field).set(instance, value);
-    }
+	/**
+	 * Set a new label to the given field in the given instance
+	 *
+	 * @param field    the field name to update
+	 * @param instance an instance to set new label
+	 * @param value    the new label
+	 * @see NMSReflectionUtil#getFieldAccessor(Field)
+	 */
+	protected final void setHandleValue(String field, Object instance, Object value) {
+		NMSReflectionUtil.getFieldAccessor(instance.getClass(), field).set(instance, value);
+	}
 
 }

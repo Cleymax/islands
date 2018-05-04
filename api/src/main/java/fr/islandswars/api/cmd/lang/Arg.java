@@ -36,18 +36,18 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface Arg {
 
-    /**
-     * @return the name of the argument
-     */
-    String value();
+	/**
+	 * @return the description of the argument
+	 */
+	String desc() default "";
 
-    /**
-     * @return the description of the argument
-     */
-    String desc() default "";
+	/**
+	 * @return the type of the argument
+	 */
+	String type() default "";
 
-    /**
-     * @return the type of the argument
-     */
-    String type() default "";
+	/**
+	 * @return the name of the argument
+	 */
+	String value();
 }

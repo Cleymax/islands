@@ -7,15 +7,14 @@ import fr.islandswars.api.cmd.lang.Serial;
 import fr.islandswars.core.bukkit.command.CommandSerializers;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
-import org.bukkit.command.CommandException;
-import org.bukkit.command.CommandSender;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
+import org.bukkit.command.CommandException;
+import org.bukkit.command.CommandSender;
 
 /**
  * File <b>MethodCommandWrapper</b> located on fr.islandswars.core.bukkit.command.wrapper
@@ -44,137 +43,137 @@ import java.util.stream.Collectors;
  */
 public class MethodCommandWrapper extends LabelDispatcher {
 
-    private final Method method;
-    private final int parametersCount;
-    private final StringJoiner helpCompound;
-    private TIntObjectMap<CommandSerializer> serializers;
-    private TIntObjectMap<Map<String, Object>> choiceLists;
-    private int optStart;
+	private final Method                             method;
+	private final int                                parametersCount;
+	private final StringJoiner                       helpCompound;
+	private       TIntObjectMap<CommandSerializer>   serializers;
+	private       TIntObjectMap<Map<String, Object>> choiceLists;
+	private       int                                optStart;
 
-    private Class<?> arrayType; //The array type
-    private CommandSerializer<?> arraySerializer; //The array serializer
-    private Map<String, Object> arrayChoice; //The array choice list
+	private Class<?>             arrayType; //The array type
+	private CommandSerializer<?> arraySerializer; //The array serializer
+	private Map<String, Object>  arrayChoice; //The array choice list
 
-    MethodCommandWrapper(String label, Method method, Compound compound) {
-        super(compound.label().isEmpty() ? method.getName().toLowerCase() : compound.label(), compound.aliases());
+	MethodCommandWrapper(String label, Method method, Compound compound) {
+		super(compound.label().isEmpty() ? method.getName().toLowerCase() : compound.label(), compound.aliases());
 
-        if ((method.getModifiers() & Modifier.STATIC) == 0)
-            throw new CommandException(method + " must be static");
+		if ((method.getModifiers() & Modifier.STATIC) == 0)
+			throw new CommandException(method + " must be static");
 
-        Class<?> returnType = method.getReturnType();
-        if (returnType != void.class)
-            throw new CommandException(method + " cannot return " + returnType);
+		Class<?> returnType = method.getReturnType();
+		if (returnType != void.class)
+			throw new CommandException(method + " cannot return " + returnType);
 
-        this.helpCompound = new StringJoiner(" ").add("/" + label).add(getLabel());
-        this.parametersCount = method.getParameterCount() - 1;
-        this.serializers = new TIntObjectHashMap<>();
-        this.choiceLists = new TIntObjectHashMap<>();
-        super.description = compound.description();
-        this.optStart = -1;
+		this.helpCompound = new StringJoiner(" ").add("/" + label).add(getLabel());
+		this.parametersCount = method.getParameterCount() - 1;
+		this.serializers = new TIntObjectHashMap<>();
+		this.choiceLists = new TIntObjectHashMap<>();
+		super.description = compound.description();
+		this.optStart = -1;
 
-        this.method = method;
+		this.method = method;
 
-        try {
-            serializeParameters();
-            super.help = helpCompound.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		try {
+			serializeParameters();
+			super.help = helpCompound.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void dispatch(CommandSender player, String[] args, int loc) throws ReflectiveOperationException {
-        int count = args.length - loc;
-        if ((optStart == -1 ? count < parametersCount : count < optStart) || (arrayType == null && count > parametersCount))
-            sendHelp(player);
-    }
+	@Override
+	public void dispatch(CommandSender player, String[] args, int loc) throws ReflectiveOperationException {
+		int count = args.length - loc;
+		if ((optStart == -1 ? count < parametersCount : count < optStart) || (arrayType == null && count > parametersCount))
+			sendHelp(player);
+	}
 
-    private String registerSerializer(Serial serAnnotation, int i, Class<?> type, int max) throws ReflectiveOperationException {
-        if (i == max - 1 && type.isArray()) {
-            arrayType = type.getComponentType();
+	private String registerSerializer(Serial serAnnotation, int i, Class<?> type, int max) throws ReflectiveOperationException {
+		if (i == max - 1 && type.isArray()) {
+			arrayType = type.getComponentType();
 
-            if (serAnnotation != null) {
-                arraySerializer = CommandSerializers.serializerOf(arrayType, serAnnotation.value());
-                return valueTypeOfSerializer(arraySerializer, arrayType) + "...";
-            } else if (arrayType.isEnum()) {
-                arrayChoice = CommandChoiceLists.getFromEnum(arrayType);
-                return arrayChoice.keySet().stream().collect(Collectors.joining("|")) + "...";
-            }
+			if (serAnnotation != null) {
+				arraySerializer = CommandSerializers.serializerOf(arrayType, serAnnotation.value());
+				return valueTypeOfSerializer(arraySerializer, arrayType) + "...";
+			} else if (arrayType.isEnum()) {
+				arrayChoice = CommandChoiceLists.getFromEnum(arrayType);
+				return arrayChoice.keySet().stream().collect(Collectors.joining("|")) + "...";
+			}
 
-            CommandSerializer componentSerializer = CommandSerializers.getSerializer(type);
+			CommandSerializer componentSerializer = CommandSerializers.getSerializer(type);
 
-            if (componentSerializer != null)
-                arraySerializer = componentSerializer;
+			if (componentSerializer != null)
+				arraySerializer = componentSerializer;
 
-            return valueTypeOfSerializer(arraySerializer, arrayType) + "...";
-        }
+			return valueTypeOfSerializer(arraySerializer, arrayType) + "...";
+		}
 
-        if (serAnnotation != null) {
-            CommandSerializer<?> serializer = CommandSerializers.serializerOf(type, serAnnotation.value());
-            serializers.put(i, serializer);
-            return valueTypeOfSerializer(serializer, type);
-        } else if (type != String.class) {
-            if (type.isEnum()) {
-                choiceLists.put(i, CommandChoiceLists.getFromEnum(type));
-                return type.getSimpleName();
-            }
+		if (serAnnotation != null) {
+			CommandSerializer<?> serializer = CommandSerializers.serializerOf(type, serAnnotation.value());
+			serializers.put(i, serializer);
+			return valueTypeOfSerializer(serializer, type);
+		} else if (type != String.class) {
+			if (type.isEnum()) {
+				choiceLists.put(i, CommandChoiceLists.getFromEnum(type));
+				return type.getSimpleName();
+			}
 
-            CommandSerializer serializer = CommandSerializers.getSerializer(type);
-            if (serializer != null) {
-                serializers.put(i, serializer);
-                return valueTypeOfSerializer(serializer, type);
-            }
+			CommandSerializer serializer = CommandSerializers.getSerializer(type);
+			if (serializer != null) {
+				serializers.put(i, serializer);
+				return valueTypeOfSerializer(serializer, type);
+			}
 
-            throw new CommandException("Don't know how to serialize " + type);
-        }
-        return "String";
-    }
+			throw new CommandException("Don't know how to serialize " + type);
+		}
+		return "String";
+	}
 
-    private void sendHelp(CommandSender sender) {
-        sender.sendMessage("Wrong command sintax!");
-        sender.sendMessage(" - " + help);
-        if (!super.description.isEmpty())
-            sender.sendMessage(description);
-    }
+	private void sendHelp(CommandSender sender) {
+		sender.sendMessage("Wrong command sintax!");
+		sender.sendMessage(" - " + help);
+		if (!super.description.isEmpty())
+			sender.sendMessage(description);
+	}
 
-    private void serializeParameters() throws Exception {
-        Parameter[] parameters = method.getParameters();
-        boolean optReach = false;
+	private void serializeParameters() throws Exception {
+		Parameter[] parameters = method.getParameters();
+		boolean     optReach   = false;
 
-        if (parameters.length >= 1 && !CommandSender.class.isAssignableFrom(parameters[0].getType()))
-            throw new CommandException("Command sender type " + parameters[0].getType() + " isn't an IslandsPlayer");
+		if (parameters.length >= 1 && !CommandSender.class.isAssignableFrom(parameters[0].getType()))
+			throw new CommandException("Command sender type " + parameters[0].getType() + " isn't an IslandsPlayer");
 
-        for (int i = 1; i < parameters.length; i++) {
-            Parameter param = parameters[i];
-            Class<?> type = param.getType();
-            Serial serial = type.getAnnotation(Serial.class);
-            String valueType = registerSerializer(serial, i, type, parameters.length);
-            Opt optional = param.getAnnotation(Opt.class);
+		for (int i = 1; i < parameters.length; i++) {
+			Parameter param     = parameters[i];
+			Class<?>  type      = param.getType();
+			Serial    serial    = type.getAnnotation(Serial.class);
+			String    valueType = registerSerializer(serial, i, type, parameters.length);
+			Opt       optional  = param.getAnnotation(Opt.class);
 
-            if (optional != null) {
-                helpCompound.add("<" + param.getName().toLowerCase() + (type.isArray() ? "..." : "") + ">");
-                if (!optReach) {
-                    optStart = i;
-                    optReach = true;
-                }
-                if (type.isPrimitive()) //Primitives are not nullable, so cannot be optionals
-                    throw new CommandException("Optional value(s) cannot be primitives");
+			if (optional != null) {
+				helpCompound.add("<" + param.getName().toLowerCase() + (type.isArray() ? "..." : "") + ">");
+				if (!optReach) {
+					optStart = i;
+					optReach = true;
+				}
+				if (type.isPrimitive()) //Primitives are not nullable, so cannot be optionals
+					throw new CommandException("Optional value(s) cannot be primitives");
 
-            } else if (optReach) //The value is not optional but the previous value was
-                throw new CommandException("Optional value(s) must be last value(s)");
-            else
-                helpCompound.add(param.getName().toLowerCase() + (type.isArray() ? "..." : ""));
-        }
-    }
+			} else if (optReach) //The value is not optional but the previous value was
+				throw new CommandException("Optional value(s) must be last value(s)");
+			else
+				helpCompound.add(param.getName().toLowerCase() + (type.isArray() ? "..." : ""));
+		}
+	}
 
-    private String valueTypeOfSerializer(CommandSerializer<?> serializer, Class<?> clazz) {
-        if (serializer == null)
-            return "String";
+	private String valueTypeOfSerializer(CommandSerializer<?> serializer, Class<?> clazz) {
+		if (serializer == null)
+			return "String";
 
-        String valueType = serializer.valueType();
-        if (valueType == null)
-            throw new CommandException("Cannot have a null valueType!");
-        return valueType.isEmpty() ? clazz.getSimpleName() : valueType;
-    }
+		String valueType = serializer.valueType();
+		if (valueType == null)
+			throw new CommandException("Cannot have a null valueType!");
+		return valueType.isEmpty() ? clazz.getSimpleName() : valueType;
+	}
 
 }

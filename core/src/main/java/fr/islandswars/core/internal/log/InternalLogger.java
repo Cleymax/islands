@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.islandswars.api.log.InfraLogger;
 import fr.islandswars.api.log.Log;
-
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -35,19 +34,19 @@ import java.io.PrintStream;
  */
 public class InternalLogger implements InfraLogger {
 
-    private final Gson gson;
+	private final Gson gson;
 
-    public InternalLogger() {
-        this.gson = new GsonBuilder().create();
-        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-        //Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
-        //		createCustomLog(ErrorLog.class, Level.SEVERE, throwable.getMessage()).supplyStacktrace(throwable).log();
+	public InternalLogger() {
+		this.gson = new GsonBuilder().create();
+		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+		//Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+		//		createCustomLog(ErrorLog.class, Level.SEVERE, throwable.getMessage()).supplyStacktrace(throwable).log();
 //		});
-    }
+	}
 
-    @Override
-    public void log(Log object) {
-        System.out.println(gson.toJson(object));
-    }
+	@Override
+	public void log(Log object) {
+		System.out.println(gson.toJson(object));
+	}
 
 }

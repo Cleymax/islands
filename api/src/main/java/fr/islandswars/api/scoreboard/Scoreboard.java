@@ -1,14 +1,13 @@
 package fr.islandswars.api.scoreboard;
 
 import fr.islandswars.api.player.IslandsPlayer;
-import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardScore;
-
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import javax.annotation.Nullable;
+import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardScore;
 
 /**
  * File <b>Scoreboard</b> located on fr.islandswars.api.scoreboard
@@ -38,155 +37,155 @@ import java.util.function.Supplier;
  */
 public interface Scoreboard extends ScoreboardComponent {
 
-    /**
-     * @return this objective name
-     */
-    String getObjectiveName();
+	/**
+	 * Append a new translatable line to this scoreboard
+	 *
+	 * @param path       the text path in .lang file
+	 * @param parameters global i18n parameters
+	 * @return the current scoreboard
+	 */
+	Scoreboard addGlobalI18nLine(String path, Supplier<Object[]> parameters);
 
-    /**
-     * Gets a line into the scoreboard
-     *
-     * @param line the position of the line
-     * @param <T>  instance type
-     * @return a wrapped ScoreboardLine inside an Optional
-     */
-    <T> Optional<ScoreboardLine<T>> getLine(int line);
+	/**
+	 * Append a new line to this scoreboard
+	 *
+	 * @param text the line content
+	 * @return the current scoreboard
+	 */
+	Scoreboard addLine(String text);
 
-    /**
-     * Append a new line to this scoreboard
-     *
-     * @param text the line content
-     * @return the current scoreboard
-     */
-    Scoreboard addLine(String text);
+	/**
+	 * Append a new personnal translatable line to this scoreboard
+	 *
+	 * @param path                 the text path in .lang file
+	 * @param translatableFunction a per-user object resolver
+	 * @param <T>                  instance type
+	 * @return the current scoreboard
+	 */
+	<T> Scoreboard addPersonnalI18nLine(String path, Function<T, Object[]> translatableFunction);
 
-    /**
-     * Set a line to the scoreboard
-     *
-     * @param line the line number
-     * @param text The line content
-     * @return the current scoreboard
-     */
-    Scoreboard setLine(int line, String text);
+	/**
+	 * Create this scoreboard for this player, it will use the given map to get {@link Function#apply(Object)}
+	 * parameters, according to each line generic type
+	 *
+	 * @param player                   a player to open this scoreboard
+	 * @param translatableLineInstance reference line (int id) and instance
+	 */
+	void addPlayer(IslandsPlayer player, Map<Integer, Object> translatableLineInstance);
 
-    /**
-     * Append a new translatable line to this scoreboard
-     *
-     * @param path       the text path in .lang file
-     * @param parameters global i18n parameters
-     * @return the current scoreboard
-     */
-    Scoreboard addGlobalI18nLine(String path, Supplier<Object[]> parameters);
+	/**
+	 * Create this scoreboard for this player, it will use the given map to get {@link Function#apply(Object)}
+	 * parameters, according to each line generic type
+	 *
+	 * @param player                   a player to open this scoreboard
+	 * @param translatableLineInstance reference line (int id) and instance
+	 * @param customParameters         title personnal parameters
+	 */
+	void addPlayer(IslandsPlayer player, Map<Integer, Object> translatableLineInstance, Supplier<Object[]> customParameters);
 
-    /**
-     * Set a translatable line to the scoreboard
-     *
-     * @param line       the line number
-     * @param path       the text path in .lang file
-     * @param parameters global i18n parameters
-     * @return the current scoreboard
-     */
-    Scoreboard setGlobalI18nLine(int line, String path, Supplier<Object[]> parameters);
+	/**
+	 * Gets a line into the scoreboard
+	 *
+	 * @param line the position of the line
+	 * @param <T>  instance type
+	 * @return a wrapped ScoreboardLine inside an Optional
+	 */
+	<T> Optional<ScoreboardLine<T>> getLine(int line);
 
-    /**
-     * Append a new personnal translatable line to this scoreboard
-     *
-     * @param path                 the text path in .lang file
-     * @param translatableFunction a per-user object resolver
-     * @param <T>                  instance type
-     * @return the current scoreboard
-     */
-    <T> Scoreboard addPersonnalI18nLine(String path, Function<T, Object[]> translatableFunction);
+	/**
+	 * @return this objective name
+	 */
+	String getObjectiveName();
 
-    /**
-     * Set a personnal translatable line to the scoreboard
-     *
-     * @param line                 the line number
-     * @param path                 the text path in .lang file
-     * @param translatableFunction a per-user object resolver
-     * @param <T>                  instance type
-     * @return the current scoreboard
-     */
-    <T> Scoreboard setPersonnalI18nLine(int line, String path, Function<T, Object[]> translatableFunction);
+	/**
+	 * Hide this scoreboard to the player
+	 *
+	 * @param player an IslandsPlayer to remove this scoreboard
+	 */
+	void hideToPlayer(IslandsPlayer player);
 
-    /**
-     * Remove a line from the scoreboard
-     *
-     * @param line the line number to be removed
-     * @return the current scoreboard
-     */
-    Scoreboard removeLine(int line);
+	/**
+	 * Remove a line from the scoreboard
+	 *
+	 * @param line the line number to be removed
+	 * @return the current scoreboard
+	 */
+	Scoreboard removeLine(int line);
 
-    /**
-     * Create this scoreboard for this player, it will use the given map to get {@link Function#apply(Object)}
-     * parameters, according to each line generic type
-     *
-     * @param player                   a player to open this scoreboard
-     * @param translatableLineInstance reference line (int id) and instance
-     */
-    void addPlayer(IslandsPlayer player, Map<Integer, Object> translatableLineInstance);
+	/**
+	 * Set a translatable line to the scoreboard
+	 *
+	 * @param line       the line number
+	 * @param path       the text path in .lang file
+	 * @param parameters global i18n parameters
+	 * @return the current scoreboard
+	 */
+	Scoreboard setGlobalI18nLine(int line, String path, Supplier<Object[]> parameters);
 
-    /**
-     * Create this scoreboard for this player, it will use the given map to get {@link Function#apply(Object)}
-     * parameters, according to each line generic type
-     *
-     * @param player                   a player to open this scoreboard
-     * @param translatableLineInstance reference line (int id) and instance
-     * @param customParameters         title personnal parameters
-     */
-    void addPlayer(IslandsPlayer player, Map<Integer, Object> translatableLineInstance, Supplier<Object[]> customParameters);
+	/**
+	 * Set a line to the scoreboard
+	 *
+	 * @param line the line number
+	 * @param text The line content
+	 * @return the current scoreboard
+	 */
+	Scoreboard setLine(int line, String text);
 
-    /**
-     * Hide this scoreboard to the player
-     *
-     * @param player an IslandsPlayer to remove this scoreboard
-     */
-    void hideToPlayer(IslandsPlayer player);
+	/**
+	 * Set a personnal translatable line to the scoreboard
+	 *
+	 * @param line                 the line number
+	 * @param path                 the text path in .lang file
+	 * @param translatableFunction a per-user object resolver
+	 * @param <T>                  instance type
+	 * @return the current scoreboard
+	 */
+	<T> Scoreboard setPersonnalI18nLine(int line, String path, Function<T, Object[]> translatableFunction);
 
-    /**
-     * The slot where the scoreboard will be displayed
-     */
-    enum ScoreboardSlot {
+	/**
+	 * The slot where the scoreboard will be displayed
+	 */
+	enum ScoreboardSlot {
 
-        LIST(0),
-        SIDEBAR(1),
-        BELOW_NAME(2);
+		LIST(0),
+		SIDEBAR(1),
+		BELOW_NAME(2);
 
-        private final int mode;
+		private final int mode;
 
-        ScoreboardSlot(final int mode) {
-            this.mode = mode;
-        }
+		ScoreboardSlot(final int mode) {
+			this.mode = mode;
+		}
 
-        public final int getMode() {
-            return this.mode;
-        }
+		public final int getMode() {
+			return this.mode;
+		}
 
-    }
+	}
 
-    /**
-     * The mode of the score
-     */
-    enum ScoreAction {
+	/**
+	 * The mode of the score
+	 */
+	enum ScoreAction {
 
-        CREATE_OR_CHANGE(PacketPlayOutScoreboardScore.EnumScoreboardAction.CHANGE),
-        REMOVE(PacketPlayOutScoreboardScore.EnumScoreboardAction.REMOVE);
+		CREATE_OR_CHANGE(PacketPlayOutScoreboardScore.EnumScoreboardAction.CHANGE),
+		REMOVE(PacketPlayOutScoreboardScore.EnumScoreboardAction.REMOVE);
 
-        private final PacketPlayOutScoreboardScore.EnumScoreboardAction action;
+		private final PacketPlayOutScoreboardScore.EnumScoreboardAction action;
 
-        ScoreAction(final PacketPlayOutScoreboardScore.EnumScoreboardAction action) {
-            this.action = action;
-        }
+		ScoreAction(final PacketPlayOutScoreboardScore.EnumScoreboardAction action) {
+			this.action = action;
+		}
 
-        @Nullable
-        public static ScoreAction getAction(PacketPlayOutScoreboardScore.EnumScoreboardAction eAction) {
-            return Arrays.stream(values()).filter(scoreAction -> scoreAction.action == eAction).findFirst().orElse(null);
-        }
+		@Nullable
+		public static ScoreAction getAction(PacketPlayOutScoreboardScore.EnumScoreboardAction eAction) {
+			return Arrays.stream(values()).filter(scoreAction -> scoreAction.action == eAction).findFirst().orElse(null);
+		}
 
-        public final PacketPlayOutScoreboardScore.EnumScoreboardAction getAction() {
-            return this.action;
-        }
+		public final PacketPlayOutScoreboardScore.EnumScoreboardAction getAction() {
+			return this.action;
+		}
 
-    }
+	}
 
 }

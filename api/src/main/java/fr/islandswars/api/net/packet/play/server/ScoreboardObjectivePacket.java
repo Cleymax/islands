@@ -3,12 +3,10 @@ package fr.islandswars.api.net.packet.play.server;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.scoreboard.objective.Objective.ObjectiveDisplayType;
+import java.util.Arrays;
+import javax.annotation.Nullable;
 import net.minecraft.server.v1_12_R1.IScoreboardCriteria.EnumScoreboardHealthDisplay;
 import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardObjective;
-
-import javax.annotation.Nullable;
-import java.util.Arrays;
-
 import static fr.islandswars.api.net.PacketType.Play.Server.OBJECTIVE;
 
 /**
@@ -37,71 +35,71 @@ import static fr.islandswars.api.net.PacketType.Play.Server.OBJECTIVE;
  */
 public class ScoreboardObjectivePacket extends GamePacket<PacketPlayOutScoreboardObjective> {
 
-    protected ScoreboardObjectivePacket(PacketPlayOutScoreboardObjective handle) {
-        super(handle);
-    }
+	protected ScoreboardObjectivePacket(PacketPlayOutScoreboardObjective handle) {
+		super(handle);
+	}
 
-    public String getObjectiveName() {
-        return (String) getHandleValue("a");
-    }
+	public String getDisplayName() {
+		return (String) getHandleValue("b");
+	}
 
-    public void setObjectiveName(String objectiveName) {
-        setHandleValue("a", objectiveName);
-    }
+	public ObjectiveDisplayType getDisplayType() {
+		return ObjectiveDisplayType.getHealthDisplay(((EnumScoreboardHealthDisplay) getHandleValue("c")).a());
+	}
 
-    public String getDisplayName() {
-        return (String) getHandleValue("b");
-    }
+	@Nullable
+	public ObjectiveMode getMode() {
+		return ObjectiveMode.getFromInt((int) getHandleValue("d"));
+	}
 
-    public void setDisplayName(String displayName) {
-        setHandleValue("b", displayName);
-    }
+	public String getObjectiveName() {
+		return (String) getHandleValue("a");
+	}
 
-    public ObjectiveDisplayType getDisplayType() {
-        return ObjectiveDisplayType.getHealthDisplay(((EnumScoreboardHealthDisplay) getHandleValue("c")).a());
-    }
+	@Override
+	public PacketType getType() {
+		return OBJECTIVE;
+	}
 
-    public void setDisplayType(ObjectiveDisplayType objectiveDisplayType) {
-        setHandleValue("c", EnumScoreboardHealthDisplay.a(objectiveDisplayType.getDisplay()));
-    }
+	public void setDisplayName(String displayName) {
+		setHandleValue("b", displayName);
+	}
 
-    @Nullable
-    public ObjectiveMode getMode() {
-        return ObjectiveMode.getFromInt((int) getHandleValue("d"));
-    }
+	public void setDisplayType(ObjectiveDisplayType objectiveDisplayType) {
+		setHandleValue("c", EnumScoreboardHealthDisplay.a(objectiveDisplayType.getDisplay()));
+	}
 
-    public void setMode(ObjectiveMode mode) {
-        setHandleValue("d", mode.getMode());
-    }
+	public void setMode(ObjectiveMode mode) {
+		setHandleValue("d", mode.getMode());
+	}
 
-    @Override
-    public PacketType getType() {
-        return OBJECTIVE;
-    }
+	public void setObjectiveName(String objectiveName) {
+		setHandleValue("a", objectiveName);
+	}
 
-    /**
-     * The mode of the scoreboard (when the client receive the packet, what action it have to do)
-     */
-    public enum ObjectiveMode {
+	/**
+	 * The mode of the scoreboard (when the client receive the packet, what action it have to do)
+	 */
+	public enum ObjectiveMode {
 
-        CREATE(0),
-        REMOVE(1),
-        UPDATE(2);
+		CREATE(0),
+		REMOVE(1),
+		UPDATE(2);
 
-        private final int mode;
+		private final int mode;
 
-        ObjectiveMode(final int mode) {
-            this.mode = mode;
-        }
+		ObjectiveMode(final int mode) {
+			this.mode = mode;
+		}
 
-        @Nullable
-        public static ObjectiveMode getFromInt(int mode) {
-            return Arrays.stream(values()).filter(objectiveMode -> objectiveMode.mode == mode).findFirst().orElse(null);
-        }
+		@Nullable
+		public static ObjectiveMode getFromInt(int mode) {
+			return Arrays.stream(values()).filter(objectiveMode -> objectiveMode.mode == mode).findFirst().orElse(null);
+		}
 
-        public final int getMode() {
-            return this.mode;
-        }
-    }
+		public final int getMode() {
+			return this.mode;
+		}
+	}
 
 }

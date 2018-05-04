@@ -26,8 +26,8 @@ package fr.islandswars.api.scoreboard;
  */
 public enum Action {
 
-    CREATE,
-    UPDATE,
-    REMOVE,
-    DELETE
+	CREATE,
+	UPDATE,
+	REMOVE,
+	DELETE
 }

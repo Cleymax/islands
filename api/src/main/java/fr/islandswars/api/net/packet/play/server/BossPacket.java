@@ -2,12 +2,11 @@ package fr.islandswars.api.net.packet.play.server;
 
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
+import java.util.UUID;
 import net.minecraft.server.v1_12_R1.BossBattle;
 import net.minecraft.server.v1_12_R1.IChatBaseComponent;
 import net.minecraft.server.v1_12_R1.PacketPlayOutBoss;
 import org.bukkit.craftbukkit.v1_12_R1.util.CraftChatMessage;
-
-import java.util.UUID;
 
 /**
  * File <b>BossPacket</b> located on fr.islandswars.api.net.packet.play.server
@@ -35,88 +34,88 @@ import java.util.UUID;
  */
 public class BossPacket extends GamePacket<PacketPlayOutBoss> {
 
-    protected BossPacket(PacketPlayOutBoss handle) {
-        super(handle);
-    }
+	protected BossPacket(PacketPlayOutBoss handle) {
+		super(handle);
+	}
 
-    public BossPacket(PacketPlayOutBoss.Action action, BossBattle bar) {
-        this(new PacketPlayOutBoss(action, bar));
-    }
+	public BossPacket(PacketPlayOutBoss.Action action, BossBattle bar) {
+		this(new PacketPlayOutBoss(action, bar));
+	}
 
-    public UUID getBarId() {
-        return (UUID) getHandleValue("a");
-    }
+	public PacketPlayOutBoss.Action getAction() {
+		return (PacketPlayOutBoss.Action) getHandleValue("b");
+	}
 
-    public void setBarId(UUID id) {
-        setHandleValue("a", id);
-    }
+	public BossBattle.BarColor getBarColor() {
+		return (BossBattle.BarColor) getHandleValue("e");
+	}
 
-    public PacketPlayOutBoss.Action getAction() {
-        return (PacketPlayOutBoss.Action) getHandleValue("b");
-    }
+	public float getBarHealth() {
+		return (float) getHandleValue("d");
+	}
 
-    public void setAction(PacketPlayOutBoss.Action action) {
-        setHandleValue("b", action);
-    }
+	public UUID getBarId() {
+		return (UUID) getHandleValue("a");
+	}
 
-    public IChatBaseComponent getTitle() {
-        return (IChatBaseComponent) getHandleValue("c");
-    }
+	public BossBattle.BarStyle getBarStyle() {
+		return (BossBattle.BarStyle) getHandleValue("f");
+	}
 
-    public void setTitle(String title) {
-        setHandleValue("c", CraftChatMessage.fromString(title, true)[0]);
-    }
+	public IChatBaseComponent getTitle() {
+		return (IChatBaseComponent) getHandleValue("c");
+	}
 
-    public float getBarHealth() {
-        return (float) getHandleValue("d");
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Server.BOSS;
+	}
 
-    public void setHealth(float health) {
-        setHandleValue("d", health);
-    }
+	public boolean isDarkenSky() {
+		return (boolean) getHandleValue("g");
+	}
 
-    public BossBattle.BarColor getBarColor() {
-        return (BossBattle.BarColor) getHandleValue("e");
-    }
+	public boolean isFogActive() {
+		return (boolean) getHandleValue("i");
+	}
 
-    public void setBarColor(BossBattle.BarColor color) {
-        setHandleValue("e", color);
-    }
+	public boolean isPlayingMusic() {
+		return (boolean) getHandleValue("h");
+	}
 
-    public BossBattle.BarStyle getBarStyle() {
-        return (BossBattle.BarStyle) getHandleValue("f");
-    }
+	public void setAction(PacketPlayOutBoss.Action action) {
+		setHandleValue("b", action);
+	}
 
-    public void setBarStyle(BossBattle.BarStyle style) {
-        setHandleValue("f", style);
-    }
+	public void setBarColor(BossBattle.BarColor color) {
+		setHandleValue("e", color);
+	}
 
-    public boolean isDarkenSky() {
-        return (boolean) getHandleValue("g");
-    }
+	public void setBarId(UUID id) {
+		setHandleValue("a", id);
+	}
 
-    public void setDarkenSky(boolean darkenSky) {
-        setHandleValue("g", darkenSky);
-    }
+	public void setBarStyle(BossBattle.BarStyle style) {
+		setHandleValue("f", style);
+	}
 
-    public boolean isPlayingMusic() {
-        return (boolean) getHandleValue("h");
-    }
+	public void setDarkenSky(boolean darkenSky) {
+		setHandleValue("g", darkenSky);
+	}
 
-    public void setPlayMusic(boolean playMusic) {
-        setHandleValue("h", playMusic);
-    }
+	public void setFogActive(boolean fog) {
+		setHandleValue("i", fog);
+	}
 
-    public boolean isFogActive() {
-        return (boolean) getHandleValue("i");
-    }
+	public void setHealth(float health) {
+		setHandleValue("d", health);
+	}
 
-    public void setFogActive(boolean fog) {
-        setHandleValue("i", fog);
-    }
+	public void setPlayMusic(boolean playMusic) {
+		setHandleValue("h", playMusic);
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Play.Server.BOSS;
-    }
+	public void setTitle(String title) {
+		setHandleValue("c", CraftChatMessage.fromString(title, true)[0]);
+	}
 }

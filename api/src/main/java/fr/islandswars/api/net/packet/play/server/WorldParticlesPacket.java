@@ -31,60 +31,60 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
  */
 public class WorldParticlesPacket extends GamePacket<PacketPlayOutWorldParticles> {
 
-    protected WorldParticlesPacket(PacketPlayOutWorldParticles handle) {
-        super(handle);
-    }
+	protected WorldParticlesPacket(PacketPlayOutWorldParticles handle) {
+		super(handle);
+	}
 
-    public EnumParticle getParticle() {
-        return (EnumParticle) getHandleValue("a");
-    }
+	public int getCount() {
+		return (int) getHandleValue("i");
+	}
 
-    public void setParticle(EnumParticle particle) {
-        setHandleValue("a", particle);
-    }
+	public EnumParticle getParticle() {
+		return (EnumParticle) getHandleValue("a");
+	}
 
-    public boolean useLongDistance() {
-        return (boolean) getHandleValue("j");
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Server.WORLD_PARTICLES;
+	}
 
-    public void setLongDistance(boolean value) {
-        setHandleValue("j", value);
-    }
+	public float getX() {
+		return (float) getHandleValue("b");
+	}
 
-    public int getCount() {
-        return (int) getHandleValue("i");
-    }
+	public float getY() {
+		return (float) getHandleValue("c");
+	}
 
-    public void setCount(int count) {
-        setHandleValue("i", count);
-    }
+	public float getZ() {
+		return (float) getHandleValue("d");
+	}
 
-    public float getX() {
-        return (float) getHandleValue("b");
-    }
+	public void setCount(int count) {
+		setHandleValue("i", count);
+	}
 
-    public void setX(float newX) {
-        setHandleValue("b", newX);
-    }
+	public void setLongDistance(boolean value) {
+		setHandleValue("j", value);
+	}
 
-    public float getY() {
-        return (float) getHandleValue("c");
-    }
+	public void setParticle(EnumParticle particle) {
+		setHandleValue("a", particle);
+	}
 
-    public void setY(float newY) {
-        setHandleValue("c", newY);
-    }
+	public void setX(float newX) {
+		setHandleValue("b", newX);
+	}
 
-    public float getZ() {
-        return (float) getHandleValue("d");
-    }
+	public void setY(float newY) {
+		setHandleValue("c", newY);
+	}
 
-    public void setZ(float newZ) {
-        setHandleValue("d", newZ);
-    }
+	public void setZ(float newZ) {
+		setHandleValue("d", newZ);
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Play.Server.WORLD_PARTICLES;
-    }
+	public boolean useLongDistance() {
+		return (boolean) getHandleValue("j");
+	}
 }

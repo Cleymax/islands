@@ -3,7 +3,6 @@ package fr.islandswars.api.net.packet.play.client;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.PacketPlayInEnchantItem;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.ENCHANT_ITEM;
 
 /**
@@ -32,28 +31,28 @@ import static fr.islandswars.api.net.PacketType.Play.Client.ENCHANT_ITEM;
  */
 public class EnchantItemInPacket extends GamePacket<PacketPlayInEnchantItem> {
 
-    public EnchantItemInPacket(PacketPlayInEnchantItem handle) {
-        super(handle);
-    }
+	public EnchantItemInPacket(PacketPlayInEnchantItem handle) {
+		super(handle);
+	}
 
-    public int getWindowId() {
-        return (int) getHandleValue("a");
-    }
+	public int getEnchantmentId() {
+		return (int) getHandleValue("b");
+	}
 
-    public void setWindowId(int windowId) {
-        setHandleValue("a", windowId);
-    }
+	@Override
+	public PacketType getType() {
+		return ENCHANT_ITEM;
+	}
 
-    public int getEnchantmentId() {
-        return (int) getHandleValue("b");
-    }
+	public int getWindowId() {
+		return (int) getHandleValue("a");
+	}
 
-    public void setEnchantmentId(int enchantmentId) {
-        setHandleValue("b", enchantmentId);
-    }
+	public void setEnchantmentId(int enchantmentId) {
+		setHandleValue("b", enchantmentId);
+	}
 
-    @Override
-    public PacketType getType() {
-        return ENCHANT_ITEM;
-    }
+	public void setWindowId(int windowId) {
+		setHandleValue("a", windowId);
+	}
 }

@@ -4,12 +4,10 @@ import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.scoreboard.team.Team.CollisionRule;
 import fr.islandswars.api.scoreboard.team.Team.NameTagVisibility;
-import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardTeam;
-
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
-
+import javax.annotation.Nullable;
+import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardTeam;
 import static fr.islandswars.api.net.PacketType.Play.Server.TEAM;
 
 /**
@@ -38,138 +36,138 @@ import static fr.islandswars.api.net.PacketType.Play.Server.TEAM;
  */
 public class ScoreboardTeamPacket extends GamePacket<PacketPlayOutScoreboardTeam> {
 
-    private int option = 0;
+	private int option = 0;
 
-    protected ScoreboardTeamPacket(PacketPlayOutScoreboardTeam handle) {
-        super(handle);
-    }
+	protected ScoreboardTeamPacket(PacketPlayOutScoreboardTeam handle) {
+		super(handle);
+	}
 
-    public String getTeamName() {
-        return (String) getHandleValue("a");
-    }
+	public void allowFriendlyFire() {
+		option |= 0b01;
+		setHandleValue("j", (int) getHandleValue("j") | 0b01);
+	}
 
-    public void setTeamName(String name) {
-        setHandleValue("a", name);
-    }
+	public boolean canSeeFriendlyInvisible() {
+		return ((int) getHandleValue("j") & 0b10) != 0;
+	}
 
-    public String getDisplayName() {
-        return (String) getHandleValue("b");
-    }
+	public int getChatColor(int chatColor) {
+		return (int) getHandleValue("g");
+	}
 
-    public void setDisplayName(String displayName) {
-        setHandleValue("b", displayName);
-    }
+	@Nullable
+	public CollisionRule getCollisionRule() {
+		return CollisionRule.getCollisionRule((String) getHandleValue("f"));
+	}
 
-    public String getPrefix() {
-        return (String) getHandleValue("c");
-    }
+	public String getDisplayName() {
+		return (String) getHandleValue("b");
+	}
 
-    public void setPrefix(String prefix) {
-        setHandleValue("c", prefix);
-    }
+	@Nullable
+	public TeamMode getMode() {
+		return TeamMode.getTeamMode((int) getHandleValue("i"));
+	}
 
-    public String getSuffix() {
-        return (String) getHandleValue("d");
-    }
+	@Nullable
+	public NameTagVisibility getNameTagVisibility() {
+		return NameTagVisibility.getNameTagVisibility((String) getHandleValue("e"));
+	}
 
-    public void setSuffix(String suffix) {
-        setHandleValue("d", suffix);
-    }
+	@SuppressWarnings("unchecked")
+	public Collection<String> getPlayers() {
+		return (Collection<String>) getHandleValue("h");
+	}
 
-    @Nullable
-    public NameTagVisibility getNameTagVisibility() {
-        return NameTagVisibility.getNameTagVisibility((String) getHandleValue("e"));
-    }
+	public String getPrefix() {
+		return (String) getHandleValue("c");
+	}
 
-    public void setNameTagVisibility(NameTagVisibility nameTagVisibility) {
-        setHandleValue("e", nameTagVisibility.getNameTagVisibility());
-    }
+	public String getSuffix() {
+		return (String) getHandleValue("d");
+	}
 
-    @Nullable
-    public CollisionRule getCollisionRule() {
-        return CollisionRule.getCollisionRule((String) getHandleValue("f"));
-    }
+	public String getTeamName() {
+		return (String) getHandleValue("a");
+	}
 
-    public void setCollisionRule(CollisionRule collisionRule) {
-        setHandleValue("f", collisionRule.getCollisionRule());
-    }
+	@Override
+	public PacketType getType() {
+		return TEAM;
+	}
 
-    /**
-     * -1 by default
-     *
-     * @param chatColor the chatColor
-     */
-    public void setChatColor(int chatColor) {
-        setHandleValue("g", chatColor);
-    }
+	public boolean hasAllowedFriendlyFire() {
+		return ((int) getHandleValue("j") & 0b01) != 0;
+	}
 
-    public int getChatColor(int chatColor) {
-        return (int) getHandleValue("g");
-    }
+	public void setCanSeeFriendlyInvisible() {
+		option |= 0b10;
+		setHandleValue("j", option);
+	}
 
-    @SuppressWarnings("unchecked")
-    public Collection<String> getPlayers() {
-        return (Collection<String>) getHandleValue("h");
-    }
+	/**
+	 * -1 by default
+	 *
+	 * @param chatColor the chatColor
+	 */
+	public void setChatColor(int chatColor) {
+		setHandleValue("g", chatColor);
+	}
 
-    public void setPlayers(Collection<String> players) {
-        setHandleValue("h", players);
-    }
+	public void setCollisionRule(CollisionRule collisionRule) {
+		setHandleValue("f", collisionRule.getCollisionRule());
+	}
 
-    @Nullable
-    public TeamMode getMode() {
-        return TeamMode.getTeamMode((int) getHandleValue("i"));
-    }
+	public void setDisplayName(String displayName) {
+		setHandleValue("b", displayName);
+	}
 
-    public void setMode(TeamMode mode) {
-        setHandleValue("i", mode.mode);
-    }
+	public void setMode(TeamMode mode) {
+		setHandleValue("i", mode.mode);
+	}
 
-    public void allowFriendlyFire() {
-        option |= 0b01;
-        setHandleValue("j", (int) getHandleValue("j") | 0b01);
-    }
+	public void setNameTagVisibility(NameTagVisibility nameTagVisibility) {
+		setHandleValue("e", nameTagVisibility.getNameTagVisibility());
+	}
 
-    public void setCanSeeFriendlyInvisible() {
-        option |= 0b10;
-        setHandleValue("j", option);
-    }
+	public void setPlayers(Collection<String> players) {
+		setHandleValue("h", players);
+	}
 
-    public boolean hasAllowedFriendlyFire() {
-        return ((int) getHandleValue("j") & 0b01) != 0;
-    }
+	public void setPrefix(String prefix) {
+		setHandleValue("c", prefix);
+	}
 
-    public boolean canSeeFriendlyInvisible() {
-        return ((int) getHandleValue("j") & 0b10) != 0;
-    }
+	public void setSuffix(String suffix) {
+		setHandleValue("d", suffix);
+	}
 
-    @Override
-    public PacketType getType() {
-        return TEAM;
-    }
+	public void setTeamName(String name) {
+		setHandleValue("a", name);
+	}
 
-    /**
-     * The mode of the team (when the client receive the packet, what action it have to do)
-     */
-    public enum TeamMode {
+	/**
+	 * The mode of the team (when the client receive the packet, what action it have to do)
+	 */
+	public enum TeamMode {
 
-        CREATE(0),
-        REMOVE(1),
-        UPDATE(2),
-        ADD_PLAYER(3),
-        REMOVE_PLAYER(4);
+		CREATE(0),
+		REMOVE(1),
+		UPDATE(2),
+		ADD_PLAYER(3),
+		REMOVE_PLAYER(4);
 
-        private final int mode;
+		private final int mode;
 
-        TeamMode(final int mode) {
-            this.mode = mode;
-        }
+		TeamMode(final int mode) {
+			this.mode = mode;
+		}
 
-        @Nullable
-        public static TeamMode getTeamMode(int mode) {
-            return Arrays.stream(values()).filter(teamMode -> teamMode.mode == mode).findFirst().orElse(null);
-        }
+		@Nullable
+		public static TeamMode getTeamMode(int mode) {
+			return Arrays.stream(values()).filter(teamMode -> teamMode.mode == mode).findFirst().orElse(null);
+		}
 
-    }
+	}
 
 }

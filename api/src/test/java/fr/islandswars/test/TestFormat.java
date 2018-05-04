@@ -1,9 +1,8 @@
 package fr.islandswars.test;
 
+import java.util.function.Supplier;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.function.Supplier;
 
 /**
  * File <b>TestFormat</b> located on fr.islandswars.test
@@ -30,17 +29,17 @@ import java.util.function.Supplier;
  */
 public class TestFormat {
 
-    @Test
-    public void testDecimalFormat() {
-        Assert.assertEquals("hub-1", String.format("hub-%d", 1));
-    }
+	@Test
+	public void someTest() {
+		Supplier<Object[]> defaultParameters = () -> new Object[]{"test"};
+		Assert.assertEquals("test", String.format("test", defaultParameters.get()));
 
-    @Test
-    public void someTest() {
-        Supplier<Object[]> defaultParameters = () -> new Object[]{"test"};
-        Assert.assertEquals("test", String.format("test", defaultParameters.get()));
+		defaultParameters = () -> new Object[0];
+		Assert.assertEquals("test", String.format("test", defaultParameters.get()));
+	}
 
-        defaultParameters = () -> new Object[0];
-        Assert.assertEquals("test", String.format("test", defaultParameters.get()));
-    }
+	@Test
+	public void testDecimalFormat() {
+		Assert.assertEquals("hub-1", String.format("hub-%d", 1));
+	}
 }

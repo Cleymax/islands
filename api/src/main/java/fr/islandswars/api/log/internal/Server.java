@@ -29,12 +29,12 @@ import fr.islandswars.api.server.ServerType;
  */
 public class Server {
 
-    @SerializedName("server-type")
-    private String serverType;
-    private String status;
+	@SerializedName("server-type")
+	private String serverType;
+	private String status;
 
-    public Server(Status status, ServerType type) {
-        this.status = status.toString();
-        this.serverType = type.getTypeName();
-    }
+	public Server(Status status, ServerType type) {
+		this.status = status.toString();
+		this.serverType = type.getTypeName();
+	}
 }

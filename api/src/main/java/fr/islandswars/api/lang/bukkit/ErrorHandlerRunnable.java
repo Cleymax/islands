@@ -29,20 +29,20 @@ import fr.islandswars.api.utils.ErrorHandler;
  */
 public class ErrorHandlerRunnable implements Runnable {
 
-    private final Runnable owner;
-    private final ErrorHandler handler;
+	private final Runnable     owner;
+	private final ErrorHandler handler;
 
-    public ErrorHandlerRunnable(Runnable owner, ErrorHandler handler) {
-        this.owner = owner;
-        this.handler = handler;
-    }
+	public ErrorHandlerRunnable(Runnable owner, ErrorHandler handler) {
+		this.owner = owner;
+		this.handler = handler;
+	}
 
-    @Override
-    public void run() {
-        try {
-            owner.run();
-        } catch (Throwable t) {
-            handler.handle(t);
-        }
-    }
+	@Override
+	public void run() {
+		try {
+			owner.run();
+		} catch (Throwable t) {
+			handler.handle(t);
+		}
+	}
 }

@@ -30,137 +30,137 @@ import org.bukkit.Material;
  */
 public class ItemType {
 
-    private final NBTTagCompound tag;
+	private final NBTTagCompound tag;
 
-    private ItemType(NBTTagCompound compound) {
-        this.tag = compound;
-    }
+	private ItemType(NBTTagCompound compound) {
+		this.tag = compound;
+	}
 
-    /**
-     * Build an item
-     *
-     * @param material item material
-     */
-    public ItemType(Material material) {
-        Preconditions.checkNotNull(material);
+	/**
+	 * Build an item
+	 *
+	 * @param material item material
+	 */
+	public ItemType(Material material) {
+		Preconditions.checkNotNull(material);
 
-        tag = new NBTTagCompound();
-        writeMaterial(material);
-        writeAmount(1);
-    }
+		tag = new NBTTagCompound();
+		writeMaterial(material);
+		writeAmount(1);
+	}
 
-    /**
-     * Build an item
-     *
-     * @param material item material
-     * @param data     material data (such as color)
-     */
-    public ItemType(Material material, byte data) {
-        Preconditions.checkNotNull(material);
-        Preconditions.checkState(data, ref -> ref > 0);
+	/**
+	 * Build an item
+	 *
+	 * @param material item material
+	 * @param data     material data (such as color)
+	 */
+	public ItemType(Material material, byte data) {
+		Preconditions.checkNotNull(material);
+		Preconditions.checkState(data, ref -> ref > 0);
 
-        tag = new NBTTagCompound();
-        writeMaterial(material);
-        writeData(data);
-        writeAmount(1);
-    }
+		tag = new NBTTagCompound();
+		writeMaterial(material);
+		writeData(data);
+		writeAmount(1);
+	}
 
-    /**
-     * Build an item
-     *
-     * @param material item material
-     * @param amount   the stack size [1;128[
-     * @param data     material data (such as color)
-     */
-    public ItemType(Material material, int amount, short data) {
-        Preconditions.checkNotNull(material);
-        Preconditions.checkState(data, ref -> ref > 0);
-        Preconditions.checkState(amount, ref -> ref >= 1 && ref <= 128);
+	/**
+	 * Build an item
+	 *
+	 * @param material item material
+	 * @param amount   the stack size [1;128[
+	 * @param data     material data (such as color)
+	 */
+	public ItemType(Material material, int amount, short data) {
+		Preconditions.checkNotNull(material);
+		Preconditions.checkState(data, ref -> ref > 0);
+		Preconditions.checkState(amount, ref -> ref >= 1 && ref <= 128);
 
-        tag = new NBTTagCompound();
-        writeMaterial(material);
-        if (amount > 0 && amount < 128)
-            writeAmount(amount);
-        else
-            writeAmount(1);
-        writeData(data);
-    }
+		tag = new NBTTagCompound();
+		writeMaterial(material);
+		if (amount > 0 && amount < 128)
+			writeAmount(amount);
+		else
+			writeAmount(1);
+		writeData(data);
+	}
 
-    /**
-     * Get this item's stack size stored in a {@link NBTTagCompound tag}
-     *
-     * @return item count (stack size)
-     */
-    public int getAmount() {
-        return tag.getByte("Count");
-    }
+	@Override
+	public ItemType clone() throws CloneNotSupportedException {
+		return new ItemType((NBTTagCompound) tag.clone());
+	}
 
-    /**
-     * @return a compound representing this item
-     */
-    public NBTTagCompound getCompound() {
-        return tag;
-    }
+	/**
+	 * Get this item's stack size stored in a {@link NBTTagCompound tag}
+	 *
+	 * @return item count (stack size)
+	 */
+	public int getAmount() {
+		return tag.getByte("Count");
+	}
 
-    /**
-     * Get this item's data stored in a {@link NBTTagCompound tag}
-     *
-     * @return item data (or durability)
-     */
-    public short getData() {
-        return tag.getShort("Damage");
-    }
+	/**
+	 * @return a compound representing this item
+	 */
+	public NBTTagCompound getCompound() {
+		return tag;
+	}
 
-    /**
-     * Get this item's material stored in a {@link NBTTagCompound tag}
-     *
-     * @return a bukkit Material
-     */
-    public Material getMaterial() {
-        return Material.getMaterial(Integer.valueOf(tag.getString("id")));
-    }
+	/**
+	 * Get this item's data stored in a {@link NBTTagCompound tag}
+	 *
+	 * @return item data (or durability)
+	 */
+	public short getData() {
+		return tag.getShort("Damage");
+	}
 
-    /**
-     * Set the given amount
-     *
-     * @param amount this item stack size
-     * @return this builder item
-     */
-    public ItemType writeAmount(int amount) {
-        Preconditions.checkState(amount, ref -> ref >= 1 && ref <= 128);
+	/**
+	 * Get this item's material stored in a {@link NBTTagCompound tag}
+	 *
+	 * @return a bukkit Material
+	 */
+	public Material getMaterial() {
+		return Material.getMaterial(Integer.valueOf(tag.getString("id")));
+	}
 
-        tag.setByte("Count", (byte) amount);
-        return this;
-    }
+	/**
+	 * Set the given amount
+	 *
+	 * @param amount this item stack size
+	 * @return this builder item
+	 */
+	public ItemType writeAmount(int amount) {
+		Preconditions.checkState(amount, ref -> ref >= 1 && ref <= 128);
 
-    /**
-     * Set the given data
-     *
-     * @param durability this item data
-     * @return this builder item
-     */
-    public ItemType writeData(short durability) {
-        Preconditions.checkState(durability, ref -> ref > 0);
+		tag.setByte("Count", (byte) amount);
+		return this;
+	}
 
-        tag.setShort("Damage", durability);
-        return this;
-    }
+	/**
+	 * Set the given data
+	 *
+	 * @param durability this item data
+	 * @return this builder item
+	 */
+	public ItemType writeData(short durability) {
+		Preconditions.checkState(durability, ref -> ref > 0);
 
-    /**
-     * Set the given material
-     *
-     * @param material this item material
-     * @return this builder item
-     */
-    public ItemType writeMaterial(Material material) {
-        Preconditions.checkNotNull(material);
+		tag.setShort("Damage", durability);
+		return this;
+	}
 
-        tag.setString("id", String.valueOf(material.getId()));
-        return this;
-    }
+	/**
+	 * Set the given material
+	 *
+	 * @param material this item material
+	 * @return this builder item
+	 */
+	public ItemType writeMaterial(Material material) {
+		Preconditions.checkNotNull(material);
 
-    @Override
-    public ItemType clone() throws CloneNotSupportedException {
-        return new ItemType((NBTTagCompound) tag.clone());
-    }
+		tag.setString("id", String.valueOf(material.getId()));
+		return this;
+	}
 }

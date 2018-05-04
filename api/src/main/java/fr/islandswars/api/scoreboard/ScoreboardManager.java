@@ -32,27 +32,27 @@ import fr.islandswars.api.scoreboard.team.TeamManager;
  */
 public interface ScoreboardManager {
 
-    /**
-     * Interface to register and instantiates objective
-     *
-     * @return an abstract nms layer to easily deal with objective packets
-     */
-    ObjectiveManager getObjectiveManager();
+	/**
+	 * Create a scoreboard
+	 *
+	 * @param name           the unique name of the scoreboard
+	 * @param scoreboardSlot The slot where will be displayed the scoreboard
+	 * @return a Bukkit wrapped scoreboard
+	 */
+	Scoreboard createScoreboard(String name, ScoreboardSlot scoreboardSlot);
 
-    /**
-     * Interface to register and instantiates teams
-     *
-     * @return an abstract nms layer to easily deal with team packet
-     */
-    TeamManager getTeamManager();
+	/**
+	 * Interface to register and instantiates objective
+	 *
+	 * @return an abstract nms layer to easily deal with objective packets
+	 */
+	ObjectiveManager getObjectiveManager();
 
-    /**
-     * Create a scoreboard
-     *
-     * @param name           the unique name of the scoreboard
-     * @param scoreboardSlot The slot where will be displayed the scoreboard
-     * @return a Bukkit wrapped scoreboard
-     */
-    Scoreboard createScoreboard(String name, ScoreboardSlot scoreboardSlot);
+	/**
+	 * Interface to register and instantiates teams
+	 *
+	 * @return an abstract nms layer to easily deal with team packet
+	 */
+	TeamManager getTeamManager();
 
 }

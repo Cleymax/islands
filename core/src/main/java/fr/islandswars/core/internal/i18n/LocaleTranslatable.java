@@ -29,25 +29,25 @@ import fr.islandswars.api.i18n.Translatable;
  */
 public class LocaleTranslatable implements Translatable {
 
-    private static final Locale DEFAULT = Locale.FRENCH;
-    private final TranslatableLoader loader;
+	private static final Locale DEFAULT = Locale.FRENCH;
+	private final TranslatableLoader loader;
 
-    public LocaleTranslatable() {
-        this.loader = new TranslatableLoader();
-    }
+	public LocaleTranslatable() {
+		this.loader = new TranslatableLoader();
+	}
 
-    @Override
-    public String format(String key, Object... parameters) {
-        return String.format(loader.values.get(DEFAULT).getOrDefault(key, key), parameters);
-    }
+	@Override
+	public String format(String key, Object... parameters) {
+		return String.format(loader.values.get(DEFAULT).getOrDefault(key, key), parameters);
+	}
 
-    @Override
-    public String format(Locale locale, String key, Object... parameters) {
-        return String.format(loader.values.get(locale).getOrDefault(key, key), parameters);
-    }
+	@Override
+	public String format(Locale locale, String key, Object... parameters) {
+		return String.format(loader.values.get(locale).getOrDefault(key, key), parameters);
+	}
 
-    public TranslatableLoader getLoader() {
-        return loader;
-    }
+	public TranslatableLoader getLoader() {
+		return loader;
+	}
 }
 

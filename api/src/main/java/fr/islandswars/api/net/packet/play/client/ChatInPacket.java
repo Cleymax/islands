@@ -30,21 +30,21 @@ import net.minecraft.server.v1_12_R1.PacketPlayInChat;
  */
 public class ChatInPacket extends GamePacket<PacketPlayInChat> {
 
-    public ChatInPacket(PacketPlayInChat handle) {
-        super(handle);
-    }
+	public ChatInPacket(PacketPlayInChat handle) {
+		super(handle);
+	}
 
-    public String getMessage() {
-        return handle.a();
-    }
+	public String getMessage() {
+		return handle.a();
+	}
 
-    public void setMessage(String message) {
-        setHandleValue("a", message);
-    }
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Client.CHAT;
+	}
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Play.Client.CHAT;
-    }
+	public void setMessage(String message) {
+		setHandleValue("a", message);
+	}
 
 }

@@ -27,6 +27,6 @@ package fr.islandswars.api.utils;
 @FunctionalInterface
 public interface ErrorHandler {
 
-    void handle(Throwable t);
+	void handle(Throwable t);
 
 }

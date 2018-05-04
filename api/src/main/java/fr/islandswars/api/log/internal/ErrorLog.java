@@ -1,7 +1,6 @@
 package fr.islandswars.api.log.internal;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.logging.Level;
 
 /**
@@ -30,15 +29,15 @@ import java.util.logging.Level;
  */
 public class ErrorLog extends DefaultLog {
 
-    @SerializedName("stack-trace")
-    private StackTraceElement[] stackTrace;
+	@SerializedName("stack-trace")
+	private StackTraceElement[] stackTrace;
 
-    public ErrorLog(Level level, String msg) {
-        super(level, msg);
-    }
+	public ErrorLog(Level level, String msg) {
+		super(level, msg);
+	}
 
-    public ErrorLog supplyStacktrace(Throwable throwable) {
-        this.stackTrace = throwable.getStackTrace();
-        return this;
-    }
+	public ErrorLog supplyStacktrace(Throwable throwable) {
+		this.stackTrace = throwable.getStackTrace();
+		return this;
+	}
 }

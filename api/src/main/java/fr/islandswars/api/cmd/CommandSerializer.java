@@ -31,28 +31,28 @@ import java.util.List;
  */
 public interface CommandSerializer<T> {
 
-    /**
-     * Get tab completes for this serializers.
-     * <p>
-     * Warning: These tab complete must be sorted.
-     *
-     * @return the tab completes for this serializers
-     */
-    default List<String> getAllTabCompletes() {
-        return null;
-    }
+	/**
+	 * Get tab completes for this serializers.
+	 * <p>
+	 * Warning: These tab complete must be sorted.
+	 *
+	 * @return the tab completes for this serializers
+	 */
+	default List<String> getAllTabCompletes() {
+		return null;
+	}
 
-    /**
-     * @param arg the argument to serialize
-     * @return the serialized argument
-     * @throws ReflectiveOperationException thrown if illegal syntax is found
-     */
-    T serialize(String arg) throws ReflectiveOperationException;
+	/**
+	 * @param arg the argument to serialize
+	 * @return the serialized argument
+	 * @throws ReflectiveOperationException thrown if illegal syntax is found
+	 */
+	T serialize(String arg) throws ReflectiveOperationException;
 
-    /**
-     * Get the label type of the serializer.
-     *
-     * @return the label type of the serializer
-     */
-    String valueType();
+	/**
+	 * Get the label type of the serializer.
+	 *
+	 * @return the label type of the serializer
+	 */
+	String valueType();
 }

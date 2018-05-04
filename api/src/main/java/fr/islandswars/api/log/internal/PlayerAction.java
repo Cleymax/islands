@@ -30,12 +30,12 @@ import java.util.UUID;
  */
 class PlayerAction {
 
-    private final String name, action;
-    private final UUID uuid;
+	private final String name, action;
+	private final UUID uuid;
 
-    PlayerAction(String name, Action action, UUID id) {
-        this.name = name;
-        this.action = action.toString();
-        this.uuid = id;
-    }
+	PlayerAction(String name, Action action, UUID id) {
+		this.name = name;
+		this.action = action.toString();
+		this.uuid = id;
+	}
 }

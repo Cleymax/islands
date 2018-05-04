@@ -35,160 +35,160 @@ import org.bukkit.inventory.ItemFlag;
  */
 public class PropertiesWrapper implements ItemProperties {
 
-    private ItemType properties;
-    private boolean playerSkullItem;
+	private ItemType properties;
+	private boolean  playerSkullItem;
 
-    PropertiesWrapper(ItemType properties) {
-        this.playerSkullItem = false;
-        this.properties = properties;
-        getTag();
-    }
+	PropertiesWrapper(ItemType properties) {
+		this.playerSkullItem = false;
+		this.properties = properties;
+		getTag();
+	}
 
-    @Override
-    public ItemProperties addEnchantment(Enchantment enchantment, int level) {
-        NBTTagCompound tag = getTag();
+	@Override
+	public ItemProperties addEnchantment(Enchantment enchantment, int level) {
+		NBTTagCompound tag = getTag();
 
-        if (!tag.hasKeyOfType("ench", 9))
-            tag.set("ench", new NBTTagList());
+		if (!tag.hasKeyOfType("ench", 9))
+			tag.set("ench", new NBTTagList());
 
-        NBTTagList nbttaglist = tag.getList("ench", 10);
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
-        nbttagcompound.setShort("id", (short) enchantment.getId());
-        nbttagcompound.setShort("lvl", (short) level);
-        nbttaglist.add(nbttagcompound);
-        return this;
-    }
+		NBTTagList     nbttaglist     = tag.getList("ench", 10);
+		NBTTagCompound nbttagcompound = new NBTTagCompound();
+		nbttagcompound.setShort("id", (short) enchantment.getId());
+		nbttagcompound.setShort("lvl", (short) level);
+		nbttaglist.add(nbttagcompound);
+		return this;
+	}
 
-    @Override
-    public ItemProperties addItemFlags(ItemFlag... flags) {
-        NBTTagCompound tag = getTag();
+	@Override
+	public ItemProperties addItemFlags(ItemFlag... flags) {
+		NBTTagCompound tag = getTag();
 
-        if (!tag.hasKeyOfType("HideFlags", 3))
-            tag.setInt("HideFlags", 0);
+		if (!tag.hasKeyOfType("HideFlags", 3))
+			tag.setInt("HideFlags", 0);
 
-        int hideFlag = tag.getInt("HideFlags");
-        for (ItemFlag flag : flags) {
-            hideFlag |= this.getBitModifier(flag);
-            properties.getCompound().setInt("HideFlags", hideFlag);
-        }
+		int hideFlag = tag.getInt("HideFlags");
+		for (ItemFlag flag : flags) {
+			hideFlag |= this.getBitModifier(flag);
+			properties.getCompound().setInt("HideFlags", hideFlag);
+		}
 
-        return this;
-    }
+		return this;
+	}
 
-    @Override
-    public ItemProperties addNBTTag(String key, NBTBase nbtTag) {
-        getTag().set(key, nbtTag);
-        return this;
-    }
+	@Override
+	public ItemProperties addNBTTag(String key, NBTBase nbtTag) {
+		getTag().set(key, nbtTag);
+		return this;
+	}
 
-    @Override
-    public int getAmount() {
-        return properties.getAmount();
-    }
+	@Override
+	public int getAmount() {
+		return properties.getAmount();
+	}
 
-    @Override
-    public short getDurability() {
-        return properties.getData();
-    }
+	@Override
+	public short getDurability() {
+		return properties.getData();
+	}
 
-    @Override
-    public Material getMaterial() {
-        return properties.getMaterial();
-    }
+	@Override
+	public Material getMaterial() {
+		return properties.getMaterial();
+	}
 
-    @Override
-    public ItemProperties setAmount(int amount) {
-        if (amount < 1 || amount > 128)
-            return this;
-        properties.writeAmount(amount);
-        return this;
-    }
+	@Override
+	public ItemProperties setAmount(int amount) {
+		if (amount < 1 || amount > 128)
+			return this;
+		properties.writeAmount(amount);
+		return this;
+	}
 
-    @Override
-    public ItemProperties setDurability(short durability) {
-        properties.writeData(durability);
-        return this;
-    }
+	@Override
+	public ItemProperties setDurability(short durability) {
+		properties.writeData(durability);
+		return this;
+	}
 
-    @Override
-    public ItemProperties setGlowing(boolean value) {
-        NBTTagCompound tag = getTag();
-        if (value) {
-            if (!tag.hasKeyOfType("ench", 9))
-                tag.set("ench", new NBTTagList());
+	@Override
+	public ItemProperties setGlowing(boolean value) {
+		NBTTagCompound tag = getTag();
+		if (value) {
+			if (!tag.hasKeyOfType("ench", 9))
+				tag.set("ench", new NBTTagList());
 
-            NBTTagList ench = tag.getList("ench", 10);
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
-            nbttagcompound.setShort("id", (short) 250);
-            nbttagcompound.setShort("lvl", (short) 1);
-            ench.add(nbttagcompound);
-        } else {
-            if (tag.hasKeyOfType("ench", 9)) {
-                NBTTagList ench = tag.getList("ench", 10);
-                for (int i = 0; i < ench.size(); i++)
-                    if (ench.get(i).getShort("id") == 250)
-                        ench.remove(i);
-            }
-        }
+			NBTTagList     ench           = tag.getList("ench", 10);
+			NBTTagCompound nbttagcompound = new NBTTagCompound();
+			nbttagcompound.setShort("id", (short) 250);
+			nbttagcompound.setShort("lvl", (short) 1);
+			ench.add(nbttagcompound);
+		} else {
+			if (tag.hasKeyOfType("ench", 9)) {
+				NBTTagList ench = tag.getList("ench", 10);
+				for (int i = 0; i < ench.size(); i++)
+					if (ench.get(i).getShort("id") == 250)
+						ench.remove(i);
+			}
+		}
 
-        return this;
-    }
+		return this;
+	}
 
-    @Override
-    public ItemProperties setMaterial(Material material) {
-        properties.writeMaterial(material);
-        if (properties.getAmount() < 1 || properties.getAmount() > 128)
-            setAmount(1);
-        return this;
-    }
+	@Override
+	public ItemProperties setMaterial(Material material) {
+		properties.writeMaterial(material);
+		if (properties.getAmount() < 1 || properties.getAmount() > 128)
+			setAmount(1);
+		return this;
+	}
 
-    @Override
-    public ItemProperties setUnbreakable(boolean value) {
-        String key = "Unbreakable";
+	@Override
+	public ItemProperties setUnbreakable(boolean value) {
+		String key = "Unbreakable";
 
-        if (value)
-            getTag().setBoolean(key, true);
-        else
-            getTag().remove(key);
+		if (value)
+			getTag().setBoolean(key, true);
+		else
+			getTag().remove(key);
 
-        return this;
-    }
+		return this;
+	}
 
-    @Override
-    public ItemProperties usePlayerHead() {
-        this.playerSkullItem = true;
-        return this;
-    }
+	@Override
+	public ItemProperties usePlayerHead() {
+		this.playerSkullItem = true;
+		return this;
+	}
 
-    @Override
-    public ItemProperties clone() {
-        try {
-            return new PropertiesWrapper(properties.clone());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+	@Override
+	public ItemProperties clone() {
+		try {
+			return new PropertiesWrapper(properties.clone());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
-    public boolean isPlayerSkullItem() {
-        return this.playerSkullItem;
-    }
+	public boolean isPlayerSkullItem() {
+		return this.playerSkullItem;
+	}
 
-    private byte getBitModifier(ItemFlag hideFlag) {
-        return (byte) (1 << hideFlag.ordinal());
-    }
+	private byte getBitModifier(ItemFlag hideFlag) {
+		return (byte) (1 << hideFlag.ordinal());
+	}
 
-    private NBTTagCompound getTag() {
-        if (!properties.getCompound().hasKey("tag"))
-            properties.getCompound().set("tag", new NBTTagCompound());
-        return properties.getCompound().getCompound("tag");
-    }
+	private NBTTagCompound getTag() {
+		if (!properties.getCompound().hasKey("tag"))
+			properties.getCompound().set("tag", new NBTTagCompound());
+		return properties.getCompound().getCompound("tag");
+	}
 
-    /**
-     * @return this item compound
-     */
-    NBTTagCompound getCompound() {
-        return properties.getCompound();
-    }
+	/**
+	 * @return this item compound
+	 */
+	NBTTagCompound getCompound() {
+		return properties.getCompound();
+	}
 }
 

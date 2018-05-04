@@ -2,11 +2,9 @@ package fr.islandswars.api.net.packet.play.client;
 
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
+import javax.annotation.Nullable;
 import net.minecraft.server.v1_12_R1.BlockPosition;
 import net.minecraft.server.v1_12_R1.PacketPlayInTabComplete;
-
-import javax.annotation.Nullable;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.TAB_COMPLETE;
 
 /**
@@ -35,37 +33,37 @@ import static fr.islandswars.api.net.PacketType.Play.Client.TAB_COMPLETE;
  */
 public class TabCompleteInPacket extends GamePacket<PacketPlayInTabComplete> {
 
-    protected TabCompleteInPacket(PacketPlayInTabComplete handle) {
-        super(handle);
-    }
+	protected TabCompleteInPacket(PacketPlayInTabComplete handle) {
+		super(handle);
+	}
 
-    public String getStartedCommand() {
-        return (String) getHandleValue("a");
-    }
+	@Nullable
+	public BlockPosition getBlockPosition() {
+		return (BlockPosition) getHandleValue("c");
+	}
 
-    public void setStartedCommand(String startedCommand) {
-        setHandleValue("a", startedCommand);
-    }
+	public String getStartedCommand() {
+		return (String) getHandleValue("a");
+	}
 
-    public boolean isCommand() {
-        return (boolean) getHandleValue("b");
-    }
+	@Override
+	public PacketType getType() {
+		return TAB_COMPLETE;
+	}
 
-    public void setCommand(boolean command) {
-        setHandleValue("b", command);
-    }
+	public boolean isCommand() {
+		return (boolean) getHandleValue("b");
+	}
 
-    @Nullable
-    public BlockPosition getBlockPosition() {
-        return (BlockPosition) getHandleValue("c");
-    }
+	public void setBlockPosition(BlockPosition position) {
+		setHandleValue("c", position);
+	}
 
-    public void setBlockPosition(BlockPosition position) {
-        setHandleValue("c", position);
-    }
+	public void setCommand(boolean command) {
+		setHandleValue("b", command);
+	}
 
-    @Override
-    public PacketType getType() {
-        return TAB_COMPLETE;
-    }
+	public void setStartedCommand(String startedCommand) {
+		setHandleValue("a", startedCommand);
+	}
 }

@@ -14,6 +14,13 @@ import fr.islandswars.api.storage.Storage;
 import fr.islandswars.api.utils.Preconditions;
 import fr.islandswars.core.bukkit.bossbar.InternalBar;
 import fr.islandswars.core.bukkit.storage.AbstractStorage;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Supplier;
+import java.util.logging.Level;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;
@@ -22,14 +29,6 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.InventoryWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Supplier;
-import java.util.logging.Level;
 
 /**
  * File <b>InternalPlayer</b> located on fr.islandswars.core.player
@@ -57,170 +56,170 @@ import java.util.logging.Level;
  */
 public class InternalPlayer implements IslandsPlayer {
 
-    private final CraftPlayer player;
-    private final transient CopyOnWriteArrayList<Bar> bars;
-    private final transient List<BarSequence> barSequences;
+	private final           CraftPlayer               player;
+	private final transient CopyOnWriteArrayList<Bar> bars;
+	private final transient List<BarSequence>         barSequences;
 
-    private Locale locale = Locale.FRENCH; //TODO debug purpose
+	private Locale locale = Locale.FRENCH; //TODO debug purpose
 
 
-    public InternalPlayer(Player player) {
-        this.barSequences = new ArrayList<>();
-        this.player = (CraftPlayer) player;
-        this.bars = new CopyOnWriteArrayList<>();
+	public InternalPlayer(Player player) {
+		this.barSequences = new ArrayList<>();
+		this.player = (CraftPlayer) player;
+		this.bars = new CopyOnWriteArrayList<>();
 
-    }
+	}
 
-    @Override
-    public void disconnect() {
-        getDisplayedBars().forEach(this::hideBar);
-    }
+	@Override
+	public void disconnect() {
+		getDisplayedBars().forEach(this::hideBar);
+	}
 
-    @Override
-    public void displayBar(Bar bar) {
-        Preconditions.checkNotNull(bar);
+	@Override
+	public void displayBar(Bar bar) {
+		Preconditions.checkNotNull(bar);
 
-        InternalBar internalBar = (InternalBar) bar;
-        if (bar.getViewers().noneMatch(p -> p.equals(this))) {
-            bars.add(bar);
-            internalBar.addPlayer(this);
-        }
-    }
+		InternalBar internalBar = (InternalBar) bar;
+		if (bar.getViewers().noneMatch(p -> p.equals(this))) {
+			bars.add(bar);
+			internalBar.addPlayer(this);
+		}
+	}
 
-    @Override
-    public void displaySequence(BarSequence sequence) {
-        Preconditions.checkNotNull(sequence);
+	@Override
+	public void displaySequence(BarSequence sequence) {
+		Preconditions.checkNotNull(sequence);
 
-        barSequences.add(sequence);
-        //TODO code
-    }
+		barSequences.add(sequence);
+		//TODO code
+	}
 
-    @Override
-    public void displaybar(Bar bar, Supplier<Object[]> i18nParameters) {
-        Preconditions.checkNotNull(bar);
-        Preconditions.checkNotNull(i18nParameters);
+	@Override
+	public void displaybar(Bar bar, Supplier<Object[]> i18nParameters) {
+		Preconditions.checkNotNull(bar);
+		Preconditions.checkNotNull(i18nParameters);
 
-        InternalBar internalBar = (InternalBar) bar;
-        if (bar.getViewers().noneMatch(p -> p.equals(this))) {
-            bars.add(bar);
-            internalBar.supplyI18nParameters(this, i18nParameters);
-            internalBar.addPlayer(this);
-        }
-    }
+		InternalBar internalBar = (InternalBar) bar;
+		if (bar.getViewers().noneMatch(p -> p.equals(this))) {
+			bars.add(bar);
+			internalBar.supplyI18nParameters(this, i18nParameters);
+			internalBar.addPlayer(this);
+		}
+	}
 
-    @Override
-    public List<IslandsRank> getAllRanks() {
-        return null;
-    }
+	@Override
+	public List<IslandsRank> getAllRanks() {
+		return null;
+	}
 
-    @Override
-    public CraftPlayer getCraftPlayer() {
-        return player;
-    }
+	@Override
+	public CraftPlayer getCraftPlayer() {
+		return player;
+	}
 
-    @Override
-    public Optional<Scoreboard> getCurrentScoreboard() {
-        return Optional.empty();
-    }
+	@Override
+	public Optional<Scoreboard> getCurrentScoreboard() {
+		return Optional.empty();
+	}
 
-    @Override
-    public List<Bar> getDisplayedBars() {
-        return bars;
-    }
+	@Override
+	public List<Bar> getDisplayedBars() {
+		return bars;
+	}
 
-    @Override
-    public IslandsRank getDisplayedRank() {
-        return null;
-    }
+	@Override
+	public IslandsRank getDisplayedRank() {
+		return null;
+	}
 
-    @Override
-    public UUID getPlayerID() {
-        return player.getUniqueId();
-    }
+	@Override
+	public UUID getPlayerID() {
+		return player.getUniqueId();
+	}
 
-    @Override
-    public Locale getPlayerLocale() {
-        return locale;
-    }
+	@Override
+	public Locale getPlayerLocale() {
+		return locale;
+	}
 
-    @Override
-    public PlayerStorage getPlayerStorage() {
-        return null;
-    }
+	@Override
+	public PlayerStorage getPlayerStorage() {
+		return null;
+	}
 
-    @Override
-    public void hideBar(Bar bar) {
-        IslandsApi.getInstance().getInfraLogger().createDefaultLog(Level.INFO, "Remove player from bar");
-        Preconditions.checkNotNull(bar);
+	@Override
+	public void hideBar(Bar bar) {
+		IslandsApi.getInstance().getInfraLogger().createDefaultLog(Level.INFO, "Remove player from bar");
+		Preconditions.checkNotNull(bar);
 
-        InternalBar internalBar = (InternalBar) bar;
-        if (bar.getViewers().anyMatch(p -> p.equals(this))) {
-            bars.remove(bar);
-            internalBar.removePlayer(this);
-        }
-    }
+		InternalBar internalBar = (InternalBar) bar;
+		if (bar.getViewers().anyMatch(p -> p.equals(this))) {
+			bars.remove(bar);
+			internalBar.removePlayer(this);
+		}
+	}
 
-    @Override
-    public void hideCurrentScoreboard() {
+	@Override
+	public void hideCurrentScoreboard() {
 
-    }
+	}
 
-    @Override
-    public void hideSequence(BarSequence sequence) {
-        Preconditions.checkNotNull(sequence);
+	@Override
+	public void hideSequence(BarSequence sequence) {
+		Preconditions.checkNotNull(sequence);
 
-        barSequences.remove(sequence);
-    }
+		barSequences.remove(sequence);
+	}
 
-    @Override
-    public void openStorage(Storage storage) {
-        EntityPlayer entityPlayer = (EntityPlayer) getCraftPlayer().getHandle();
-        Inventory inventory = ((AbstractStorage) storage).getHandle(this);
-        InventoryType type = inventory.getType();
-        Container formerContainer = getCraftPlayer().getHandle().activeContainer;
-        IInventory iinventory = inventory instanceof CraftInventory ? ((CraftInventory) inventory).getInventory() : new InventoryWrapper(inventory);
-        Container container = CraftEventFactory.callInventoryOpenEvent(entityPlayer, new ContainerChest(entityPlayer.inventory, iinventory, entityPlayer));
+	@Override
+	public void openStorage(Storage storage) {
+		EntityPlayer  entityPlayer    = (EntityPlayer) getCraftPlayer().getHandle();
+		Inventory     inventory       = ((AbstractStorage) storage).getHandle(this);
+		InventoryType type            = inventory.getType();
+		Container     formerContainer = getCraftPlayer().getHandle().activeContainer;
+		IInventory    iinventory      = inventory instanceof CraftInventory ? ((CraftInventory) inventory).getInventory() : new InventoryWrapper(inventory);
+		Container     container       = CraftEventFactory.callInventoryOpenEvent(entityPlayer, new ContainerChest(entityPlayer.inventory, iinventory, entityPlayer));
 
-        if (container == null)
-            return;
+		if (container == null)
+			return;
 
-        if (entityPlayer.activeContainer != entityPlayer.defaultContainer)
-            entityPlayer.closeInventory();
+		if (entityPlayer.activeContainer != entityPlayer.defaultContainer)
+			entityPlayer.closeInventory();
 
-        int containerCounter = entityPlayer.nextContainerCounter();
-        String title = locale.format(inventory.getTitle());
-        PacketPlayOutOpenWindow packet = new PacketPlayOutOpenWindow(containerCounter, "minecraft:container", IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}"), inventory.getSize());
-        new OpenWindowPacket(packet).sendToPlayer(getCraftPlayer());
+		int                     containerCounter = entityPlayer.nextContainerCounter();
+		String                  title            = locale.format(inventory.getTitle());
+		PacketPlayOutOpenWindow packet           = new PacketPlayOutOpenWindow(containerCounter, "minecraft:container", IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}"), inventory.getSize());
+		new OpenWindowPacket(packet).sendToPlayer(getCraftPlayer());
 
-        entityPlayer.activeContainer = container;
-        entityPlayer.activeContainer.windowId = containerCounter;
-        entityPlayer.activeContainer.addSlotListener(entityPlayer);
-    }
+		entityPlayer.activeContainer = container;
+		entityPlayer.activeContainer.windowId = containerCounter;
+		entityPlayer.activeContainer.addSlotListener(entityPlayer);
+	}
 
-    @Override
-    public void sendToHub() {
-        try {
-            IslandsApi.getInstance().getServiceManager().getRabbitService().publishToAnOpenQueue(new StringBuffer("hub|").append(player.getUniqueId()), "funicular");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	@Override
+	public void sendToHub() {
+		try {
+			IslandsApi.getInstance().getServiceManager().getRabbitService().publishToAnOpenQueue(new StringBuffer("hub|").append(player.getUniqueId()), "funicular");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    }
+	}
 
-    @Override
-    public void sendTranslatedMessage(ChatType type, String key, Object... parameters) {
-        Preconditions.checkNotNull(key);
+	@Override
+	public void sendTranslatedMessage(ChatType type, String key, Object... parameters) {
+		Preconditions.checkNotNull(key);
 
-        switch (type) {
-            case CHAT:
-                player.sendMessage(locale.format(key, parameters));
-                break;
-            case SUBTITLE:
-                sendTranslatedTitle(null, null, key, parameters);
-                break;
-            case TITLE:
-                sendTranslatedTitle(key, parameters, null);
-                break;
-        }
-    }
+		switch (type) {
+			case CHAT:
+				player.sendMessage(locale.format(key, parameters));
+				break;
+			case SUBTITLE:
+				sendTranslatedTitle(null, null, key, parameters);
+				break;
+			case TITLE:
+				sendTranslatedTitle(key, parameters, null);
+				break;
+		}
+	}
 }

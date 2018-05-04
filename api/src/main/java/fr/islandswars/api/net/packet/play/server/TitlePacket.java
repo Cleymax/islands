@@ -32,63 +32,63 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
  */
 public class TitlePacket extends GamePacket<PacketPlayOutTitle> {
 
-    protected TitlePacket(PacketPlayOutTitle handle) {
-        super(handle);
-    }
+	protected TitlePacket(PacketPlayOutTitle handle) {
+		super(handle);
+	}
 
-    public TitlePacket(String message, PacketPlayOutTitle.EnumTitleAction action, int fadeIn, int stay, int fadeOut) {
-        super(new PacketPlayOutTitle(action, IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}"), fadeIn, stay, fadeOut));
-    }
+	public TitlePacket(String message, PacketPlayOutTitle.EnumTitleAction action, int fadeIn, int stay, int fadeOut) {
+		super(new PacketPlayOutTitle(action, IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}"), fadeIn, stay, fadeOut));
+	}
 
-    public PacketPlayOutTitle.EnumTitleAction getAction() {
-        return (PacketPlayOutTitle.EnumTitleAction) getHandleValue("a");
-    }
+	public PacketPlayOutTitle.EnumTitleAction getAction() {
+		return (PacketPlayOutTitle.EnumTitleAction) getHandleValue("a");
+	}
 
-    public void setAction(PacketPlayOutTitle.EnumTitleAction action) {
-        setHandleValue("a", action);
-    }
+	public int getFadeIn() {
+		return (int) getHandleValue("c");
+	}
 
-    public IChatBaseComponent getMessage() {
-        return (IChatBaseComponent) getHandleValue("b");
-    }
+	public int getFadeOut() {
+		return (int) getHandleValue("e");
+	}
 
-    public void setMessage(String message) {
-        IChatBaseComponent chat = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
-        setHandleValue("b", chat);
-    }
+	public IChatBaseComponent getMessage() {
+		return (IChatBaseComponent) getHandleValue("b");
+	}
 
-    public int getFadeIn() {
-        return (int) getHandleValue("c");
-    }
+	public int getStay() {
+		return (int) getHandleValue("d");
+	}
 
-    public void setFadeIn(int fadeIn) {
-        Preconditions.checkState(fadeIn, ref -> ref > 0);
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Server.TITLE;
+	}
 
-        setHandleValue("c", fadeIn);
-    }
+	public void setAction(PacketPlayOutTitle.EnumTitleAction action) {
+		setHandleValue("a", action);
+	}
 
-    public int getStay() {
-        return (int) getHandleValue("d");
-    }
+	public void setFadeIn(int fadeIn) {
+		Preconditions.checkState(fadeIn, ref -> ref > 0);
 
-    public void setStay(int stay) {
-        Preconditions.checkState(stay, ref -> ref > 0);
+		setHandleValue("c", fadeIn);
+	}
 
-        setHandleValue("d", stay);
-    }
+	public void setFadeOut(int fadeOut) {
+		Preconditions.checkState(fadeOut, ref -> ref > 0);
 
-    public int getFadeOut() {
-        return (int) getHandleValue("e");
-    }
+		setHandleValue("e", fadeOut);
+	}
 
-    public void setFadeOut(int fadeOut) {
-        Preconditions.checkState(fadeOut, ref -> ref > 0);
+	public void setMessage(String message) {
+		IChatBaseComponent chat = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
+		setHandleValue("b", chat);
+	}
 
-        setHandleValue("e", fadeOut);
-    }
+	public void setStay(int stay) {
+		Preconditions.checkState(stay, ref -> ref > 0);
 
-    @Override
-    public PacketType getType() {
-        return PacketType.Play.Server.TITLE;
-    }
+		setHandleValue("d", stay);
+	}
 }
