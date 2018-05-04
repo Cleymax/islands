@@ -28,7 +28,7 @@ package fr.islandswars.api.storage;
  */
 public enum StorageType {
 
-	PERSONNAL,
+	PERSONAL,
 	GLOBAL;
 
 }
