@@ -1,13 +1,11 @@
 package fr.islandswars.core.internal.listener.net;
 
-import fr.islandswars.api.i18n.Locale;
 import fr.islandswars.api.net.PacketEvent;
 import fr.islandswars.api.net.PacketHandler;
 import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.net.packet.play.server.SetSlotPacket;
 import fr.islandswars.core.IslandsCore;
 import fr.islandswars.core.bukkit.storage.StorageFactory;
-import net.minecraft.server.v1_12_R1.ItemStack;
 
 /**
  * File <b>SetSlotHandler</b> located on fr.islandswars.core.internal.listener.net
@@ -44,9 +42,9 @@ public class SetSlotHandler extends PacketHandler<SetSlotPacket> {
 
 	@Override
 	public void handlePacket(PacketEvent<SetSlotPacket> event) {
-		ItemStack item   = event.getPacket().getItemStack();
-		Locale    locale = event.getPlayer().getPlayerLocale();
-		if (!item.hasTag() || !item.getTag().hasKeyOfType("id", 3))
+		var item   = event.getPacket().getItemStack();
+		var locale = event.getPlayer().getPlayerLocale();
+		if (item == null || !item.hasTag() || !item.getTag().hasKeyOfType("id", 3))
 			return;
 		storageManager.translateItem(item, event.getPlayer());
 	}

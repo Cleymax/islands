@@ -85,20 +85,20 @@ public class BukkitCommandInjector implements CommandManager {
 		Command command = commandClass.getAnnotation(Command.class);
 
 		if (command != null) {
-			String          label   = getlabel(command, commandClass);
+			var             label   = getLabel(command, commandClass);
 			LabelDispatcher wrapper = new CommandWrapper(commandClass, command);
 			register(wrapper);
 		}
 	}
 
-	private String getlabel(Command command, Class<?> commandClass) {
+	private String getLabel(Command command, Class<?> commandClass) {
 		if (command.label().isEmpty())
 			return commandClass.getSimpleName().toLowerCase();
 		else return command.label().toLowerCase();
 	}
 
 	private void register(LabelDispatcher wrapper) {
-		PluginCommand command = PLUGIN_COMMAND_CONSTRUCTOR.newInstance(wrapper.getLabel(), IslandsApi.getInstance());
+		var command = PLUGIN_COMMAND_CONSTRUCTOR.newInstance(wrapper.getLabel(), IslandsApi.getInstance());
 		command.setAliases(Arrays.asList(wrapper.getAliases()));
 		command.setExecutor(COMMAND_EXECUTOR);
 		//command.setTabCompleter(null);

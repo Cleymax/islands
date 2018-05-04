@@ -772,8 +772,8 @@ public class NMSReflectionUtil {
 					&& (!search.isInterface() || method.isDefault())) //Default methods in interfaces are fine
 				return method;
 
-		var superClass = search.getSuperclass();
-		Class[]  interfaces = search.getInterfaces();
+		var     superClass = search.getSuperclass();
+		Class[] interfaces = search.getInterfaces();
 
 		for (var interf : interfaces)
 			findMethod(interf, name, argsType); //Find default methods in interfaces

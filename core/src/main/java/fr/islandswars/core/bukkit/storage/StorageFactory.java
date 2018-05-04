@@ -10,7 +10,6 @@ import fr.islandswars.api.storage.StorageManager;
 import fr.islandswars.api.storage.StorageType;
 import fr.islandswars.api.utils.Preconditions;
 import fr.islandswars.core.bukkit.item.InternalItem;
-import fr.islandswars.core.bukkit.item.ParametersSuppliers;
 import fr.islandswars.core.bukkit.item.PropertiesWrapper;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -59,11 +58,11 @@ public class StorageFactory implements StorageManager {
 		if (builder.getType() == StorageType.GLOBAL)
 			storage = new GlobalStorage(builder.getSize(), builder.getName());
 		else
-			storage = new PersonnalStorage(builder.getSize(), builder.getName());
+			storage = new PersonalStorage(builder.getSize(), builder.getName());
 
 		try {
 			builder.getPattern().ifPresent(key -> {
-				for (int i = 0; i < key.length(); i++) {
+				for (var i = 0; i < key.length(); i++) {
 					char c = key.charAt(i);
 					if (c != ' ' && c != 'X')
 						storage.setItem(i, builder.getPatternKey().get(c), null);
@@ -80,7 +79,7 @@ public class StorageFactory implements StorageManager {
 	public Optional<Item> getItem(org.bukkit.inventory.ItemStack bukkitItem) {
 		Preconditions.checkNotNull(bukkitItem);
 
-		ItemStack nmsCopy = CraftItemStack.asNMSCopy(bukkitItem);
+		var nmsCopy = CraftItemStack.asNMSCopy(bukkitItem);
 
 		if (nmsCopy == null || !nmsCopy.hasTag() || !nmsCopy.getTag().hasKeyOfType("id", 3))
 			return Optional.empty();
@@ -97,10 +96,10 @@ public class StorageFactory implements StorageManager {
 	}
 
 	public void translateItem(ItemStack item, IslandsPlayer player) {
-		InternalItem                  internalItem = (InternalItem) getItem(item);
-		Locale                        locale       = player.getPlayerLocale();
-		NBTTagCompound                display      = new NBTTagCompound();
-		Optional<ParametersSuppliers> parameters   = internalItem.getSuppliers(player.getCraftPlayer().getUniqueId());
+		InternalItem   internalItem = (InternalItem) getItem(item);
+		Locale         locale       = player.getPlayerLocale();
+		NBTTagCompound display      = new NBTTagCompound();
+		var            parameters   = internalItem.getSuppliers(player.getCraftPlayer().getUniqueId());
 
 		if (internalItem.getNameTranslationKey() != null) {
 			String nameKey = internalItem.getNameTranslationKey();
@@ -113,14 +112,14 @@ public class StorageFactory implements StorageManager {
 		if (internalItem.getLoreTranslationKey() != null) {
 			String     loreKey  = internalItem.getLoreTranslationKey();
 			NBTTagList loreList = new NBTTagList();
-			String     lore     = null;
+			String     lore;
 			if (parameters.isPresent() && parameters.get().loreSupplier != null) {
 				Object[] params = parameters.get().loreSupplier.get();
 				lore = locale.format(loreKey, params);
 			} else
 				lore = locale.format(loreKey);
 			String[] loreParts = lore.split("\n");
-			for (String line : loreParts)
+			for (var line : loreParts)
 				loreList.add(new NBTTagString(line));
 			display.set("Lore", loreList);
 		}

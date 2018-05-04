@@ -111,7 +111,7 @@ public class InternalItem implements Item {
 	}
 
 	@Override
-	public Item personnalLoreParameters(Supplier<Object[]> loreSupplier, UUID id) {
+	public Item personalLoreParameters(Supplier<Object[]> loreSupplier, UUID id) {
 		suppliers.compute(id, (key, params) -> {
 			if (params == null) {
 				ParametersSuppliers parameterSuppliers = new ParametersSuppliers();
@@ -126,7 +126,7 @@ public class InternalItem implements Item {
 	}
 
 	@Override
-	public Item personnalNameParameters(Supplier<Object[]> nameSupplier, UUID id) {
+	public Item personalNameParameters(Supplier<Object[]> nameSupplier, UUID id) {
 		suppliers.compute(id, (key, params) -> {
 			if (params == null) {
 				ParametersSuppliers parameterSuppliers = new ParametersSuppliers();

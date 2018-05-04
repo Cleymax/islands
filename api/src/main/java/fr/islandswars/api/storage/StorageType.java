@@ -23,7 +23,7 @@ package fr.islandswars.api.storage;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 27/04/2018 at 14:25
  * @since 0.2.9
- *
+ * <p>
  * Storage strategy
  */
 public enum StorageType {

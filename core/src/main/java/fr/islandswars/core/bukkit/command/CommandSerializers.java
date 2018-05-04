@@ -51,19 +51,19 @@ public class CommandSerializers {
 	/* ----------------------------- */
 	/* ---- DEFAULT SERIALIZERS ---- */
 	/* ----------------------------- */
-	static final CommandSerializer<Boolean> BOOLEAN = new ConstantTabCompleteCommandSerializer<>(
+	static final CommandSerializer<Boolean>   BOOLEAN   = new ConstantTabCompleteCommandSerializer<>(
 			Boolean::valueOf,
 			"boolean",
 			Arrays.asList("false", "true")
 	);
-	static final CommandSerializer<Byte>    BYTE    = new NoTabCommandSerializer<>(Byte::valueOf, "byte");
+	static final CommandSerializer<Byte>      BYTE      = new NoTabCommandSerializer<>(Byte::valueOf, "byte");
 	// Primitives
-	static final CommandSerializer<Short>         SHORT          = new NoTabCommandSerializer<>(Short::valueOf, "short");
-	static final CommandSerializer<Integer>       INTEGER        = new NoTabCommandSerializer<>(Integer::valueOf, "int");
-	static final CommandSerializer<Long>          LONG           = new NoTabCommandSerializer<>(Long::valueOf, "long");
-	static final CommandSerializer<Float>         FLOAT          = new NoTabCommandSerializer<>(Float::valueOf, "float");
-	static final CommandSerializer<Double>        DOUBLE         = new NoTabCommandSerializer<>(Double::valueOf, "double");
-	static final CommandSerializer<Character>     CHARACTER      = new NoTabCommandSerializer<>(str -> str.charAt(0), "char");
+	static final CommandSerializer<Short>     SHORT     = new NoTabCommandSerializer<>(Short::valueOf, "short");
+	static final CommandSerializer<Integer>   INTEGER   = new NoTabCommandSerializer<>(Integer::valueOf, "int");
+	static final CommandSerializer<Long>      LONG      = new NoTabCommandSerializer<>(Long::valueOf, "long");
+	static final CommandSerializer<Float>     FLOAT     = new NoTabCommandSerializer<>(Float::valueOf, "float");
+	static final CommandSerializer<Double>    DOUBLE    = new NoTabCommandSerializer<>(Double::valueOf, "double");
+	static final CommandSerializer<Character> CHARACTER = new NoTabCommandSerializer<>(str -> str.charAt(0), "char");
 
 	// Others
 	static final CommandSerializer<Player>        PLAYER         = new CommandSerializerImpl<>(
@@ -169,7 +169,7 @@ public class CommandSerializers {
 	 * @throws SerializationException if the player was not found
 	 */
 	private static Player getPlayer(String str) throws SerializationException {
-		Player player = Bukkit.getPlayerExact(str);
+		var player = Bukkit.getPlayerExact(str);
 		if (player == null)
 			throw new SerializationException("Cannot find player \"" + str + '"');
 		return player;

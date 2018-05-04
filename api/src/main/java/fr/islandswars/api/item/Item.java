@@ -81,22 +81,22 @@ public interface Item {
 	Item onClick(BiConsumer<IslandsPlayer, Cancellable> event);
 
 	/**
-	 * Set a personnal lore supplier for the given uuid
+	 * Set a personal lore supplier for the given uuid
 	 *
 	 * @param loreSupplier a i18n Object[] supplier
 	 * @param id           supplier's target
 	 * @return this item instance
 	 */
-	Item personnalLoreParameters(Supplier<Object[]> loreSupplier, UUID id);
+	Item personalLoreParameters(Supplier<Object[]> loreSupplier, UUID id);
 
 	/**
-	 * Set a personnal name supplier for the given uuid
+	 * Set a personal name supplier for the given uuid
 	 *
 	 * @param nameSupplier a i18n Object[] supplier
 	 * @param id           supplier's target
 	 * @return this item instance
 	 */
-	Item personnalNameParameters(Supplier<Object[]> nameSupplier, UUID id);
+	Item personalNameParameters(Supplier<Object[]> nameSupplier, UUID id);
 
 	/**
 	 * @return this item wrapped in nms item
