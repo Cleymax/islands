@@ -82,7 +82,7 @@ public class InternalItem implements Item {
 	}
 
 	@Override
-	public ItemProperties getproperties() {
+	public ItemProperties getProperties() {
 		return properties;
 	}
 
@@ -163,7 +163,7 @@ public class InternalItem implements Item {
 		return this;
 	}
 
-	public PropertiesWrapper getProperties() {
+	public PropertiesWrapper getPropertiesWrapper() {
 		return properties;
 	}
 

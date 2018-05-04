@@ -54,7 +54,7 @@ public interface Item {
 	/**
 	 * @return this item's properties
 	 */
-	ItemProperties getproperties();
+	ItemProperties getProperties();
 
 	/**
 	 * Set a lore supplier for every viewers of this item
