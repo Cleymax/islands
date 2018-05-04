@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -68,21 +69,21 @@ public class PlayerListener extends LazyListener {
         }), null);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onConnect(PlayerJoinEvent event) {
         Player p = event.getPlayer();
         ((IslandsCore) api).addPlayer(p);
         api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + p.getName() + " joined the game.").setPlayer(p, Action.CONNECT).log();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event) {
         IslandsPlayer player = getFromPlayer(event.getPlayer());
         ((IslandsCore) api).removePlayer(player);
         api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + player.getCraftPlayer().getName() + " leaved the game.").setPlayer(player, Action.LEAVE).log();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onSneak(PlayerToggleSneakEvent event) {
         getFromPlayer(event.getPlayer()).openStorage(storage);
     }
