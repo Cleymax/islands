@@ -50,6 +50,12 @@ artifactory {
 
 }
 
+javadoc {
+    doFirst {
+        options.addStringOption('html5', '')
+    }
+}
+
 task sourceJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
