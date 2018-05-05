@@ -52,7 +52,12 @@ artifactory {
 
 javadoc {
     doFirst {
-        options.addStringOption('html5', '')
+        options.setWindowTitle('IslandsWars - Core')
+        options.setDocTitle('IslandsWars - Core')
+        options.setUse(true)
+        options.setVersion(true)
+        options.setAuthor(true)
+        options.addBooleanOption('html5', true)
     }
 }
 
