@@ -33,7 +33,6 @@ deploy:
     branch:
       - master
       - develop
-      - java-10
 
 # Disable build on documentation's branch
 branches:
