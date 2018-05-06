@@ -39,32 +39,32 @@ public class SetSlotPacket extends GamePacket<PacketPlayOutSetSlot> {
 		super(new PacketPlayOutSetSlot(windowID, slot, itemStack));
 	}
 
-	public void setWindowID(int windowID) {
-		setHandleValue("a", windowID);
-	}
-
-	public int getWindowID() {
-		return (int) getHandleValue("a");
-	}
-
-	public void setSlot(int slot) {
-		setHandleValue("b", slot);
+	public ItemStack getItemStack() {
+		return (ItemStack) getHandleValue("c");
 	}
 
 	public int getSlot() {
 		return (int) getHandleValue("b");
 	}
 
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Server.SET_SLOT;
+	}
+
+	public int getWindowID() {
+		return (int) getHandleValue("a");
+	}
+
 	public void setItemStack(ItemStack itemStack) {
 		setHandleValue("c", itemStack);
 	}
 
-	public ItemStack getItemStack() {
-		return (ItemStack) getHandleValue("c");
+	public void setSlot(int slot) {
+		setHandleValue("b", slot);
 	}
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Server.SET_SLOT;
+	public void setWindowID(int windowID) {
+		setHandleValue("a", windowID);
 	}
 }

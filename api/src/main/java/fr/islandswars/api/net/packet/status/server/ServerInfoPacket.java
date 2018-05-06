@@ -44,12 +44,12 @@ public class ServerInfoPacket extends GamePacket<PacketStatusOutServerInfo> {
 		return wrapper;
 	}
 
-	public void setResponse(ServerPingWrapper wrapper) {
-		setHandleValue("b", wrapper.getNMS());
-	}
-
 	@Override
 	public PacketType getType() {
 		return PacketType.Status.Server.SERVER_INFO;
+	}
+
+	public void setResponse(ServerPingWrapper wrapper) {
+		setHandleValue("b", wrapper.getNMS());
 	}
 }

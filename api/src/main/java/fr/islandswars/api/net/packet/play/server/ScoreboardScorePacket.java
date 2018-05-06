@@ -5,7 +5,6 @@ import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.scoreboard.Scoreboard.ScoreAction;
 import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardScore;
 import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardScore.EnumScoreboardAction;
-
 import static fr.islandswars.api.net.PacketType.Play.Server.SCORE;
 
 /**
@@ -38,41 +37,40 @@ public class ScoreboardScorePacket extends GamePacket<PacketPlayOutScoreboardSco
 		super(handle);
 	}
 
-	public String getName() {
-		return (String) getHandleValue("a");
-	}
-
-	public void setName(String name) {
-		setHandleValue("a", name);
-	}
-
-	public String getObjectiveName() {
-		return (String) getHandleValue("b");
-	}
-
-	public void setObjectiveName(String name) {
-		setHandleValue("b", name);
+	public ScoreAction getAction() {
+		return ScoreAction.getAction((EnumScoreboardAction) getHandleValue("d"));
 	}
 
 	public int getLineNumber() {
 		return (int) getHandleValue("c");
 	}
 
-	public void setLineNumber(int lineNumber) {
-		setHandleValue("c", lineNumber);
+	public String getName() {
+		return (String) getHandleValue("a");
 	}
 
-	public ScoreAction getAction() {
-		return ScoreAction.getAction((EnumScoreboardAction) getHandleValue("d"));
+	public String getObjectiveName() {
+		return (String) getHandleValue("b");
+	}
+
+	@Override
+	public PacketType getType() {
+		return SCORE;
 	}
 
 	public void setAction(ScoreAction action) {
 		setHandleValue("d", action.getAction());
 	}
 
+	public void setLineNumber(int lineNumber) {
+		setHandleValue("c", lineNumber);
+	}
 
-	@Override
-	public PacketType getType() {
-		return SCORE;
+	public void setName(String name) {
+		setHandleValue("a", name);
+	}
+
+	public void setObjectiveName(String name) {
+		setHandleValue("b", name);
 	}
 }

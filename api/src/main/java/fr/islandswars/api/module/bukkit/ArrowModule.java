@@ -44,8 +44,8 @@ public class ArrowModule extends Module {
 	}
 
 	@Override
-	public void onLoad() {
-
+	public void onDisable() {
+		enabled = false;
 	}
 
 	@Override
@@ -55,8 +55,8 @@ public class ArrowModule extends Module {
 	}
 
 	@Override
-	public void onDisable() {
-		enabled = false;
+	public void onLoad() {
+
 	}
 
 	@EventHandler

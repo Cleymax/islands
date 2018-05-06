@@ -67,7 +67,7 @@ public class PropertiesWrapper implements ItemProperties {
 			tag.setInt("HideFlags", 0);
 
 		int hideFlag = tag.getInt("HideFlags");
-		for (ItemFlag flag : flags) {
+		for (var flag : flags) {
 			hideFlag |= this.getBitModifier(flag);
 			properties.getCompound().setInt("HideFlags", hideFlag);
 		}
@@ -125,7 +125,7 @@ public class PropertiesWrapper implements ItemProperties {
 		} else {
 			if (tag.hasKeyOfType("ench", 9)) {
 				NBTTagList ench = tag.getList("ench", 10);
-				for (int i = 0; i < ench.size(); i++)
+				for (var i = 0; i < ench.size(); i++)
 					if (ench.get(i).getShort("id") == 250)
 						ench.remove(i);
 			}

@@ -34,72 +34,72 @@ public class FlyingInPacket extends GamePacket<PacketPlayInFlying> {
 		super(handle);
 	}
 
-	public double getX() {
-		return (double) getHandleValue("x");
+	public float getPitch() {
+		return (float) getHandleValue("pitch");
 	}
 
-	public void setX(double x) {
-		setHandleValue("x", x);
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Client.FLYING;
+	}
+
+	public double getX() {
+		return (double) getHandleValue("x");
 	}
 
 	public double getY() {
 		return (double) getHandleValue("y");
 	}
 
-	public void setY(double y) {
-		setHandleValue("y", y);
+	public float getYaw() {
+		return (float) getHandleValue("yaw");
 	}
 
 	public double getZ() {
 		return (double) getHandleValue("z");
 	}
 
-	public void setZ(double z) {
-		setHandleValue("z", z);
-	}
-
-	public float getYaw() {
-		return (float) getHandleValue("yaw");
-	}
-
-	public void setYaw(float yaw) {
-		setHandleValue("yaw", yaw);
-	}
-
-	public float getPitch() {
-		return (float) getHandleValue("pitch");
-	}
-
-	public void setPitch(float pitch) {
-		setHandleValue("pitch", pitch);
-	}
-
-	public boolean isOnGround() {
-		return (boolean) getHandleValue("f");
-	}
-
-	public void setOnGround(boolean onGround) {
-		setHandleValue("f", onGround);
+	public boolean hasLookPacket() {
+		return (boolean) getHandleValue("hasLook");
 	}
 
 	public boolean hasPositionPacket() {
 		return (boolean) getHandleValue("hasPos");
 	}
 
-	public void setHasPositionPacket(boolean hasPositionPacket) {
-		setHandleValue("hasPos", hasPositionPacket);
-	}
-
-	public boolean hasLookPacket() {
-		return (boolean) getHandleValue("hasLook");
+	public boolean isOnGround() {
+		return (boolean) getHandleValue("f");
 	}
 
 	public void setHasLookPacket(boolean hasLookPacket) {
 		setHandleValue("hasLook", hasLookPacket);
 	}
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Client.FLYING;
+	public void setHasPositionPacket(boolean hasPositionPacket) {
+		setHandleValue("hasPos", hasPositionPacket);
+	}
+
+	public void setOnGround(boolean onGround) {
+		setHandleValue("f", onGround);
+	}
+
+	public void setPitch(float pitch) {
+		setHandleValue("pitch", pitch);
+	}
+
+	public void setX(double x) {
+		setHandleValue("x", x);
+	}
+
+	public void setY(double y) {
+		setHandleValue("y", y);
+	}
+
+	public void setYaw(float yaw) {
+		setHandleValue("yaw", yaw);
+	}
+
+	public void setZ(double z) {
+		setHandleValue("z", z);
 	}
 }

@@ -3,7 +3,6 @@ package fr.islandswars.api.net.packet.play.client;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.PacketPlayInKeepAlive;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.KEEP_ALIVE;
 
 /**
@@ -40,12 +39,12 @@ public class KeepAliveInPacket extends GamePacket<PacketPlayInKeepAlive> {
 		return (int) getHandleValue("a");
 	}
 
-	public void setKeepAliveId(int keepAliveId) {
-		setHandleValue("a", keepAliveId);
-	}
-
 	@Override
 	public PacketType getType() {
 		return KEEP_ALIVE;
+	}
+
+	public void setKeepAliveId(int keepAliveId) {
+		setHandleValue("a", keepAliveId);
 	}
 }

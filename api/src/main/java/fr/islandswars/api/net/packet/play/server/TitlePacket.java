@@ -44,21 +44,29 @@ public class TitlePacket extends GamePacket<PacketPlayOutTitle> {
 		return (PacketPlayOutTitle.EnumTitleAction) getHandleValue("a");
 	}
 
-	public void setAction(PacketPlayOutTitle.EnumTitleAction action) {
-		setHandleValue("a", action);
+	public int getFadeIn() {
+		return (int) getHandleValue("c");
+	}
+
+	public int getFadeOut() {
+		return (int) getHandleValue("e");
 	}
 
 	public IChatBaseComponent getMessage() {
 		return (IChatBaseComponent) getHandleValue("b");
 	}
 
-	public void setMessage(String message) {
-		IChatBaseComponent chat = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
-		setHandleValue("b", chat);
+	public int getStay() {
+		return (int) getHandleValue("d");
 	}
 
-	public int getFadeIn() {
-		return (int) getHandleValue("c");
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Server.TITLE;
+	}
+
+	public void setAction(PacketPlayOutTitle.EnumTitleAction action) {
+		setHandleValue("a", action);
 	}
 
 	public void setFadeIn(int fadeIn) {
@@ -67,28 +75,20 @@ public class TitlePacket extends GamePacket<PacketPlayOutTitle> {
 		setHandleValue("c", fadeIn);
 	}
 
-	public int getStay() {
-		return (int) getHandleValue("d");
-	}
-
-	public void setStay(int stay) {
-		Preconditions.checkState(stay, ref -> ref > 0);
-
-		setHandleValue("d", stay);
-	}
-
-	public int getFadeOut() {
-		return (int) getHandleValue("e");
-	}
-
 	public void setFadeOut(int fadeOut) {
 		Preconditions.checkState(fadeOut, ref -> ref > 0);
 
 		setHandleValue("e", fadeOut);
 	}
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Server.TITLE;
+	public void setMessage(String message) {
+		IChatBaseComponent chat = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
+		setHandleValue("b", chat);
+	}
+
+	public void setStay(int stay) {
+		Preconditions.checkState(stay, ref -> ref > 0);
+
+		setHandleValue("d", stay);
 	}
 }

@@ -3,7 +3,6 @@ package fr.islandswars.api.net.packet.play.client;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.PacketPlayInEntityAction;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.ENTITY_ACTION;
 
 /**
@@ -36,33 +35,33 @@ public class EntityActionInPacket extends GamePacket<PacketPlayInEntityAction> {
 		super(handle);
 	}
 
-	public int getEntityId() {
-		return (int) getHandleValue("a");
+	public PacketPlayInEntityAction.EnumPlayerAction getAnimation() {
+		return (PacketPlayInEntityAction.EnumPlayerAction) getHandleValue("animation");
 	}
 
-	public void setEntityId(int entityId) {
-		setHandleValue("a", entityId);
+	public int getEntityId() {
+		return (int) getHandleValue("a");
 	}
 
 	public int getHorseJumpHeight() {
 		return (int) getHandleValue("c");
 	}
 
-	public void setHorseJumpHeight(int horseJumpHeight) {
-		setHandleValue("c", horseJumpHeight);
-	}
-
-	public PacketPlayInEntityAction.EnumPlayerAction getAnimation() {
-		return (PacketPlayInEntityAction.EnumPlayerAction) getHandleValue("animation");
+	@Override
+	public PacketType getType() {
+		return ENTITY_ACTION;
 	}
 
 	public void setAnimation(PacketPlayInEntityAction.EnumPlayerAction animation) {
 		setHandleValue("animation", animation);
 	}
 
-	@Override
-	public PacketType getType() {
-		return ENTITY_ACTION;
+	public void setEntityId(int entityId) {
+		setHandleValue("a", entityId);
+	}
+
+	public void setHorseJumpHeight(int horseJumpHeight) {
+		setHandleValue("c", horseJumpHeight);
 	}
 
 }

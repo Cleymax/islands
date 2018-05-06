@@ -4,12 +4,10 @@ import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.scoreboard.team.Team.CollisionRule;
 import fr.islandswars.api.scoreboard.team.Team.NameTagVisibility;
-import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardTeam;
-
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
-
+import javax.annotation.Nullable;
+import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardTeam;
 import static fr.islandswars.api.net.PacketType.Play.Server.TEAM;
 
 /**
@@ -44,40 +42,31 @@ public class ScoreboardTeamPacket extends GamePacket<PacketPlayOutScoreboardTeam
 		super(handle);
 	}
 
-	public void setTeamName(String name) {
-		setHandleValue("a", name);
+	public void allowFriendlyFire() {
+		option |= 0b01;
+		setHandleValue("j", (int) getHandleValue("j") | 0b01);
 	}
 
-	public String getTeamName() {
-		return (String) getHandleValue("a");
+	public boolean canSeeFriendlyInvisible() {
+		return ((int) getHandleValue("j") & 0b10) != 0;
 	}
 
-	public void setDisplayName(String displayName) {
-		setHandleValue("b", displayName);
+	public int getChatColor(int chatColor) {
+		return (int) getHandleValue("g");
+	}
+
+	@Nullable
+	public CollisionRule getCollisionRule() {
+		return CollisionRule.getCollisionRule((String) getHandleValue("f"));
 	}
 
 	public String getDisplayName() {
 		return (String) getHandleValue("b");
 	}
 
-	public void setPrefix(String prefix) {
-		setHandleValue("c", prefix);
-	}
-
-	public String getPrefix() {
-		return (String) getHandleValue("c");
-	}
-
-	public void setSuffix(String suffix) {
-		setHandleValue("d", suffix);
-	}
-
-	public String getSuffix() {
-		return (String) getHandleValue("d");
-	}
-
-	public void setNameTagVisibility(NameTagVisibility nameTagVisibility) {
-		setHandleValue("e", nameTagVisibility.getNameTagVisibility());
+	@Nullable
+	public TeamMode getMode() {
+		return TeamMode.getTeamMode((int) getHandleValue("i"));
 	}
 
 	@Nullable
@@ -85,13 +74,35 @@ public class ScoreboardTeamPacket extends GamePacket<PacketPlayOutScoreboardTeam
 		return NameTagVisibility.getNameTagVisibility((String) getHandleValue("e"));
 	}
 
-	public void setCollisionRule(CollisionRule collisionRule) {
-		setHandleValue("f", collisionRule.getCollisionRule());
+	@SuppressWarnings("unchecked")
+	public Collection<String> getPlayers() {
+		return (Collection<String>) getHandleValue("h");
 	}
 
-	@Nullable
-	public CollisionRule getCollisionRule() {
-		return CollisionRule.getCollisionRule((String) getHandleValue("f"));
+	public String getPrefix() {
+		return (String) getHandleValue("c");
+	}
+
+	public String getSuffix() {
+		return (String) getHandleValue("d");
+	}
+
+	public String getTeamName() {
+		return (String) getHandleValue("a");
+	}
+
+	@Override
+	public PacketType getType() {
+		return TEAM;
+	}
+
+	public boolean hasAllowedFriendlyFire() {
+		return ((int) getHandleValue("j") & 0b01) != 0;
+	}
+
+	public void setCanSeeFriendlyInvisible() {
+		option |= 0b10;
+		setHandleValue("j", option);
 	}
 
 	/**
@@ -103,49 +114,36 @@ public class ScoreboardTeamPacket extends GamePacket<PacketPlayOutScoreboardTeam
 		setHandleValue("g", chatColor);
 	}
 
-	public int getChatColor(int chatColor) {
-		return (int) getHandleValue("g");
+	public void setCollisionRule(CollisionRule collisionRule) {
+		setHandleValue("f", collisionRule.getCollisionRule());
 	}
 
-	public void setPlayers(Collection<String> players) {
-		setHandleValue("h", players);
-	}
-
-	@SuppressWarnings("unchecked")
-	public Collection<String> getPlayers() {
-		return (Collection<String>) getHandleValue("h");
+	public void setDisplayName(String displayName) {
+		setHandleValue("b", displayName);
 	}
 
 	public void setMode(TeamMode mode) {
 		setHandleValue("i", mode.mode);
 	}
 
-	@Nullable
-	public TeamMode getMode() {
-		return TeamMode.getTeamMode((int) getHandleValue("i"));
+	public void setNameTagVisibility(NameTagVisibility nameTagVisibility) {
+		setHandleValue("e", nameTagVisibility.getNameTagVisibility());
 	}
 
-	public void allowFriendlyFire() {
-		option |= 0b01;
-		setHandleValue("j", (int) getHandleValue("j") | 0b01);
+	public void setPlayers(Collection<String> players) {
+		setHandleValue("h", players);
 	}
 
-	public void setCanSeeFriendlyInvisible() {
-		option |= 0b10;
-		setHandleValue("j", option);
+	public void setPrefix(String prefix) {
+		setHandleValue("c", prefix);
 	}
 
-	public boolean hasAllowedFriendlyFire() {
-		return ((int) getHandleValue("j") & 0b01) != 0;
+	public void setSuffix(String suffix) {
+		setHandleValue("d", suffix);
 	}
 
-	public boolean canSeeFriendlyInvisible() {
-		return ((int) getHandleValue("j") & 0b10) != 0;
-	}
-
-	@Override
-	public PacketType getType() {
-		return TEAM;
+	public void setTeamName(String name) {
+		setHandleValue("a", name);
 	}
 
 	/**

@@ -35,56 +35,56 @@ public class WorldParticlesPacket extends GamePacket<PacketPlayOutWorldParticles
 		super(handle);
 	}
 
-	public EnumParticle getParticle() {
-		return (EnumParticle) getHandleValue("a");
-	}
-
-	public void setParticle(EnumParticle particle) {
-		setHandleValue("a", particle);
-	}
-
-	public boolean useLongDistance() {
-		return (boolean) getHandleValue("j");
-	}
-
-	public void setLongDistance(boolean value) {
-		setHandleValue("j", value);
-	}
-
 	public int getCount() {
 		return (int) getHandleValue("i");
 	}
 
-	public void setCount(int count) {
-		setHandleValue("i", count);
+	public EnumParticle getParticle() {
+		return (EnumParticle) getHandleValue("a");
+	}
+
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Server.WORLD_PARTICLES;
 	}
 
 	public float getX() {
 		return (float) getHandleValue("b");
 	}
 
-	public void setX(float newX) {
-		setHandleValue("b", newX);
-	}
-
 	public float getY() {
 		return (float) getHandleValue("c");
-	}
-
-	public void setY(float newY) {
-		setHandleValue("c", newY);
 	}
 
 	public float getZ() {
 		return (float) getHandleValue("d");
 	}
 
+	public void setCount(int count) {
+		setHandleValue("i", count);
+	}
+
+	public void setLongDistance(boolean value) {
+		setHandleValue("j", value);
+	}
+
+	public void setParticle(EnumParticle particle) {
+		setHandleValue("a", particle);
+	}
+
+	public void setX(float newX) {
+		setHandleValue("b", newX);
+	}
+
+	public void setY(float newY) {
+		setHandleValue("c", newY);
+	}
+
 	public void setZ(float newZ) {
 		setHandleValue("d", newZ);
 	}
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Server.WORLD_PARTICLES;
+	public boolean useLongDistance() {
+		return (boolean) getHandleValue("j");
 	}
 }

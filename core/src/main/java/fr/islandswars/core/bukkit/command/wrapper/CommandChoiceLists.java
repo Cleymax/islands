@@ -2,6 +2,8 @@ package fr.islandswars.core.bukkit.command.wrapper;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.bukkit.command.CommandException;
 
 /**
@@ -47,11 +49,7 @@ public class CommandChoiceLists {
 		if (!clazz.isEnum())
 			throw new CommandException(clazz + " is not an enum, so cannot be used as a ChoiceList");
 
-		Map<String, Object> map = new HashMap<>();
-		for (Object o : clazz.getEnumConstants())
-			map.put(o.toString(), o);
-
-		return map;
+		return Stream.of(clazz.getEnumConstants()).collect(Collectors.toMap(Object::toString, o -> o));
 	}
 
 	/**
@@ -61,9 +59,8 @@ public class CommandChoiceLists {
 	 * @return the choice list
 	 * @throws ReflectiveOperationException reflection-related method
 	 */
-	static Map<String, Object> getFromEnum(Class<?> clazz)
-			throws ReflectiveOperationException {
-		Map<String, Object> map = ENUMS.get(clazz);
+	static Map<String, Object> getFromEnum(Class<?> clazz) throws ReflectiveOperationException {
+		var map = ENUMS.get(clazz);
 		if (map == null) {
 			map = iterate(clazz);
 			ENUMS.put(clazz, map);

@@ -47,7 +47,7 @@ public class GlobalStorage extends AbstractStorage {
 
 	@Override
 	public int getNextFreeSlot(IslandsPlayer player) {
-		for (int i = 0; i < getSize(); i++) {
+		for (var i = 0; i < getSize(); i++) {
 			if (inventory.getItem(i) == null)
 				return i;
 		}

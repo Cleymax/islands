@@ -3,7 +3,6 @@ package fr.islandswars.api.net.packet.play.client;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.PacketPlayInCloseWindow;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.CLOSE_WINDOW;
 
 /**
@@ -36,16 +35,16 @@ public class WindowInPacket extends GamePacket<PacketPlayInCloseWindow> {
 		super(handle);
 	}
 
+	@Override
+	public PacketType getType() {
+		return CLOSE_WINDOW;
+	}
+
 	public int getWindowId() {
 		return (int) getHandleValue("id");
 	}
 
 	public void setWindowId(int windowId) {
 		setHandleValue("id", windowId);
-	}
-
-	@Override
-	public PacketType getType() {
-		return CLOSE_WINDOW;
 	}
 }

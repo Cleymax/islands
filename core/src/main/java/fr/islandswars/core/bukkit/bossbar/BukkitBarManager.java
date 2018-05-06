@@ -9,7 +9,9 @@ import fr.islandswars.api.task.TaskType;
 import fr.islandswars.api.task.TimeType;
 import fr.islandswars.api.task.Updater;
 import fr.islandswars.api.utils.Preconditions;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -51,7 +53,7 @@ public class BukkitBarManager extends BarManager {
 
 	public BukkitBarManager(IslandsApi api) {
 		super(api);
-		this.colors = Collections.unmodifiableList(Arrays.asList(BossBattle.BarColor.values()));
+		this.colors = List.of(BossBattle.BarColor.values());
 		this.updatableSequences = new ArrayList<>();
 		this.updatableBar = new ArrayList<>();
 
@@ -64,7 +66,7 @@ public class BukkitBarManager extends BarManager {
 		Preconditions.checkNotNull(style);
 
 		InternalBar bar = new InternalBar(title, color, style);
-		for (BarFlag flag : flags) {
+		for (var flag : flags) {
 			switch (flag) {
 				case CREATE_FOG:
 					bar.setCreateFog(true);
@@ -87,7 +89,7 @@ public class BukkitBarManager extends BarManager {
 		Preconditions.checkNotNull(style);
 		Preconditions.checkNotNull(parameters);
 
-		Bar bar = createBar(title, color, style, flags);
+		var bar = createBar(title, color, style, flags);
 		bar.setGlobalParameter(parameters);
 		return bar;
 	}
@@ -98,7 +100,7 @@ public class BukkitBarManager extends BarManager {
 		Preconditions.checkNotNull(bars);
 		Preconditions.checkState(bars, ref -> ref.length > 1);
 
-		List<InternalBar> internalBars = Stream.of(bars).map(InternalBar.class::cast).collect(Collectors.toList());
+		var internalBars = Stream.of(bars).map(InternalBar.class::cast).collect(Collectors.toList());
 		internalBars.forEach(bar -> bar.provideProperties(properties, true));
 		return new InternalBarSequence(internalBars);
 	}
@@ -125,11 +127,11 @@ public class BukkitBarManager extends BarManager {
 			} else updatableBar.remove(bar);
 		});
 		updatableSequences.forEach(sequence -> {
-			InternalBar   bar        = (InternalBar) sequence.getCurrentBar();
-			BarProperties properties = bar.properties;
+			var bar        = (InternalBar) sequence.getCurrentBar();
+			var properties = bar.properties;
 			if (properties.useReverse()) {
 				if (bar.getProgress() == (properties.useReverse() ? 0 : 1)) {
-					InternalBar newBar = sequence.getNextbar();
+					InternalBar newBar = sequence.getNextBar();
 					updateBar(newBar, newBar.properties);
 				} else
 					updateBar(bar, properties);

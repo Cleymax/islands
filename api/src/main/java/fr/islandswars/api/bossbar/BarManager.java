@@ -2,10 +2,9 @@ package fr.islandswars.api.bossbar;
 
 import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.module.Module;
+import java.util.function.Supplier;
 import net.minecraft.server.v1_12_R1.BossBattle;
 import org.bukkit.boss.BarFlag;
-
-import java.util.function.Supplier;
 
 /**
  * File <b>BarManager</b> located on fr.islandswars.api.bossbar

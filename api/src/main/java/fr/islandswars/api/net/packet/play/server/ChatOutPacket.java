@@ -36,24 +36,24 @@ public class ChatOutPacket extends GamePacket<PacketPlayOutChat> {
 		super(handle);
 	}
 
-	public void setMessageType(ChatMessageType type) {
-		setHandleValue("b", type);
+	public IChatBaseComponent getMessage() {
+		return (IChatBaseComponent) getHandleValue("a");
 	}
 
 	public ChatMessageType getMessageType() {
 		return handle.c();
 	}
 
+	@Override
+	public PacketType getType() {
+		return PacketType.Play.Server.CHAT_OUT;
+	}
+
 	public void setMessage(String message) {
 		setHandleValue("a", IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}"));
 	}
 
-	public IChatBaseComponent getMessage() {
-		return (IChatBaseComponent) getHandleValue("a");
-	}
-
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Server.CHAT_OUT;
+	public void setMessageType(ChatMessageType type) {
+		setHandleValue("b", type);
 	}
 }

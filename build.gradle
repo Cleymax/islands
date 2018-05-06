@@ -3,8 +3,9 @@ allprojects {
 
     group = 'fr.islandswars'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 1.10
+    targetCompatibility = 1.10
+
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
     [compileJava, compileTestJava]*.options*.compilerArgs = ['-parameters']
 
@@ -14,8 +15,8 @@ allprojects {
     }
 
     dependencies {
-        provided ('org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT')
-        testCompile 'junit:junit:4.4'
+        provided('org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT')
+        testCompile 'junit:junit:4.9'
     }
 
     repositories {

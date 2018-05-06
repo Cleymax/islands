@@ -36,17 +36,17 @@ public class HandShakePacket extends GamePacket<PacketHandshakingInSetProtocol> 
 	}
 
 	/**
+	 * @return the next enum protocol state
+	 */
+	public EnumProtocol getEnumProtocol() {
+		return (EnumProtocol) getHandleValue("d");
+	}
+
+	/**
 	 * @return this server's host
 	 */
 	public String getHost() {
 		return (String) getHandleValue("hostname");
-	}
-
-	/**
-	 * @param newHost a new host to send
-	 */
-	public void setHost(String newHost) {
-		setHandleValue("hostname", newHost);
 	}
 
 	/**
@@ -57,6 +57,25 @@ public class HandShakePacket extends GamePacket<PacketHandshakingInSetProtocol> 
 	}
 
 	/**
+	 * @return this current server implementation protocol version
+	 */
+	public int getProtocolVersion() {
+		return (int) getHandleValue("a");
+	}
+
+	@Override
+	public PacketType getType() {
+		return PacketType.Handshake.Server.HANDSHAKE;
+	}
+
+	/**
+	 * @param newHost a new host to send
+	 */
+	public void setHost(String newHost) {
+		setHandleValue("hostname", newHost);
+	}
+
+	/**
 	 * @param newPort a new port to send
 	 */
 	public void setPort(int newPort) {
@@ -64,29 +83,11 @@ public class HandShakePacket extends GamePacket<PacketHandshakingInSetProtocol> 
 	}
 
 	/**
-	 * @return this current server implementation protocol version
-	 */
-	public int getProtocolVersion() {
-		return (int) getHandleValue("a");
-	}
-
-	/**
 	 * @param newProtocolversion a new version to send
 	 * @deprecated the client will see this server outdated
 	 */
+	@Deprecated
 	public void setProtocolVersion(int newProtocolversion) {
 		setHandleValue("a", newProtocolversion);
-	}
-
-	/**
-	 * @return the next enum protocol state
-	 */
-	public EnumProtocol getEnumProtocol() {
-		return (EnumProtocol) getHandleValue("d");
-	}
-
-	@Override
-	public PacketType getType() {
-		return PacketType.Handshake.Server.HANDSHAKE;
 	}
 }

@@ -35,15 +35,15 @@ public class SuccessPacket extends GamePacket<PacketLoginOutSuccess> {
 		super(handle);
 	}
 
+	@Override
+	public PacketType getType() {
+		return PacketType.Login.Server.SUCCESS;
+	}
+
 	/**
 	 * @return a now valide game profile for the client
 	 */
 	public GameProfile getValidatedGameProfile() {
 		return (GameProfile) getHandleValue("a");
-	}
-
-	@Override
-	public PacketType getType() {
-		return PacketType.Login.Server.SUCCESS;
 	}
 }

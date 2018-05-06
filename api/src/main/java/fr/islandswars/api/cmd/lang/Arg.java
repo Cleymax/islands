@@ -1,12 +1,13 @@
-package fr.islandswars.api.net.packet.play.client;
+package fr.islandswars.api.cmd.lang;
 
-import fr.islandswars.api.net.GamePacket;
-import fr.islandswars.api.net.PacketType;
-import net.minecraft.server.v1_12_R1.PacketPlayInChat;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * File <b>ChatInPacket</b> located on fr.islandswars.api.net.packet.play.client
- * ChatInPacket is a part of Islands Wars - Api.
+ * File <b>Arg</b> located on fr.islandswars.api.cmd.lang
+ * Arg is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -24,27 +25,29 @@ import net.minecraft.server.v1_12_R1.PacketPlayInChat;
  * along with this program. If not, see <a href="http://www.gnu.org/licenses/">GNU GPL license</a>.
  * <p>
  *
+ * @author SkyBeastMC
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
- * Created the 02/10/2017 at 13:34
- * @since 0.1
+ * Created the 16/03/2018 at 23:13
+ * @since 0.2.9
+ * <p>
+ * Customize an argument by adding this annotation to a parameter
  */
-public class ChatInPacket extends GamePacket<PacketPlayInChat> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.PARAMETER)
+public @interface Arg {
 
-	public ChatInPacket(PacketPlayInChat handle) {
-		super(handle);
-	}
+	/**
+	 * @return the description of the argument
+	 */
+	String desc() default "";
 
-	public String getMessage() {
-		return handle.a();
-	}
+	/**
+	 * @return the type of the argument
+	 */
+	String type() default "";
 
-	@Override
-	public PacketType getType() {
-		return PacketType.Play.Client.CHAT;
-	}
-
-	public void setMessage(String message) {
-		setHandleValue("a", message);
-	}
-
+	/**
+	 * @return the name of the argument
+	 */
+	String value();
 }

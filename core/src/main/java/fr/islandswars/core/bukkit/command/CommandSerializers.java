@@ -42,26 +42,22 @@ public class CommandSerializers {
 	 * Used to cache all default serializers.
 	 */
 	private static final Map<Class<?>, CommandSerializer<?>> INSTANCES = new HashMap<>();
-
 	/**
 	 * Used to cache all custom serializers.
 	 */
-	private static final Map<Class<?>, CommandSerializer<?>> CACHE = new HashMap<>();
+	private static final Map<Class<?>, CommandSerializer<?>> CACHE     = new HashMap<>();
 
 
 	/* ----------------------------- */
 	/* ---- DEFAULT SERIALIZERS ---- */
 	/* ----------------------------- */
-
-	// Primitives
-
-	static final CommandSerializer<Boolean> BOOLEAN = new ConstantTabCompleteCommandSerializer<>(
+	static final CommandSerializer<Boolean>   BOOLEAN   = new ConstantTabCompleteCommandSerializer<>(
 			Boolean::valueOf,
 			"boolean",
 			Arrays.asList("false", "true")
 	);
-
 	static final CommandSerializer<Byte>      BYTE      = new NoTabCommandSerializer<>(Byte::valueOf, "byte");
+	// Primitives
 	static final CommandSerializer<Short>     SHORT     = new NoTabCommandSerializer<>(Short::valueOf, "short");
 	static final CommandSerializer<Integer>   INTEGER   = new NoTabCommandSerializer<>(Integer::valueOf, "int");
 	static final CommandSerializer<Long>      LONG      = new NoTabCommandSerializer<>(Long::valueOf, "long");
@@ -70,11 +66,9 @@ public class CommandSerializers {
 	static final CommandSerializer<Character> CHARACTER = new NoTabCommandSerializer<>(str -> str.charAt(0), "char");
 
 	// Others
-
-	static final CommandSerializer<Player> PLAYER = new CommandSerializerImpl<>(
+	static final CommandSerializer<Player>        PLAYER         = new CommandSerializerImpl<>(
 			CommandSerializers::getPlayer, "Player", () -> sort(getAllPlayers())
 	);
-
 	static final CommandSerializer<CommandSender> COMMAND_SENDER = new CommandSerializerImpl<>(
 			str -> "@CONSOLE".equalsIgnoreCase(str) ? Bukkit.getConsoleSender() : getPlayer(str), "Command Sender", () -> sort(append(getAllPlayers(), "@CONSOLE"))
 	);
@@ -175,7 +169,7 @@ public class CommandSerializers {
 	 * @throws SerializationException if the player was not found
 	 */
 	private static Player getPlayer(String str) throws SerializationException {
-		Player player = Bukkit.getPlayerExact(str);
+		var player = Bukkit.getPlayerExact(str);
 		if (player == null)
 			throw new SerializationException("Cannot find player \"" + str + '"');
 		return player;

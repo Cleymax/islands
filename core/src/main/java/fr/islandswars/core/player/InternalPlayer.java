@@ -28,7 +28,6 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventory;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.InventoryWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 
 /**
  * File <b>InternalPlayer</b> located on fr.islandswars.core.player
@@ -79,7 +78,7 @@ public class InternalPlayer implements IslandsPlayer {
 	public void displayBar(Bar bar) {
 		Preconditions.checkNotNull(bar);
 
-		InternalBar internalBar = (InternalBar) bar;
+		var internalBar = (InternalBar) bar;
 		if (bar.getViewers().noneMatch(p -> p.equals(this))) {
 			bars.add(bar);
 			internalBar.addPlayer(this);
@@ -99,7 +98,7 @@ public class InternalPlayer implements IslandsPlayer {
 		Preconditions.checkNotNull(bar);
 		Preconditions.checkNotNull(i18nParameters);
 
-		InternalBar internalBar = (InternalBar) bar;
+		var internalBar = (InternalBar) bar;
 		if (bar.getViewers().noneMatch(p -> p.equals(this))) {
 			bars.add(bar);
 			internalBar.supplyI18nParameters(this, i18nParameters);
@@ -152,7 +151,7 @@ public class InternalPlayer implements IslandsPlayer {
 		IslandsApi.getInstance().getInfraLogger().createDefaultLog(Level.INFO, "Remove player from bar");
 		Preconditions.checkNotNull(bar);
 
-		InternalBar internalBar = (InternalBar) bar;
+		var internalBar = (InternalBar) bar;
 		if (bar.getViewers().anyMatch(p -> p.equals(this))) {
 			bars.remove(bar);
 			internalBar.removePlayer(this);
@@ -173,8 +172,8 @@ public class InternalPlayer implements IslandsPlayer {
 
 	@Override
 	public void openStorage(Storage storage) {
-		EntityPlayer  entityPlayer    = (EntityPlayer) getCraftPlayer().getHandle();
-		Inventory     inventory       = ((AbstractStorage) storage).getHandle(this);
+		var           entityPlayer    = getCraftPlayer().getHandle();
+		var           inventory       = ((AbstractStorage) storage).getHandle(this);
 		InventoryType type            = inventory.getType();
 		Container     formerContainer = getCraftPlayer().getHandle().activeContainer;
 		IInventory    iinventory      = inventory instanceof CraftInventory ? ((CraftInventory) inventory).getInventory() : new InventoryWrapper(inventory);
@@ -186,9 +185,9 @@ public class InternalPlayer implements IslandsPlayer {
 		if (entityPlayer.activeContainer != entityPlayer.defaultContainer)
 			entityPlayer.closeInventory();
 
-		int                     containerCounter = entityPlayer.nextContainerCounter();
-		String                  title            = locale.format(inventory.getTitle());
-		PacketPlayOutOpenWindow packet           = new PacketPlayOutOpenWindow(containerCounter, "minecraft:container", IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}"), inventory.getSize());
+		var containerCounter = entityPlayer.nextContainerCounter();
+		var title            = locale.format(inventory.getTitle());
+		var packet           = new PacketPlayOutOpenWindow(containerCounter, "minecraft:container", IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}"), inventory.getSize());
 		new OpenWindowPacket(packet).sendToPlayer(getCraftPlayer());
 
 		entityPlayer.activeContainer = container;

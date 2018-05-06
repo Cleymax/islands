@@ -67,10 +67,10 @@ public class CommandWrapper extends LabelDispatcher {
 	}
 
 	private void addCompound(MethodCommandWrapper wrapper) {
-		List<String> compoundAliases = new ArrayList<>(Arrays.asList(wrapper.getAliases()));
+		var compoundAliases = new ArrayList<String>(Arrays.asList(wrapper.getAliases()));
 		compoundAliases.add(wrapper.getLabel());
 
-		for (String compoundAlias : compoundAliases) {
+		for (var compoundAlias : compoundAliases) {
 			if (compounds.keySet().stream().anyMatch(aliases -> aliases.contains(compoundAlias)))
 				throw new CommandException("Given aliases for method " + wrapper.getLabel() + " are already bind!");
 		}
@@ -79,14 +79,14 @@ public class CommandWrapper extends LabelDispatcher {
 
 	private MethodCommandWrapper getCompound(String label) {
 		//TODO doesn't work
-		List<String> compoundAliases = compounds.keySet().stream().filter(aliases -> aliases.contains(label)).findFirst().orElse(null);
+		var compoundAliases = compounds.keySet().stream().filter(aliases -> aliases.contains(label)).findFirst().orElse(null);
 		if (compoundAliases != null)
 			return compounds.get(compoundAliases);
 		else return null;
 	}
 
 	private void searchCompounds(Method[] methods) {
-		for (Method method : methods) {
+		for (var method : methods) {
 			if (method.getAnnotation(CommandExecutor.class) != null) {
 				if (defaultExecutor != null)
 					throw new CommandException("Cannot have two CommandExecutor per command");

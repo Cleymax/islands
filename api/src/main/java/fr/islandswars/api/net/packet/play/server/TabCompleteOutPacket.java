@@ -3,7 +3,6 @@ package fr.islandswars.api.net.packet.play.server;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTabComplete;
-
 import static fr.islandswars.api.net.PacketType.Play.Server.TAB_COMPLETE;
 
 /**
@@ -40,12 +39,12 @@ public class TabCompleteOutPacket extends GamePacket<PacketPlayOutTabComplete> {
 		return (String[]) getHandleValue("a");
 	}
 
-	public void setTabCompletes(String[] tabCompletes) {
-		setHandleValue("a", tabCompletes);
-	}
-
 	@Override
 	public PacketType getType() {
 		return TAB_COMPLETE;
+	}
+
+	public void setTabCompletes(String[] tabCompletes) {
+		setHandleValue("a", tabCompletes);
 	}
 }

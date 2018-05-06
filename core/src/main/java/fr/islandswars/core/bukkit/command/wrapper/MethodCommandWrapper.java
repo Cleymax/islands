@@ -60,7 +60,7 @@ public class MethodCommandWrapper extends LabelDispatcher {
 		if ((method.getModifiers() & Modifier.STATIC) == 0)
 			throw new CommandException(method + " must be static");
 
-		Class<?> returnType = method.getReturnType();
+		var returnType = method.getReturnType();
 		if (returnType != void.class)
 			throw new CommandException(method + " cannot return " + returnType);
 
@@ -83,7 +83,7 @@ public class MethodCommandWrapper extends LabelDispatcher {
 
 	@Override
 	public void dispatch(CommandSender player, String[] args, int loc) throws ReflectiveOperationException {
-		int count = args.length - loc;
+		var count = args.length - loc;
 		if ((optStart == -1 ? count < parametersCount : count < optStart) || (arrayType == null && count > parametersCount))
 			sendHelp(player);
 	}
@@ -109,7 +109,7 @@ public class MethodCommandWrapper extends LabelDispatcher {
 		}
 
 		if (serAnnotation != null) {
-			CommandSerializer<?> serializer = CommandSerializers.serializerOf(type, serAnnotation.value());
+			var serializer = CommandSerializers.serializerOf(type, serAnnotation.value());
 			serializers.put(i, serializer);
 			return valueTypeOfSerializer(serializer, type);
 		} else if (type != String.class) {
@@ -145,7 +145,7 @@ public class MethodCommandWrapper extends LabelDispatcher {
 
 		for (int i = 1; i < parameters.length; i++) {
 			Parameter param     = parameters[i];
-			Class<?>  type      = param.getType();
+			var       type      = param.getType();
 			Serial    serial    = type.getAnnotation(Serial.class);
 			String    valueType = registerSerializer(serial, i, type, parameters.length);
 			Opt       optional  = param.getAnnotation(Opt.class);
@@ -170,7 +170,7 @@ public class MethodCommandWrapper extends LabelDispatcher {
 		if (serializer == null)
 			return "String";
 
-		String valueType = serializer.valueType();
+		var valueType = serializer.valueType();
 		if (valueType == null)
 			throw new CommandException("Cannot have a null valueType!");
 		return valueType.isEmpty() ? clazz.getSimpleName() : valueType;

@@ -4,12 +4,11 @@ import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.listener.LazyListener;
 import fr.islandswars.api.log.internal.Action;
 import fr.islandswars.api.log.internal.PlayerLog;
-import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.storage.Storage;
 import fr.islandswars.core.IslandsCore;
 import java.util.logging.Level;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -45,17 +44,17 @@ public class PlayerListener extends LazyListener {
 		super(api);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onConnect(PlayerJoinEvent event) {
-		Player p = event.getPlayer();
+		var p = event.getPlayer();
 		((IslandsCore) api).addPlayer(p);
 		api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + p.getName() + " joined the game.").setPlayer(p, Action.CONNECT).log();
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onLeave(PlayerQuitEvent event) {
-		IslandsPlayer player = getFromPlayer(event.getPlayer());
-		((IslandsCore) api).removePlayer(player);
-		api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + player.getCraftPlayer().getName() + " leaved the game.").setPlayer(player, Action.LEAVE).log();
+		var islandsPlayer = getFromPlayer(event.getPlayer());
+		((IslandsCore) api).removePlayer(islandsPlayer);
+		api.getInfraLogger().createCustomLog(PlayerLog.class, Level.INFO, "Player " + islandsPlayer.getCraftPlayer().getName() + " leaved the game.").setPlayer(islandsPlayer, Action.LEAVE).log();
 	}
 }

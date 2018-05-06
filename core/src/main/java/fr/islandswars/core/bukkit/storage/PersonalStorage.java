@@ -10,8 +10,8 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventoryCustom;
 import org.bukkit.inventory.Inventory;
 
 /**
- * File <b>PersonnalStorage</b> located on fr.islandswars.core.bukkit.storage
- * PersonnalStorage is a part of Islands Wars - Api.
+ * File <b>PersonalStorage</b> located on fr.islandswars.core.bukkit.storage
+ * PersonalStorage is a part of Islands Wars - Api.
  * <p>
  * Copyright (c) 2017 - 2018 Islands Wars.
  * <p>
@@ -33,11 +33,11 @@ import org.bukkit.inventory.Inventory;
  * Created the 27/04/2018 at 17:35
  * @since 0.2.9
  */
-public class PersonnalStorage extends AbstractStorage {
+public class PersonalStorage extends AbstractStorage {
 
 	private final Map<UUID, CraftInventoryCustom> inventories;
 
-	PersonnalStorage(int size, String titleKey) {
+	PersonalStorage(int size, String titleKey) {
 		super(size, titleKey);
 		this.inventories = new HashMap<>();
 	}
@@ -50,7 +50,7 @@ public class PersonnalStorage extends AbstractStorage {
 	@Override
 	public int getNextFreeSlot(IslandsPlayer player) {
 		Inventory inventory = getHandle(player);
-		for (int i = 0; i < getSize(); i++) {
+		for (var i = 0; i < getSize(); i++) {
 			if (inventory.getItem(i) == null)
 				return i;
 		}

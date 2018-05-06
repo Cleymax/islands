@@ -3,7 +3,6 @@ package fr.islandswars.api.net.packet.play.client;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.PacketPlayInHeldItemSlot;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.HELD_ITEM_SLOT;
 
 /**
@@ -40,12 +39,12 @@ public class HeldItemSlotInPacket extends GamePacket<PacketPlayInHeldItemSlot> {
 		return (int) getHandleValue("itemInHandIndex");
 	}
 
-	public void setSlot(int slot) {
-		setHandleValue("itemInHandIndex", slot);
-	}
-
 	@Override
 	public PacketType getType() {
 		return HELD_ITEM_SLOT;
+	}
+
+	public void setSlot(int slot) {
+		setHandleValue("itemInHandIndex", slot);
 	}
 }

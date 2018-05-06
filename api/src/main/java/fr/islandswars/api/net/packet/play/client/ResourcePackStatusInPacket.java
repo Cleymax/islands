@@ -3,7 +3,6 @@ package fr.islandswars.api.net.packet.play.client;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.PacketPlayInResourcePackStatus;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.RESOURCE_PACK_STATUS;
 
 /**
@@ -40,12 +39,12 @@ public class ResourcePackStatusInPacket extends GamePacket<PacketPlayInResourceP
 		return (PacketPlayInResourcePackStatus.EnumResourcePackStatus) getHandleValue("status");
 	}
 
-	public void setResourcePackStatus(PacketPlayInResourcePackStatus.EnumResourcePackStatus resourcePackStatus) {
-		setHandleValue("status", resourcePackStatus);
-	}
-
 	@Override
 	public PacketType getType() {
 		return RESOURCE_PACK_STATUS;
+	}
+
+	public void setResourcePackStatus(PacketPlayInResourcePackStatus.EnumResourcePackStatus resourcePackStatus) {
+		setHandleValue("status", resourcePackStatus);
 	}
 }

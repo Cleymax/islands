@@ -2,11 +2,9 @@ package fr.islandswars.api.net.packet.play.client;
 
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
+import javax.annotation.Nullable;
 import net.minecraft.server.v1_12_R1.BlockPosition;
 import net.minecraft.server.v1_12_R1.PacketPlayInTabComplete;
-
-import javax.annotation.Nullable;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.TAB_COMPLETE;
 
 /**
@@ -39,33 +37,33 @@ public class TabCompleteInPacket extends GamePacket<PacketPlayInTabComplete> {
 		super(handle);
 	}
 
+	@Nullable
+	public BlockPosition getBlockPosition() {
+		return (BlockPosition) getHandleValue("c");
+	}
+
 	public String getStartedCommand() {
 		return (String) getHandleValue("a");
 	}
 
-	public void setStartedCommand(String startedCommand) {
-		setHandleValue("a", startedCommand);
+	@Override
+	public PacketType getType() {
+		return TAB_COMPLETE;
 	}
 
 	public boolean isCommand() {
 		return (boolean) getHandleValue("b");
 	}
 
-	public void setCommand(boolean command) {
-		setHandleValue("b", command);
-	}
-
-	@Nullable
-	public BlockPosition getBlockPosition() {
-		return (BlockPosition) getHandleValue("c");
-	}
-
 	public void setBlockPosition(BlockPosition position) {
 		setHandleValue("c", position);
 	}
 
-	@Override
-	public PacketType getType() {
-		return TAB_COMPLETE;
+	public void setCommand(boolean command) {
+		setHandleValue("b", command);
+	}
+
+	public void setStartedCommand(String startedCommand) {
+		setHandleValue("a", startedCommand);
 	}
 }

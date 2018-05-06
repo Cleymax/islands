@@ -3,12 +3,10 @@ package fr.islandswars.api.net.packet.play.server;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import fr.islandswars.api.scoreboard.objective.Objective.ObjectiveDisplayType;
+import java.util.Arrays;
+import javax.annotation.Nullable;
 import net.minecraft.server.v1_12_R1.IScoreboardCriteria.EnumScoreboardHealthDisplay;
 import net.minecraft.server.v1_12_R1.PacketPlayOutScoreboardObjective;
-
-import javax.annotation.Nullable;
-import java.util.Arrays;
-
 import static fr.islandswars.api.net.PacketType.Play.Server.OBJECTIVE;
 
 /**
@@ -41,28 +39,12 @@ public class ScoreboardObjectivePacket extends GamePacket<PacketPlayOutScoreboar
 		super(handle);
 	}
 
-	public String getObjectiveName() {
-		return (String) getHandleValue("a");
-	}
-
-	public void setObjectiveName(String objectiveName) {
-		setHandleValue("a", objectiveName);
-	}
-
 	public String getDisplayName() {
 		return (String) getHandleValue("b");
 	}
 
-	public void setDisplayName(String displayName) {
-		setHandleValue("b", displayName);
-	}
-
 	public ObjectiveDisplayType getDisplayType() {
 		return ObjectiveDisplayType.getHealthDisplay(((EnumScoreboardHealthDisplay) getHandleValue("c")).a());
-	}
-
-	public void setDisplayType(ObjectiveDisplayType objectiveDisplayType) {
-		setHandleValue("c", EnumScoreboardHealthDisplay.a(objectiveDisplayType.getDisplay()));
 	}
 
 	@Nullable
@@ -70,13 +52,29 @@ public class ScoreboardObjectivePacket extends GamePacket<PacketPlayOutScoreboar
 		return ObjectiveMode.getFromInt((int) getHandleValue("d"));
 	}
 
-	public void setMode(ObjectiveMode mode) {
-		setHandleValue("d", mode.getMode());
+	public String getObjectiveName() {
+		return (String) getHandleValue("a");
 	}
 
 	@Override
 	public PacketType getType() {
 		return OBJECTIVE;
+	}
+
+	public void setDisplayName(String displayName) {
+		setHandleValue("b", displayName);
+	}
+
+	public void setDisplayType(ObjectiveDisplayType objectiveDisplayType) {
+		setHandleValue("c", EnumScoreboardHealthDisplay.a(objectiveDisplayType.getDisplay()));
+	}
+
+	public void setMode(ObjectiveMode mode) {
+		setHandleValue("d", mode.getMode());
+	}
+
+	public void setObjectiveName(String objectiveName) {
+		setHandleValue("a", objectiveName);
 	}
 
 	/**

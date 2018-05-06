@@ -3,7 +3,6 @@ package fr.islandswars.api.net.packet.play.client;
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
 import net.minecraft.server.v1_12_R1.PacketPlayInEnchantItem;
-
 import static fr.islandswars.api.net.PacketType.Play.Client.ENCHANT_ITEM;
 
 /**
@@ -36,24 +35,24 @@ public class EnchantItemInPacket extends GamePacket<PacketPlayInEnchantItem> {
 		super(handle);
 	}
 
-	public int getWindowId() {
-		return (int) getHandleValue("a");
-	}
-
-	public void setWindowId(int windowId) {
-		setHandleValue("a", windowId);
-	}
-
 	public int getEnchantmentId() {
 		return (int) getHandleValue("b");
+	}
+
+	@Override
+	public PacketType getType() {
+		return ENCHANT_ITEM;
+	}
+
+	public int getWindowId() {
+		return (int) getHandleValue("a");
 	}
 
 	public void setEnchantmentId(int enchantmentId) {
 		setHandleValue("b", enchantmentId);
 	}
 
-	@Override
-	public PacketType getType() {
-		return ENCHANT_ITEM;
+	public void setWindowId(int windowId) {
+		setHandleValue("a", windowId);
 	}
 }
