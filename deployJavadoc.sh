@@ -64,9 +64,14 @@ if [ -d "docs" ] && [ -f "docs/index.html" ]; then
     git commit -m "Deploy code docs to GitHub Pages Travis build: ${TRAVIS_BUILD_NUMBER}" -m "Commit: ${TRAVIS_COMMIT}"
 
     # Force push to the remote gh-pages branch.
-    # The ouput is redirected to /dev/null to hide any sensitive credential data
+    # The output is redirected to /dev/null to hide any sensitive credential data
     # that might otherwise be exposed.
     git push --force "https://${GH_REPO_TOKEN}@${GH_REPO_REF}" > /dev/null 2>&1
+
+    # Reset location of user and travis info
+    cd $TRAVIS_BUILD_DIR
+    git checkout $TRAVIS_BRANCH
+
 else
     echo '' >&2
     echo 'Warning: No documentation (html) files have been found!' >&2
