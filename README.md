@@ -23,7 +23,7 @@ You can found on [github](https://github.com/islands-wars/islands/wiki) a basic 
 
 # Javadoc
 
-Javadoc for this project is available [here](https://islands-wars.github.io/islands/index.html?overview-summary.html).
+Javadoc for this project is available [here](http://doc.islandswars.fr/index.html?overview-summary.html).
 
 ---
 
