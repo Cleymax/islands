@@ -34,3 +34,19 @@ deploy:
       - master
       - develop
       - java-10
+
+# Disable build on documentation's branch
+branches:
+  except:
+    - gh-pages
+
+# Environment variables
+env:
+  global:
+    - GH_REPO_NAME: islands
+    - GH_REPO_REF: github.com/islands-wars/islands.git
+
+# Generate and deploy documentation
+after_success:
+  - cd $TRAVIS_BUILD_DIR
+  - if [ $TRAVIS_BRANCH = "master" ]; then ./deployJavadoc.sh ; fi
