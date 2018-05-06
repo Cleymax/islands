@@ -50,6 +50,11 @@ artifactory {
 
 }
 
+def exportedProjects = [
+        ":api",
+        ":core"
+]
+
 javadoc {
     doFirst {
         options.setWindowTitle('IslandsWars - Core')
@@ -59,6 +64,9 @@ javadoc {
         options.setAuthor(true)
         options.addBooleanOption('html5', true)
     }
+    // Merge exportedProjects javadoc into core's javadoc
+    source exportedProjects.collect { project(it).sourceSets.main.allJava }
+    classpath = files(exportedProjects.collect { project(it).sourceSets.main.compileClasspath })
 }
 
 task sourceJar(type: Jar, dependsOn: classes) {
