@@ -28,13 +28,33 @@ import org.bukkit.inventory.ItemStack;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 26/04/2018 at 13:45
  * @since 0.2.9
+ * <p>
+ * Create and deal with storage
  */
 public interface StorageManager {
 
+	/**
+	 * Create a new storage based on the given builder
+	 *
+	 * @param builder an storage builder
+	 * @return a new Storage
+	 */
 	Storage createStorage(StorageBuilder builder);
 
+	/**
+	 * Get an islands wars item only if it has been created via {@link #newItem(ItemType)}
+	 *
+	 * @param bukkitItem a bukkit item to get from
+	 * @return a wrapped item if exist
+	 */
 	Optional<Item> getItem(ItemStack bukkitItem);
 
+	/**
+	 * Create a new item based on the given type
+	 *
+	 * @param type an item type
+	 * @return a new islands wars item
+	 */
 	Item newItem(ItemType type);
 
 }

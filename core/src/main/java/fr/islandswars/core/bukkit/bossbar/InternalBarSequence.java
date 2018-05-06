@@ -77,7 +77,7 @@ public class InternalBarSequence implements BarSequence {
 		sequence.clear();
 	}
 
-	public InternalBar getNextbar() {
+	public InternalBar getNextBar() {
 		if (++currentBar == sequence.size() - 1)
 			currentBar = 0;
 		return sequence.get(0);

@@ -627,14 +627,14 @@ public class NMSReflectionUtil {
 	 * Recursive.
 	 */
 	private static Field countFieldOfType(Class<?> clazz, Class<?> type, int count, Class<?> search) {
-		int i = 0;
-		for (Field field : search.getDeclaredFields()) {
+		var index = 0;
+		for (var field : search.getDeclaredFields()) {
 			if (field.getType() == type) {
-				if (i == count) {
+				if (index == count) {
 					field.setAccessible(true);
 					return field;
 				}
-				i++;
+				index++;
 			}
 		}
 
@@ -731,7 +731,7 @@ public class NMSReflectionUtil {
 	 */
 	private static Field findField(Class<?> clazz, String name, Class<?> search) {
 		Field[] fields = search.getDeclaredFields();
-		for (Field field : fields)
+		for (var field : fields)
 			if (field.getName().equals(name))
 				return field;
 
@@ -766,16 +766,16 @@ public class NMSReflectionUtil {
 	 */
 	private static Method findMethod(Class<?> clazz, String name, Class<?>[] argsType, Class<?> search) {
 		Method[] methods = search.getDeclaredMethods();
-		for (Method method : methods)
+		for (var method : methods)
 			if (method.getName().equals(name)
 					&& Arrays.equals(argsType, method.getParameterTypes())
 					&& (!search.isInterface() || method.isDefault())) //Default methods in interfaces are fine
 				return method;
 
-		Class<?> superClass = search.getSuperclass();
-		Class[]  interfaces = search.getInterfaces();
+		var     superClass = search.getSuperclass();
+		Class[] interfaces = search.getInterfaces();
 
-		for (Class interf : interfaces)
+		for (var interf : interfaces)
 			findMethod(interf, name, argsType); //Find default methods in interfaces
 
 		if (superClass != null)

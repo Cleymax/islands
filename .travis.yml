@@ -3,8 +3,13 @@ sudo: false
 
 # Specify language
 language: java
-jdk:
-  - oraclejdk8
+# Temporary solutions to install openJDK 10
+matrix:
+  include:
+      - env: JDK='OpenJDK 10'
+        install: . ./install-jdk.sh -F 10 -L GPL
+# jdk:
+#   - oraclejdk10
 
 # Caching so the next build will be fast too.
 cache:
@@ -13,6 +18,7 @@ cache:
 
 # Only re-download spigot if we don't have spigot in the repo
 before_install:
+  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh # Download jdk installer
   - if [ ! -d "$HOME/.m2/repository/org/spigotmc" ]; then ./installSpigot.sh 1.12.2 ; else echo "Not compiling Spigot because it is already in our maven" ; fi
 
 # Gradlew clean and build a fatJar
@@ -27,3 +33,19 @@ deploy:
     branch:
       - master
       - develop
+
+# Disable build on documentation's branch
+branches:
+  except:
+    - gh-pages
+
+# Environment variables
+env:
+  global:
+    - GH_REPO_NAME: islands
+    - GH_REPO_REF: github.com/islands-wars/islands.git
+
+# Generate and deploy documentation
+after_success:
+  - cd $TRAVIS_BUILD_DIR
+  - if [ $TRAVIS_BRANCH = "master" ]; then ./deployJavadoc.sh ; fi

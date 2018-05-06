@@ -31,7 +31,7 @@ import org.bukkit.inventory.ItemFlag;
  *
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 27/04/2018 at 17:06
- * @since TODO edit
+ * @since 0.2.9
  */
 public class PropertiesWrapper implements ItemProperties {
 
@@ -67,7 +67,7 @@ public class PropertiesWrapper implements ItemProperties {
 			tag.setInt("HideFlags", 0);
 
 		int hideFlag = tag.getInt("HideFlags");
-		for (ItemFlag flag : flags) {
+		for (var flag : flags) {
 			hideFlag |= this.getBitModifier(flag);
 			properties.getCompound().setInt("HideFlags", hideFlag);
 		}
@@ -125,7 +125,7 @@ public class PropertiesWrapper implements ItemProperties {
 		} else {
 			if (tag.hasKeyOfType("ench", 9)) {
 				NBTTagList ench = tag.getList("ench", 10);
-				for (int i = 0; i < ench.size(); i++)
+				for (var i = 0; i < ench.size(); i++)
 					if (ench.get(i).getShort("id") == 250)
 						ench.remove(i);
 			}

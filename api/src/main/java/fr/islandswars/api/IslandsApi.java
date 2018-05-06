@@ -5,14 +5,12 @@ import fr.islandswars.api.cmd.CommandManager;
 import fr.islandswars.api.i18n.I18nLoader;
 import fr.islandswars.api.i18n.Translatable;
 import fr.islandswars.api.infra.ServiceManager;
-import fr.islandswars.api.lang.bukkit.ErrorHandlerCommandExecutor;
 import fr.islandswars.api.lang.bukkit.ErrorHandlerRegisteredListener;
 import fr.islandswars.api.lang.bukkit.ErrorHandlerRunnable;
 import fr.islandswars.api.log.InfraLogger;
 import fr.islandswars.api.log.internal.ErrorLog;
 import fr.islandswars.api.module.ModuleManager;
 import fr.islandswars.api.net.ProtocolManager;
-import fr.islandswars.api.permission.PermissibleManager;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
@@ -28,8 +26,6 @@ import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -118,13 +114,6 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 	 * @return an abstract logger to output custom log
 	 */
 	public abstract InfraLogger getInfraLogger();
-
-	/**
-	 * See if player's ranks match conditions
-	 *
-	 * @return a way to check {@link IslandsPlayer#getAllRanks()}
-	 */
-	public abstract PermissibleManager getPermissionManager();
 
 	/**
 	 * Retrieve an IslandsPlayer
@@ -226,10 +215,6 @@ public abstract class IslandsApi extends JavaPlugin implements ModuleManager {
 
 	public BukkitTask runTaskAsynchronously(Runnable task) {
 		return Bukkit.getScheduler().runTaskAsynchronously(this, new ErrorHandlerRunnable(task, handler));
-	}
-
-	public void setExecutor(PluginCommand command, CommandExecutor executor) {
-		command.setExecutor(new ErrorHandlerCommandExecutor(executor, handler));
 	}
 
 	private HandlerList getHandlerList(Class<? extends Event> event) {

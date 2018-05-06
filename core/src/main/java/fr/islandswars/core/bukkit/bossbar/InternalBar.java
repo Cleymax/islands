@@ -62,7 +62,7 @@ public class InternalBar extends BossBattle implements Bar {
 		Preconditions.checkNotNull(player);
 
 		if (viewers.add(player) && active) {
-			BossPacket packet = getPacket(PacketPlayOutBoss.Action.ADD);
+			var packet = getPacket(PacketPlayOutBoss.Action.ADD);
 			packet.setTitle(player.getPlayerLocale().format(title.toPlainText(), getParameter(player)));
 			packet.sendToPlayer(player.getCraftPlayer());
 			if (viewers.size() == 1)
@@ -166,7 +166,7 @@ public class InternalBar extends BossBattle implements Bar {
 			switch (action) {
 				case UPDATE_NAME:
 					getViewers().forEach(player -> {
-						BossPacket packet = getPacket(action);
+						var packet = getPacket(action);
 						packet.setTitle(player.getPlayerLocale().format(title.getText(), getParameter(player)));
 						packet.sendToPlayer(player.getCraftPlayer());
 					});
@@ -194,7 +194,7 @@ public class InternalBar extends BossBattle implements Bar {
 	}
 
 	private void sendUpdate(PacketPlayOutBoss.Action action) {
-		BossPacket packet = getPacket(action);
+		var packet = getPacket(action);
 		getViewers().forEach(player -> packet.sendToPlayer(player.getCraftPlayer()));
 	}
 }

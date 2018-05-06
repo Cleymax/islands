@@ -12,7 +12,6 @@ import fr.islandswars.api.log.internal.ServerLog;
 import fr.islandswars.api.log.internal.Status;
 import fr.islandswars.api.module.Module;
 import fr.islandswars.api.net.ProtocolManager;
-import fr.islandswars.api.permission.PermissibleManager;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardManager;
 import fr.islandswars.api.server.ServerType;
@@ -119,11 +118,6 @@ public class IslandsCore extends IslandsApi {
 	}
 
 	@Override
-	public PermissibleManager getPermissionManager() {
-		return null;
-	}
-
-	@Override
 	public Optional<IslandsPlayer> getPlayer(UUID playerId) {
 		return players.stream().filter(p -> p.getCraftPlayer().getUniqueId().equals(playerId)).findFirst();
 	}
@@ -203,6 +197,12 @@ public class IslandsCore extends IslandsApi {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public <T extends Module> Optional<T> getModule(Class<T> module) {
+		return (Optional<T>) modules.stream().filter(m -> m.getClass().equals(module)).findFirst();
+	}
+
+	@Override
 	public <T extends Module> T registerModule(Class<T> module) {
 		try {
 			T mod = NMSReflectionUtil.getConstructorAccessor(module, IslandsApi.class).newInstance(IslandsApi.getInstance());
@@ -226,12 +226,6 @@ public class IslandsCore extends IslandsApi {
 			mod.onDisable();
 			modules.remove(mod);
 		});
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T extends Module> Optional<T> getModule(Class<T> module) {
-		return (Optional<T>) modules.stream().filter(m -> m.getClass().equals(module)).findFirst();
 	}
 
 	public void removePlayer(IslandsPlayer player) {

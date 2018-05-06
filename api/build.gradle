@@ -1,0 +1,11 @@
+// Custom javadoc properties
+javadoc {
+    doFirst {
+        options.setWindowTitle('IslandsWars - API')
+        options.setDocTitle('IslandsWars - API')
+        options.setUse(true)
+        options.setVersion(true)
+        options.setAuthor(true)
+        options.addBooleanOption('html5', true)
+    }
+}

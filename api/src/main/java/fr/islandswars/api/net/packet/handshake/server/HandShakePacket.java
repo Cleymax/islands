@@ -86,6 +86,7 @@ public class HandShakePacket extends GamePacket<PacketHandshakingInSetProtocol> 
 	 * @param newProtocolversion a new version to send
 	 * @deprecated the client will see this server outdated
 	 */
+	@Deprecated
 	public void setProtocolVersion(int newProtocolversion) {
 		setHandleValue("a", newProtocolversion);
 	}

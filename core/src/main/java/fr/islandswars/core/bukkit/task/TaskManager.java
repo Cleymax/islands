@@ -9,7 +9,6 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitTask;
 
 /**
  * File <b>TaskManager</b> located on fr.islandswars.core.bukkit.task
@@ -34,6 +33,8 @@ import org.bukkit.scheduler.BukkitTask;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 23/04/2018 at 16:01
  * @since 0.2.9
+ * <p>
+ * TODO add task error handler
  */
 public class TaskManager implements UpdaterManager {
 
@@ -49,7 +50,7 @@ public class TaskManager implements UpdaterManager {
 	@Override
 	public void register(Object updatable) {
 		Class updatableClass = updatable.getClass();
-		for (Method method : updatableClass.getDeclaredMethods()) {
+		for (var method : updatableClass.getDeclaredMethods()) {
 			if (method.isAnnotationPresent(Updater.class) & method.getParameterCount() == 0) {
 				Updater updater = method.getAnnotation(Updater.class);
 				method.setAccessible(true);
@@ -57,7 +58,7 @@ public class TaskManager implements UpdaterManager {
 				switch (type) {
 					case ASYNC:
 						if (isScheduled(updater)) {
-							BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+							var task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
 								try {
 									method.invoke(updatable);
 								} catch (Exception e) {
@@ -76,7 +77,7 @@ public class TaskManager implements UpdaterManager {
 						break;
 					case SYNC:
 						if (isScheduled(updater)) {
-							BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+							var task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
 								try {
 									method.invoke(updatable);
 								} catch (Exception e) {
