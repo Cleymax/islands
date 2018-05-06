@@ -58,20 +58,25 @@ public class BukkitCommandInjector implements CommandManager {
 	}
 
 	private static boolean dispatchCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-		if (!(command instanceof PluginCommand))
-			throw new IllegalArgumentException("Cannot find command " + command);
-
-		LabelDispatcher wrapper = BUKKIT_COMMANDS.get(command);
-
-		if (wrapper == null)
-			throw new IllegalArgumentException("Cannot find command " + command);
 		try {
-			wrapper.dispatch(sender, args, 0);
-			return true;
-		} catch (InvocationTargetException e) {
-			throw new CommandDispatchException("Error while dispatching command " + command, e.getCause());
-		} catch (ReflectiveOperationException e) {
-			throw new CommandDispatchException("Error while dispatching command " + command, e);
+			if (!(command instanceof PluginCommand))
+				throw new IllegalArgumentException("Cannot find command " + command);
+
+			LabelDispatcher wrapper = BUKKIT_COMMANDS.get(command);
+
+			if (wrapper == null)
+				throw new IllegalArgumentException("Cannot find command " + command);
+			try {
+				wrapper.dispatch(sender, args, 0);
+				return true;
+			} catch (InvocationTargetException e) {
+				throw new CommandDispatchException("Error while dispatching command " + command, e.getCause());
+			} catch (ReflectiveOperationException e) {
+				throw new CommandDispatchException("Error while dispatching command " + command, e);
+			}
+		} catch (Exception e) {
+			IslandsApi.getInstance().getInfraLogger().logError(e, e.getMessage());
+			return false;
 		}
 	}
 
@@ -80,20 +85,20 @@ public class BukkitCommandInjector implements CommandManager {
 		Command command = commandClass.getAnnotation(Command.class);
 
 		if (command != null) {
-			String          label   = getlabel(command, commandClass);
+			var             label   = getLabel(command, commandClass);
 			LabelDispatcher wrapper = new CommandWrapper(commandClass, command);
 			register(wrapper);
 		}
 	}
 
-	private String getlabel(Command command, Class<?> commandClass) {
+	private String getLabel(Command command, Class<?> commandClass) {
 		if (command.label().isEmpty())
 			return commandClass.getSimpleName().toLowerCase();
 		else return command.label().toLowerCase();
 	}
 
 	private void register(LabelDispatcher wrapper) {
-		PluginCommand command = PLUGIN_COMMAND_CONSTRUCTOR.newInstance(wrapper.getLabel(), IslandsApi.getInstance());
+		var command = PLUGIN_COMMAND_CONSTRUCTOR.newInstance(wrapper.getLabel(), IslandsApi.getInstance());
 		command.setAliases(Arrays.asList(wrapper.getAliases()));
 		command.setExecutor(COMMAND_EXECUTOR);
 		//command.setTabCompleter(null);

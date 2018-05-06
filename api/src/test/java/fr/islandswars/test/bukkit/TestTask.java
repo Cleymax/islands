@@ -48,8 +48,8 @@ public class TestTask {
 
 	}
 
-	@Updater(type = TaskType.ASYNC, delta = 1, time = TimeType.MINUT, delayed = 20 * 2)
-	void runScheduledEachMinutAndDelayedAsync() {
+	@Updater(type = TaskType.ASYNC, delta = 1, time = TimeType.MINUTE, delayed = 20 * 2)
+	void runScheduledEachMinuteAndDelayedAsync() {
 
 	}
 }

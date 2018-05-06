@@ -26,6 +26,8 @@ import java.util.logging.Level;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 13/03/2018 at 13:46
  * @since 0.2.9
+ * <p>
+ * Wrapp an already throwing error
  */
 public class ErrorLog extends DefaultLog {
 

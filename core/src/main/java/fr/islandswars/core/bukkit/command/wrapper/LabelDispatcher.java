@@ -29,7 +29,7 @@ import org.bukkit.command.CommandSender;
 public abstract class LabelDispatcher {
 
 	private final String[] aliases;
-	private String label;
+	private       String   label;
 	String help, description;
 
 	LabelDispatcher(String label, String[] aliases) {

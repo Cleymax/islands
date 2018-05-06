@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import org.bukkit.plugin.Plugin;
 
@@ -46,7 +45,7 @@ public class TranslatableLoader implements I18nLoader {
 
 	TranslatableLoader() {
 		this.values = new ConcurrentHashMap<>();
-		for (Locale locale : Locale.values())
+		for (var locale : Locale.values())
 			values.put(locale, new ConcurrentHashMap<>());
 	}
 
@@ -54,7 +53,7 @@ public class TranslatableLoader implements I18nLoader {
 	@SuppressWarnings("unchecked")
 	public void registerCustomProperties(Plugin plugin) {
 		Preconditions.checkNotNull(plugin);
-		File i18nFolder = new File(plugin.getDataFolder(), "i18n/");
+		var i18nFolder = new File(plugin.getDataFolder(), "i18n/");
 
 		if (!i18nFolder.exists())
 			i18nFolder.mkdirs();
@@ -62,7 +61,7 @@ public class TranslatableLoader implements I18nLoader {
 		try {
 			URI     pluginURI = plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
 			JarFile jarPlugin = new JarFile(pluginURI.getPath());
-			for (JarEntry jarEntry : Collections.list(jarPlugin.entries())) {
+			for (var jarEntry : Collections.list(jarPlugin.entries())) {
 				if (!jarEntry.isDirectory() && jarEntry.getName().startsWith("i18n/"))
 					plugin.saveResource(jarEntry.getName(), true);
 			}
@@ -81,8 +80,8 @@ public class TranslatableLoader implements I18nLoader {
 	}
 
 	private Locale getLocale(File lang) {
-		String name = lang.getName();
-		for (Locale locale : Locale.values()) {
+		var name = lang.getName();
+		for (var locale : Locale.values()) {
 			if (name.contains(locale.getI18nName()))
 				return locale;
 		}
@@ -90,21 +89,19 @@ public class TranslatableLoader implements I18nLoader {
 	}
 
 	private void loadFile(File langFile) {
-		Locale loc = getLocale(langFile);
+		var loc = getLocale(langFile);
 		if (loc != null) {
-			Properties        properties = new Properties();
+			var               properties = new Properties();
 			FileInputStream   stream     = null;
 			InputStreamReader reader     = null;
 			try {
 				stream = new FileInputStream(langFile);
 				reader = new InputStreamReader(stream);
 				properties.load(reader);
-				properties.forEach((langKey, langValue) -> {
-					values.computeIfPresent(loc, (locale, map) -> {
-						map.putIfAbsent(langKey.toString(), langValue.toString());
-						return map;
-					});
-				});
+				properties.forEach((langKey, langValue) -> values.computeIfPresent(loc, (locale, map) -> {
+					map.putIfAbsent(langKey.toString(), langValue.toString());
+					return map;
+				}));
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {

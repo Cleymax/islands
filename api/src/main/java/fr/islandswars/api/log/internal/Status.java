@@ -33,18 +33,18 @@ public enum Status {
 	/**
 	 * @see JavaPlugin#onLoad()
 	 */
-	LOAD(),
+	LOAD,
 	/**
 	 * @see JavaPlugin#onEnable()
 	 */
-	ENABLE(),
+	ENABLE,
 	/**
 	 * Ready to accept player
 	 */
-	READY(),
+	READY,
 	/**
 	 * This server is stopping {@link JavaPlugin#onDisable()}
 	 */
-	DISABLE(),
+	DISABLE,
 
 }

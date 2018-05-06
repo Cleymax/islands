@@ -65,7 +65,7 @@ public class PacketHandlerManager implements ProtocolManager {
 	public void subscribeHandler(PacketHandler<? extends GamePacket> handler) {
 		Preconditions.checkNotNull(handler);
 
-		List<PacketHandler> packetHandler = handlers.computeIfAbsent(handler.getPacketType().getID(), k -> new ArrayList<>());
+		var packetHandler = handlers.computeIfAbsent(handler.getPacketType().getID(), k -> new ArrayList<>());
 		packetHandler.add(handler);
 	}
 
@@ -88,7 +88,7 @@ public class PacketHandlerManager implements ProtocolManager {
 
 	boolean handlePacket(Packet packet, Channel playerChannel) {
 		if (handlers.containsKey(packet.getClass().getSimpleName())) {
-			Class<? extends GamePacket> reflectPacket = PacketType.getPacketList().get(packet.getClass());
+			var reflectPacket = PacketType.getPacketList().get(packet.getClass());
 			if (reflectPacket != null) {
 				System.out.println(packet.getClass().getSimpleName());
 				Player p = Bukkit.getOnlinePlayers().stream()
@@ -96,7 +96,7 @@ public class PacketHandlerManager implements ProtocolManager {
 						.filter(cp -> cp.getHandle().playerConnection.networkManager.channel.equals(playerChannel))
 						.findFirst()
 						.orElse(null);
-				PacketEvent<GamePacket> event = new PacketEvent<>(p, NMSReflectionUtil.getConstructorAccessor(reflectPacket, packet.getClass()).newInstance(packet));
+				var event = new PacketEvent<GamePacket>(p, NMSReflectionUtil.getConstructorAccessor(reflectPacket, packet.getClass()).newInstance(packet));
 				return post(event, handlers.get(packet.getClass().getSimpleName()));
 			}
 			return false;

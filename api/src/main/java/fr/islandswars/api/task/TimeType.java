@@ -32,8 +32,8 @@ public enum TimeType {
 	SECOND(20),
 	TWO_SECONDS(SECOND.timeInTick * 2),
 	THIRTY_SECONDS(SECOND.timeInTick * 30),
-	MINUT(SECOND.timeInTick * 60),
-	HOUR(MINUT.timeInTick * 60),
+	MINUTE(SECOND.timeInTick * 60),
+	HOUR(MINUTE.timeInTick * 60),
 	NONE(-1);
 
 	int timeInTick;

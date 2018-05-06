@@ -27,6 +27,8 @@ import org.bukkit.Material;
  * @author Valentin Burgaud (Xharos), {@literal <xharos@islandswars.fr>}
  * Created the 26/04/2018 at 13:29
  * @since 0.2.9
+ * <p>
+ * An item type layer because bukkit suck
  */
 public class ItemType {
 

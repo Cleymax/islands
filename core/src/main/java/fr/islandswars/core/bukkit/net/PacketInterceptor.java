@@ -63,14 +63,14 @@ public class PacketInterceptor {
 	}
 
 	public static void inject() {
-		Object mcServer      = NMSReflectionUtil.getValue(Bukkit.getServer(), "console");
-		Object srvConnection = NMSReflectionUtil.getFirstValueOfType(mcServer, "{nms}.ServerConnection");
+		var mcServer      = NMSReflectionUtil.getValue(Bukkit.getServer(), "console");
+		var srvConnection = NMSReflectionUtil.getFirstValueOfType(mcServer, "{nms}.ServerConnection");
 		channelFutures = NMSReflectionUtil.getFirstValueOfType(srvConnection, List.class); //Steal channelFutures list
 
 		for (ChannelFuture o : channelFutures)
 			o.channel().pipeline().addFirst(ChannelFutureHandler.ID, ChannelFutureHandler.INSTANCE);
 
-		for (Player player : Bukkit.getOnlinePlayers()) // /reload support
+		for (var player : Bukkit.getOnlinePlayers()) // /reload support
 			injectPlayer(player);                       // (inject to already connected players)
 	}
 

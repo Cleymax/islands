@@ -26,4 +26,7 @@ package fr.islandswars.api.lang;
  */
 public class IslandsApiError extends RuntimeException {
 
+	public IslandsApiError(String message) {
+		super(message);
+	}
 }

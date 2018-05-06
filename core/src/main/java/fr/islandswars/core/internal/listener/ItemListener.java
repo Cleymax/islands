@@ -2,7 +2,6 @@ package fr.islandswars.core.internal.listener;
 
 import fr.islandswars.api.IslandsApi;
 import fr.islandswars.api.listener.LazyListener;
-import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.core.bukkit.item.InternalItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,8 +42,7 @@ public class ItemListener extends LazyListener {
 		if (event.getWhoClicked() == null || !(event.getWhoClicked() instanceof Player) || event.getCurrentItem() == null)
 			return;
 
-		IslandsPlayer player = getFromPlayer((Player) event.getWhoClicked());
-		IslandsApi.getInstance().getStorageManager().getItem(event.getCurrentItem()).ifPresent(item -> ((InternalItem) item).callEvent(player, event));
+		var islandsPlayer = getFromPlayer((Player) event.getWhoClicked());
+		IslandsApi.getInstance().getStorageManager().getItem(event.getCurrentItem()).ifPresent(item -> ((InternalItem) item).callEvent(islandsPlayer, event));
 	}
-
 }

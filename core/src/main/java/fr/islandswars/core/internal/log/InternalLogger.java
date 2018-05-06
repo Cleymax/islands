@@ -39,14 +39,10 @@ public class InternalLogger implements InfraLogger {
 	public InternalLogger() {
 		this.gson = new GsonBuilder().create();
 		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-		//Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
-		//		createCustomLog(ErrorLog.class, Level.SEVERE, throwable.getMessage()).supplyStacktrace(throwable).log();
-//		});
 	}
 
 	@Override
 	public void log(Log object) {
 		System.out.println(gson.toJson(object));
 	}
-
 }
