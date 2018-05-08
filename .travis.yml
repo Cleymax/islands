@@ -19,7 +19,7 @@ cache:
 # Only re-download spigot if we don't have spigot in the repo
 before_install:
   - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh # Download jdk installer
-  - if [ ! -d "$HOME/.m2/repository/org/spigotmc" ]; then ./installSpigot.sh 1.12.2 ; else echo "Not compiling Spigot because it is already in our maven" ; fi
+  - if [ ! -d "$HOME/.m2/repository/org/spigotmc" ] || [ ! -d "$HOME/.m2/repository/org/bukkit" ]; then ./installSpigot.sh 1.12.2 ; else echo "Not compiling Spigot because it is already in our maven"; fi
 
 # Gradlew clean and build a fatJar
 install:
@@ -34,18 +34,13 @@ deploy:
       - master
       - develop
 
-# Disable build on documentation's branch
-branches:
-  except:
-    - gh-pages
-
 # Environment variables
 env:
   global:
     - GH_REPO_NAME: islands
-    - GH_REPO_REF: github.com/islands-wars/islands.git
+    - DOC_BUILD_DIR: docs
 
 # Generate and deploy documentation
 after_success:
   - cd $TRAVIS_BUILD_DIR
-  - if [ $TRAVIS_BRANCH = "master" ]; then ./deployJavadoc.sh ; fi
+  - if [ $TRAVIS_BRANCH = "master" ]; then wget -O - https://raw.githubusercontent.com/islands-wars/documentations/master/deployDocumentation.sh | sh ; fi
