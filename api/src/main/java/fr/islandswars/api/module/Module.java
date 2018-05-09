@@ -28,7 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Created the 03/01/2018 at 15:26
  * @since 0.2.4.1
  * <p>
- * Represent a user convenience code to personnalize her plugin, optimize it, etc etc
+ * Represent a user convenience code to personalize her plugin, optimize it, etc etc
  */
 public abstract class Module extends LazyListener {
 

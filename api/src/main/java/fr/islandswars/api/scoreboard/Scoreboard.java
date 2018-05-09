@@ -55,14 +55,14 @@ public interface Scoreboard extends ScoreboardComponent {
 	Scoreboard addLine(String text);
 
 	/**
-	 * Append a new personnal translatable line to this scoreboard
+	 * Append a new personal translatable line to this scoreboard
 	 *
 	 * @param path                 the text path in .lang file
 	 * @param translatableFunction a per-user object resolver
 	 * @param <T>                  instance type
 	 * @return the current scoreboard
 	 */
-	<T> Scoreboard addPersonnalI18nLine(String path, Function<T, Object[]> translatableFunction);
+	<T> Scoreboard addPersonalI18nLine(String path, Function<T, Object[]> translatableFunction);
 
 	/**
 	 * Create this scoreboard for this player, it will use the given map to get {@link Function#apply(Object)}
@@ -79,7 +79,7 @@ public interface Scoreboard extends ScoreboardComponent {
 	 *
 	 * @param player                   a player to open this scoreboard
 	 * @param translatableLineInstance reference line (int id) and instance
-	 * @param customParameters         title personnal parameters
+	 * @param customParameters         title personal parameters
 	 */
 	void addPlayer(IslandsPlayer player, Map<Integer, Object> translatableLineInstance, Supplier<Object[]> customParameters);
 
@@ -132,7 +132,7 @@ public interface Scoreboard extends ScoreboardComponent {
 	Scoreboard setLine(int line, String text);
 
 	/**
-	 * Set a personnal translatable line to the scoreboard
+	 * Set a personal translatable line to the scoreboard
 	 *
 	 * @param line                 the line number
 	 * @param path                 the text path in .lang file
@@ -140,7 +140,7 @@ public interface Scoreboard extends ScoreboardComponent {
 	 * @param <T>                  instance type
 	 * @return the current scoreboard
 	 */
-	<T> Scoreboard setPersonnalI18nLine(int line, String path, Function<T, Object[]> translatableFunction);
+	<T> Scoreboard setPersonalI18nLine(int line, String path, Function<T, Object[]> translatableFunction);
 
 	/**
 	 * The slot where the scoreboard will be displayed

@@ -28,7 +28,7 @@ import fr.islandswars.api.player.IslandsPlayer;
  * Created the 26/04/2018 at 13:45
  * @since 0.2.9
  * <p>
- * Store item, and support different strategy : personnal or global
+ * Store item, and support different strategy : personal or global
  */
 public interface Storage {
 
@@ -78,7 +78,7 @@ public interface Storage {
 	 *
 	 * @param row    the index row, start to 0 from limit
 	 * @param column the index column, must be in [1;9]
-	 * @param player a player only if it's a personnal storage, or else can be null
+	 * @param player a player only if it's a personal storage, or else can be null
 	 */
 	void removeItem(int row, int column, IslandsPlayer player);
 
@@ -86,7 +86,7 @@ public interface Storage {
 	 * Remove item (if exists) at this slot
 	 *
 	 * @param index  the storage index, start to 0 from limit
-	 * @param player a player only if it's a personnal storage, or else can be null
+	 * @param player a player only if it's a personal storage, or else can be null
 	 */
 	default void removeItem(int index, IslandsPlayer player) {
 		removeItem(getRow(index), getColumn(index), player);
@@ -98,7 +98,7 @@ public interface Storage {
 	 * @param row    the index row, start to 0 from limit
 	 * @param column the index column, must be in [1;9]
 	 * @param item   the item to set in this slot
-	 * @param player a player only if it's a personnal storage, or else can be null
+	 * @param player a player only if it's a personal storage, or else can be null
 	 */
 	void setItem(int row, int column, Item item, IslandsPlayer player);
 
@@ -107,7 +107,7 @@ public interface Storage {
 	 *
 	 * @param index  the storage, start to 0 from limit
 	 * @param item   the item to set in this index
-	 * @param player a player only if it's a personnal storage, or else can be null
+	 * @param player a player only if it's a personal storage, or else can be null
 	 */
 	default void setItem(int index, Item item, IslandsPlayer player) {
 		setItem(getRow(index), getColumn(index), item, player);

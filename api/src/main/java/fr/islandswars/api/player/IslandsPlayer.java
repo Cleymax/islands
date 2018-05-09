@@ -143,7 +143,7 @@ public interface IslandsPlayer {
 	Locale getPlayerLocale();
 
 	/**
-	 * @return the personnal player storage to deal with i18n
+	 * @return the personal player storage to deal with i18n
 	 */
 	PlayerStorage getPlayerStorage();
 

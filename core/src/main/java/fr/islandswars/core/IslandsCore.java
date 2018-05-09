@@ -65,7 +65,7 @@ import org.bukkit.entity.Player;
  */
 public class IslandsCore extends IslandsApi {
 
-	private final BukkitCommandInjector               commandmanager;
+	private final BukkitCommandInjector               commandManager;
 	private final UpdaterManager                      updaterManager;
 	private final StorageFactory                      storageManager;
 	private final PacketHandlerManager                packetManager;
@@ -77,7 +77,7 @@ public class IslandsCore extends IslandsApi {
 
 	public IslandsCore() {
 		this.logger = new InternalLogger();
-		this.commandmanager = new BukkitCommandInjector();
+		this.commandManager = new BukkitCommandInjector();
 		this.packetManager = new PacketHandlerManager();
 		this.translatable = new LocaleTranslatable();
 		this.players = new CopyOnWriteArrayList<>();
@@ -99,7 +99,7 @@ public class IslandsCore extends IslandsApi {
 
 	@Override
 	public CommandManager getCommandManager() {
-		return commandmanager;
+		return commandManager;
 	}
 
 	@Override

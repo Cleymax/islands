@@ -40,13 +40,13 @@ public interface ScoreboardLine<T> {
 	Optional<Supplier<Object[]>> getGlobalParameters();
 
 	/**
-	 * Will return wrapped i18n parameters if it's a personnal line and this player is
+	 * Will return wrapped i18n parameters if it's a personal line and this player is
 	 * an actual viewers of this scoreboard
 	 *
 	 * @param genericKey the generic key to invoke {@link Function#apply(Object)}
 	 * @return wrapped parameters, or {@link Optional#empty()}
 	 */
-	Optional<Supplier<Object[]>> getPersonnalParameters(T genericKey);
+	Optional<Supplier<Object[]>> getPersonalParameters(T genericKey);
 
 	/**
 	 * Return the specified text, if active
@@ -63,11 +63,11 @@ public interface ScoreboardLine<T> {
 	void setGlobalParameters(Supplier<Object[]> parameters);
 
 	/**
-	 * Set the personnal translation parameters
+	 * Set the personal translation parameters
 	 *
 	 * @param translatableFunction a function to convert type to Object[]
 	 */
-	void setPersonnalParameters(Function<T, Object[]> translatableFunction);
+	void setPersonalParameters(Function<T, Object[]> translatableFunction);
 
 	/**
 	 * Set the line content (or new line key, if translatable line is active)
