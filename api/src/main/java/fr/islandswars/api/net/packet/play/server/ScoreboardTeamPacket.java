@@ -2,6 +2,7 @@ package fr.islandswars.api.net.packet.play.server;
 
 import fr.islandswars.api.net.GamePacket;
 import fr.islandswars.api.net.PacketType;
+import fr.islandswars.api.scoreboard.Action;
 import fr.islandswars.api.scoreboard.team.Team.CollisionRule;
 import fr.islandswars.api.scoreboard.team.Team.NameTagVisibility;
 import java.util.Arrays;
@@ -42,6 +43,10 @@ public class ScoreboardTeamPacket extends GamePacket<PacketPlayOutScoreboardTeam
 		super(handle);
 	}
 
+	public ScoreboardTeamPacket() {
+		this(new PacketPlayOutScoreboardTeam());
+	}
+
 	public void allowFriendlyFire() {
 		option |= 0b01;
 		setHandleValue("j", (int) getHandleValue("j") | 0b01);
@@ -65,8 +70,8 @@ public class ScoreboardTeamPacket extends GamePacket<PacketPlayOutScoreboardTeam
 	}
 
 	@Nullable
-	public TeamMode getMode() {
-		return TeamMode.getTeamMode((int) getHandleValue("i"));
+	public Action getMode() {
+		return Action.getAction((int) getHandleValue("i"));
 	}
 
 	@Nullable
@@ -122,8 +127,8 @@ public class ScoreboardTeamPacket extends GamePacket<PacketPlayOutScoreboardTeam
 		setHandleValue("b", displayName);
 	}
 
-	public void setMode(TeamMode mode) {
-		setHandleValue("i", mode.mode);
+	public void setMode(Action mode) {
+		setHandleValue("i", mode.getMode());
 	}
 
 	public void setNameTagVisibility(NameTagVisibility nameTagVisibility) {
@@ -144,30 +149,6 @@ public class ScoreboardTeamPacket extends GamePacket<PacketPlayOutScoreboardTeam
 
 	public void setTeamName(String name) {
 		setHandleValue("a", name);
-	}
-
-	/**
-	 * The mode of the team (when the client receive the packet, what action it have to do)
-	 */
-	public enum TeamMode {
-
-		CREATE(0),
-		REMOVE(1),
-		UPDATE(2),
-		ADD_PLAYER(3),
-		REMOVE_PLAYER(4);
-
-		private final int mode;
-
-		TeamMode(final int mode) {
-			this.mode = mode;
-		}
-
-		@Nullable
-		public static TeamMode getTeamMode(int mode) {
-			return Arrays.stream(values()).filter(teamMode -> teamMode.mode == mode).findFirst().orElse(null);
-		}
-
 	}
 
 }

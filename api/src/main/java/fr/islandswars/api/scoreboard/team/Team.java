@@ -3,8 +3,8 @@ package fr.islandswars.api.scoreboard.team;
 import fr.islandswars.api.player.IslandsPlayer;
 import fr.islandswars.api.scoreboard.ScoreboardComponent;
 import java.util.Arrays;
-import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import org.bukkit.DyeColor;
 
@@ -39,7 +39,7 @@ public interface Team extends ScoreboardComponent {
 	/**
 	 * Add a player to the team
 	 *
-	 * @param player the player who be added
+	 * @param player the player who will be added
 	 */
 	void addPlayer(IslandsPlayer player);
 
@@ -65,11 +65,32 @@ public interface Team extends ScoreboardComponent {
 	boolean canSeeFriendlyInvisible();
 
 	/**
+	 * Get the collision rule
+	 *
+	 * @return A {@link CollisionRule}
+	 */
+	CollisionRule getCollisionRule();
+
+	/**
+	 * Get the name tag visibility
+	 *
+	 * @return A {@link NameTagVisibility}
+	 */
+	NameTagVisibility getNameTagVisibility();
+
+	/**
 	 * Get player in the team
 	 *
-	 * @return A {@link Set} of {@link IslandsPlayer}
+	 * @return A {@link Stream} of {@link IslandsPlayer}
 	 */
-	Set<IslandsPlayer> getPlayers();
+	Stream<IslandsPlayer> getPlayers();
+
+	/**
+	 * Get player in the viewers of the team
+	 *
+	 * @return A {@link Stream} of {@link IslandsPlayer}
+	 */
+	Stream<IslandsPlayer> getViewers();
 
 	/**
 	 * Get the prefix of a team
@@ -95,7 +116,7 @@ public interface Team extends ScoreboardComponent {
 	/**
 	 * Check if a player is in a team
 	 *
-	 * @param player the player who be checked
+	 * @param player the player who will be checked
 	 * @return <code>true</code> if the player is in the team
 	 */
 	boolean hasPlayer(IslandsPlayer player);
@@ -103,9 +124,23 @@ public interface Team extends ScoreboardComponent {
 	/**
 	 * Remove a player from a team
 	 *
-	 * @param player the name player who be removed
+	 * @param player the name player will who will be removed
 	 */
 	void removePlayer(IslandsPlayer player);
+
+	/**
+	 * Remove a player from a team's viewers
+	 *
+	 * @param player the name player who will be removed
+	 */
+	void removeViewer(IslandsPlayer player);
+
+	/**
+	 * Set the collision rule
+	 *
+	 * @param collisionRule {@link CollisionRule}
+	 */
+	void setCollisionRule(CollisionRule collisionRule);
 
 	/**
 	 * Set if the team allow the friendly fire
@@ -113,6 +148,13 @@ public interface Team extends ScoreboardComponent {
 	 * @param friendlyFire the new label of friendly fire
 	 */
 	void setFriendlyFire(boolean friendlyFire);
+
+	/**
+	 * Set the name tag visibility
+	 *
+	 * @param nameTagVisibility {@link NameTagVisibility}
+	 */
+	void setNameTagVisibility(NameTagVisibility nameTagVisibility);
 
 	/**
 	 * Set the prefix of a team

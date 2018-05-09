@@ -1,5 +1,6 @@
 package fr.islandswars.api.scoreboard;
 
+import fr.islandswars.api.player.IslandsPlayer;
 import java.util.function.Supplier;
 
 /**

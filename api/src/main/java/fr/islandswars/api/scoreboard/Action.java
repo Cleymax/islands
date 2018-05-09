@@ -1,5 +1,8 @@
 package fr.islandswars.api.scoreboard;
 
+import java.util.Arrays;
+import javax.annotation.Nullable;
+
 /**
  * File <b>Action</b> located on fr.islandswars.api.scoreboard
  * Action is a part of Islands Wars - Api.
@@ -26,8 +29,24 @@ package fr.islandswars.api.scoreboard;
  */
 public enum Action {
 
-	CREATE,
-	UPDATE,
-	REMOVE,
-	DELETE
+	CREATE(0),
+	REMOVE(1),
+	UPDATE(2),
+	ADD_PLAYER(3),
+	REMOVE_PLAYER(4);
+
+	private final int mode;
+
+	Action(final int mode) {
+		this.mode = mode;
+	}
+
+	@Nullable
+	public static Action getAction(int mode) {
+		return Arrays.stream(values()).filter(action -> action.mode == mode).findFirst().orElse(null);
+	}
+
+	public int getMode() {
+		return mode;
+	}
 }
