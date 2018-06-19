@@ -1,46 +1,50 @@
-# Use new container infrastructure to enable caching
 sudo: false
 
-# Specify language
 language: java
-# Temporary solutions to install openJDK 10
-matrix:
-  include:
-      - env: JDK='OpenJDK 10'
-        install: . ./install-jdk.sh -F 10 -L GPL
-# jdk:
-#   - oraclejdk10
+jdk:
+  - oraclejdk10
 
-# Caching so the next build will be fast too.
-cache:
-  directories:
-    - $HOME/.m2
+git:
+  depth: 1
 
-# Only re-download spigot if we don't have spigot in the repo
-before_install:
-  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh # Download jdk installer
-  - if [ ! -d "$HOME/.m2/repository/org/spigotmc" ] || [ ! -d "$HOME/.m2/repository/org/bukkit" ]; then ./installSpigot.sh 1.12.2 ; else echo "Not compiling Spigot because it is already in our maven"; fi
-
-# Gradlew clean and build a fatJar
-install:
-  - ./gradlew core:clean core:fatjar core:test --stacktrace
-
-# Deploy to the artifactory
-deploy:
-  provider: script
-  script: ./gradlew core:artifactoryPublish --stacktrace
-  on:
-    branch:
-      - master
-      - develop
-
-# Environment variables
 env:
   global:
     - GH_REPO_NAME: islands
     - DOC_BUILD_DIR: docs
 
-# Generate and deploy documentation
-after_success:
-  - cd $TRAVIS_BUILD_DIR
-  - if [ $TRAVIS_BRANCH = "master" ]; then wget -O - https://raw.githubusercontent.com/islands-wars/documentations/master/deployDocumentation.sh | sh ; fi
+cache:
+  apt: true
+  directories:
+    - $HOME/.m2
+    - $GOCACHE
+    - $GOPATH
+
+before_install:
+  - eval "$(gimme 1.10)"
+  - go version && go env
+
+install:
+  - .scripts/install-spigot.sh 1.12.2
+
+script:
+  - ./gradlew clean --stacktrace
+  - ./gradlew test check --stacktrace
+  - ./gradlew fatjar --stacktrace
+  - ./gradlew javadoc --stacktrace
+
+deploy:
+  - provider: script
+    script: ./gradlew core:artifactoryPublish --stacktrace
+    on:
+      branch:
+        - master
+        - develop
+  # Deploy to netlify
+  - provider: script
+    script: .scripts/netlifyctl.sh
+    on:
+      branch: master
+
+notifications:
+  email:
+    on_success: never
