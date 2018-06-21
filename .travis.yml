@@ -16,12 +16,6 @@ cache:
   apt: true
   directories:
     - $HOME/.m2
-    - $GOCACHE
-    - $GOPATH
-
-before_install:
-  - eval "$(gimme 1.10)"
-  - go version && go env
 
 install:
   - .scripts/install-spigot.sh 1.12.2
@@ -33,17 +27,12 @@ script:
   - ./gradlew javadoc --stacktrace
 
 deploy:
-  - provider: script
-    script: ./gradlew core:artifactoryPublish --stacktrace
-    on:
-      branch:
-        - master
-        - develop
-  # Deploy to netlify
-  - provider: script
-    script: .scripts/netlifyctl.sh
-    on:
-      branch: master
+  provider: script
+  script: ./gradlew core:artifactoryPublish --stacktrace
+  on:
+    branch:
+      - master
+      - develop
 
 notifications:
   email:
