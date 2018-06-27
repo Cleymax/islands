@@ -4,6 +4,7 @@ import fr.islandswars.api.player.IslandsPlayer;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import org.bukkit.DyeColor;
 
 /**
@@ -198,7 +199,7 @@ public interface TeamManager {
 	 *
 	 * @return A {@link Set} of {@link Team}
 	 */
-	Set<Team> getRegisterTeams();
+	Stream<Team> getRegisteredTeams();
 
 	/**
 	 * Get the team for a player
